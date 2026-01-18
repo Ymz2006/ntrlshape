@@ -1,0 +1,139 @@
+import sys
+sys.path.append('.')
+from models.metric_arm import model_test_metric as md
+import torch
+import os 
+import numpy as np
+import matplotlib.pylab as plt
+import torch
+from torch import Tensor
+from torch.autograd import Variable, grad
+
+
+from timeit import default_timer as timer
+import math
+import igl
+from glob import glob
+import random
+
+from PIL import Image
+import pytorch_kinematics as pk
+
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+# import torch_kdtree #import build_kd_tree
+
+def MPPI(womodel, XP):
+    steps = 200
+    sample_num = 50
+    horizon = 5
+
+    dP_prior = torch.zeros((1,3)).cuda()
+
+    point0=[]
+    point0.append(XP[:,0:3].clone())
+
+    for iter in range(steps):
+        #print(iter)
+        XP_tmp = XP.clone()#[:,0:3]
+        #print(XP_tmp)
+        XP_tmp = XP_tmp.unsqueeze(0).repeat(sample_num,horizon,1)
+        dP_list = []
+        cost_path = 0
+        XP_list = []
+        #dP_list = []
+        dP = 0.015 * torch.normal(0,1,size=(sample_num, 1, 3),dtype=torch.float32, device='cuda') \
+            +0.015 * torch.normal(0,1,size=(sample_num, horizon, 3),dtype=torch.float32, device='cuda')
+        #dP = 0.02 * torch.nn.functional.normalize(dP + dP_prior,dim=2)
+        dP = dP + 2*dP_prior
+        dP_norm = torch.norm(dP,dim=2,keepdim=True)
+        dP = dP/(torch.clamp(dP_norm,min=0.015)/0.015)
+        #print(dP)
+        dP_cumsum = torch.cumsum(dP, dim=1)
+        #print(XP_tmp.shape)
+        XP_tmp[...,0:3] = XP_tmp[...,0:3]+dP_cumsum
+        
+        indices = [0, -1]
+
+        cost = womodel.function.TravelTimes(XP_tmp[:,indices,:].reshape(-1,6))
+        
+        cost = cost.reshape(-1,2)
+        cost = 10*cost[:,0] + cost[:,1]#torch.sum(cost.reshape(-1,2),dim=1)#
+        
+        weight = torch.softmax(-50*cost, dim=0)
+        
+        dP_prior = (weight@dP[:,0,:]) 
+
+        XP[:,0:3] = dP_prior + XP[:,0:3]
+
+        #print(XP.shape)
+        dis=torch.norm(XP[:,3:6]-XP[:,0:3])
+        #print(XP)
+        point0.append(XP[:,0:3].clone())
+        
+        if(dis<0.01):
+            break
+
+    point0.append(XP[:,3:6].clone())
+    return point0, iter
+
+modelPath = './Experiments/UR5'
+meshname = 'Auburn'#
+#meshname = 'Spotswood'
+dataPath = './datasets/arm/'+ meshname
+#dataPath = './datasets/new/'
+
+womodel    = md.Model(modelPath, dataPath, 3, [0.0, 0.0, 0.0], device='cuda')
+pt='./Experiments/Gib/gibson_12_30_22_05/Model_Epoch_00200_ValLoss_3.309497e-03.pt'
+print(pt)
+womodel.load(pt)#
+womodel.network.eval()
+
+#dataPath = './datasets/Gib'
+paths = dataPath
+scale = math.pi/0.5
+
+XP=torch.tensor([[-5, 1, -1.0, 5, 1, -0.35]]).cuda()
+
+BASE=torch.tensor([[0, 0, 0.0, 0.0,0.0, 0]]).cuda()
+#XP = start_goal
+XP = XP+BASE #Variable(Tensor(XP)).to('cuda').unsqueeze(0)
+XP = XP
+
+for ii in range(5):
+    
+    start = timer()
+    with torch.no_grad():
+        point, iter = MPPI(womodel, XP.clone())
+
+    end = timer()
+
+    print('Time:', end-start)
+
+if iter == 199:
+    print('Failed')
+    #continue
+
+# query_points = torch.cat(point).to('cpu').data.numpy()#np.asarray(point)
+
+import torch
+import trimesh
+
+# Convert points to numpy
+points_cpu = torch.cat([p.cpu() for p in point], dim=0).numpy()
+
+# Create point cloud
+point_cloud = trimesh.points.PointCloud(points_cpu, colors=[0, 0, 255, 255])  # Blue points
+
+# Create scene
+scene = trimesh.Scene()
+scene.add_geometry(point_cloud)
+
+# Save image (offscreen)
+png = scene.save_image(resolution=(800, 600), visible=True)
+
+with open('3d_points_trimesh.png', 'wb') as f:
+    f.write(png)
+
+print("Saved 3D point cloud as 3d_points_trimesh.png")
