@@ -6,6 +6,9 @@ RUN pip install pickle5
 RUN pip install libigl
 RUN pip install pytorch_kinematics
 RUN pip install configargparse
+RUN pip install ezdxf
+RUN pip install shapely
+RUN apt-get update && apt-get install -y x11-apps 
 #RUN pip install pointnext
 
 

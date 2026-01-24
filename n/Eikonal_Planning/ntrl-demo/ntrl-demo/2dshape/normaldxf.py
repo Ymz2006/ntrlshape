@@ -9,15 +9,25 @@ import ezdxf
 import matplotlib.pyplot as plt
 import numpy as np
 from shapely.geometry import Polygon
+from matplotlib.patches import Patch
 
-def visualize_shapes_or_files(items):
 
+
+
+
+def visualize_shapes_or_files(items, random_color, speed, vmin):
+
+
+    print("random color: " + str(random_color))
+    
     fig, ax = plt.subplots()
     colors = ['blue', 'green', 'orange', 'red', 'purple', 'brown', 'cyan']
 
+    cnt = 0
+
     for i, item in enumerate(items):
         color = colors[i % len(colors)]
-
+        cmap = plt.get_cmap("viridis")
         if isinstance(item, str) and item.lower().endswith(".dxf"):
             # Handle DXF file
             try:
@@ -87,6 +97,7 @@ def visualize_shapes_or_files(items):
     plt.xlabel("X")
     plt.ylabel("Y")
     plt.title("Shapes / DXFs Visualization")
+
     plt.show()
 
 def scale_doc(doc, scale, xoffset, yoffset, name):

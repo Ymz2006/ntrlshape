@@ -7,22 +7,40 @@ from scipy.spatial import cKDTree
 from normaldxf import visualize_shapes_or_files 
 import torch 
 import matplotlib.pyplot as plt
+from matplotlib import colors
+from matplotlib.cm import get_cmap
+from shapely.geometry import Polygon
+from descartes import PolygonPatch  # For plotting shapely polygons
 
-def rotate_points(points,x,y,theta):
+from matplotlib.colors import Normalize
+
+import time
+
+
+
+# from torch_kdtree import build_kd_tree
+# import torch
+# from scipy.spatial import KDTree #Reference implementation
+# import numpy as np
+
+
+def rotate_points(points, x, y, theta):
+
+
     rot = torch.tensor([
         [np.cos(theta), -np.sin(theta), x],
         [np.sin(theta),  np.cos(theta), y],
         [0, 0, 1]
     ], dtype=torch.float32)
     
-    # Convert shape_points to torch if needed
+    shape_points = torch.tensor(points, dtype=torch.float32)  # n x 2
+    new_col = torch.ones((shape_points.shape[0], 1))
+    shape_points = torch.cat([shape_points, new_col], dim=1)  # n x 3
 
-    shape_points = torch.tensor(points, dtype=torch.float32)
-    new_col = torch.ones(shape_points.shape[0],1)
-    shape_points = torch.cat([shape_points,new_col],1)
-    # Apply transformation
-    translated_points = (rot @ shape_points.T).T  # n x 3
-    return translated_points
+    transformed = (rot @ shape_points.T).T  # n x 3
+
+    # Return only x, y as list of tuples for Shapely
+    return [tuple(p[:2].numpy()) for p in transformed]
 
 def get_bounding_radius(shape):
     points = np.array(shape.exterior.coords)
@@ -48,15 +66,14 @@ def get_obstacle_dist(shape_points, x_add, y_add, theta, centroid, radius, sampl
     new_col = torch.ones(shape_points.shape[0],1)
     shape_points = torch.cat([shape_points,new_col],1)
     # Apply transformation
-    translated_points = (rot @ shape_points.T).T  # n x 3
+    translated_points = ((rot @ shape_points.T).T )[:,0:2] # n x 3
+
+    avg = translated_points.mean(axis=0)  # shape (3,)
 
 
-    centroid[0] += x_add
-    centroid[1] += y_add
     # KDTree query
-    # candidate_indices = kdtree.query_ball_point(centroid, r=radius) 
-    #print ("candidate_points_len" + str(len(candidate_indices)))
-    candidate_points = sampled_points#[candidate_indices]
+    candidate_indices = kdtree.query_ball_point(avg, r=radius) 
+    candidate_points = sampled_points[candidate_indices]
 
     # Make polygon
     rotated_shape = Polygon(translated_points[:, :2].numpy())  # only x, y
@@ -78,7 +95,7 @@ def get_obstacle_dist(shape_points, x_add, y_add, theta, centroid, radius, sampl
     return collided_points, mindis
 
 
-dots_per_m = 80
+dots_per_m = 70
 
 
 def sample_points(msp):
@@ -148,21 +165,8 @@ def generate_valid_points(number_points, shape_points, msp):
     t = t * row_scale  # element-wise scaling of columns
 
     centroid,radius = get_bounding_radius(shape=shape)
-    print("centroid, radius" + str(centroid) + str(radius))
 
-
-
-
-    plt.figure(figsize=(6,6))
-    plt.scatter(environment_boundary_points[:,0], environment_boundary_points[:,1], c='blue', label='Points')
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    plt.title('Environment Points')
-    plt.axis('equal')  # equal scaling for x and y
-    plt.legend()
-    plt.show()
     kdtree = cKDTree(environment_boundary_points)
-    print("kdtree size:" + str(kdtree.n))
 
     valid_indicies = []
     closest_dist = []
@@ -173,47 +177,98 @@ def generate_valid_points(number_points, shape_points, msp):
         if not intersect:
             valid_indicies.append(i)
             closest_dist.append(out)
+    
     valid_points = t[valid_indicies]
 
-    valid_points = valid_points[0:number_points,0:3]
-    closest_dist = closest_dist[0:number_points]
+    valid_points = valid_points[:,0:3]
+
     
-    return valid_points,closest_dist
+    return valid_points,closest_dist, environment_boundary_points
 
 
 def generate_training_data(number_points, shape_points, msp, dmin, dmax):
-    start_valid_points, start_closest_dist = generate_valid_points(number_points, shape_points, msp)
-    end_valid_points, end_closest_dist = generate_valid_points(number_points, shape_points, msp)
+    start_valid_points, start_closest_dist, env_points = generate_valid_points(number_points, shape_points, msp)
 
-    speed  = np.zeros((len(start_valid_points),2))
+    speed  = np.zeros((start_valid_points.shape[0]))
 
     start_valid_points = np.array(start_valid_points)
-    end_valid_points = np.array(end_valid_points)
     start_closest_dist = np.array(start_closest_dist)
-    end_closest_dist = np.array(end_closest_dist)
 
 
-    speed[:,0] = np.clip(start_closest_dist/dmax , a_min = dmin/dmax, a_max = 1)
-    speed[:,1] = np.clip(end_closest_dist/dmax , a_min = dmin/dmax, a_max = 1)
+    speed = np.clip(start_closest_dist/dmax , a_min = dmin/dmax, a_max = 1)
+    print("number of points:" + str(start_valid_points.shape[0]))
+    return start_valid_points,start_closest_dist,speed, env_points
 
 
-    return start_valid_points,end_valid_points,start_closest_dist,end_closest_dist,speed
+def visual_training(start, shape_points, env_points, cnt, speed, vmin, vmax=None):
+    to_visual_shapes = []
+    if vmax is None:
+        vmax = max(speed)
+
+    cmap = get_cmap('viridis')
+    norm = Normalize(vmin=vmin, vmax=vmax)
+
+    fig, ax = plt.subplots()
+
+    for i in range(cnt):
+        # Rotate points and return as list of (x, y) tuples
+        rotated_pts = rotate_points(shape_points, start[i][0], start[i][1], start[i][2])
+        
+        # Skip if not enough points to make a polygon
+        if len(rotated_pts) < 3:
+            continue
+        
+        rotated_shape = Polygon(rotated_pts)
+        if not rotated_shape.is_valid:
+            continue
+
+        to_visual_shapes.append(rotated_shape)
+
+        # Map speed to color
+        color = cmap(norm(speed[i]))
+        
+        # Use matplotlib Polygon to draw the shape
+        patch = plt.Polygon(list(rotated_shape.exterior.coords), facecolor=color, edgecolor='black', alpha=0.7)
+        ax.add_patch(patch)
+
+    # Plot environment points
+    if len(env_points) > 0:
+        ax.scatter(*zip(*env_points), color='grey', s=10)
+
+    ax.set_aspect('equal')
 
 
-def visual_training(start,shape_points, cnt):
-    to_visual = ["Fmaze_norm.dxf"]
-    for i in range (cnt):
-        rotated_shape = Polygon(rotate_points(shape_points, start[i][0], start[i][1], start[i][2]))
-        to_visual.append(rotated_shape)
 
-    visualize_shapes_or_files(to_visual)
+    sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+    sm.set_array([])  # Required for ScalarMappable
+    cbar = plt.colorbar(sm, ax=ax)
+    cbar.set_label("Speed", rotation=270, labelpad=15)
+    plt.show()
+
+
+
+
+
+def visual_speed(start, speed, env_points, min):
+    plt.figure(figsize=(6,6))
+    plt.scatter(env_points[:,0], env_points[:,1], c='black')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.title('Velocity')
+    plt.axis('equal')  # equal scaling for x and y
+    plt.legend()
+
+    plt.scatter(start[:,0], start[:,1],    s=50, c= speed[:,0], cmap="viridis", vmin=min, vmax=1)
+    plt.colorbar(label="s value")
+    plt.show()
+
 
 
 
 Fshape_norm = dxf_to_shape("Fshape_norm.dxf")
 Fshape_points = shape_to_points(Fshape_norm)
 dmax = 0.08
-dmin = 0.04/0.08
+dmin = 0.04
 
 
 doc = ezdxf.readfile("Fmaze_norm.dxf")
@@ -221,15 +276,15 @@ msp = doc.modelspace()
 
 
 
+start_time = time.time()
+start, start_dist, speed, env_points = generate_training_data(100,Fshape_points,msp,dmin,dmax)
+end_time = time.time()
+
+# Calculate elapsed time
+elapsed_time = end_time - start_time
+print(f"Elapsed time: {elapsed_time:.2f} seconds")
 
 
-start, end, start_dist, end_dist, speed = generate_training_data(20,Fshape_points,msp,dmin,dmax)
 
-
-start_test = start[0]
-end_test = end[0]
-
-print(start_test)
-
-visual_training(start,Fshape_points, 10)
-
+visual_training(start,Fshape_points, env_points=env_points, cnt=10,speed=speed,vmin=dmin/dmax)
+#visual_speed(start, speed,env_points, dmin/dmax)
