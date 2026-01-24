@@ -1,19 +1,12 @@
 # Start from the iGibson base image or another if more appropriate
-FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-devel
-
-
+FROM pytorch/pytorch:2.7.0-cuda12.8-cudnn9-devel
 #FROM nvidia/cuda:11.3.1-devel-ubuntu20.04
 #RUN pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
-RUN pip install pickle5
 RUN pip install libigl
 RUN pip install pytorch_kinematics
 RUN pip install configargparse
 #RUN pip install pointnext
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
-RUN pip install torch_kdtree
+
 
 
 WORKDIR /workspace
-
-
-
