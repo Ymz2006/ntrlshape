@@ -95,7 +95,7 @@ def get_obstacle_dist(shape_points, x_add, y_add, theta, centroid, radius, sampl
     return collided_points, mindis
 
 
-dots_per_m = 70
+dots_per_m = 80
 
 
 def sample_points(msp):
@@ -155,34 +155,40 @@ def generate_valid_points(number_points, shape_points, msp):
 
     bottom_left = np.min(environment_boundary_points, axis=0)
     upper_right = np.max(environment_boundary_points, axis=0)
-    xrange = upper_right[0] - bottom_left[0]
-    yrange = upper_right[1] - bottom_left[1]
+    xrange = upper_right[0] - bottom_left[0] 
+    yrange = upper_right[1] - bottom_left[1] 
     scale = max(xrange,yrange)
 
 
     t = torch.rand(number_points*10, 3) - 0.5  # shape: (N, 3)
-    row_scale = torch.tensor([xrange/scale, yrange/scale, np.pi/0.5], dtype=torch.float32)  # shape: (3,), 0.8 HARD CODED
+    row_scale = torch.tensor([xrange/scale - 0.02, yrange/scale - 0.02, np.pi/0.5], dtype=torch.float32)  # shape: (3,), 0.8 HARD CODED
     t = t * row_scale  # element-wise scaling of columns
 
     centroid,radius = get_bounding_radius(shape=shape)
 
     kdtree = cKDTree(environment_boundary_points)
 
+
+    cnt = 0
     valid_indicies = []
     closest_dist = []
     for i in range (0, number_points*10):
         intersect, out = get_obstacle_dist(shape_points=shape_points,x_add=t[i,0],y_add=t[i,1],theta=t[i,2],centroid=centroid,
                              radius=radius,sampled_points=environment_boundary_points,kdtree=kdtree)
         
-        if not intersect:
+        if not intersect and out > 0:       # change maybe 
             valid_indicies.append(i)
             closest_dist.append(out)
-    
+            cnt +=1
+            if cnt%10000 == 0:
+                print("sampled points: " + str(cnt) )
+
+            if (cnt >= number_points):
+                break
     valid_points = t[valid_indicies]
 
     valid_points = valid_points[:,0:3]
 
-    
     return valid_points,closest_dist, environment_boundary_points
 
 
@@ -264,27 +270,51 @@ def visual_speed(start, speed, env_points, min):
 
 
 
-
-Fshape_norm = dxf_to_shape("Fshape_norm.dxf")
-Fshape_points = shape_to_points(Fshape_norm)
-dmax = 0.08
-dmin = 0.04
-
-
-doc = ezdxf.readfile("Fmaze_norm.dxf")
-msp = doc.modelspace()
+if __name__ == "__main__":
+    Fshape_norm = dxf_to_shape("./datasets/Fshape_norm.dxf")
+    Fshape_points = shape_to_points(Fshape_norm)
+    dmax = 0.2
+    dmin = 0.01
 
 
-
-start_time = time.time()
-start, start_dist, speed, env_points = generate_training_data(100,Fshape_points,msp,dmin,dmax)
-end_time = time.time()
-
-# Calculate elapsed time
-elapsed_time = end_time - start_time
-print(f"Elapsed time: {elapsed_time:.2f} seconds")
+    doc = ezdxf.readfile("./datasets/FmazeEasy_norm.dxf")
+    msp = doc.modelspace()
 
 
 
-visual_training(start,Fshape_points, env_points=env_points, cnt=10,speed=speed,vmin=dmin/dmax)
-#visual_speed(start, speed,env_points, dmin/dmax)
+    start_time = time.time()
+    start, start_dist, speed, env_points = generate_training_data((int)(4e5),Fshape_points,msp,dmin,dmax)
+    end_time = time.time()
+
+    # Calculate elapsed time
+    elapsed_time = end_time - start_time
+    print(f"Elapsed time: {elapsed_time:.2f} seconds")
+
+
+    print(type(env_points))
+    visual_training(start,Fshape_points, env_points=env_points, cnt=800,speed=speed,vmin=dmin/dmax)
+    #visual_speed(start, speed,env_points, dmin/dmax)
+
+    len = (int)(start.shape[0]/2)
+
+    x0 = start[0:len,:]
+    x1 = start[len:2*len,:]
+    x = np.concatenate((x0,x1), axis=1)
+
+
+    len= (int)(speed.shape[0]/2)
+
+    y0 = speed[0:len]
+    y1 = speed[len:2*len]
+    y = np.column_stack((y0,y1))
+
+
+    out_path = "./training_data2d/Fshape_FmazeEasy_02"
+
+    print(x.shape)
+    print(y.shape)
+    np.save('{}/sampled_points'.format(out_path),x)
+    np.save('{}/speed'.format(out_path),y)
+
+    np.save('{}/Easyenv'.format(out_path), env_points)
+    print(env_points.shape)

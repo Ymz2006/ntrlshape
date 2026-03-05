@@ -147,7 +147,7 @@ def scale_doc(doc, scale, xoffset, yoffset, name):
 
 
 if __name__ == "__main__":
-    doc = ezdxf.readfile("Fmaze.dxf")
+    doc = ezdxf.readfile("./datasets/FmazeEasy.dxf")
     msp = doc.modelspace()
 
 
@@ -176,32 +176,32 @@ if __name__ == "__main__":
 
     scale = max(maxY-minY, maxX-minX)
 
-    scale_doc(doc=doc,scale=1/scale,xoffset=xorigin,yoffset=yorigin,name="Fmaze_norm.dxf")
+    scale_doc(doc=doc,scale=1/scale,xoffset=xorigin,yoffset=yorigin,name="FmazeEasy_norm.dxf")
 
 
 
 
-    doc = ezdxf.readfile("Fshape.dxf")
-    msp = doc.modelspace()
+    # doc = ezdxf.readfile("Fshape.dxf")
+    # msp = doc.modelspace()
 
 
-    shape_xorigin =  1000000
-    shape_yorigin =  1000000
-    for e in msp:
-        print(e.dxftype()) 
-        if e.dxftype() == "LINE":
-            print("Line start:", e.dxf.start, "end:", e.dxf.end)
-            shape_xorigin = min(shape_xorigin, e.dxf.start.x, e.dxf.end.x)
-            shape_yorigin = min(shape_yorigin, e.dxf.start.y, e.dxf.end.y)
-        elif e.dxftype() == "LWPOLYLINE":
-            for point in e.get_points():
-                x, y = point[0], point[1]
-                shape_xorigin = min(shape_xorigin, x)
-                shape_yorigin = min(shape_yorigin, y)
+    # shape_xorigin =  1000000
+    # shape_yorigin =  1000000
+    # for e in msp:
+    #     print(e.dxftype()) 
+    #     if e.dxftype() == "LINE":
+    #         print("Line start:", e.dxf.start, "end:", e.dxf.end)
+    #         shape_xorigin = min(shape_xorigin, e.dxf.start.x, e.dxf.end.x)
+    #         shape_yorigin = min(shape_yorigin, e.dxf.start.y, e.dxf.end.y)
+    #     elif e.dxftype() == "LWPOLYLINE":
+    #         for point in e.get_points():
+    #             x, y = point[0], point[1]
+    #             shape_xorigin = min(shape_xorigin, x)
+    #             shape_yorigin = min(shape_yorigin, y)
 
 
 
-    print("fshape:" + str(shape_xorigin) + "," + str(shape_yorigin))
-    scale_doc(doc=doc,scale=1/scale,xoffset=shape_xorigin,yoffset=shape_yorigin,name="Fshape_norm.dxf")
+    # print("fshape:" + str(shape_xorigin) + "," + str(shape_yorigin))
+    # scale_doc(doc=doc,scale=1/scale,xoffset=shape_xorigin,yoffset=shape_yorigin,name="Fshape_norm.dxf")
 
-    visualize_shapes_or_files(["Fshape_norm.dxf", "Fmaze_norm.dxf"])
+

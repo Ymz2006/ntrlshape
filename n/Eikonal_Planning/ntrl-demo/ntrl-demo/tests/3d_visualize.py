@@ -125,21 +125,3 @@ for p in point:
 
 
 points_cpu = torch.cat([p.cpu() for p in point], dim=0)  # Extract x, y, z
-
-# Extract x, y, z coordinates
-x = points_cpu[:, 0].numpy()
-y = points_cpu[:, 1].numpy()
-z = points_cpu[:, 2].numpy()
-
-# Create 3D plot
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(x, y, z, c='blue', marker='o')
-ax.set_xlabel('X')
-ax.set_ylabel('Y')
-ax.set_zlabel('Z')
-ax.set_title('3D Points Plot')
-
-# Save the figure
-plt.savefig('3d_points_plot.png', dpi=300)
-plt.show()
