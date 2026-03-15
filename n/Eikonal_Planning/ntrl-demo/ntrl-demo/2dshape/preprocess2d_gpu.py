@@ -147,21 +147,90 @@ def sample_points(msp):
     return np.array(points)
 
 
-def calculate_speed(shape_lines, env_points):
-    AB = shape_lines[:,:,1:] - shape_lines[:,:,0,:]
+
+
+def calculate_speed(shape_lines, shape_points, env_points):
+
+
+    shape_lines = shape_lines.squeeze()
+    shape_points = shape_points.squeeze()
     
-    env_points_aug = env_points.clone()
+    print(shape_points.shape)
+
+
+    AB = shape_lines
+    print("transformed lines max:")
+    print(shape_points.max().item()) # .item() makes it a plain number
+
+    env_points_aug = env_points.clone().cuda()
     env_points_aug = env_points_aug.unsqueeze(0)
+    env_points_aug = env_points_aug.unsqueeze(2)
+    env_points_aug = env_points_aug.unsqueeze(3)
 
-    AP = env_points_aug - shape_lines[:,:,0,:]
 
-    cross = torch.cross(AB,AP)
-    cross_mag = torch.linalg.norm(cross, ord=2, dim=2)
-    AB_norm = torch.linalg.norm(AB, ord=2, dim=2)
+    shape_lines_aug = shape_lines
+    shape_lines_aug = shape_lines_aug.unsqueeze(1)
+    
 
-    dis = cross_mag/AB_norm
-    result = dis.min(dim=1).values
+    shape_points = shape_points.unsqueeze(1)
 
+    
+
+    AP = (env_points_aug - shape_points)
+
+    print (AP.max())
+    print (AP.min())
+    AB = AB.unsqueeze(1)
+
+    #cross = torch.cross(AB,AP)
+
+    print("AB AP")
+    print(AB.shape)
+    print(AP.shape)
+    cross = AB[:,:,:,:,0] * AP[:,:,:,:,1] - AB[:,:,:,:,1] * AP[:,:,:,:,0]
+
+    proj_t = (AP[:,:,:,:,0]* AB[:,:,:,:,0] + AP[:,:,:,:,1]* AB[:,:,:,:,1])/(AB[:,:,:,:,0]* AB[:,:,:,:,0] + AB[:,:,:,:,1] * AB[:,:,:,:,1])
+
+    APnorm = torch.sqrt(AP[:,:,:,:,0]*AP[:,:,:,:,0] + AP[:,:,:,:,1]*AP[:,:,:,:,1])
+    BPnorm = APnorm.clone()
+    BPnorm[:,:,:,0] = APnorm[:,:,:,1]
+    BPnorm[:,:,:,1] = APnorm[:,:,:,2]
+    BPnorm[:,:,:,2] = APnorm[:,:,:,0]
+
+
+
+    print(APnorm.shape)
+
+    left_A = torch.where(proj_t < 0)
+    right_B = torch.where(proj_t > 1)
+
+
+    print("proj shape")
+    print(proj_t.shape)
+    print(shape_points.shape)
+    # print(cross.shape)
+    cross_mag = torch.abs(cross)
+
+    # print(AB.shape)
+    #print(AB.max().item()) # .item() makes it a plain number
+    AB_mag = torch.linalg.norm(AB, ord=2, dim=4)
+    print("cross mag")
+    print(cross_mag.max().item()) # .item() makes it a plain number
+
+    print("final")
+    print(cross_mag.shape)
+    print(AB_mag.shape)
+    dis = cross_mag/AB_mag
+
+    dis[left_A] = APnorm[left_A]
+    dis[right_B] = BPnorm[right_B]
+    #dis[left_A] = APnorm
+    
+
+    # print(dis.shape)
+    result = dis.flatten(start_dim=1).min(dim=1).values
+    print(result.max())
+    # print(result.shape)
     return result
 
 # shape tensor points: k x 3 x 2
@@ -192,7 +261,8 @@ def generate_valid_points(number_points, shape_tensor_points, msp):
     env_point_cnt = environment_boundary_points.shape[0]
 
     valid_points = torch.zeros(number_points, 3)
-    batch_size = (int)(1e4)
+    speeds = torch.zeros(number_points)
+    batch_size = (int)(1e3)
     count = 0
 
 
@@ -240,8 +310,12 @@ def generate_valid_points(number_points, shape_tensor_points, msp):
 
 
         transformed_shape_points = torch.matmul(Transform_matrix, shape_tensor_points_aug)
+
+        # shape is (10000, 6, 3, 2, 1)
         transformed_shape_points2d = transformed_shape_points[:,:,:,0:2,:]
-        
+        transformed_shape_points2d_cl = transformed_shape_points2d.clone()
+
+
 
         # re format for cross
 
@@ -266,7 +340,7 @@ def generate_valid_points(number_points, shape_tensor_points, msp):
 
         env_points_subtract = env_points_subtract.cuda()
         transformed_shape_points2d = transformed_shape_points2d.cuda()
-
+        
 
         center_to_vertex = env_points_subtract - transformed_shape_points2d 
 
@@ -276,7 +350,8 @@ def generate_valid_points(number_points, shape_tensor_points, msp):
         vertex_to_vertex[:,:,:,1,:,:] = transformed_shape_points2d[:,:,:,2,:,:] - transformed_shape_points2d[:,:,:,1,:,:]  # edge v1→v2
         vertex_to_vertex[:,:,:,2,:,:] = transformed_shape_points2d[:,:,:,0,:,:] - transformed_shape_points2d[:,:,:,2,:,:]  # edge v2→v0
 
-
+        transformed_lines = vertex_to_vertex.clone()
+        transformed_lines.squeeze()
         # still need ab, bc, ac 
 
 
@@ -315,16 +390,21 @@ def generate_valid_points(number_points, shape_tensor_points, msp):
 
         shape_intersec = shape_intersec.cpu()
 
+
+        batch_speed = calculate_speed(transformed_lines,transformed_shape_points2d_cl, environment_boundary_points)
+
         #print(curr_valid)
         if (count + curr_valid >= number_points):
             valid_points[count:,] = (t[shape_intersec])[:number_points-count]
+            speeds[count:] = (batch_speed[shape_intersec])[:number_points-count]
             break
         else:
             valid_points[count: count + curr_valid] = t[shape_intersec]
+            speeds[count: count + curr_valid] = (batch_speed[shape_intersec])
             count += shape_intersec.sum()
 
     
-    return valid_points, environment_boundary_points
+    return valid_points, environment_boundary_points, speeds
 
 
 def generate_training_data(number_points, shape_points, msp, dmin, dmax):
@@ -347,8 +427,8 @@ def visual_training(start, shape_points, env_points, cnt, speed, vmin, vmax=None
     
     to_visual_shapes = []
     if vmax is None:
-        #vmax = max(speed)
-        vmax = 1
+        vmax = max(speed)
+
     cmap = get_cmap('viridis')
     norm = Normalize(vmin=vmin, vmax=vmax)
 
@@ -369,8 +449,7 @@ def visual_training(start, shape_points, env_points, cnt, speed, vmin, vmax=None
         to_visual_shapes.append(rotated_shape)
 
         # Map speed to color
-        #olor = cmap(norm(speed[i]))
-        color = cmap(norm(1))
+        color = cmap(norm(speed[i]))
 
         # Use matplotlib Polygon to draw the shape
         patch = plt.Polygon(list(rotated_shape.exterior.coords), facecolor=color, edgecolor='black', alpha=0.7)
@@ -410,7 +489,7 @@ def visual_speed(start, speed, env_points, min):
 
 
 if __name__ == "__main__":
-    doc = ezdxf.readfile("./datasets/Fmaze3_norm.dxf")
+    doc = ezdxf.readfile("./datasets/FmazeEasy_norm.dxf")
     msp = doc.modelspace()
 
     Fshape_norm = dxf_to_shape("./datasets/Fshape_norm.dxf")
@@ -429,48 +508,55 @@ if __name__ == "__main__":
     ]
 
     Fshape_triangulated = torch.Tensor(Fshape_triangulated)
-    start = time.time()
-    valid_points, env = generate_valid_points(400000,Fshape_triangulated,msp)
-    end = time.time()
-    elapsed = end - start
-    print("Elapsed time:", elapsed, "seconds")
-    visual_training(valid_points,Fshape_points, env_points=env, cnt=1000,speed=1,vmin=0)
+    # start = time.time()
+    # valid_points, env, dists = generate_valid_points(4000,Fshape_triangulated,msp)
+    
+    # print (max(dists))
+    dmax = 0.1
+    dmin = 0.01
+
+    # speed = np.clip(dists/dmax , a_min = dmin/dmax, a_max = 1)
+
+    # end = time.time()
+    # elapsed = end - start
+    # print("Elapsed time:", elapsed, "seconds")
+
+
+    # visual_training(valid_points,Fshape_points, env_points=env, cnt=100,speed=speed,vmin=0)
 
 
 
-    # start_time = time.time()
-    # start, start_dist, speed, env_points = generate_training_data((int)(1e2),Fshape_points,msp,dmin,dmax)
-    # end_time = time.time()
+    start_time = time.time()
+    start, env_points, speed = generate_valid_points(4000,Fshape_triangulated,msp)
+    end_time = time.time()
 
-    # # Calculate elapsed time
-    # elapsed_time = end_time - start_time
-    # print(f"Elapsed time: {elapsed_time:.2f} seconds")
-
-
-    # print(type(env_points))
-
-    # #visual_speed(start, speed,env_points, dmin/dmax)
-
-    # len = (int)(start.shape[0]/2)
-
-    # x0 = start[0:len,:]
-    # x1 = start[len:2*len,:]
-    # x = np.concatenate((x0,x1), axis=1)
+    # Calculate elapsed time
+    elapsed_time = end_time - start_time
+    print(f"Elapsed time: {elapsed_time:.2f} seconds")
 
 
-    # len= (int)(speed.shape[0]/2)
 
-    # y0 = speed[0:len]
-    # y1 = speed[len:2*len]
-    # y = np.column_stack((y0,y1))
+    #visual_speed(start, speed,env_points, dmin/dmax)
+
+    len = (int)(start.shape[0]/2)
+
+    x0 = start[0:len,:]
+    x1 = start[len:2*len,:]
+    x = np.concatenate((x0,x1), axis=1)
 
 
-    # out_path = "./training_data2d/Fshape_Fmaze3"
+    len= (int)(speed.shape[0]/2)
 
-    # print(x.shape)
-    # print(y.shape)
-    # # np.save('{}/sampled_points'.format(out_path),x)
-    # # np.save('{}/speed'.format(out_path),speed, y)
+    y0 = speed[0:len]
+    y1 = speed[len:2*len]
+    y = np.column_stack((y0,y1))
 
-    # np.save('{}/Fmaze3env'.format(out_path), env_points)
-    # print(env_points.shape)
+
+    out_path = "./training_data2d/FmazeEasy_8e5"
+
+    print(x.shape)
+    print(y.shape)
+    np.save('{}/sampled_points'.format(out_path), x)
+    np.save('{}/speed'.format(out_path), y)
+    np.save('{}/Fmaze3env'.format(out_path), env_points)
+    print(env_points.shape)
