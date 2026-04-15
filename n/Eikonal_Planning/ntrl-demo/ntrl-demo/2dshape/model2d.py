@@ -109,7 +109,7 @@ class Model():
         self.Params['Network']['Normlisation'] = 'OffsetMinMax'
 
         self.Params['Training'] = {}
-        self.Params['Training']['Number of sample points'] = 2e5
+        self.Params['Training']['Number of sample points'] = 1e6
         self.Params['Training']['Batch Size'] = 2000
         self.Params['Training']['Validation Percentage'] = 10
         self.Params['Training']['Number of Epochs'] = 5000
@@ -151,22 +151,7 @@ class Model():
         #self._init_network()
         self.B = torch.normal(0,1,size=(128,self.dim))
         torch.nn.init.trunc_normal_(self.B, mean=0.0, std=1, a=-2.0, b=2.0)
-        #self.B = 0.5*self.B
-        #torch.save(B, self.Params['ModelPath']+'/B.pt')
-        freq_bands = 0.5**(torch.linspace(0, 8, 128)) 
 
-        # bvals = 2**np.linspace(-1,1,128//3) #- 1
-        # bvals = np.reshape(np.eye(3)*bvals[:,None,None], [len(bvals)*3, 3])
-        # print(bvals)
-        # #rot = np.array([[(2**.5)/2,-(2**.5)/2,0],[(2**.5)/2,(2**.5)/2,0],[0,0,1]])
-        # #bvals = bvals @ rot.T
-        # #rot = np.array([[1,0,0],[0,(2**.5)/2,-(2**.5)/2],[0,(2**.5)/2,(2**.5)/2]])
-        # #bvals = bvals @ rot.T
-
-        # print(bvals.shape)
-        
-        #self.B = torch.tensor(bvals).cuda().float()#freq_bands.unsqueeze(1).repeat(1,3)
-        #print(self.B)
         self.network = model_network.NN(self.Params['Device'],self.dim, self.B)
         self.network.apply(self.network.init_weights)
         #self.network.float()
@@ -195,13 +180,13 @@ class Model():
         training_start_time = time.time()
 
         # --------- Splitting the dataset into training and validation -------
-        indices = list(range(int(len_dataset)))
-        #validation_idx = np.random.choice(indices, size=int(
-        #    len_dataset*(self.Params['Training']['Validation Percentage']/100)), replace=False)
-        #train_idx = list(set(indices) - set(validation_idx))
-        train_idx = list(set(indices))
-        #validation_sampler = SubsetRandomSampler(validation_idx)
-        train_sampler = SubsetRandomSampler(train_idx)
+        # indices = list(range(int(len_dataset)))
+        # #validation_idx = np.random.choice(indices, size=int(
+        # #    len_dataset*(self.Params['Training']['Validation Percentage']/100)), replace=False)
+        # #train_idx = list(set(indices) - set(validation_idx))
+        # train_idx = list(set(indices))
+        # #validation_sampler = SubsetRandomSampler(validation_idx)
+        # train_sampler = SubsetRandomSampler(train_idx)
         '''
         dataloader = torch.utils.data.DataLoader(
             self.dataset,
@@ -240,14 +225,9 @@ class Model():
         #p=(torch.rand((5,6))-0.5).cuda()
         prev_state_queue = []
         prev_optimizer_queue = []
+
         for epoch in range(1, self.Params['Training']['Number of Epochs']+1):
-            t_0=time.time()
-            
-            print_every = 1
-            start_time = time.time()
-            running_sample_count = 0
             total_train_loss = 0
-            total_val_loss = 0
             total_diff=0
             '''
             if epoch%100==0:
@@ -277,11 +257,8 @@ class Model():
             self.optimizer.param_groups[0]['lr']  = 5e-4#aa#np.clip(1e-3*(1-(epoch-8000)/1000.), a_min=5e-4, a_max=1e-3) 
             #self.optimizer.param_groups[0]['lr']  = np.clip(1e-3*(1-(epoch-500)/500.), a_min=5e-4, a_max=1e-3) 
             #1e-3 works
-            prev_lr = self.optimizer.param_groups[0]['lr'] 
-            t_1=time.time()
-            #print(t_1-t_0)
-            t_0=time.time()
-            #print(prev)
+
+
             prev_diff = current_diff
             iter=0
             while True:
@@ -289,9 +266,10 @@ class Model():
                 total_diff = 0
                 #for i in range(10):
                 ii = 0
+                num_chunks = 4
                 for i, wholedata in enumerate(dataloader,0):#train_loader_wei,dataloader
                     #print('----------------- Epoch {} - Batch {} --------------------'.format(epoch,i))
-                    if ii>4:
+                    if ii>num_chunks:
                         break
                     ii = ii+1
                     t0 = time.time()
@@ -313,7 +291,7 @@ class Model():
                     # print("speed " + str(speed))
 
 
-                    loss_value = 2*self.function.Loss(points, speed, beta)
+                    loss_value, loss_n = self.function.Loss(points, speed, beta)
                     
                     # print("loss" + str(loss_value))
 
@@ -330,36 +308,15 @@ class Model():
                     self.optimizer.zero_grad()
 
                     total_train_loss += loss_value.item()
-                    total_diff += loss_value.item()
-
-                    # total_train_loss = 0
-                    # total_diff = 0
-                    # def closure():
-                    #     self.optimizer.zero_grad()
-                    #     loss_value, loss_n, wv = self.function.Loss(points, speed, normal, beta, gamma, epoch)
-                        
-                    #     total_train_loss = loss_value.item()#.clone().detach()
-                    #     total_diff = loss_n.item()#.clone().detach()
-
-                    #     loss_value.backward()
-                    #     return loss_value
-                    # self.optimizer.step(closure)
-
-                    #print('')
-                    #print(loss_value.shape)
+                    total_diff += loss_n.item()
                     
-                    t1 = time.time()
-                    #print(total_train_loss)
 
-                    #print(t1-t0)
-                    #print('')
-                    #weights[indexbatch] = wv
                     
                     del points, speed, loss_value#, Lamb#,indexbatch
                 
                 
 
-                total_diff /= 4#len(dataloader)#dataloader train_loader
+                total_diff /= num_chunks#len(dataloader)#dataloader train_loader
 
                 #total_train_loss /= len(dataloader)#dataloader train_loader
                 #total_diff /= len(dataloader)#dataloader train_loader

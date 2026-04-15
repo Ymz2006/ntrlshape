@@ -255,150 +255,190 @@ def generate_valid_points(number_points, shape_tensor_points, msp):
     count = 0
 
 
+    start = torch.zeros(number_points, 3)
+    end = torch.zeros(number_points, 3)
+    start_speeds = torch.zeros(number_points)
+    end_speeds = torch.zeros(number_points)
+    t_last = torch.tensor(0)
     while True:
-        t = torch.rand(batch_size, 3) - 0.5  # shape: (N, 3)
-        row_scale = torch.tensor([xrange/scale - 0.02, yrange/scale - 0.02, np.pi/0.5], dtype=torch.float32)  # shape: (3,), 0.8 HARD CODED , np.pi/0.5
-        t = t * row_scale  # element-wise scaling of columns
+        gen_cnt = 0
+
+        gen1_intersec = 0
+        gen2_intersec = 0
+
+        gen1_t = torch.tensor(0)
+        gen2_t = torch.tensor(0)
+        
+        gen1_speed = torch.tensor(0)
+        gen2_speed = torch.tensor(0)
+
+
+        while gen_cnt < 2:
+            if gen_cnt == 0:
+                t = torch.rand(batch_size, 3) - 0.5  # shape: (N, 3)
+                row_scale = torch.tensor([xrange/scale - 0.02, yrange/scale - 0.02, np.pi/0.5], dtype=torch.float32)  # shape: (3,), 0.8 HARD CODED , np.pi/0.5
+                t_last = t
+            else:
+                t = torch.rand(batch_size, 3) - 0.5  # shape: (N, 3)
+                row_scale = torch.tensor([xrange/scale - 0.02, yrange/scale - 0.02, np.pi/0.5], dtype=torch.float32)  # shape: (3,), 0.8 HARD CODED , np.pi/0.5
+                t[:,0] = t_last[:,0]
+                t[:,1] = t_last[:,1]
+
+            t = t * row_scale  # element-wise scaling of columns
 
 
 
-        tx = t[:,0]
-        ty = t[:,1]
-        cos = torch.cos(t[:,2])
-        sin = torch.sin(t[:,2])
-        Transform_matrix = torch.zeros(batch_size, 3, 3, device="cuda")
-        Transform_matrix[:, 0, 0] = cos
-        Transform_matrix[:, 0, 1] = -sin
-        Transform_matrix[:, 1, 0] = sin
-        Transform_matrix[:, 1, 1] = cos
-        Transform_matrix[:, 0, 2] = tx
-        Transform_matrix[:, 1, 2] = ty
-        Transform_matrix[:, 2, 2] = 1.0
+            tx = t[:,0]
+            ty = t[:,1]
+            cos = torch.cos(t[:,2])
+            sin = torch.sin(t[:,2])
+            Transform_matrix = torch.zeros(batch_size, 3, 3, device="cuda")
+            Transform_matrix[:, 0, 0] = cos
+            Transform_matrix[:, 0, 1] = -sin
+            Transform_matrix[:, 1, 0] = sin
+            Transform_matrix[:, 1, 1] = cos
+            Transform_matrix[:, 0, 2] = tx
+            Transform_matrix[:, 1, 2] = ty
+            Transform_matrix[:, 2, 2] = 1.0
 
 
 
-        # transform_mat has dim (n,1,1,3,3)
-        Transform_matrix = Transform_matrix.unsqueeze(1)
-        Transform_matrix = Transform_matrix.unsqueeze(1)
+            # transform_mat has dim (n,1,1,3,3)
+            Transform_matrix = Transform_matrix.unsqueeze(1)
+            Transform_matrix = Transform_matrix.unsqueeze(1)
 
 
 
-        # shape_tensor_points has dim (k,3,3,1)
+            # shape_tensor_points has dim (k,3,3,1)
 
-        shape_tensor_points_aug = shape_tensor_points
-        shape_tensor_points_aug = shape_tensor_points_aug.unsqueeze(0)
-        shape_tensor_points_aug = shape_tensor_points_aug.unsqueeze(-1)
+            shape_tensor_points_aug = shape_tensor_points
+            shape_tensor_points_aug = shape_tensor_points_aug.unsqueeze(0)
+            shape_tensor_points_aug = shape_tensor_points_aug.unsqueeze(-1)
         
 
-        Transform_matrix = Transform_matrix.cuda()
-        shape_tensor_points_aug = shape_tensor_points_aug.cuda()
-
-
-        #print(Transform_matrix.shape)
-        #print(shape_tensor_points_aug.shape)
-
-
-        transformed_shape_points = torch.matmul(Transform_matrix, shape_tensor_points_aug)
-        shape_tensor_points_aug = shape_tensor_points_aug.squeeze(0)
-        shape_tensor_points_aug = shape_tensor_points_aug.squeeze(-1)
-
-        # shape is (10000, 6, 3, 2, 1)
-        transformed_shape_points2d = transformed_shape_points[:,:,:,0:2,:]
-        #transformed_shape_points2d_cl = transformed_shape_points2d.clone()
+            Transform_matrix = Transform_matrix.cuda()
+            shape_tensor_points_aug = shape_tensor_points_aug.cuda()
 
 
 
-        # re format for cross
+            transformed_shape_points = torch.matmul(Transform_matrix, shape_tensor_points_aug)
+            shape_tensor_points_aug = shape_tensor_points_aug.squeeze(0)
+            shape_tensor_points_aug = shape_tensor_points_aug.squeeze(-1)
 
-        # shape_tensor_points has dim (1,n,k,3,2,1)
-        # env has dim (n,1,1,1, 2,1)
+            # shape is (10000, 6, 3, 2, 1)
+            transformed_shape_points2d = transformed_shape_points[:,:,:,0:2,:]
+            #transformed_shape_points2d_cl = transformed_shape_points2d.clone()
 
 
 
-        transformed_shape_points2d = transformed_shape_points2d.unsqueeze(1)
+            # re format for cross
+
+            # shape_tensor_points has dim (1,n,k,3,2,1)
+            # env has dim (n,1,1,1, 2,1)
+
+
+
+            transformed_shape_points2d = transformed_shape_points2d.unsqueeze(1)
         
 
-        #print("========")
-        #print(env_points_subtract.shape)
-        #print(transformed_shape_points2d.shape)
+            #print("========")
+            #print(env_points_subtract.shape)
+            #print(transformed_shape_points2d.shape)
 
 
 
-        env_points_subtract = env_points_subtract.cuda()
-        transformed_shape_points2d = transformed_shape_points2d.cuda()
+            env_points_subtract = env_points_subtract.cuda()
+            transformed_shape_points2d = transformed_shape_points2d.cuda()
+            
+
+            center_to_vertex = env_points_subtract - transformed_shape_points2d 
+
+            
+            vertex_to_vertex = transformed_shape_points2d.clone()
+            vertex_to_vertex[:,:,:,0,:,:] = transformed_shape_points2d[:,:,:,1,:,:] - transformed_shape_points2d[:,:,:,0,:,:]  # edge v0→v1
+            vertex_to_vertex[:,:,:,1,:,:] = transformed_shape_points2d[:,:,:,2,:,:] - transformed_shape_points2d[:,:,:,1,:,:]  # edge v1→v2
+            vertex_to_vertex[:,:,:,2,:,:] = transformed_shape_points2d[:,:,:,0,:,:] - transformed_shape_points2d[:,:,:,2,:,:]  # edge v2→v0
+
+            a = vertex_to_vertex[..., 0, 0]
+            b = center_to_vertex[..., 0, 0]
+            c = vertex_to_vertex[..., 1, 0]
+            d = center_to_vertex[..., 1, 0]
+
+            cross_mat = a*d - b*c
+
+            # cross_mat = torch.linalg.det(det_mat)
+            # print(cross_mat.shape)
+
+
+            cross_mat = torch.sign(cross_mat)
+
+
+            cross_result = torch.sum(cross_mat, dim=3)
+            cross_result = torch.where((abs(cross_result) == 3), 1, 0)
+            
+            cross_result = torch.sum(cross_result, dim=2)
+            cross_result = torch.sum(cross_result, dim=1)
+            
+            
+            
+            shape_intersec = torch.where(cross_result ==0 , True,False)
+
+
+
+            transformed_shape_points2d = transformed_shape_points2d.squeeze(1)
+            batch_dist = calculate_dist(vertex_to_vertex,transformed_shape_points2d, environment_boundary_points)
+            #print("MIN", batch_dist.min().item())
+            rad_filter = torch.where(batch_dist > 0.005, True,False)
+            shape_intersec = shape_intersec & rad_filter
+            
+            shape_intersec = shape_intersec.cpu()
+
+
+            if (gen_cnt == 0):
+                gen1_intersec = shape_intersec
+                gen1_t = t.clone()
+                gen1_speed = batch_dist
+
+            else:
+                gen2_intersec = shape_intersec
+                gen2_t = t.clone()
+                gen2_speed = batch_dist
+
+            
+            gen_cnt +=1
+
+        total_intersec = gen1_intersec & gen2_intersec
+        #print(total_intersec)
+        curr_valid = total_intersec.sum()
+
         
 
-        center_to_vertex = env_points_subtract - transformed_shape_points2d 
-
-        
-        vertex_to_vertex = transformed_shape_points2d.clone()
-        vertex_to_vertex[:,:,:,0,:,:] = transformed_shape_points2d[:,:,:,1,:,:] - transformed_shape_points2d[:,:,:,0,:,:]  # edge v0→v1
-        vertex_to_vertex[:,:,:,1,:,:] = transformed_shape_points2d[:,:,:,2,:,:] - transformed_shape_points2d[:,:,:,1,:,:]  # edge v1→v2
-        vertex_to_vertex[:,:,:,2,:,:] = transformed_shape_points2d[:,:,:,0,:,:] - transformed_shape_points2d[:,:,:,2,:,:]  # edge v2→v0
-
-        #transformed_lines = vertex_to_vertex.clone()
-        #transformed_lines.squeeze()
-        # still need ab, bc, ac 
-
-
-        # det_mat = torch.zeros(batch_size, env_point_cnt, triangle_cnt, 3, 2, 2)
-
-        # det_mat[:,:,:,:,0,0] = vertex_to_vertex[:,:,:,:,0,0]
-        # det_mat[:,:,:,:,1,0] = vertex_to_vertex[:,:,:,:,1,0]
-        # det_mat[:,:,:,:,0,1] = center_to_vertex[:,:,:,:,0,0]
-        # det_mat[:,:,:,:,1,1] = center_to_vertex[:,:,:,:,1,0]
-
-        a = vertex_to_vertex[..., 0, 0]
-        b = center_to_vertex[..., 0, 0]
-        c = vertex_to_vertex[..., 1, 0]
-        d = center_to_vertex[..., 1, 0]
-
-        cross_mat = a*d - b*c
-
-        # cross_mat = torch.linalg.det(det_mat)
-        # print(cross_mat.shape)
-
-
-        cross_mat = torch.sign(cross_mat)
-
-
-        cross_result = torch.sum(cross_mat, dim=3)
-        cross_result = torch.where((abs(cross_result) == 3), 1, 0)
-        
-        cross_result = torch.sum(cross_result, dim=2)
-        cross_result = torch.sum(cross_result, dim=1)
-        
-        
-        
-        shape_intersec = torch.where(cross_result ==0 , True,False)
-
-
-
-
-
-        transformed_shape_points2d = transformed_shape_points2d.squeeze(1)
-        batch_dist = calculate_dist(vertex_to_vertex,transformed_shape_points2d, environment_boundary_points)
-        #print("MIN", batch_dist.min().item())
-        rad_filter = torch.where(batch_dist > 0.005, True,False)
-        shape_intersec = shape_intersec & rad_filter
-        
-        shape_intersec = shape_intersec.cpu()
-        curr_valid = shape_intersec.sum()
-
-        
+        #print(gen1_t)
         #print(curr_valid)
         if (count + curr_valid >= number_points):
-            valid_points[count:,] = (t[shape_intersec])[:number_points-count]
-            speeds[count:] = (batch_dist[shape_intersec])[:number_points-count]
+            start[count:,] = (gen1_t[total_intersec])[:number_points-count]
+            end[count:,] = (gen2_t[total_intersec])[:number_points-count]
+
+            start_speeds[count:] = (gen1_speed[total_intersec])[:number_points-count]
+            end_speeds[count:] = (gen2_speed[total_intersec])[:number_points-count]
             break
         else:
-            valid_points[count: count + curr_valid] = t[shape_intersec]
-            speeds[count: count + curr_valid] = (batch_dist[shape_intersec])
-            count += shape_intersec.sum()
+
+            start[count:count + curr_valid] = gen1_t[total_intersec]
+            end[count:count + curr_valid] = (gen2_t[total_intersec])
+
+            start_speeds[count:count + curr_valid] = (gen1_speed[total_intersec])
+            end_speeds[count:count + curr_valid] = (gen2_speed[total_intersec])
+
+            count += total_intersec.sum()
 
 
         print("generated:" + str(count))
 
+
+    valid_points = start
+    valid_points = torch.cat([start,end],dim=0)
+    speeds = torch.cat([start_speeds,end_speeds],dim=0)
     
     return valid_points, environment_boundary_points, speeds
 
@@ -495,7 +535,7 @@ if __name__ == "__main__":
     
     # print (max(dists))
     dmax = 0.2
-    dmin = 0.005
+    dmin = 0.01
 
     # speed = np.clip(dists/dmax , a_min = dmin/dmax, a_max = 1)
 
@@ -508,7 +548,7 @@ if __name__ == "__main__":
 
 
     start_time = time.time()
-    start, env_points, dist = generate_valid_points( (int)(4e5),Fshape_triangulated,msp)
+    start, env_points, dist = generate_valid_points( (int)(4e3),Fshape_triangulated,msp)
     speed = np.clip(dist/dmax , a_min = dmin/dmax, a_max = 1)
 
 
@@ -527,21 +567,9 @@ if __name__ == "__main__":
     sin_t = np.sin(start[:,2])
     cos_t = np.cos(start[:,2])
 
-    #start = np.column_stack((start,sin_t))
-    #start = np.column_stack((start,cos_t))
-    #start = np.delete(start, 2, axis=1)
-
-    start[:,2] = start[:,2]/(2*np.pi)
-
-    print("MAX THETA" + str(max(start[:,2])))
-    print("MIN THETA" + str(min(start[:,2])))
-
-    print("MAX X" + str(max(start[:,0])))
-    print("MIN X" + str(min(start[:,0])))
-    
-    print("MAX Y" + str(max(start[:,1])))
-    print("MIN Y" + str(min(start[:,1])))
-
+    start = np.column_stack((start,sin_t))
+    start = np.column_stack((start,cos_t))
+    start = np.delete(start, 2, axis=1)
     len = (int)(start.shape[0]/2)
 
     x0 = start[0:len,:]
@@ -556,12 +584,13 @@ if __name__ == "__main__":
     y = np.column_stack((y0,y1))
 
 
-    out_path = "./testing_data2d/Fshape_FmazeEasy"
+    out_path = "./testing_data2d/Fshape_FmazeEasy_samexy"
 
-
+    print(x.shape)
+    print(y.shape)
     np.save('{}/sampled_points'.format(out_path), x)
     np.save('{}/speed'.format(out_path), y)
     np.save('{}/Fmaze3env'.format(out_path), env_points)
-    print(start.shape)
+    print(env_points.shape)
 
 

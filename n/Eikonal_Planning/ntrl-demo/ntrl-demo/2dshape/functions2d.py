@@ -116,7 +116,58 @@ class Function():
         diff = loss0 + loss1 
         # print("=============diff======")
         # print(diff)
-        return torch.sum(diff)
+
+
+
+        td_weight = 5e-3
+        with torch.no_grad():
+
+            length0 = (0.02)/(Yobs[:,0]).unsqueeze(1)#5*torch.rand(Yobs.shape[0],1).cuda()
+            Dir0 = length0*(DT0*Yobs[:,0].unsqueeze(1)**2).clone().detach()  
+            #Dir1 = 0.03*(DT1/S1.unsqueeze(1)).clone().detach()  
+            Xp_new0 = Xp.clone().detach()  
+            
+            Xp_new0[:,:self.dim] = Xp_new0[:,:self.dim] - Dir0
+
+            tau_new0, w, Xp_new0 = self.network.out(Xp_new0)
+            #tau_new1, w, Xp_new1 = self.network.out(Xp_new1)
+            tau_new1 = length0#*1/Yobs[:,0].unsqueeze(1)
+            del Xp_new0, Dir0#Xp_new1
+
+        tau_loss0 = td_weight*((tau-(tau_new0+tau_new1))**2).squeeze()
+        #(1.01-Yobs[:,0])*td_weight*
+        #(1.4-Yobs[:,0])*
+
+        with torch.no_grad():
+
+            length1 = (0.02)/(Yobs[:,1]).unsqueeze(1)#5*torch.rand(Yobs.shape[0],1).cuda()
+            Dir1 = length1*(DT1*Yobs[:,1].unsqueeze(1)**2).clone().detach()  
+            Xp_new0 = Xp.clone().detach()  
+            
+            #Xp_new0[:,:self.dim] = Xp_new0[:,:self.dim] - Dir0
+            Xp_new0[:,self.dim:] = Xp_new0[:,self.dim:] - Dir1
+            #Xp_new[:,self.dim:]+=0.04*DT1/S1
+
+            tau_new0, w, Xp_new0 = self.network.out(Xp_new0)
+            #tau_new1, w, Xp_new1 = self.network.out(Xp_new1)
+            tau_new1 = length1#*1/Yobs[:,1].unsqueeze(1)
+            del Xp_new0, Dir1#Xp_new1
+
+        tau_loss1 = td_weight*((tau-(tau_new0+tau_new1))**2).squeeze()
+        
+        where_d0 = (tau[:,0] < length0.squeeze())
+        where_d1 = (tau[:,0] < length1.squeeze())
+        tau_loss0[where_d0] = 0 
+        tau_loss1[where_d1] = 0 
+
+        tau_loss = tau_loss0+tau_loss1
+
+        T = tau[:,0] #* torch.sqrt(T0)
+        #loss_n =(torch.sum((diff +tau_loss)*torch.exp(-0.5*T)))/Yobs.shape[0]#*torch.exp(-para*T)
+
+        loss_n = torch.sum(diff) + torch.sum(tau_loss)
+        loss = loss_n * beta
+        return  loss, loss_n
 
     def TravelTimes(self, Xp):
      

@@ -35,7 +35,59 @@ def rotate_points(points, x, y, theta):
 
 
 
-def visual_training(start, shape_points, env_points, cnt, speed, vmin, vmax=None):
+# def visual_training(start, shape_points, env_points, cnt, speed, vmin, vmax=None):
+#     to_visual_shapes = []
+#     if vmax is None:
+#         vmax = max(speed)
+
+#     cmap = get_cmap('viridis')
+#     norm = Normalize(vmin=vmin, vmax=vmax)
+
+#     fig, ax = plt.subplots()
+
+#     for i in range(cnt):
+#         # Rotate points and return as list of (x, y) tuples
+#         rotated_pts = rotate_points(shape_points, start[i][0], start[i][1], start[i][2])
+        
+#         # Skip if not enough points to make a polygon
+#         if len(rotated_pts) < 3:
+#             continue
+        
+#         rotated_shape = Polygon(rotated_pts)
+#         if not rotated_shape.is_valid:
+#             continue
+
+#         to_visual_shapes.append(rotated_shape)
+
+#         # Map speed to color
+#         color = cmap(norm(speed[i]))
+        
+#         # Use matplotlib Polygon to draw the shape
+#         patch = plt.Polygon(list(rotated_shape.exterior.coords), facecolor=color, edgecolor='black', alpha=0.7)
+#         ax.add_patch(patch)
+
+#     # Plot environment points
+#     if len(env_points) > 0:
+#         ax.scatter(*zip(*env_points), color='grey', s=10)
+
+#     ax.set_aspect('equal')
+
+
+
+#     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+#     sm.set_array([])  # Required for ScalarMappable
+#     cbar = plt.colorbar(sm, ax=ax)
+#     cbar.set_label("Speed", rotation=270, labelpad=15)
+#     plt.show()
+
+
+import matplotlib.pyplot as plt
+from matplotlib.colors import Normalize
+from matplotlib.cm import get_cmap
+from shapely.geometry import Polygon
+# Make sure to import or define rotate_points wherever this script lives
+
+def visual_training(start, shape_points, env_points, cnt, speed, vmin, vmax=None, begin_point=None, end_point=None):
     to_visual_shapes = []
     if vmax is None:
         vmax = max(speed)
@@ -70,14 +122,35 @@ def visual_training(start, shape_points, env_points, cnt, speed, vmin, vmax=None
     if len(env_points) > 0:
         ax.scatter(*zip(*env_points), color='grey', s=10)
 
+    # --- NEW CODE: Plot begin_point and end_point ---
+    # We loop over both points and plot them if they were provided
+    # zorder=10 ensures they are drawn completely on top of everything else
+    for pt in [begin_point, end_point]:
+        if pt is not None:
+            # Rotate shape points for the special point
+            special_pts = rotate_points(shape_points, pt[0], pt[1], pt[2])
+            
+            if len(special_pts) >= 3:
+                special_shape = Polygon(special_pts)
+                if special_shape.is_valid:
+                    # Draw the red polygon
+                    special_patch = plt.Polygon(
+                        list(special_shape.exterior.coords), 
+                        facecolor='red', 
+                        edgecolor='black', 
+                        alpha=1.0, 
+                        zorder=10
+                    )
+                    ax.add_patch(special_patch)
+            
+            # Optional: Add a high-contrast dot at the exact (x, y) center
+            ax.scatter(pt[0], pt[1], color='red', edgecolor='white', s=30, zorder=11)
+    # ------------------------------------------------
+
     ax.set_aspect('equal')
-
-
 
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     sm.set_array([])  # Required for ScalarMappable
     cbar = plt.colorbar(sm, ax=ax)
     cbar.set_label("Speed", rotation=270, labelpad=15)
     plt.show()
-
-

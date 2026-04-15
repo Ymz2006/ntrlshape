@@ -32,14 +32,11 @@ def Database(PATH):
 
     print("DATABASE INIT")
     print(points.shape)
-
-    print(points[0:100,:])
+    print(points[5,:])
 
 
 
     print(speed.shape)
-
-    print(speed[0:100,:])
 
 
     print("min speed: " + str(speed.min()))
