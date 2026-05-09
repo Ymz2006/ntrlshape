@@ -25,6 +25,7 @@ NOISE_STD   = 0.015 # base perturbation magnitude
 CONV_THRESH = 0.01  # distance threshold for declaring success
 SOFTMAX_T   = 50.0  # temperature for softmax weighting (higher = greedier)
 GOAL_WEIGHT = 10.0  # relative cost weight on final vs intermediate horizon step
+COLLISION_THRESH = 0.02  # min distance from env boundary point to count as collision
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Batched MPPI
@@ -146,7 +147,26 @@ def build_start_list(traj, XP_row, dim):
     start_list[0, 2] = XP_row[2].item() * 2 * np.pi
     return start_list
 
+def check_trajectory_collision(traj: list, env_pts: torch.Tensor) -> bool:
+    """
+    Return True if ANY waypoint in `traj` is within COLLISION_THRESH of ANY
+    environment boundary point.  Only x, y (first 2 dims) are compared.
 
+    Args:
+        traj    : list of (1, dim) tensors — the recorded waypoints
+        env_pts : (N, 2) float tensor on CUDA — boundary point cloud
+
+    Returns:
+        True if a collision is detected, False otherwise.
+    """
+    # Stack all waypoints into (T, 2), keeping only x and y
+    waypoints = torch.cat(traj, dim=0)[:, :2].cuda()   # (T, 2)
+
+    # Pairwise distances: (T, 1, 2) vs (1, N, 2)  →  (T, N)
+    diff  = waypoints.unsqueeze(1) - env_pts.unsqueeze(0)
+    dists = torch.norm(diff, dim=-1)                    # (T, N)
+
+    return dists.min().item() < COLLISION_THRESH
 # ──────────────────────────────────────────────────────────────────────────────
 # Model & data setup
 # ──────────────────────────────────────────────────────────────────────────────
@@ -155,7 +175,7 @@ meshname  = 'Auburn'
 dataPath  = './datasets/arm/' + meshname
 
 womodel = md.Model(modelPath, dataPath, 3, [0.0, 0.0, 0.0, 0.0], device='cuda')
-pt='./Experiments/Fshape_FmazeEasy/training_data2d_04_15_16_56/Model_Epoch_00800_ValLoss_3.385244e+01.pt'
+pt='./Experiments/Fshape_FmazeEasy/training_data2d_04_27_11_23/Model_Epoch_05000_ValLoss_8.274535e+01.pt'
 print(f'Loading checkpoint: {pt}')
 womodel.load(pt)
 womodel.network.eval()
@@ -166,6 +186,10 @@ arr_speeds = np.load('./testing_data2d/Fshape_FmazeEasy/speed.npy')
 Fshape_norm   = dxf_to_shape('./datasets/Fshape_norm.dxf')
 Fshape_points = shape_to_points(Fshape_norm)
 environment_boundary_points = np.load('./testing_data2d/Fshape_FmazeEasy/Fmaze3env.npy')
+env_pts_cuda = torch.tensor(
+    environment_boundary_points[:, :2], dtype=torch.float32, device='cuda'
+)   # (N, 2) — only x, y needed for 2-D collision check
+
 
 # Build test tensors on CPU; we'll move batches to GPU below
 test_tensors = [torch.tensor(arr[i], dtype=torch.float32) for i in range(len(arr))]
@@ -204,15 +228,18 @@ with torch.no_grad():
             global_i = idx + b
             diff = extract_diff(batch_raw[b], DIM)
 
-            if success[b].item():
+            # Collision check: fail if any waypoint touches the environment
+            collision = check_trajectory_collision(trajs[b], env_pts_cuda)
+
+            if success[b].item() and not collision:
                 success_list.append(diff)
                 total_success += 1
                 print(f'[{global_i:4d}] ✓ success  iter={iters[b].item()}')
             else:
                 fail_list.append(diff)
                 failed_speeds.append(test_speeds[global_i])
-                print(f'[{global_i:4d}] ✗ fail     iter={iters[b].item()}')
-
+                reason = 'collision' if collision else 'no convergence'
+                print(f'[{global_i:4d}] ✗ fail     iter={iters[b].item()}  ({reason})')
         idx = batch_end
 
 elapsed = timer() - timer_start

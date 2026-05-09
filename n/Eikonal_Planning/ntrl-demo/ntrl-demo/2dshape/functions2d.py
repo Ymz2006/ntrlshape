@@ -120,6 +120,7 @@ class Function():
 
 
         td_weight = 5e-3
+        #td_weight = 1e-3 # BASELINE
         with torch.no_grad():
 
             length0 = (0.02)/(Yobs[:,0]).unsqueeze(1)#5*torch.rand(Yobs.shape[0],1).cuda()
@@ -163,7 +164,7 @@ class Function():
         tau_loss = tau_loss0+tau_loss1
 
         T = tau[:,0] #* torch.sqrt(T0)
-        #loss_n =(torch.sum((diff +tau_loss)*torch.exp(-0.5*T)))/Yobs.shape[0]#*torch.exp(-para*T)
+        #loss_n =(torch.sum((diff +tau_loss)*torch.exp(-0.5*T)))/Yobs.shape[0]  # BASELINE
 
         loss_n = torch.sum(diff) + torch.sum(tau_loss)
         loss = loss_n * beta

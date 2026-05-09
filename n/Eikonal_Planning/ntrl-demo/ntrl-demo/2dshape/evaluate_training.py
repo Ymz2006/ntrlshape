@@ -110,7 +110,9 @@ dataPath = './datasets/arm/'+ meshname
 #dataPath = './datasets/new/'
 
 womodel    = md.Model(modelPath, dataPath, 3, [0.0, 0.0, 0.0,0.0], device='cuda')
-pt='./Experiments/Fshape_FmazeEasy/training_data2d_04_15_16_56/Model_Epoch_00800_ValLoss_3.385244e+01.pt'
+pt='./Experiments/Fshape_FmazeEasy/training_data2d_04_15_16_56/Model_Epoch_00800_ValLoss_3.385244e+01.pt' # 97% succes rate 
+
+
 print(pt)
 womodel.load(pt)#
 womodel.network.eval()
@@ -204,8 +206,8 @@ for XP in test_list:
     # start_list[1,2] = XP[0][5].item()*2*np.pi
 
     speed_temp = np.full((len(point), 1), 0.5)
-    # visual_training(start=start_list,shape_points=Fshape_points,env_points=environment_boundary_points, 
-    #                 cnt=len(point),speed=speed_temp, vmin = 0.2, begin_point=begin_point, end_point=end_point)
+    visual_training(start=start_list,shape_points=Fshape_points,env_points=environment_boundary_points, 
+                    cnt=len(point),speed=speed_temp, vmin = 0.2, begin_point=begin_point, end_point=end_point)
     # print('Time:', end-start)
 
     

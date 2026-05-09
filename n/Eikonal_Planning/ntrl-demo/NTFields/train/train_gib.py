@@ -1,0 +1,14 @@
+import sys
+sys.path.append('.')
+from models import model_3d as md
+from os import path
+
+
+modelPath = './Experiments/Gib'         
+dataPath = './data/Fshape_FmazeEasy'
+
+model    = md.Model(modelPath, dataPath, 3,[-0.25,-0.2], device='cuda:0')
+
+model.train()
+
+

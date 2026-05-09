@@ -251,7 +251,7 @@ def generate_valid_points(number_points, shape_tensor_points, msp):
 
     valid_points = torch.zeros(number_points, 3)
     speeds = torch.zeros(number_points)
-    batch_size = (int)(1e4)
+    batch_size = (int)(5e3)
     count = 0
 
 
@@ -471,7 +471,7 @@ def visual_speed(start, speed, env_points, min):
 
 
 if __name__ == "__main__":
-    doc = ezdxf.readfile("./datasets/FmazeEasy_norm.dxf")
+    doc = ezdxf.readfile("./datasets/Fmaze2_norm.dxf")
     msp = doc.modelspace()
 
     Fshape_norm = dxf_to_shape("./datasets/Fshape_norm.dxf")
@@ -556,7 +556,7 @@ if __name__ == "__main__":
     y = np.column_stack((y0,y1))
 
 
-    out_path = "./testing_data2d/Fshape_FmazeEasy"
+    out_path = "./training_data2d/Fshape_FmazeEasy"
 
 
     np.save('{}/sampled_points'.format(out_path), x)
