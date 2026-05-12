@@ -175,7 +175,7 @@ meshname  = 'Auburn'
 dataPath  = './datasets/arm/' + meshname
 
 womodel = md.Model(modelPath, dataPath, 3, [0.0, 0.0, 0.0, 0.0], device='cuda')
-pt='./Experiments/Fshape_FmazeEasy/training_data2d_04_27_11_23/Model_Epoch_05000_ValLoss_8.274535e+01.pt'
+pt = './Experiments/latest/Model_latest.pt'
 print(f'Loading checkpoint: {pt}')
 womodel.load(pt)
 womodel.network.eval()

@@ -175,6 +175,7 @@ class Model():
         self.dataset = db.Database(self.Params['DataPath'])
 
         len_dataset = len(self.dataset)
+        print(f"Sampled cases: {len_dataset}")
         n_batches = int(len(self.dataset) /
                         int(self.Params['Training']['Batch Size']) + 1)
         training_start_time = time.time()
@@ -377,12 +378,22 @@ class Model():
             Saving a instance of the model
         '''
         print("Saving model to:", self.folder)
-        torch.save({'epoch': epoch,
-                    'model_state_dict': self.network.state_dict(),
-                    'optimizer_state_dict': self.optimizer.state_dict(),
-                    'B_state_dict':self.B,
-                    'train_loss': self.total_train_loss,
-                    'val_loss': self.total_val_loss}, '{}/Model_Epoch_{}_ValLoss_{:.6e}.pt'.format(self.folder, str(epoch).zfill(5), val_loss))
+        checkpoint = {
+            'epoch': epoch,
+            'model_state_dict': self.network.state_dict(),
+            'optimizer_state_dict': self.optimizer.state_dict(),
+            'B_state_dict': self.B,
+            'train_loss': self.total_train_loss,
+            'val_loss': self.total_val_loss,
+        }
+        torch.save(checkpoint, '{}/Model_Epoch_{}_ValLoss_{:.6e}.pt'.format(
+            self.folder, str(epoch).zfill(5), val_loss))
+
+        latest_dir = './Experiments/latest'
+        os.makedirs(latest_dir, exist_ok=True)
+        latest_path = os.path.join(latest_dir, 'Model_latest.pt')
+        torch.save(checkpoint, latest_path)
+        print("Updated latest model:", latest_path)
 
     def load(self, filepath):
         #B = torch.load(self.Params['ModelPath']+'/B.pt')

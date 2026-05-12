@@ -8,7 +8,7 @@ RUN pip install configargparse
 RUN pip install ezdxf
 RUN pip install shapely
 RUN pip install descartes
-RUN apt-get update && apt-get install -y x11-apps 
+RUN apt-get update && apt-get install -y x11-apps ffmpeg
 #RUN pip install pointnext
 
 

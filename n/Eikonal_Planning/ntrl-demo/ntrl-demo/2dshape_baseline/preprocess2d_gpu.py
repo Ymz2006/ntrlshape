@@ -210,8 +210,6 @@ def calculate_dist(shape_lines, shape_points, env_points):
     dis[right_B] = BPnorm[right_B]
     #dis[left_A] = APnorm
     
-
-    # print(dis.shape)
     result = dis.flatten(start_dim=1).min(dim=1).values
 
     # print(result.shape)
@@ -259,7 +257,9 @@ def generate_valid_points(number_points, shape_tensor_points, msp):
         t = torch.rand(batch_size, 3) - 0.5  # shape: (N, 3)
         row_scale = torch.tensor([xrange/scale - 0.02, yrange/scale - 0.02, np.pi/0.5], dtype=torch.float32)  # shape: (3,), 0.8 HARD CODED , np.pi/0.5
         t = t * row_scale  # element-wise scaling of columns
-
+        
+            # TESTING
+        t[:,2].fill_(np.pi/2)
 
 
         tx = t[:,0]
@@ -380,6 +380,8 @@ def generate_valid_points(number_points, shape_tensor_points, msp):
         batch_dist = calculate_dist(vertex_to_vertex,transformed_shape_points2d, environment_boundary_points)
         #print("MIN", batch_dist.min().item())
         rad_filter = torch.where(batch_dist > 0.005, True,False)
+
+
         shape_intersec = shape_intersec & rad_filter
         
         shape_intersec = shape_intersec.cpu()
@@ -471,7 +473,7 @@ def visual_speed(start, speed, env_points, min):
 
 
 if __name__ == "__main__":
-    doc = ezdxf.readfile("./datasets/Fmaze2_norm.dxf")
+    doc = ezdxf.readfile("./datasets/FmazeEasy_norm.dxf")
     msp = doc.modelspace()
 
     Fshape_norm = dxf_to_shape("./datasets/Fshape_norm.dxf")
@@ -494,7 +496,7 @@ if __name__ == "__main__":
     # valid_points, env, dists = generate_valid_points(4000,Fshape_triangulated,msp)
     
     # print (max(dists))
-    dmax = 0.2
+    dmax = 0.1
     dmin = 0.005
 
     # speed = np.clip(dists/dmax , a_min = dmin/dmax, a_max = 1)

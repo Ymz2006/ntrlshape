@@ -110,11 +110,9 @@ dataPath = './datasets/arm/'+ meshname
 #dataPath = './datasets/new/'
 
 womodel    = md.Model(modelPath, dataPath, 3, [0.0, 0.0, 0.0,0.0], device='cuda')
-pt='./Experiments/Fshape_FmazeEasy/training_data2d_04_15_16_56/Model_Epoch_00800_ValLoss_3.385244e+01.pt' # 97% succes rate 
-
-
+pt = './Experiments/latest/Model_latest.pt'
 print(pt)
-womodel.load(pt)#
+womodel.load(pt)
 womodel.network.eval()
 
 #dataPath = './datasets/Gib'
@@ -131,12 +129,14 @@ Fshape_points = shape_to_points(Fshape_norm)
 test_list = []
 test_list_speed = []
 
+#test_list.append(torch.tensor((-0.3,-0.03,0.25,   0.4,0.23,0.25)).cuda())
+#test_list.append(torch.tensor((-0.3,-0.03,0.25,   0,-0.03,0.25, )).cuda())
 for i in range (100):
     curr=torch.tensor(arr[i]).cuda()
     test_list.append(curr)
     test_list_speed.append(min(arr_speeds[i]))
 
-print (len(test_list))
+# print (len(test_list))
 
 
 BASE=torch.tensor([[0, 0, 0,0,0, 0]]).cuda()
