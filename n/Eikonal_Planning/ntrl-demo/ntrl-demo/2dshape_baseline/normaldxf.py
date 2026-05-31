@@ -147,7 +147,7 @@ def scale_doc(doc, scale, xoffset, yoffset, name):
 
 
 if __name__ == "__main__":
-    doc = ezdxf.readfile("./datasets/FmazeEasy.dxf")
+    doc = ezdxf.readfile("./baseline_env.dxf")
     msp = doc.modelspace()
 
 
@@ -176,7 +176,7 @@ if __name__ == "__main__":
 
     scale = max(maxY-minY, maxX-minX)
 
-    scale_doc(doc=doc,scale=1/scale,xoffset=xorigin,yoffset=yorigin,name="FmazeEasy_norm.dxf")
+    scale_doc(doc=doc,scale=1/scale,xoffset=xorigin,yoffset=yorigin,name="Baseline_norm.dxf")
 
 
 

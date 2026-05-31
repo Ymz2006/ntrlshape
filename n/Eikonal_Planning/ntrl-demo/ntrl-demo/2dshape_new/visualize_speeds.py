@@ -52,7 +52,7 @@ from parse_shape import dxf_to_shape, shape_to_points
 
 
 # ─── Defaults ──────────────────────────────────────────────────────────────────
-DEFAULT_DATA   = "./training_data2d/Fshape_FmazeEasy"
+DEFAULT_DATA   = "./testing_data2d/Fshape_FmazeEasy"
 DEFAULT_SHAPE  = "./datasets/Fshape_norm.dxf"
 DEFAULT_CMAP   = "viridis"
 
@@ -221,7 +221,7 @@ def main():
                         help="Directory with sampled_points.npy and speed.npy")
     parser.add_argument("--shape_dxf", default=DEFAULT_SHAPE,
                         help="Robot shape DXF (needed for --mode shapes)")
-    parser.add_argument("--mode",      default="scatter",
+    parser.add_argument("--mode",      default="map",
                         choices=["scatter", "shapes", "hist", "theta", "map"],
                         help="Visualisation mode")
     parser.add_argument("--index",     default="0",
@@ -395,13 +395,27 @@ def main():
     )
     fig.tight_layout()
 
-    if args.save:
+    if True:
         out = args.out or f"speeds_{args.mode}_{args.index}.png"
         fig.savefig(out, dpi=150, bbox_inches="tight")
         print(f"Saved {out}")
     else:
         plt.show()
 
+    # Always also write a histogram of the overall speed distribution
+    # (x = speed value, y = number of points), regardless of --mode.
+    all_speeds = speed.ravel()
+    hfig, hax = plt.subplots(figsize=(7, 5))
+    hax.hist(all_speeds, bins=60, color="steelblue", edgecolor="black", alpha=0.8)
+    hax.set_xlabel("speed value")
+    hax.set_ylabel("number of points")
+    hax.set_title(f"Speed distribution (N={all_speeds.size})")
+    hax.grid(axis="y", linestyle="--", alpha=0.5)
+    hfig.tight_layout()
+    hfig.savefig("speeds_distribution.png", dpi=150, bbox_inches="tight")
+    print("Saved speeds_distribution.png")
+
 
 if __name__ == "__main__":
+    print("started")
     main()

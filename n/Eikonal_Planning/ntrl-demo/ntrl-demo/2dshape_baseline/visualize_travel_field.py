@@ -48,7 +48,7 @@ from parse_shape import dxf_to_shape, shape_to_points
 # ─── Defaults ────────────────────────────────────────────────────────────────
 
 DEFAULT_PT = './Experiments/latest/Model_latest.pt'
-DEFAULT_ENV   = './testing_data2d/Fshape_FmazeEasy/Fmaze3env.npy'
+DEFAULT_ENV   = './training_data2d/Baseline/Fmaze3env.npy'
 DEFAULT_FSHAPE = './datasets/Fshape_norm.dxf'
 MODEL_PATH    = './Experiments/UR5'      # dummy path required by md.Model
 DATA_PATH     = './datasets/arm/Auburn'  # dummy path required by md.Model

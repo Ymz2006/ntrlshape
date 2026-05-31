@@ -249,7 +249,7 @@ def generate_valid_points(number_points, shape_tensor_points, msp):
 
     valid_points = torch.zeros(number_points, 3)
     speeds = torch.zeros(number_points)
-    batch_size = (int)(5e3)
+    batch_size = (int)(1e3)
     count = 0
 
 
@@ -405,10 +405,7 @@ def generate_valid_points(number_points, shape_tensor_points, msp):
     return valid_points, environment_boundary_points, speeds
 
 
-def visual_training(start, shape_points, env_points, cnt, speed, vmin, vmax=None):
-
-
-    
+def visual_training(start, shape_points, env_points, cnt, speed, vmin, vmax=None, save_path="visual_training.png", show=False):
     to_visual_shapes = []
     if vmax is None:
         vmax = max(speed)
@@ -421,11 +418,11 @@ def visual_training(start, shape_points, env_points, cnt, speed, vmin, vmax=None
     for i in range(cnt):
         # Rotate points and return as list of (x, y) tuples
         rotated_pts = rotate_points(shape_points, start[i][0], start[i][1], start[i][2])
-        
+
         # Skip if not enough points to make a polygon
         if len(rotated_pts) < 3:
             continue
-        
+
         rotated_shape = Polygon(rotated_pts)
         if not rotated_shape.is_valid:
             continue
@@ -445,20 +442,23 @@ def visual_training(start, shape_points, env_points, cnt, speed, vmin, vmax=None
 
     ax.set_aspect('equal')
 
-
-
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     sm.set_array([])  # Required for ScalarMappable
     cbar = plt.colorbar(sm, ax=ax)
     cbar.set_label("Speed", rotation=270, labelpad=15)
-    plt.show()
+
+    if save_path is not None:
+        plt.savefig(save_path, bbox_inches='tight')
+    if show:
+        plt.show()
+    plt.close(fig)
 
 
 
 
 
-def visual_speed(start, speed, env_points, min):
-    plt.figure(figsize=(6,6))
+def visual_speed(start, speed, env_points, min, save_path="visual_speed.png", show=False):
+    fig = plt.figure(figsize=(6,6))
     plt.scatter(env_points[:,0], env_points[:,1], c='black')
     plt.xlabel('X')
     plt.ylabel('Y')
@@ -466,14 +466,19 @@ def visual_speed(start, speed, env_points, min):
     plt.axis('equal')  # equal scaling for x and y
     plt.legend()
 
-    plt.scatter(start[:,0], start[:,1],    s=50, c= speed[:,0], cmap="viridis", vmin=min, vmax=1)
+    plt.scatter(start[:,0], start[:,1], s=50, c=speed[:,0], cmap="viridis", vmin=min, vmax=1)
     plt.colorbar(label="s value")
-    plt.show()
+
+    if save_path is not None:
+        plt.savefig(save_path, bbox_inches='tight')
+    if show:
+        plt.show()
+    plt.close(fig)
 
 
 
 if __name__ == "__main__":
-    doc = ezdxf.readfile("./datasets/FmazeEasy_norm.dxf")
+    doc = ezdxf.readfile("./datasets/Baseline_norm.dxf")
     msp = doc.modelspace()
 
     Fshape_norm = dxf_to_shape("./datasets/Fshape_norm.dxf")
@@ -558,7 +563,7 @@ if __name__ == "__main__":
     y = np.column_stack((y0,y1))
 
 
-    out_path = "./training_data2d/Fshape_FmazeEasy"
+    out_path = "./training_data2d/Baseline"
 
 
     np.save('{}/sampled_points'.format(out_path), x)

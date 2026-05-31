@@ -30,6 +30,10 @@ def Database(PATH):
     points = np.load('{}/sampled_points.npy'.format(PATH))#[:100000,:]
     speed = np.load('{}/speed.npy'.format(PATH))#[:100000,:]
 
+    #TEST
+    points[:, 2] = 0
+    points[:, 5] = 0
+    
     print("DATABASE INIT")
     print(points.shape)
     print(points[5,:])
@@ -47,6 +51,8 @@ def Database(PATH):
     count = np.isnan(speed).sum()
     print(count)
     print("DATABASE DONE INIT")
+
+
 
 
     #print(np.shape(grid))

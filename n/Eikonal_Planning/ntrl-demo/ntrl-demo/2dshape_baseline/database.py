@@ -34,6 +34,10 @@ def Database(PATH):
     print(points.shape)
     print(points[5,:])
 
+    #TEST
+    points[:, 2] = 0
+    points[:, 5] = 0
+    
 
 
     print(speed.shape)

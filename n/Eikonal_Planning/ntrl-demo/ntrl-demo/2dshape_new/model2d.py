@@ -229,18 +229,19 @@ class Model():
         prev_state_queue = []
         prev_optimizer_queue = []
 
-        plt.ion()
-        fig, (ax_loss, ax_rollback) = plt.subplots(2, 1, figsize=(8, 6))
-        fig.suptitle('Training Progress')
-        ax_loss.set_xlabel('Epoch')
-        ax_loss.set_ylabel('Loss')
-        ax_loss.set_yscale('log')
-        ax_rollback.set_xlabel('Epoch')
-        ax_rollback.set_ylabel('Rollbacks')
-        fig.tight_layout()
-        plot_epochs = []
-        plot_losses = []
-        plot_rollbacks = []
+        
+        # plt.ion()
+        # fig, (ax_loss, ax_rollback) = plt.subplots(2, 1, figsize=(8, 6))
+        # fig.suptitle('Training Progress')
+        # ax_loss.set_xlabel('Epoch')
+        # ax_loss.set_ylabel('Loss')
+        # ax_loss.set_yscale('log')
+        # ax_rollback.set_xlabel('Epoch')
+        # ax_rollback.set_ylabel('Rollbacks')
+        # fig.tight_layout()
+        # plot_epochs = []
+        # plot_losses = []
+        # plot_rollbacks = []
 
         for epoch in range(1, self.Params['Training']['Number of Epochs']+1):
             total_train_loss = 0
@@ -308,7 +309,7 @@ class Model():
                     # print("speed " + str(speed))
 
 
-                    loss_value, loss_n = self.function.Loss(points, speed, 1/10#beta
+                    loss_value, loss_n = self.function.Loss(points, speed, beta
                                                             )
                     
                     # print("loss" + str(loss_value))
@@ -379,26 +380,26 @@ class Model():
                     print("Epoch = {} -- Loss = {:.4e} -- Alpha = {:.4e}".format(
                         epoch, total_diff, alpha))
 
-                plot_epochs.append(epoch)
-                plot_losses.append(total_diff)
-                plot_rollbacks.append(iter)
+                # plot_epochs.append(epoch)
+                # plot_losses.append(total_diff)
+                # plot_rollbacks.append(iter)
 
-                ax_loss.clear()
-                ax_loss.plot(plot_epochs, plot_losses, color='steelblue')
-                ax_loss.set_xlabel('Epoch')
-                ax_loss.set_ylabel('Loss')
-                ax_loss.set_yscale('log')
-                ax_loss.set_title(f'Loss: {total_diff:.4e}')
+                # ax_loss.clear()
+                # ax_loss.plot(plot_epochs, plot_losses, color='steelblue')
+                # ax_loss.set_xlabel('Epoch')
+                # ax_loss.set_ylabel('Loss')
+                # ax_loss.set_yscale('log')
+                # ax_loss.set_title(f'Loss: {total_diff:.4e}')
 
-                ax_rollback.clear()
-                ax_rollback.plot(plot_epochs, plot_rollbacks, color='tomato')
-                ax_rollback.set_xlabel('Epoch')
-                ax_rollback.set_ylabel('Rollbacks')
-                ax_rollback.set_title(f'Rollbacks this epoch: {iter}')
+                # ax_rollback.clear()
+                # ax_rollback.plot(plot_epochs, plot_rollbacks, color='tomato')
+                # ax_rollback.set_xlabel('Epoch')
+                # ax_rollback.set_ylabel('Rollbacks')
+                # ax_rollback.set_title(f'Rollbacks this epoch: {iter}')
 
-                fig.tight_layout()
-                fig.canvas.draw()
-                plt.pause(0.001)
+                # fig.tight_layout()
+                # fig.canvas.draw()
+                # plt.pause(0.001)
 
             if (epoch % self.Params['Training']['Save Every * Epoch'] == 0) or (epoch == self.Params['Training']['Number of Epochs']) or (epoch == 1):
                 #self.function.plot(epoch,total_diff,alpha, self.source)

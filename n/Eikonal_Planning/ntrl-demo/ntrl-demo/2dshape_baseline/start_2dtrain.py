@@ -4,8 +4,8 @@ from glob import glob
 from model2d import Model
 import time
 
-modelPath = './Experiments/Fshape_FmazeEasy'
-dataPath = './training_data2d/Fshape_FmazeEasy'
+modelPath = './Experiments/Baseline'
+dataPath = './training_data2d/Baseline'
 #dataPath = './datasets/gibson/Spotswood'
 
 

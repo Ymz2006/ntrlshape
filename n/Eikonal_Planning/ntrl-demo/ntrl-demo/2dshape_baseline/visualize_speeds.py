@@ -52,7 +52,7 @@ from parse_shape import dxf_to_shape, shape_to_points
 
 
 # ─── Defaults ──────────────────────────────────────────────────────────────────
-DEFAULT_DATA   = "./training_data2d/Fshape_FmazeEasy"
+DEFAULT_DATA   = "./training_data2d/Baseline"
 DEFAULT_SHAPE  = "./datasets/Fshape_norm.dxf"
 DEFAULT_CMAP   = "viridis"
 
@@ -227,7 +227,7 @@ def main():
     parser.add_argument("--index",     default="both",
                         choices=["0", "1", "both"],
                         help="Which endpoint to show: 0=start, 1=end, both=side-by-side")
-    parser.add_argument("--cnt",       type=int, default=1000,
+    parser.add_argument("--cnt",       type=int, default=3000,
                         help="Max shapes to draw (shapes mode) or points to scatter")
     parser.add_argument("--cmap",      default=DEFAULT_CMAP)
     parser.add_argument("--vmin",      type=float, default=None)

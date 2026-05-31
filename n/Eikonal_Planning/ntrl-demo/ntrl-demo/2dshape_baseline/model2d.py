@@ -109,7 +109,7 @@ class Model():
         self.Params['Network']['Normlisation'] = 'OffsetMinMax'
 
         self.Params['Training'] = {}
-        self.Params['Training']['Number of sample points'] = 1e6
+        self.Params['Training']['Number of sample points'] = 2e5
         self.Params['Training']['Batch Size'] = 2000
         self.Params['Training']['Validation Percentage'] = 10
         self.Params['Training']['Number of Epochs'] = 5000
@@ -132,21 +132,21 @@ class Model():
         import shutil
         #import os
 
-        # # Specify the source and destination folders
-        # source_folder = './models/metric'
-        # destination_folder = self.folder+'/models'
-        # os.makedirs(destination_folder, exist_ok=True)
+        # Specify the source and destination folders
+        source_folder = '.'
+        destination_folder = self.folder+'/models'
+        os.makedirs(destination_folder, exist_ok=True)
 
-        # # Iterate over all the files in the source folder
-        # for filename in os.listdir(source_folder):
-        #     source_file = os.path.join(source_folder, filename)
-        #     destination_file = os.path.join(destination_folder, filename)
-            
-        #     # Copy the file to the destination folder
-        #     if os.path.isfile(source_file):
-        #         shutil.copy2(source_file, destination_file)
+        # Iterate over all the files in the source folder
+        for filename in os.listdir(source_folder):
+            source_file = os.path.join(source_folder, filename)
+            destination_file = os.path.join(destination_folder, filename)
 
-        # print("Files copied successfully!")
+            # Copy the file to the destination folder
+            if os.path.isfile(source_file):
+                shutil.copy2(source_file, destination_file)
+
+        print("Files copied successfully!")
         # Initialising the network
         #self._init_network()
         self.B = torch.normal(0,1,size=(128,self.dim))
@@ -228,7 +228,13 @@ class Model():
         prev_optimizer_queue = []
 
         for epoch in range(1, self.Params['Training']['Number of Epochs']+1):
+            t_0=time.time()
+
+            print_every = 1
+            start_time = time.time()
+            running_sample_count = 0
             total_train_loss = 0
+            total_val_loss = 0
             total_diff=0
             '''
             if epoch%100==0:
@@ -239,7 +245,7 @@ class Model():
             
 
             alpha = 0.8#0.95#0.95#min(max(0.5,0.5+0.5*step),1.05)
-            alpha = 1#min(max(0.5,0.5+0.5*step),1)
+            alpha = 1.0#min(max(0.5,0.5+0.5*step),1)
             step+=1.0/4000/((int)(epoch/4000)+1.)
             gamma=0.001#max((4000.0-epoch)/4000.0/20,0.001)
             mu = 10
@@ -255,11 +261,14 @@ class Model():
             
             aa = np.clip(1e-3*(1-(epoch-500)/1000.), a_min=5e-4, a_max=1e-3) 
             #print(aa)
-            self.optimizer.param_groups[0]['lr']  = 5e-4#aa#np.clip(1e-3*(1-(epoch-8000)/1000.), a_min=5e-4, a_max=1e-3) 
-            #self.optimizer.param_groups[0]['lr']  = np.clip(1e-3*(1-(epoch-500)/500.), a_min=5e-4, a_max=1e-3) 
+            self.optimizer.param_groups[0]['lr']  = 5e-4#aa#np.clip(1e-3*(1-(epoch-8000)/1000.), a_min=5e-4, a_max=1e-3)
+            #self.optimizer.param_groups[0]['lr']  = np.clip(1e-3*(1-(epoch-500)/500.), a_min=5e-4, a_max=1e-3)
             #1e-3 works
-
-
+            prev_lr = self.optimizer.param_groups[0]['lr']
+            t_1=time.time()
+            #print(t_1-t_0)
+            t_0=time.time()
+            #print(prev)
             prev_diff = current_diff
             iter=0
             while True:
@@ -267,14 +276,13 @@ class Model():
                 total_diff = 0
                 #for i in range(10):
                 ii = 0
-                num_chunks = 4
                 for i, wholedata in enumerate(dataloader,0):#train_loader_wei,dataloader
                     #print('----------------- Epoch {} - Batch {} --------------------'.format(epoch,i))
-                    if ii>num_chunks:
+                    if ii>4:
                         break
                     ii = ii+1
                     t0 = time.time()
-    
+
                     data = wholedata[0].to(self.Params['Device'])
                     #indexbatch = wholedata[1].to(self.Params['Device'])
                     #print(indexbatch)
@@ -287,21 +295,13 @@ class Model():
 
                     speed=alpha*speed+1-alpha
 
-
-                    # print("points " + str(points))
-                    # print("speed " + str(speed))
-
-
-                    loss_value, loss_n = self.function.Loss(points, speed, beta)
-                    
-                    # print("loss" + str(loss_value))
+                    loss_value, loss_n, wv = self.function.Loss(points, speed, beta)
 
                     #Lambda[indexbatch,:] = Lamb
                     t1 = time.time()
                     #print(t1-t0)
-                    
-                    t0 = time.time()
 
+                    t0 = time.time()
                     loss_value.backward()
 
                     # Update parameters
@@ -310,14 +310,34 @@ class Model():
 
                     total_train_loss += loss_value.item()
                     total_diff += loss_n.item()
-                    
+                    # total_train_loss = 0
+                    # total_diff = 0
+                    # def closure():
+                    #     self.optimizer.zero_grad()
+                    #     loss_value, loss_n, wv = self.function.Loss(points, speed, beta)
+                    #
+                    #     total_train_loss = loss_value.item()#.clone().detach()
+                    #     total_diff = loss_n.item()#.clone().detach()
 
-                    
-                    del points, speed, loss_value#, Lamb#,indexbatch
-                
-                
+                    #     loss_value.backward()
+                    #     return loss_value
+                    # self.optimizer.step(closure)
 
-                total_diff /= num_chunks#len(dataloader)#dataloader train_loader
+                    #print('')
+                    #print(loss_value.shape)
+
+                    t1 = time.time()
+                    #print(total_train_loss)
+
+                    #print(t1-t0)
+                    #print('')
+                    #weights[indexbatch] = wv
+
+                    del points, speed, loss_value, loss_n#, Lamb#,indexbatch
+
+
+                total_train_loss /= 4#len(dataloader)#dataloader train_loader
+                total_diff /= 4#len(dataloader)#dataloader train_loader
 
                 #total_train_loss /= len(dataloader)#dataloader train_loader
                 #total_diff /= len(dataloader)#dataloader train_loader

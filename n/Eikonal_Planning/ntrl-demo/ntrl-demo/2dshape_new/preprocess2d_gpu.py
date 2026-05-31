@@ -474,8 +474,8 @@ def visual_speed(start, speed, env_points, min):
 
 if __name__ == "__main__":
 
-    Fshape_scale = 0.25
-    doc = ezdxf.readfile("./datasets/FmazeEasy_norm.dxf")
+    Fshape_scale = 0.1
+    doc = ezdxf.readfile("./datasets/Fmaze2_norm.dxf")
     msp = doc.modelspace()
 
     Fshape_norm = dxf_to_shape("./datasets/Fshape_norm.dxf")
@@ -566,7 +566,7 @@ if __name__ == "__main__":
     y = np.column_stack((y0,y1))
 
 
-    out_path = "./training_data2d/Fshape_FmazeEasy"
+    out_path = "./testing_data2d/Fshape_FmazeEasy"
 
 
     np.save('{}/sampled_points'.format(out_path), x)

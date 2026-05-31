@@ -277,13 +277,13 @@ if __name__ == "__main__":
     dmin = 0.01
 
 
-    doc = ezdxf.readfile("./datasets/FmazeEasy_norm.dxf")
+    doc = ezdxf.readfile("./datasets/Fmaze3_norm.dxf")
     msp = doc.modelspace()
 
 
 
     start_time = time.time()
-    start, start_dist, speed, env_points = generate_training_data((int)(4e5),Fshape_points,msp,dmin,dmax)
+    start, start_dist, speed, env_points = generate_training_data((int)(4e3),Fshape_points,msp,dmin,dmax)
     end_time = time.time()
 
     # Calculate elapsed time
@@ -318,3 +318,4 @@ if __name__ == "__main__":
 
     np.save('{}/Easyenv'.format(out_path), env_points)
     print(env_points.shape)
+    print("done")
