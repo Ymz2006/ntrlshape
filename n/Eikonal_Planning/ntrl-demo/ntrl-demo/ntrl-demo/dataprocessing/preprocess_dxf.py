@@ -275,8 +275,16 @@ def evaluate_placements(configs, shape_tensor_points_h, environment_boundary_poi
 # ---------------------------------------------------------------------------
 def generate_valid_pairs(number_pairs, shape_tensor_points, msp,
                          margin, offset,
-                         batch_size=1000, device='cuda'):
-    """Sample ``number_pairs`` correlated (x0, x1) SE(2) placements.
+                         batch_size=1000, device='cuda', testing=False):
+    """Sample ``number_pairs`` (x0, x1) SE(2) placements.
+
+    Training mode (default): correlated pairs -- ``x0`` is drawn in the narrow
+    band ``offset < clearance < margin`` and ``x1`` is a random SE(2)
+    displacement away from it, kept iff collision-free with clearance > offset.
+
+    Testing mode (``testing=True``): ``x0`` and ``x1`` are *independent*,
+    uniformly-random placements, kept iff *both* are simply collision-free (no
+    clearance band, no correlation).  Use this to generate start/goal test pairs.
 
     Returns
     -------
@@ -317,18 +325,25 @@ def generate_valid_pairs(number_pairs, shape_tensor_points, msp,
         x0[:, 1].uniform_(-half_y, half_y)
         x0[:, 2].uniform_(-np.pi, np.pi)
 
-        # ── Sample correlated displacement to x1 in 2pi-normalized SE(2) ──
-        d = torch.rand(batch_size, 3) - 0.5
-        d = d / (torch.linalg.norm(d, dim=1, keepdim=True) + 1e-12)
-        rL = torch.rand(batch_size, 1) * sqrt3
-        delta = d * rL                                              # (B, 3) normalized
+        if testing:
+            # ── x1: a second, *independent* uniformly-random placement ──
+            x1 = torch.empty(batch_size, 3)
+            x1[:, 0].uniform_(-half_x, half_x)
+            x1[:, 1].uniform_(-half_y, half_y)
+            x1[:, 2].uniform_(-np.pi, np.pi)
+        else:
+            # ── Sample correlated displacement to x1 in 2pi-normalized SE(2) ──
+            d = torch.rand(batch_size, 3) - 0.5
+            d = d / (torch.linalg.norm(d, dim=1, keepdim=True) + 1e-12)
+            rL = torch.rand(batch_size, 1) * sqrt3
+            delta = d * rL                                          # (B, 3) normalized
 
-        x1 = x0.clone()
-        x1[:, 0] = x0[:, 0] + delta[:, 0]
-        x1[:, 1] = x0[:, 1] + delta[:, 1]
-        x1[:, 2] = x0[:, 2] + delta[:, 2] * two_pi                  # raw theta delta
-        # wrap theta back into [-pi, pi]
-        x1[:, 2] = ((x1[:, 2] + np.pi) % two_pi) - np.pi
+            x1 = x0.clone()
+            x1[:, 0] = x0[:, 0] + delta[:, 0]
+            x1[:, 1] = x0[:, 1] + delta[:, 1]
+            x1[:, 2] = x0[:, 2] + delta[:, 2] * two_pi             # raw theta delta
+            # wrap theta back into [-pi, pi]
+            x1[:, 2] = ((x1[:, 2] + np.pi) % two_pi) - np.pi
 
         # ── Both endpoints must be inside the xy bbox (theta wraps) ──
         in_bbox = (x1[:, 0].abs() <= half_x) & (x1[:, 1].abs() <= half_y)
@@ -343,10 +358,14 @@ def generate_valid_pairs(number_pairs, shape_tensor_points, msp,
         free1, dist1, normal1 = evaluate_placements(
             x1, shape_h, env_boundary, env_subtract, device)
 
-        # ── Asymmetric filtering (matches gibson sampler) ──
-        keep_x0 = free0 & (dist0 > offset) & (dist0 < margin)       # narrow band
-        keep_x1 = free1 & (dist1 > offset)                          # loose: just reachable
-        keep    = keep_x0 & keep_x1
+        if testing:
+            # ── Testing data: independent points, only require no collision ──
+            keep = free0 & free1 & (dist0 > offset) & (dist1 > offset)
+        else:
+            # ── Asymmetric filtering (matches gibson sampler) ──
+            keep_x0 = free0 & (dist0 > offset) & (dist0 < margin)   # narrow band
+            keep_x1 = free1 & (dist1 > offset)                      # loose: just reachable
+            keep    = keep_x0 & keep_x1
 
         nk = int(keep.sum())
         if nk == 0:
@@ -417,12 +436,12 @@ def main():
                         help='Output directory for the .npy training data.')
     parser.add_argument('--num_samples', type=int, default=400000,
                         help='Total number of sampled configs (split into pairs).')
-    parser.add_argument('--shape_scale', type=float, default=0.01,
+    parser.add_argument('--shape_scale', type=float, default=1,
                         help='Uniform scale applied to the F-shape (1.0 = baseline size, '
                              '<1 shrinks).')
     parser.add_argument('--margin', type=float, default=0.1,
                         help='Upper band: x0 must have clearance < margin; maps to speed=1.')
-    parser.add_argument('--offset', type=float, default=0.005,
+    parser.add_argument('--offset', type=float, default=0.01,
                         help='Lower band: x0 must have clearance > offset, '
                              'and x1 (paired goal) must also have clearance > offset. '
                              'Maps to the minimum speed value offset/margin.')
@@ -431,6 +450,10 @@ def main():
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--visualize', action='store_true',
                         help='Also save a debug plot of the sampled placements.')
+    parser.add_argument('--testing_data', action='store_true',
+                        help='Generate TEST pairs: x0 and x1 are independent, '
+                             'uniformly-random placements kept only if both are '
+                             'collision-free (no narrow-band / clearance filtering).')
     args = parser.parse_args()
 
     os.makedirs(args.out, exist_ok=True)
@@ -446,13 +469,16 @@ def main():
     # --num_samples is interpreted as the number of (x0, x1) training pairs.
     num_pairs = int(args.num_samples)
 
-    print('Sampling {} (x0, x1) pairs   margin={}  offset={}  ...'.format(
-        num_pairs, args.margin, args.offset))
+    mode = 'TESTING (independent collision-free pairs)' if args.testing_data \
+        else 'TRAINING (narrow-band correlated pairs)'
+    print('Sampling {} (x0, x1) pairs [{}]   margin={}  offset={}  ...'.format(
+        num_pairs, mode, args.margin, args.offset))
     t0 = time.time()
     pairs, env_points, dists, normals = generate_valid_pairs(
         num_pairs, triangles, msp,
         margin=args.margin, offset=args.offset,
-        batch_size=args.batch_size, device=args.device)
+        batch_size=args.batch_size, device=args.device,
+        testing=args.testing_data)
     print('Sampling done in {:.1f}s'.format(time.time() - t0))
 
     pairs = pairs.cpu().numpy()
@@ -502,6 +528,7 @@ def main():
         'margin':      float(args.margin),
         'offset':      float(args.offset),
         'theta_norm':  float(2 * np.pi),
+        'testing_data': bool(args.testing_data),
     }
     with open(os.path.join(args.out, 'meta.json'), 'w') as f:
         json.dump(meta, f, indent=2)

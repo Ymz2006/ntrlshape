@@ -5,6 +5,11 @@ pair at a time so each trajectory can be rendered with ``visual_training`` (the
 F-shape sweeping through the maze, start/goal poses marked in red).  Finishes
 with success/failure scatter plots and a histogram of failed-case speeds.
 
+All plots are saved as HTML files under ./output/ and served over HTTP on
+port 8080 so they can be viewed from a remote host:
+
+    http://<server-ip>:8080
+
 Run from the nested ntrl-demo root:
 
     python evaluate_training.py
@@ -14,32 +19,52 @@ import sys
 sys.path.append('.')
 
 import os
+import argparse
+import http.server
+import socketserver
+import threading
 from glob import glob
 from timeit import default_timer as timer
 
 import numpy as np
 import torch
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D  # noqa: F401  (enables 3-D projection)
+import plotly.graph_objects as go
 
 from models.metric import model_train_metric as md
 from dataprocessing.parse_shape import dxf_to_shape, shape_to_points
 from visualfunctions import visual_training
 
-COLLISION_THRESH = 0.001  # min distance from env boundary point to count as collision
+COLLISION_THRESH = 0.001
+HTTP_PORT = 8080
+
+parser = argparse.ArgumentParser(
+    description='Single-episode evaluation for the 2-D shape planner.')
+parser.add_argument('--dataPath', default='./testing_data/2dshape/Fmaze2_norm',
+                    help='Directory holding the test data (sampled_points.npy, '
+                         'speed.npy, env.npy) used as start/goal pairs.')
+parser.add_argument('--out', default='./output',
+                    help='Output directory for the rendered HTML plots (also the '
+                         'web root served over HTTP).')
+args = parser.parse_args()
+
+OUTPUT_DIR = args.out
+
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+# Clear stale artifacts from any previous run so old episode_*.html (with a
+# different success/fail suffix) don't linger alongside this run's output.
+for _stale in (glob(os.path.join(OUTPUT_DIR, 'episode_*.html'))
+               + glob(os.path.join(OUTPUT_DIR, 'summary_*.html'))
+               + glob(os.path.join(OUTPUT_DIR, 'success_rate.txt'))):
+    os.remove(_stale)
 
 
 def check_trajectory_collision(traj: list, env_pts: torch.Tensor) -> bool:
     """Return True if ANY waypoint in `traj` comes within COLLISION_THRESH of ANY
-    environment boundary point.  Only x, y (first 2 dims) are compared.
-
-    Args:
-        traj    : list of (1, dim) tensors — the recorded waypoints
-        env_pts : (N, 2) float tensor on CUDA — boundary point cloud
-    """
-    waypoints = torch.cat(traj, dim=0)[:, :2].cuda()   # (T, 2)
+    environment boundary point.  Only x, y (first 2 dims) are compared."""
+    waypoints = torch.cat(traj, dim=0)[:, :2].cuda()
     diff = waypoints.unsqueeze(1) - env_pts.unsqueeze(0)
-    dists = torch.norm(diff, dim=-1)                    # (T, N)
+    dists = torch.norm(diff, dim=-1)
     return dists.min().item() < COLLISION_THRESH
 
 
@@ -96,15 +121,21 @@ def MPPI(womodel, XP, dim):
 # Model & data setup
 # ──────────────────────────────────────────────────────────────────────────────
 modelPath = './Experiments/2dshape'
-dataPath = './datasets/2dshape/Fmaze2_norm'
+dataPath = args.dataPath
 
 womodel = md.Model(modelPath, dataPath, 3, [0.0, 0.0, 0.0], device='cuda')
 
-# Pick the most recent run folder and its highest-epoch checkpoint
-ckpts = sorted(glob(os.path.join(modelPath, '*', 'Model_Epoch_*.pt')))
-if not ckpts:
-    raise FileNotFoundError(f'No checkpoints found under {modelPath}/*/Model_Epoch_*.pt')
-pt = ckpts[-1]
+# Prefer the always-current latest.pt written every epoch by training; fall back
+# to the most recent timestamped Model_Epoch_*.pt checkpoint.
+latest = os.path.join(modelPath, 'latest.pt')
+if os.path.exists(latest):
+    pt = latest
+else:
+    ckpts = sorted(glob(os.path.join(modelPath, '*', 'Model_Epoch_*.pt')))
+    if not ckpts:
+        raise FileNotFoundError(
+            f'No latest.pt and no checkpoints under {modelPath}/*/Model_Epoch_*.pt')
+    pt = ckpts[-1]
 print(f'Loading checkpoint: {pt}')
 womodel.load(pt)
 womodel.network.eval()
@@ -114,7 +145,7 @@ arr_speeds = np.load(os.path.join(dataPath, 'speed.npy'))
 environment_boundary_points = np.load(os.path.join(dataPath, 'env.npy'))
 env_pts_cuda = torch.tensor(
     environment_boundary_points[:, :2], dtype=torch.float32, device='cuda'
-)   # (N, 2) — only x, y needed for 2-D collision check
+)
 Fshape_norm = dxf_to_shape('./datasets/2dshape/Fshape_norm.dxf')
 Fshape_points = shape_to_points(Fshape_norm)
 
@@ -128,9 +159,11 @@ for i in range(100):
 BASE = torch.tensor([[0, 0, 0, 0, 0, 0]]).cuda()
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Per-episode evaluation loop (with trajectory visualization)
+# Per-episode evaluation loop
 # ──────────────────────────────────────────────────────────────────────────────
 total = 0
+n_collision = 0
+n_no_conv = 0
 success_list = []
 fail_list = []
 test_list_speed_failed = []
@@ -159,61 +192,107 @@ for XP in test_list:
         cnt += 1
 
     begin_point = [XP[0][0].item(), XP[0][1].item(), XP[0][2].item() * 2 * np.pi]
-    end_point = [XP[0][3].item(), XP[0][4].item(), XP[0][5].item() * 2 * np.pi]
+    end_point   = [XP[0][3].item(), XP[0][4].item(), XP[0][5].item() * 2 * np.pi]
     start_list[0, 0] = XP[0][0].item()
     start_list[0, 1] = XP[0][1].item()
     start_list[0, 2] = XP[0][2].item() * 2 * np.pi
 
     speed_temp = np.full((len(point), 1), 0.5)
 
-    # Fail if the planner did not converge OR the trajectory clips the environment
     collision = check_trajectory_collision(point, env_pts_cuda)
+    ok = success and not collision
+
+    status = 'success' if ok else 'fail'
+    episode_path = os.path.join(OUTPUT_DIR, f'episode_{cnt2:03d}_{status}.html')
     visual_training(start=start_list, shape_points=Fshape_points,
                     env_points=environment_boundary_points,
                     cnt=len(point), speed=speed_temp, vmin=0.2,
-                    begin_point=begin_point, end_point=end_point)
-    if success and not collision:
+                    begin_point=begin_point, end_point=end_point,
+                    save_path=episode_path)
+
+    if ok:
         success_list.append(diff)
         print("success")
         total += 1
     else:
         fail_list.append(diff)
         reason = "collision" if collision else "no convergence"
-        print("fail (" + reason + ")")
+        if collision:
+            n_collision += 1
+        else:
+            n_no_conv += 1
+        print(f"fail ({reason})")
         test_list_speed_failed.append(test_list_speed[cnt2])
-        # visual_training(start=start_list, shape_points=Fshape_points,
-        #                 env_points=environment_boundary_points,
-        #                 cnt=len(point), speed=speed_temp, vmin=0.2,
-        #                 begin_point=begin_point, end_point=end_point)
 
     cnt2 += 1
 
-print("total:" + str(total))
+n_total = len(test_list)
+success_rate = total / n_total if n_total else 0.0
+print(f"total: {total} / {n_total}  ({success_rate:.1%})")
+
+# Success-rate summary written into the output directory.
+summary_lines = [
+    f"data_path     : {dataPath}",
+    f"model_path    : {modelPath}",
+    f"checkpoint    : {pt}",
+    f"episodes      : {n_total}",
+    f"successes     : {total}",
+    f"failures      : {n_total - total}",
+    f"  collision   : {n_collision}",
+    f"  no_converge : {n_no_conv}",
+    f"success_rate  : {success_rate:.4f}  ({success_rate:.1%})",
+]
+with open(os.path.join(OUTPUT_DIR, 'success_rate.txt'), 'w') as f:
+    f.write('\n'.join(summary_lines) + '\n')
+print('Wrote ' + os.path.join(OUTPUT_DIR, 'success_rate.txt'))
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Summary scatter / histogram plots
+# Summary plots
 # ──────────────────────────────────────────────────────────────────────────────
 success_list = np.array(success_list)
 fail_list = np.array(fail_list)
 
 if success_list.size:
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(success_list[:, 0], success_list[:, 1], success_list[:, 2])
-    ax.set_title('Successes')
-    plt.show()
+    fig = go.Figure(go.Scatter3d(
+        x=success_list[:, 0], y=success_list[:, 1], z=success_list[:, 2],
+        mode='markers',
+        marker=dict(size=4, color='green', opacity=0.8),
+    ))
+    fig.update_layout(title='Successes', scene=dict(
+        xaxis_title='dx', yaxis_title='dy', zaxis_title='dtheta'))
+    fig.write_html(os.path.join(OUTPUT_DIR, 'summary_success.html'), include_plotlyjs='cdn')
 
 if fail_list.size:
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(fail_list[:, 0], fail_list[:, 1], fail_list[:, 2])
-    ax.set_title('Failures')
-    plt.show()
+    fig = go.Figure(go.Scatter3d(
+        x=fail_list[:, 0], y=fail_list[:, 1], z=fail_list[:, 2],
+        mode='markers',
+        marker=dict(size=4, color='red', opacity=0.8),
+    ))
+    fig.update_layout(title='Failures', scene=dict(
+        xaxis_title='dx', yaxis_title='dy', zaxis_title='dtheta'))
+    fig.write_html(os.path.join(OUTPUT_DIR, 'summary_failures.html'), include_plotlyjs='cdn')
 
 if test_list_speed_failed:
-    plt.hist(test_list_speed_failed, bins=10, color='skyblue', edgecolor='black', alpha=0.7)
-    plt.title('Distribution of Speed Failed')
-    plt.xlabel('Speed Value')
-    plt.ylabel('Frequency')
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.show()
+    fig = go.Figure(go.Histogram(
+        x=test_list_speed_failed, nbinsx=10,
+        marker=dict(color='skyblue', line=dict(color='black', width=1)),
+        opacity=0.7,
+    ))
+    fig.update_layout(
+        title='Distribution of Speed (Failed Cases)',
+        xaxis_title='Speed Value',
+        yaxis_title='Frequency',
+        bargap=0.05,
+    )
+    fig.write_html(os.path.join(OUTPUT_DIR, 'summary_speed_failed.html'), include_plotlyjs='cdn')
+
+
+
+os.chdir(OUTPUT_DIR)
+handler = http.server.SimpleHTTPRequestHandler
+http.server.ThreadingHTTPServer.allow_reuse_address = True
+with http.server.ThreadingHTTPServer(("", HTTP_PORT), handler) as httpd:
+    print(f"\nPlots saved to {OUTPUT_DIR}/")
+    print(f"Serving at http://0.0.0.0:{HTTP_PORT}  —  open this on your host PC")
+    print("Press Ctrl-C to stop.\n")
+    httpd.serve_forever()

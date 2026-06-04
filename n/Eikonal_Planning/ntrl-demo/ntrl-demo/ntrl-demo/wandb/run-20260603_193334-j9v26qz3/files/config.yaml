@@ -1,0 +1,93 @@
+_wandb:
+    value:
+        cli_version: 0.27.0
+        e:
+            wj6gmwle1akgohws6n3lrijei1z22uy9:
+                args:
+                    - --dataPath
+                    - datasets/2dshape/Fshape_FmazeEasy
+                codePath: train/train_2dshape.py
+                codePathLocal: train/train_2dshape.py
+                cpu_count: 18
+                cpu_count_logical: 36
+                cudaVersion: "12.2"
+                disk:
+                    /:
+                        total: "995891556352"
+                        used: "816079802368"
+                email: jeffreyzhou123@gmail.com
+                executable: /opt/conda/bin/python
+                gpu: NVIDIA GeForce RTX 3090
+                gpu_count: 3
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 10496
+                      memoryTotal: "25769803776"
+                      name: NVIDIA GeForce RTX 3090
+                      uuid: GPU-af503d7e-ccad-9f33-694d-6ca70b37a23c
+                    - architecture: Ampere
+                      cudaCores: 10496
+                      memoryTotal: "25769803776"
+                      name: NVIDIA GeForce RTX 3090
+                      uuid: GPU-61ee0c47-26dc-ea41-d52a-6783c984416e
+                    - architecture: Ampere
+                      cudaCores: 10496
+                      memoryTotal: "25769803776"
+                      name: NVIDIA GeForce RTX 3090
+                      uuid: GPU-66ecac45-3eba-9b31-d32f-fcd23b850417
+                host: 4e7cb9d82946
+                memory:
+                    total: "134737866752"
+                os: Linux-5.4.0-216-generic-x86_64-with-glibc2.35
+                program: /workspace/ntrl-demo/train/train_2dshape.py
+                python: CPython 3.10.14
+                root: /workspace/ntrl-demo
+                startedAt: "2026-06-03T19:33:34.143623Z"
+                writerId: wj6gmwle1akgohws6n3lrijei1z22uy9
+        m: []
+        python_version: 3.10.14
+        t:
+            "1":
+                - 1
+            "2":
+                - 1
+            "3":
+                - 2
+                - 16
+                - 61
+            "4": 3.10.14
+            "5": 0.27.0
+            "12": 0.27.0
+            "13": linux-x86_64
+data_path:
+    value: datasets/2dshape/Fshape_FmazeEasy
+device:
+    value: cuda:0
+dim:
+    value: 3
+model_path:
+    value: ./Experiments/2dshape
+task:
+    value: 2dshape
+train/Batch Size:
+    value: 2000
+train/Learning Rate:
+    value: 0.001
+train/Number of Epochs:
+    value: 5000
+train/Number of sample points:
+    value: 200000
+train/Print Every * Epoch:
+    value: 1
+train/Random Distance Sampling:
+    value: true
+train/Resampling Bounds:
+    value:
+        - 0.1
+        - 0.9
+train/Save Every * Epoch:
+    value: 100
+train/Use Scheduler (bool):
+    value: false
+train/Validation Percentage:
+    value: 10

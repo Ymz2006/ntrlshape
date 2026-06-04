@@ -37,6 +37,14 @@ torch.backends.cudnn.benchmark = True
 import os
 from datetime import datetime, timedelta
 
+# Optional Weights & Biases logging. Logging calls below are guarded by
+# ``wandb.run is not None`` so they are a no-op unless a trainer started a run
+# (see train/wandb_utils.py) -- trainers that don't use wandb are unaffected.
+try:
+    import wandb
+except ImportError:
+    wandb = None
+
 
 class FastTensorDataLoader:
     """
@@ -115,8 +123,8 @@ class Model():
         self.Params['Training']['Number of Epochs'] = 5000
         self.Params['Training']['Resampling Bounds'] = [0.1, 0.9]
         self.Params['Training']['Print Every * Epoch'] = 1
-        self.Params['Training']['Save Every * Epoch'] = 100
-        self.Params['Training']['Learning Rate'] = 1e-3#5e-5
+        self.Params['Training']['Save Every * Epoch'] = 500
+        self.Params['Training']['Learning Rate'] = 5e-5
         self.Params['Training']['Random Distance Sampling'] = True
         self.Params['Training']['Use Scheduler (bool)'] = False
 
@@ -376,7 +384,16 @@ class Model():
                 
             #'''
             self.total_train_loss.append(total_train_loss)
-            
+
+            if wandb is not None and wandb.run is not None:
+                wandb.log({
+                    'epoch': epoch,
+                    'loss': total_diff,
+                    'train_loss': total_train_loss,
+                    'alpha': alpha,
+                    'lr': self.optimizer.param_groups[0]['lr'],
+                }, step=epoch)
+
             beta = 1.0/total_diff
             
             t_1=time.time()
@@ -402,6 +419,10 @@ class Model():
                 #self.function.plot(epoch,total_diff,alpha, self.source)
                 with torch.no_grad():
                     self.save(epoch=epoch, val_loss=total_diff)
+                    # Always-current checkpoint: overwritten on the same cadence so
+                    # it is always the most recent model. Loaded by default in the
+                    # evaluate scripts.
+                    self.save_latest(epoch=epoch, val_loss=total_diff)
         
         #points = self.dataset.data[:,:2*self.dim]
         #T, w, Xp = self.network.out(points.cuda())
@@ -417,6 +438,21 @@ class Model():
                     'B_state_dict':self.B,
                     'train_loss': self.total_train_loss,
                     'val_loss': self.total_val_loss}, '{}/Model_Epoch_{}_ValLoss_{:.6e}.pt'.format(self.folder, str(epoch).zfill(5), val_loss))
+
+    def save_latest(self, epoch='', val_loss=''):
+        '''
+            Save / overwrite a single always-current checkpoint (latest.pt).
+            Written under both the run folder and the top-level ModelPath so the
+            evaluate scripts can pick it up as a stable default.
+        '''
+        ckpt = {'epoch': epoch,
+                'model_state_dict': self.network.state_dict(),
+                'optimizer_state_dict': self.optimizer.state_dict(),
+                'B_state_dict': self.B,
+                'train_loss': self.total_train_loss,
+                'val_loss': self.total_val_loss}
+        torch.save(ckpt, '{}/latest.pt'.format(self.folder))
+        torch.save(ckpt, '{}/latest.pt'.format(self.Params['ModelPath']))
 
     def load(self, filepath):
         #B = torch.load(self.Params['ModelPath']+'/B.pt')
