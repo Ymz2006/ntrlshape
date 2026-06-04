@@ -219,7 +219,7 @@ else:
     pt = ckpts[-1]
 print(f'Loading checkpoint: {pt}')
 
-pt = "./Experiments/3dshape/3dshape_06_03_16_51/Model_Epoch_04500_ValLoss_1.505382e-03.pt"
+
 womodel.load(pt)
 womodel.network.eval()
 
