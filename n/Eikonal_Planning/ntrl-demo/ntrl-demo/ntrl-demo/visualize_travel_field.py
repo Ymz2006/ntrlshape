@@ -158,10 +158,10 @@ def main():
                         help='Training run folder; overrides --pt for the multi-epoch view.')
     parser.add_argument('--env', default=DEFAULT_ENV)
     parser.add_argument('--fshape', default=DEFAULT_FSHAPE)
-    parser.add_argument('--x0', type=float, default=0.0, help='origin x')
-    parser.add_argument('--y0', type=float, default=0.0, help='origin y')
-    parser.add_argument('--theta0', type=float, default=0, help='origin theta (rad)')
-    parser.add_argument('--theta_vis', type=float, default=0,
+    parser.add_argument('--x0', type=float, default=0.48, help='origin x')
+    parser.add_argument('--y0', type=float, default=-0.1, help='origin y')
+    parser.add_argument('--theta0', type=float, default=1.57, help='origin theta (rad)')
+    parser.add_argument('--theta_vis', type=float, default=1.57,
                         help='fixed destination theta (rad)')
     parser.add_argument('--grid_n', type=int, default=120, help='grid resolution')
     parser.add_argument('--iso', type=int, default=12, help='# isochrone levels')

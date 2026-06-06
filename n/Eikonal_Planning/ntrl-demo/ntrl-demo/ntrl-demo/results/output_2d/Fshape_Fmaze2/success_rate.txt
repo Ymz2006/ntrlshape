@@ -2,8 +2,8 @@ data_path     : testing_data/2dshape/Fshape_Fmaze2
 model_path    : ./Experiments/2dshape
 checkpoint    : ./Experiments/2dshape/latest.pt
 episodes      : 100
-successes     : 80
-failures      : 20
-  collision   : 0
-  no_converge : 20
-success_rate  : 0.8000  (80.0%)
+successes     : 94
+failures      : 6
+  collision   : 2
+  no_converge : 4
+success_rate  : 0.9400  (94.0%)

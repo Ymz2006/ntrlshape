@@ -1,0 +1,26 @@
+wandb run: northern-wildflower-12 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/j3h7hv4m)
+Files copied successfully!
+torch.Size([128, 6])
+train
+(400000, 12)
+(400000, 2)
+(400000, 12)
+(400000, 12) (400000, 2)
+tensor(-0.9999)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+Epoch = 1 -- Loss = 8.0652e-02 -- Alpha = 1.0000e+00
+Epoch = 2 -- Loss = 7.4686e-02 -- Alpha = 1.0000e+00
+Epoch = 3 -- Loss = 7.0328e-02 -- Alpha = 1.0000e+00
+Epoch = 4 -- Loss = 6.4645e-02 -- Alpha = 1.0000e+00
+Epoch = 5 -- Loss = 5.8272e-02 -- Alpha = 1.0000e+00
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 50, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 327, in train
+    loss_value.backward()
+  File "/opt/conda/lib/python3.10/site-packages/torch/_tensor.py", line 522, in backward
+    torch.autograd.backward(
+  File "/opt/conda/lib/python3.10/site-packages/torch/autograd/__init__.py", line 266, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt

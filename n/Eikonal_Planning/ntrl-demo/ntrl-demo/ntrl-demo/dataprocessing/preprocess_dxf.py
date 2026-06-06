@@ -445,7 +445,7 @@ def main():
                         help='Lower band: x0 must have clearance > offset, '
                              'and x1 (paired goal) must also have clearance > offset. '
                              'Maps to the minimum speed value offset/margin.')
-    parser.add_argument('--batch_size', type=int, default=1000,
+    parser.add_argument('--batch_size', type=int, default=10000,
                         help='Sampling batch size (each batch evaluates 2x configs).')
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--visualize', action='store_true',

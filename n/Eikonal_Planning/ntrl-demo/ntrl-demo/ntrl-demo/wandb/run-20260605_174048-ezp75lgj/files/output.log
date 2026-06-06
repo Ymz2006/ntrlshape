@@ -1,0 +1,36 @@
+wandb run: flowing-firebrand-13 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/ezp75lgj)
+Files copied successfully!
+torch.Size([128, 6])
+train
+(400000, 12)
+(400000, 2)
+(400000, 12)
+(400000, 12) (400000, 2)
+tensor(-0.9999)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+Epoch = 1 -- Loss = 8.1745e-02 -- Alpha = 1.0000e+00
+Epoch = 2 -- Loss = 7.8445e-02 -- Alpha = 1.0000e+00
+Epoch = 3 -- Loss = 7.2542e-02 -- Alpha = 1.0000e+00
+Epoch = 4 -- Loss = 7.0366e-02 -- Alpha = 1.0000e+00
+Epoch = 5 -- Loss = 6.4144e-02 -- Alpha = 1.0000e+00
+Epoch = 6 -- Loss = 5.7406e-02 -- Alpha = 1.0000e+00
+Epoch = 7 -- Loss = 5.4623e-02 -- Alpha = 1.0000e+00
+Epoch = 8 -- Loss = 4.8252e-02 -- Alpha = 1.0000e+00
+Epoch = 9 -- Loss = 4.2290e-02 -- Alpha = 1.0000e+00
+Epoch = 10 -- Loss = 3.3961e-02 -- Alpha = 1.0000e+00
+Epoch = 11 -- Loss = 2.5283e-02 -- Alpha = 1.0000e+00
+Epoch = 12 -- Loss = 1.5932e-02 -- Alpha = 1.0000e+00
+Epoch = 13 -- Loss = 8.9054e-03 -- Alpha = 1.0000e+00
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 50, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 281, in train
+    current_optimizer = pickle.loads(pickle.dumps(self.optimizer.state_dict()))
+  File "/opt/conda/lib/python3.10/site-packages/torch/storage.py", line 371, in _load_from_bytes
+    return torch.load(io.BytesIO(b))
+  File "/opt/conda/lib/python3.10/site-packages/torch/serialization.py", line 1040, in load
+    return _legacy_load(opened_file, map_location, pickle_module, **pickle_load_args)
+  File "/opt/conda/lib/python3.10/site-packages/torch/serialization.py", line 1276, in _legacy_load
+    typed_storage._untyped_storage._set_from_file(
+KeyboardInterrupt

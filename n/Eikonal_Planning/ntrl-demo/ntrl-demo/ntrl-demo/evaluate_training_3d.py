@@ -4,17 +4,22 @@
 configuration space is ``(x, y, z, rx, ry, rz)`` (dim = 6, rotvec stored
 normalized by 2*pi -- exactly what ``dataprocessing/preprocess_obj.py`` writes).
 
-Each episode is rendered with plotly using the same visualization choices as
-``preprocess_obj.visual_training``: the environment is drawn as sampled grey
-points, the walls as a translucent mesh, and the moving shape is drawn as its
-actual transformed ``Mesh3d`` at every trajectory waypoint (colored by progress
-along the path), with the start pose in red and the goal pose in green.  The
-view is oriented y-up.
+Each episode is rendered interactively with `viser`.  Unlike the old plotly
+version, the environment is drawn as its actual triangle *mesh* (obstacles solid
+grey, walls translucent) rather than as sampled points.  The moving shape is
+drawn as its actual transformed mesh at every trajectory waypoint (colored by
+progress along the path), with the start pose in red and the goal pose in green.
+The view is oriented y-up.
 
-All plots are saved as HTML files under ./output_3d/ and served over HTTP on
-port 8080 so they can be viewed from a remote host:
+A viser server is launched on port 8080; episodes are browsed with a dropdown in
+the viewer GUI.  Open it from a remote host with:
 
     http://<server-ip>:8080
+
+(Summary scatter/histogram plots are still written as plotly HTML files under
+./output_3d/ for offline inspection.)
+
+Requires ``viser`` (``pip install viser``).
 
 Run from the nested ntrl-demo root:
 
@@ -26,14 +31,14 @@ sys.path.append('.')
 
 import os
 import json
+import time
 import argparse
-import http.server
-import socketserver
 from glob import glob
 from timeit import default_timer as timer
 
 import numpy as np
 import torch
+import viser
 import plotly.graph_objects as go
 
 from models.metric import model_train_metric as md
@@ -132,70 +137,93 @@ def _placed_mesh(shape_V, cfg):
     return shape_V @ R.T + cfg[0:3]
 
 
-def visual_trajectory(waypoints, shape_V, shape_F, env_points, wall_V, wall_F,
-                      begin_cfg, end_cfg, save_path):
-    """Render one MPPI trajectory of shape meshes, plotly, y-up.
+def _progress_color(t):
+    """Map a progress value t in [0, 1] to an RGB tuple of ints (viridis)."""
+    try:
+        import matplotlib.cm as cm
+        r, g, b, _ = cm.get_cmap('viridis')(float(t))
+    except Exception:
+        # Fallback: simple blue -> yellow ramp if matplotlib is unavailable.
+        r, g, b = float(t), float(t), 1.0 - float(t)
+    return (int(r * 255), int(g * 255), int(b * 255))
 
-    Mirrors ``preprocess_obj.visual_training``: translucent walls, grey env
-    points, and the moving shape as a combined ``Mesh3d`` colored (here) by
-    progress along the path; start pose red, goal pose green.
 
-    Parameters
-    ----------
-    waypoints : (T, 6)  poses [x, y, z, rx, ry, rz] (rotvec in radians)
+def add_environment(server, env_V, obst_F, wall_F):
+    """Draw the environment as its actual triangle mesh (static scene).
+
+    Obstacles are solid grey; walls are translucent light-blue.  This replaces
+    the old sampled-point cloud rendering.
     """
-    traces = []
+    if len(obst_F) > 0:
+        server.scene.add_mesh_simple(
+            '/env/obstacles', vertices=env_V, faces=obst_F,
+            color=(150, 150, 150), opacity=1.0, flat_shading=True, side='double')
+    if len(wall_F) > 0:
+        server.scene.add_mesh_simple(
+            '/env/walls', vertices=env_V, faces=wall_F,
+            color=(173, 216, 230), opacity=0.15, flat_shading=True, side='double')
 
-    # ── Walls: translucent mesh ──
-    if wall_V is not None and wall_F is not None and len(wall_F) > 0:
-        traces.append(go.Mesh3d(
-            x=wall_V[:, 0], y=wall_V[:, 1], z=wall_V[:, 2],
-            i=wall_F[:, 0], j=wall_F[:, 1], k=wall_F[:, 2],
-            color='lightblue', opacity=0.15, name='walls', flatshading=True))
 
-    # ── Environment: sampled surface points ──
-    if len(env_points) > 0:
-        sub = env_points[np.random.choice(
-            len(env_points), size=min(len(env_points), 8000), replace=False)]
-        traces.append(go.Scatter3d(
-            x=sub[:, 0], y=sub[:, 1], z=sub[:, 2], mode='markers',
-            name='environment', marker=dict(size=1.5, color='grey', opacity=0.3)))
+def render_episode(server, ep, shape_V, shape_F):
+    """Add the moving-shape sweep + start/goal poses for one episode.
 
-    # ── Trajectory: shape mesh at every waypoint, colored by progress ──
+    The shape mesh is drawn at every waypoint, colored by progress along the
+    path; the start pose is red and the goal pose is green.  Returns the list of
+    scene handles so the caller can remove them before rendering the next episode.
+
+    ``ep['waypoints']`` is a (T, 6) array of poses [x, y, z, rx, ry, rz] (rotvec
+    in radians).
+    """
+    handles = []
+    waypoints = ep['waypoints']
     T = len(waypoints)
-    nv = shape_V.shape[0]
-    verts_all, faces_all, inten_all = [], [], []
     for t in range(T):
-        verts_all.append(_placed_mesh(shape_V, waypoints[t]))
-        faces_all.append(shape_F + t * nv)
-        inten_all.append(np.full(nv, t / max(T - 1, 1)))
-    if verts_all:
-        V = np.concatenate(verts_all, 0)
-        Fc = np.concatenate(faces_all, 0)
-        inten = np.concatenate(inten_all, 0)
-        traces.append(go.Mesh3d(
-            x=V[:, 0], y=V[:, 1], z=V[:, 2],
-            i=Fc[:, 0], j=Fc[:, 1], k=Fc[:, 2],
-            intensity=inten, colorscale='Viridis', cmin=0.0, cmax=1.0,
-            opacity=0.5, name='trajectory', flatshading=True,
-            colorbar=dict(title='path progress')))
+        Vp = _placed_mesh(shape_V, waypoints[t])
+        handles.append(server.scene.add_mesh_simple(
+            f'/episode/traj/{t:04d}', vertices=Vp, faces=shape_F,
+            color=_progress_color(t / max(T - 1, 1)), opacity=0.5,
+            flat_shading=True, side='double'))
 
-    # ── Start (red) and goal (green) poses ──
-    for cfg, col, nm in [(begin_cfg, 'red', 'start'), (end_cfg, 'green', 'goal')]:
+    for cfg, col, nm in [(ep['begin_cfg'], (220, 30, 30), 'start'),
+                         (ep['end_cfg'], (30, 180, 30), 'goal')]:
         if cfg is None:
             continue
         Vp = _placed_mesh(shape_V, cfg)
-        traces.append(go.Mesh3d(
-            x=Vp[:, 0], y=Vp[:, 1], z=Vp[:, 2],
-            i=shape_F[:, 0], j=shape_F[:, 1], k=shape_F[:, 2],
-            color=col, opacity=0.9, name=nm, flatshading=True))
+        handles.append(server.scene.add_mesh_simple(
+            f'/episode/{nm}', vertices=Vp, faces=shape_F,
+            color=col, opacity=0.9, flat_shading=True, side='double'))
+    return handles
 
-    fig = go.Figure(traces)
-    fig.update_layout(
-        title='Trajectory (shape sweep, start=red goal=green)',
-        scene=dict(xaxis_title='x', yaxis_title='y', zaxis_title='z',
-                   aspectmode='data', camera=dict(up=dict(x=0, y=1, z=0))))
-    fig.write_html(save_path, include_plotlyjs='cdn')
+
+def launch_viser(episodes, shape_V, shape_F, env_V, obst_F, wall_F):
+    """Serve an interactive viser scene with a dropdown to browse episodes."""
+    server = viser.ViserServer(host='0.0.0.0', port=HTTP_PORT)
+    server.scene.set_up_direction('+y')
+
+    add_environment(server, env_V, obst_F, wall_F)
+
+    options = [f"{ep['idx']:03d}_{ep['status']}" for ep in episodes]
+    dropdown = server.gui.add_dropdown('Episode', options=options)
+
+    current = []
+
+    def show(i):
+        for h in current:
+            h.remove()
+        current.clear()
+        current.extend(render_episode(server, episodes[i], shape_V, shape_F))
+
+    @dropdown.on_update
+    def _(_):
+        show(options.index(dropdown.value))
+
+    if episodes:
+        show(0)
+
+    print(f"\nServing viser at http://0.0.0.0:{HTTP_PORT}  —  open this on your host PC")
+    print("Use the 'Episode' dropdown to browse. Press Ctrl-C to stop.\n")
+    while True:
+        time.sleep(10)
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -217,6 +245,7 @@ else:
         raise FileNotFoundError(
             f'No latest.pt and no checkpoints under {modelPath}/*/Model_Epoch_*.pt')
     pt = ckpts[-1]
+pt = './Experiments/3dshape/3dshape_06_05_12_15/latest.pt'
 print(f'Loading checkpoint: {pt}')
 
 
@@ -246,6 +275,7 @@ V_env, F_env, names_env = load_obj(meta['env_obj'])
 V_env_n = (V_env - env_center) / env_scale
 wall_mask = np.array(['wall' in str(n).lower() for n in names_env])
 wall_F = F_env[wall_mask]
+obst_F = F_env[~wall_mask]
 
 test_list = []
 test_list_speed = []
@@ -265,6 +295,7 @@ n_no_conv = 0
 success_list = []
 fail_list = []
 test_list_speed_failed = []
+episodes = []          # per-episode data for the interactive viser viewer
 
 two_pi = 2 * np.pi
 cnt2 = 0
@@ -295,9 +326,13 @@ for XP in test_list:
     ok = success and not collision
 
     status = 'success' if ok else 'fail'
-    episode_path = os.path.join(OUTPUT_DIR, f'episode_{cnt2:03d}_{status}.html')
-    visual_trajectory(waypoints, shape_V, shape_F, environment_boundary_points,
-                      V_env_n, wall_F, begin_cfg, end_cfg, save_path=episode_path)
+    episodes.append({
+        'idx': cnt2,
+        'status': status,
+        'waypoints': waypoints,
+        'begin_cfg': begin_cfg,
+        'end_cfg': end_cfg,
+    })
 
     if ok:
         success_list.append(diff[:3])
@@ -368,12 +403,7 @@ if test_list_speed_failed:
     fig.write_html(os.path.join(OUTPUT_DIR, 'summary_speed_failed.html'), include_plotlyjs='cdn')
 
 # ──────────────────────────────────────────────────────────────────────────────
-# HTTP server — browse to http://<server-ip>:8080 from your host PC
+# Interactive viser viewer — browse to http://<server-ip>:8080 from your host PC
 # ──────────────────────────────────────────────────────────────────────────────
-os.chdir(OUTPUT_DIR)
-handler = http.server.SimpleHTTPRequestHandler
-with socketserver.TCPServer(("", HTTP_PORT), handler) as httpd:
-    print(f"\nPlots saved to {OUTPUT_DIR}/")
-    print(f"Serving at http://0.0.0.0:{HTTP_PORT}  —  open this on your host PC")
-    print("Press Ctrl-C to stop.\n")
-    httpd.serve_forever()
+print(f"\nSummary plots saved to {OUTPUT_DIR}/")
+launch_viser(episodes, shape_V, shape_F, V_env_n, obst_F, wall_F)
