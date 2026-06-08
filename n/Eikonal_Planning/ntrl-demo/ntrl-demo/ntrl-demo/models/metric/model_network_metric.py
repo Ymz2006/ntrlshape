@@ -1,3 +1,4 @@
+# hi
 import matplotlib
 import numpy as np
 import math
@@ -26,7 +27,7 @@ from timeit import default_timer as timer
 
 torch.backends.cudnn.benchmark = True
 
-
+#3dnewserver
 def sigmoid_out(input):
  
     return torch.sigmoid(0.1*input)

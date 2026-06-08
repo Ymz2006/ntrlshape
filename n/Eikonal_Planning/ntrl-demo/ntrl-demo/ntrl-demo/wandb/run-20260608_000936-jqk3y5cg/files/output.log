@@ -1,0 +1,23 @@
+wandb run: eager-donkey-18 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/jqk3y5cg)
+Files copied successfully!
+torch.Size([128, 9])
+train
+(400000, 12)
+(400000, 2)
+(400000, 12)
+(400000, 12) (400000, 2)
+tensor(-0.9999)
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 50, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 324, in train
+    loss_value, loss_n, wv = self.function.Loss(points, speed, normal, beta, gamma, epoch)
+  File "/workspace/ntrl-demo/./models/metric/model_function_metric.py", line 78, in Loss
+    tau, w, Xp = self.network.out(points)
+  File "/workspace/ntrl-demo/./models/metric/model_network_metric.py", line 166, in out
+    x = self.input_mapping(x)
+  File "/workspace/ntrl-demo/./models/metric/model_network_metric.py", line 142, in input_mapping
+    x = self.expand_config(x)            # (N,6) -> (N,9): xyz + first 2 R cols
+  File "/workspace/ntrl-demo/./models/metric/model_network_metric.py", line 139, in expand_config
+    return torch.cat([x, torch.zeros(x.shape[0],3)], dim=1)
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu! (when checking argument for argument tensors in method wrapper_CUDA_cat)

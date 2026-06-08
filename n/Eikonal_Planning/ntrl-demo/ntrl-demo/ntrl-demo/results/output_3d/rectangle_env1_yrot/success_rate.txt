@@ -1,9 +1,9 @@
 data_path     : testing_data/3dshape/rectangle_env1_yrot
 model_path    : ./Experiments/3dshape
-checkpoint    : ./pretrained/baseline_rectangle_env1_yrot.pt
+checkpoint    : ./Experiments/3dshape/latest.pt
 episodes      : 100
-successes     : 86
-failures      : 14
+successes     : 56
+failures      : 44
   collision   : 0
-  no_converge : 14
-success_rate  : 0.8600  (86.0%)
+  no_converge : 44
+success_rate  : 0.5600  (56.0%)
