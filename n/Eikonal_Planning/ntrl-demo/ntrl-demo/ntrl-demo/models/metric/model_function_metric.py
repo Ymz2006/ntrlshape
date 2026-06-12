@@ -72,28 +72,12 @@ class Function():
         
         return grad_x                                                                                                    
     
-    def Loss(self, points, Yobs, normal, beta, gamma, epoch):
+    def Loss(self, points, Yobs, normal, beta, gamma, epoch, speed_dist, speed_angle):
         
-        start=time.time()
         tau, w, Xp = self.network.out(points)
         dtau = self.gradient(tau, Xp)
-        end=time.time()
-        
-        #print(end-start)
 
-        start=time.time()
-        
-        
-        #tau, dtau, Xp = self.network.out_grad(points)
-        
-        end=time.time()
-        #print(end-start)
-        #print(dtau)
 
-        #print(end-start)
-        #print('')
-        #y-x
-        #D = Xp[:,self.dim:]-Xp[:,:self.dim]
         
         D = torch.norm(Xp[:,self.dim:]-Xp[:,:self.dim], p=2, dim =1)
         
@@ -105,7 +89,30 @@ class Function():
         S0 = torch.einsum('ij,ij->i', DT0, DT0)
         S1 = torch.einsum('ij,ij->i', DT1, DT1)
 
-        td_weight = 1e-3#np.clip(1e-2*(1-(epoch)/300.), a_min=1e-3, a_max=1e-2) #2e-3
+
+        half_dim = 3
+        DT0_dist = dtau[:,:half_dim]
+        DT0_ang = dtau[:,half_dim : self.dim]
+        DT1_dist = dtau[:,self.dim : self.dim+half_dim]        
+        DT1_ang = dtau[:,self.dim+half_dim:]  
+
+        DT0_dist_mag = torch.einsum('ij,ij->i', DT0_dist, DT0_dist)
+        DT0_ang_mag = torch.einsum('ij,ij->i', DT0_ang, DT0_ang)
+        DT1_dist_mag = torch.einsum('ij,ij->i', DT1_dist, DT1_dist)      
+        DT1_ang_mag = torch.einsum('ij,ij->i', DT1_ang, DT1_ang)
+
+        LT0_dist_mag = torch.sqrt(DT0_dist_mag + 1e-8) * speed_dist[:,0] -1
+        LT0_ang_mag = torch.sqrt(DT0_ang_mag + 1e-8) * speed_angle[:,0] -1
+        LT1_dist_mag = torch.sqrt(DT1_dist_mag + 1e-8) * speed_dist[:,1] -1
+        LT1_ang_mag = torch.sqrt(DT1_ang_mag + 1e-8) * speed_angle[:,1] -1
+
+        LT0_dist_mag = LT0_dist_mag**2
+        LT0_ang_mag = LT0_ang_mag**2
+        LT1_dist_mag = LT1_dist_mag**2
+        LT1_ang_mag = LT1_ang_mag**2
+
+        diff_4 = LT0_dist_mag + LT0_ang_mag + LT1_dist_mag + LT1_ang_mag
+        td_weight = 0#1e-3
         with torch.no_grad():
 
             length0 = (0.03)/(Yobs[:,0]).unsqueeze(1)#5*torch.rand(Yobs.shape[0],1).cuda()
@@ -149,8 +156,8 @@ class Function():
         tau_loss = tau_loss0+tau_loss1
         #'''
 
-        Ypred0 = torch.sqrt(S0+1e-8)#torch.sqrt
-        Ypred1 = torch.sqrt(S1+1e-8)#torch.sqrt
+        Ypred0 = torch.sqrt(S0+1e-8)
+        Ypred1 = torch.sqrt(S1+1e-8)
 
 
         Ypred0_visco = Ypred0
@@ -172,7 +179,7 @@ class Function():
         l1_2 = (torch.sqrt(l1))#**(1/4)    
 
         #w_num = w.clone().detach()
-        loss_weight = 1e-2
+        loss_weight = 1e-2 #1e-2
         loss0 = loss_weight*(l0_2-1)**2  #/scale#+relu_loss0#**2#+gamma*lap0#**2
         loss1 = loss_weight*(l1_2-1)**2  #/scale#+relu_loss1#**2#+gamma*lap1#**2
         
@@ -200,7 +207,9 @@ class Function():
         #print(T)
         para = 0.5#max(0.5-epoch*0.001,0.5)
         #
-        loss_n = (torch.sum((diff+n_loss +tau_loss)*torch.exp(-0.5*T)))/Yobs.shape[0]#*torch.exp(-para*T)
+
+        diff_4 = diff_4 * loss_weight
+        loss_n = (torch.sum((diff_4+n_loss +tau_loss)*torch.exp(-0.5*T)))/Yobs.shape[0]#*torch.exp(-para*T)
         
         loss = beta*loss_n #+ 1e-4*(reg_tau)
         
@@ -232,17 +241,6 @@ class Function():
         #DT0 = dtau[:,self.dim:]
         DT0 = dtau[:,:self.dim]
 
-        #T3    = tau[:,0]**2
-
-
-
-        #TT = LogTau * torch.sqrt(T0)
-
-        #print(tau.shape)
-
-        #print(T02.shape)
-        #T1    = T0*torch.einsum('ij,ij->i', DT0, DT0)
-        #T2    = -2*tau[:,0]*torch.einsum('ij,ij->i', DT0, D)
         
         
         S = torch.einsum('ij,ij->i', DT0, DT0)

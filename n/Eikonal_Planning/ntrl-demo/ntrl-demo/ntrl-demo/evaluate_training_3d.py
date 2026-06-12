@@ -38,13 +38,20 @@ from timeit import default_timer as timer
 
 import numpy as np
 import torch
+import igl
 import viser
 import plotly.graph_objects as go
 
 from models.metric import model_train_metric as md
-from dataprocessing.preprocess_obj import load_obj, _rotvec_to_matrix_np
+from dataprocessing.preprocess_obj import (
+    load_obj, _rotvec_to_matrix_np, sample_surface_points)
 
-COLLISION_THRESH = 0.001
+# Sign convention for igl.signed_distance: the DEFAULT/WINDING_NUMBER types are
+# unreliable in this binding, but FAST_WINDING_NUMBER returns negative-inside and
+# is robust to per-face orientation (only requires a closed/watertight mesh).
+_SDF_SIGN = igl.SignedDistanceType.SIGNED_DISTANCE_TYPE_FAST_WINDING_NUMBER
+# Number of surface points sampled over the full environment mesh for collision.
+ENV_COLLISION_POINTS = 50000
 HTTP_PORT = 8080
 DIM = 6
 
@@ -73,13 +80,36 @@ for _stale in (glob(os.path.join(OUTPUT_DIR, 'episode_*.html'))
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ──────────────────────────────────────────────────────────────────────────────
-def check_trajectory_collision(traj, env_pts):
-    """Return True if ANY waypoint position comes within COLLISION_THRESH of ANY
-    environment point.  Only x, y, z (first 3 dims) are compared."""
-    waypoints = torch.cat(traj, dim=0)[:, :3].cuda()
-    diff = waypoints.unsqueeze(1) - env_pts.unsqueeze(0)
-    dists = torch.norm(diff, dim=-1)
-    return dists.min().item() < COLLISION_THRESH
+def check_trajectory_collision(traj, env_pts, shape_V, shape_F, shape_radius):
+    """Return True if the placed shape mesh overlaps the environment at ANY waypoint.
+
+    Collision uses the same point-in-solid test that labels the training data
+    (preprocess_obj.points_inside_tets): an environment surface point lying
+    *inside* the watertight shape mesh.  The full 6-DOF pose (position + rotvec)
+    is applied at each waypoint, and ``env_pts`` densely covers the whole
+    environment surface (obstacles *and* walls), so everything counts as an
+    obstacle.  No interpolation between waypoints -- each is checked on its own.
+
+    ``traj`` is a list of (1, DIM) configs with the rotvec stored normalized by
+    2*pi (as written by preprocess_obj); ``shape_V``/``shape_F`` is the shape
+    mesh in its local frame; ``shape_radius`` is max ||vertex|| about that frame.
+    """
+    two_pi = 2 * np.pi
+    for cfg_t in traj:
+        cfg = cfg_t.detach().cpu().numpy().reshape(-1)
+        t = cfg[0:3]
+        # Broad phase: a point inside the shape must lie within its bounding radius.
+        near = env_pts[np.linalg.norm(env_pts - t, axis=1) <= shape_radius]
+        if near.shape[0] == 0:
+            continue
+        # Map env points into the shape's local frame (inverse of _placed_mesh,
+        # which does  world = local @ R.T + t  =>  local = (world - t) @ R).
+        R = _rotvec_to_matrix_np(cfg[3:6] * two_pi)
+        near_local = np.ascontiguousarray((near - t) @ R)
+        S = igl.signed_distance(near_local, shape_V, shape_F, _SDF_SIGN)[0]
+        if S.size and S.min() < 0.0:
+            return True
+    return False
 
 
 def MPPI(womodel, XP, dim):
@@ -245,7 +275,9 @@ else:
         raise FileNotFoundError(
             f'No latest.pt and no checkpoints under {modelPath}/*/Model_Epoch_*.pt')
     pt = ckpts[-1]
-pt = './Experiments/3dshape/3dshape_06_05_12_15/latest.pt'
+
+#pt = './Experiments/3dshape/3dshape_06_11_22_49/Model_Epoch_03000_ValLoss_7.413567e-03.pt'
+pt = './pretrained/baseline_rectangle_env1.pt'
 print(f'Loading checkpoint: {pt}')
 
 
@@ -254,9 +286,6 @@ womodel.network.eval()
 
 arr = np.load(os.path.join(dataPath, 'sampled_points.npy'))       # (N, 12)
 arr_speeds = np.load(os.path.join(dataPath, 'speed.npy'))         # (N, 2)
-environment_boundary_points = np.load(os.path.join(dataPath, 'env.npy'))   # (M, 3)
-env_pts_cuda = torch.tensor(environment_boundary_points[:, :3],
-                            dtype=torch.float32, device='cuda')
 
 # Reconstruct the shape + wall meshes in the normalized frame from meta.json
 # (written by preprocess_obj.py) so the visualization matches the sampling frame.
@@ -268,14 +297,22 @@ shape_scale = float(meta['shape_scale'])
 
 V_sh, F_sh, _ = load_obj(meta['shape_obj'])
 shape_center = 0.5 * (V_sh.min(axis=0) + V_sh.max(axis=0))
-shape_V = ((V_sh - shape_center) / env_scale * shape_scale).astype(np.float64)
-shape_F = F_sh
+shape_V = np.ascontiguousarray((V_sh - shape_center) / env_scale * shape_scale,
+                               dtype=np.float64)
+shape_F = np.ascontiguousarray(F_sh, dtype=np.int64)
+# Bounding radius of the shape about its local origin (used for collision broad phase).
+shape_radius = float(np.linalg.norm(shape_V, axis=1).max())
 
 V_env, F_env, names_env = load_obj(meta['env_obj'])
 V_env_n = (V_env - env_center) / env_scale
 wall_mask = np.array(['wall' in str(n).lower() for n in names_env])
 wall_F = F_env[wall_mask]
 obst_F = F_env[~wall_mask]
+
+# Collision point cloud: env.npy is obstacles-only, so resample densely over the
+# FULL environment mesh (obstacles + walls) -- everything counts as an obstacle.
+env_collision_pts = np.ascontiguousarray(
+    sample_surface_points(V_env_n, F_env, ENV_COLLISION_POINTS), dtype=np.float64)
 
 test_list = []
 test_list_speed = []
@@ -322,7 +359,8 @@ for XP in test_list:
                         XP[0][DIM + 3].item() * two_pi, XP[0][DIM + 4].item() * two_pi,
                         XP[0][DIM + 5].item() * two_pi])
 
-    collision = check_trajectory_collision(point, env_pts_cuda)
+    collision = check_trajectory_collision(
+        point, env_collision_pts, shape_V, shape_F, shape_radius)
     ok = success and not collision
 
     status = 'success' if ok else 'fail'

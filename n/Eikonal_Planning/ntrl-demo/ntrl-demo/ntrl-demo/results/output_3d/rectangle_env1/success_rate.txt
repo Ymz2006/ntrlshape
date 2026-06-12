@@ -1,9 +1,9 @@
 data_path     : testing_data/3dshape/rectangle_env1
 model_path    : ./Experiments/3dshape
-checkpoint    : ./Experiments/3dshape/3dshape_06_05_12_15/latest.pt
+checkpoint    : ./pretrained/baseline_rectangle_env1.pt
 episodes      : 100
-successes     : 79
-failures      : 21
-  collision   : 0
-  no_converge : 21
-success_rate  : 0.7900  (79.0%)
+successes     : 67
+failures      : 33
+  collision   : 14
+  no_converge : 19
+success_rate  : 0.6700  (67.0%)

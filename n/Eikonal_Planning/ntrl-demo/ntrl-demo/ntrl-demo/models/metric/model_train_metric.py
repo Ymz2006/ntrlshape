@@ -221,10 +221,7 @@ class Model():
         dataloader = FastTensorDataLoader(self.dataset.data, 
                     batch_size=int(self.Params['Training']['Batch Size']), 
                     shuffle=True)
-        speed = self.dataset.data[:,2*self.dim:]
 
-        Lambda = torch.zeros_like(self.dataset.data[:,:2*self.dim]).cuda().detach()
-        print(speed.min())
         #'''
         '''
         train_loader = torch.utils.data.DataLoader(
@@ -305,19 +302,28 @@ class Model():
                     t0 = time.time()
     
                     data = wholedata[0].to(self.Params['Device'])
-                    #indexbatch = wholedata[1].to(self.Params['Device'])
-                    #print(indexbatch)
-                    #ind, indexbatch = data
-                    #print(wholedata[1])
+
                     points = data[:,:2*self.dim]#.float()#.cuda()
                     speed = data[:,2*self.dim:2*self.dim+2]#.float()#.cuda()
-                    normal = data[:,2*self.dim+2:]
-                    #print(speed.shape)
+                    normal = data[:,2*self.dim+2:4*self.dim+2]
+                    speed_dist = data[:,4*self.dim+2:4*self.dim+4]
+                    speed_angle = data[:,4*self.dim+4:4*self.dim+6]  
+                    # speed_angle is stored as angle/pi (in [0,1]); recover radians,
+                    # cut at the max angle pi/18 (10 deg), then renormalize to [0,1].
+
+                    angle_max = 2*torch.pi/18
+                    speed_angle = torch.clamp(speed_angle * torch.pi, min=0, max=angle_max) / (angle_max)
+
                     speed = speed*speed*(2-speed)*(2-speed)
+                    speed_dist = speed_dist*speed_dist*(2-speed_dist)*(2-speed_dist)
 
+                    speed_angle = speed_angle*speed_angle*(2-speed_angle)*(2-speed_angle)
+                    
                     speed=alpha*speed+1-alpha
+                    speed_angle=alpha*speed_angle+1-alpha
+                    speed_dist=alpha*speed_dist+1-alpha
 
-                    loss_value, loss_n, wv = self.function.Loss(points, speed, normal, beta, gamma, epoch)
+                    loss_value, loss_n, wv = self.function.Loss(points, speed, normal, beta, gamma, epoch, speed_dist, speed_angle)
                     
                     #Lambda[indexbatch,:] = Lamb
                     t1 = time.time()
@@ -326,43 +332,21 @@ class Model():
                     t0 = time.time()
                     loss_value.backward()
 
-                    # Update parameters
+
                     self.optimizer.step()
                     self.optimizer.zero_grad()
 
                     total_train_loss += loss_value.item()
                     total_diff += loss_n.item()
-                    # total_train_loss = 0
-                    # total_diff = 0
-                    # def closure():
-                    #     self.optimizer.zero_grad()
-                    #     loss_value, loss_n, wv = self.function.Loss(points, speed, normal, beta, gamma, epoch)
-                        
-                    #     total_train_loss = loss_value.item()#.clone().detach()
-                    #     total_diff = loss_n.item()#.clone().detach()
-
-                    #     loss_value.backward()
-                    #     return loss_value
-                    # self.optimizer.step(closure)
-
-                    #print('')
-                    #print(loss_value.shape)
                     
                     t1 = time.time()
-                    #print(total_train_loss)
 
-                    #print(t1-t0)
-                    #print('')
-                    #weights[indexbatch] = wv
                     
                     del points, speed, loss_value, loss_n#, Lamb#,indexbatch
                 
                 
                 total_train_loss /= 4#len(dataloader)#dataloader train_loader
                 total_diff /= 4#len(dataloader)#dataloader train_loader
-
-                #total_train_loss /= len(dataloader)#dataloader train_loader
-                #total_diff /= len(dataloader)#dataloader train_loader
 
                 current_diff = total_diff
                 diff_ratio = current_diff/prev_diff

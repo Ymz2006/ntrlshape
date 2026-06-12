@@ -1,0 +1,34 @@
+wandb run: floral-deluge-31 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/5g5xgti0)
+Files copied successfully!
+torch.Size([128, 6])
+train
+(400000, 12)
+(400000, 2)
+(400000, 12)
+(400000, 12) (400000, 2)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+Epoch = 1 -- Loss = 2.2400e+00 -- Alpha = 1.0000e+00
+Epoch = 2 -- Loss = 1.9182e+00 -- Alpha = 1.0000e+00
+Epoch = 3 -- Loss = 1.8199e+00 -- Alpha = 1.0000e+00
+Epoch = 4 -- Loss = 1.6393e+00 -- Alpha = 1.0000e+00
+Epoch = 5 -- Loss = 1.5344e+00 -- Alpha = 1.0000e+00
+Epoch = 6 -- Loss = 1.3500e+00 -- Alpha = 1.0000e+00
+Epoch = 7 -- Loss = 1.2242e+00 -- Alpha = 1.0000e+00
+Epoch = 8 -- Loss = 1.0364e+00 -- Alpha = 1.0000e+00
+Epoch = 9 -- Loss = 9.3968e-01 -- Alpha = 1.0000e+00
+Epoch = 10 -- Loss = 7.2484e-01 -- Alpha = 1.0000e+00
+Epoch = 11 -- Loss = 5.7345e-01 -- Alpha = 1.0000e+00
+Epoch = 12 -- Loss = 4.1811e-01 -- Alpha = 1.0000e+00
+Epoch = 13 -- Loss = 2.6188e-01 -- Alpha = 1.0000e+00
+Epoch = 14 -- Loss = 1.2206e-01 -- Alpha = 1.0000e+00
+Epoch = 15 -- Loss = 4.8019e-02 -- Alpha = 1.0000e+00
+Epoch = 16 -- Loss = 1.9881e-02 -- Alpha = 1.0000e+00
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 50, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 297, in train
+    for i, wholedata in enumerate(dataloader,0):#train_loader_wei,dataloader
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 80, in __iter__
+    r = torch.randperm(self.dataset_len)
+KeyboardInterrupt

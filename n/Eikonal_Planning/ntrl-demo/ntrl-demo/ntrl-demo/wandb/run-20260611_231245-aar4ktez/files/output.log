@@ -1,0 +1,35 @@
+wandb run: dutiful-sponge-27 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/aar4ktez)
+Files copied successfully!
+torch.Size([128, 6])
+train
+(400000, 12)
+(400000, 2)
+(400000, 12)
+(400000, 12) (400000, 2)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+Epoch = 1 -- Loss = 5.3894e-02 -- Alpha = 1.0000e+00
+Epoch = 2 -- Loss = 5.2585e-02 -- Alpha = 1.0000e+00
+Epoch = 3 -- Loss = 4.7778e-02 -- Alpha = 1.0000e+00
+Epoch = 4 -- Loss = 4.4169e-02 -- Alpha = 1.0000e+00
+Epoch = 5 -- Loss = 4.0262e-02 -- Alpha = 1.0000e+00
+Epoch = 6 -- Loss = 3.5323e-02 -- Alpha = 1.0000e+00
+Epoch = 7 -- Loss = 3.2562e-02 -- Alpha = 1.0000e+00
+Epoch = 8 -- Loss = 2.9111e-02 -- Alpha = 1.0000e+00
+Epoch = 9 -- Loss = 2.5067e-02 -- Alpha = 1.0000e+00
+Epoch = 10 -- Loss = 2.0306e-02 -- Alpha = 1.0000e+00
+Epoch = 11 -- Loss = 1.6089e-02 -- Alpha = 1.0000e+00
+Epoch = 12 -- Loss = 1.1068e-02 -- Alpha = 1.0000e+00
+Epoch = 13 -- Loss = 7.5586e-03 -- Alpha = 1.0000e+00
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 50, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 278, in train
+    current_optimizer = pickle.loads(pickle.dumps(self.optimizer.state_dict()))
+  File "/opt/conda/lib/python3.10/site-packages/torch/storage.py", line 371, in _load_from_bytes
+    return torch.load(io.BytesIO(b))
+  File "/opt/conda/lib/python3.10/site-packages/torch/serialization.py", line 1040, in load
+    return _legacy_load(opened_file, map_location, pickle_module, **pickle_load_args)
+  File "/opt/conda/lib/python3.10/site-packages/torch/serialization.py", line 1276, in _legacy_load
+    typed_storage._untyped_storage._set_from_file(
+KeyboardInterrupt

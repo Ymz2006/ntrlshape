@@ -82,6 +82,43 @@ EPS = 1e-12
 
 
 # ---------------------------------------------------------------------------
+# Lightweight block profiler (enabled by --profile)
+# ---------------------------------------------------------------------------
+# Accumulates wall-clock time per named block across all batches.  CUDA work is
+# async, so we synchronize around each block to attribute time correctly; that
+# sync has a cost, hence the whole thing is gated off unless --profile is set.
+_PROFILE = False
+_TIMERS = {}
+_TIC = {}
+
+
+def _prof_tic(name, device):
+    if not _PROFILE:
+        return
+    if 'cuda' in str(device):
+        torch.cuda.synchronize()
+    _TIC[name] = time.perf_counter()
+
+
+def _prof_toc(name, device):
+    if not _PROFILE:
+        return
+    if 'cuda' in str(device):
+        torch.cuda.synchronize()
+    _TIMERS[name] = _TIMERS.get(name, 0.0) + (time.perf_counter() - _TIC[name])
+
+
+def _prof_report():
+    if not _TIMERS:
+        return
+    total = sum(_TIMERS.values())
+    print('\n── evaluate_placements block timing (cumulative across batches) ──')
+    for name, sec in sorted(_TIMERS.items(), key=lambda kv: -kv[1]):
+        print('  {:16s} {:9.2f}s  ({:5.1f}%)'.format(name, sec, 100.0 * sec / total))
+    print('  {:16s} {:9.2f}s'.format('TOTAL (measured)', total))
+
+
+# ---------------------------------------------------------------------------
 # Minimal Wavefront OBJ reader (vertices + triangle faces only)
 # ---------------------------------------------------------------------------
 def load_obj(path):
@@ -173,6 +210,72 @@ def sample_surface_points(V, F, num_points):
     pts = (1 - r1) * pa + r1 * (1 - r2) * pb + r1 * r2 * pc
 
     return np.concatenate([seed, pts], axis=0)
+
+
+def generate_radius_surface_points(V, F, num_points, bins):
+    """Sample surface points and group them into equal-size radial bins.
+
+    ``num_points`` points are sampled area-uniformly on the surface, sorted by
+    their distance from the origin, and split into ``bins`` consecutive groups
+    of equal size: bin ``0`` holds the ``num_points // bins`` points closest to
+    the origin, the final bin holds the farthest.  Any remainder points (when
+    ``num_points`` is not divisible by ``bins``) are dropped.
+
+    Parameters
+    ----------
+    V, F      : mesh vertices ``(nv, 3)`` and triangles ``(nf, 3)``.
+    num_points : total number of points to sample on the surface.
+    bins       : number of radial bins to split the sorted points into.
+
+    Returns
+    -------
+    binned : (bins, num, 3) float32   surface points grouped by radial bin,
+                                       where ``num = num_points // bins``.
+    edges  : (bins + 1,)   float32    radial bin boundaries; bin ``i`` holds
+                                       points with ``edges[i] <= r < edges[i+1]``
+                                       (``edges[0]`` = smallest radius,
+                                       ``edges[bins]`` = largest radius).
+    """
+    a = V[F[:, 0]]
+    b = V[F[:, 1]]
+    c = V[F[:, 2]]
+    areas = 0.5 * np.linalg.norm(np.cross(b - a, c - a), axis=1)
+    total = areas.sum()
+    if total <= 0:
+        raise ValueError("mesh has zero surface area; cannot sample points")
+
+    n = int(num_points)
+    probs = areas / total
+    tri = np.random.choice(len(F), size=n, p=probs)
+
+    # Uniform barycentric sample within each chosen triangle.
+    r1 = np.sqrt(np.random.rand(n, 1))
+    r2 = np.random.rand(n, 1)
+    pa, pb, pc = a[tri], b[tri], c[tri]
+    pts = (1 - r1) * pa + r1 * (1 - r2) * pb + r1 * r2 * pc        # (n, 3)
+
+    pts = torch.tensor(pts, dtype=torch.float32)
+    radius = torch.linalg.norm(pts, dim=1)                        # (n,)
+
+    # Sort by distance from origin (ascending) so bin 0 is the closest shell.
+    order = torch.argsort(radius)
+    pts = pts[order]
+    radius = radius[order]
+
+    num = n // bins
+    keep = num * bins                                             # drop remainder
+    pts = pts[:keep]
+    radius = radius[:keep]
+
+    binned = pts.reshape(bins, num, 3)                            # (bins, num, 3)
+
+    # Bin boundaries: lower-edge radius of each bin plus the global max radius.
+    radius_per_bin = radius.reshape(bins, num)
+    edges = torch.empty(bins + 1, dtype=torch.float32)
+    edges[:bins] = radius_per_bin[:, 0]
+    edges[bins] = radius[-1]
+
+    return binned, edges
 
 
 # ---------------------------------------------------------------------------
@@ -316,7 +419,7 @@ def calculate_dist(face_verts, env_points, centers):
     Parameters
     ----------
     face_verts : (B, F, 3, 3)  transformed shape boundary-triangle vertices
-    env_points : (E, 3)        environment surface point cloud
+    env_points : (B, M, 3)     per-placement env points (broad-phase culled set)
     centers    : (B, 3)        position (centre) of each placement
 
     Returns
@@ -332,11 +435,11 @@ def calculate_dist(face_verts, env_points, centers):
     a = face_verts[:, :, 0, :].view(B, 1, F, 3)        # (B,1,F,3)
     b = face_verts[:, :, 1, :].view(B, 1, F, 3)
     c = face_verts[:, :, 2, :].view(B, 1, F, 3)
-    p = env_points.view(1, -1, 1, 3).to(device)        # (1,E,1,3)
+    p = env_points.to(device).unsqueeze(2)             # (B,M,1,3)
 
-    closest = closest_point_on_triangle(p, a, b, c)    # (B,E,F,3)  s* candidates
-    diff = closest - p                                 # (B,E,F,3)  s* - e*
-    dist = torch.linalg.norm(diff, dim=-1)             # (B,E,F)
+    closest = closest_point_on_triangle(p, a, b, c)    # (B,M,F,3)  s* candidates
+    diff = closest - p                                 # (B,M,F,3)  s* - e*
+    dist = torch.linalg.norm(diff, dim=-1)             # (B,M,F)
 
     flat = dist.reshape(B, -1)
     min_dist, min_idx = flat.min(dim=1)                # (B,), (B,)
@@ -372,7 +475,7 @@ def points_inside_tets(tet_verts, env_points):
     Parameters
     ----------
     tet_verts  : (B, K, 4, 3)  transformed tetrahedron vertices
-    env_points : (E, 3)        environment surface point cloud
+    env_points : (B, M, 3)     per-placement env points (broad-phase culled set)
 
     Returns
     -------
@@ -388,10 +491,10 @@ def points_inside_tets(tet_verts, env_points):
     M = torch.stack([e1, e2, e3], dim=-1)                      # (B,K,3,3) columns
     Minv = torch.linalg.inv(M + EPS * torch.eye(3, device=device))
 
-    p = env_points.view(1, 1, -1, 3).to(device)               # (1,1,E,3)
-    rhs = p - v0.unsqueeze(2)                                  # (B,K,E,3)
-    bary = torch.einsum('bkij,bkej->bkei', Minv, rhs)          # (B,K,E,3) = (l1,l2,l3)
-    l0 = 1.0 - bary.sum(-1)                                    # (B,K,E)
+    p = env_points.to(device).unsqueeze(1)                    # (B,1,M,3)
+    rhs = p - v0.unsqueeze(2)                                  # (B,K,M,3)
+    bary = torch.einsum('bkij,bkej->bkei', Minv, rhs)          # (B,K,M,3) = (l1,l2,l3)
+    l0 = 1.0 - bary.sum(-1)                                    # (B,K,M)
 
     tol = -1e-6
     inside = (bary[..., 0] >= tol) & (bary[..., 1] >= tol) & \
@@ -404,7 +507,8 @@ def points_inside_tets(tet_verts, env_points):
 # Per-batch placement evaluation: collision-free mask + clearance + normal
 # ---------------------------------------------------------------------------
 def evaluate_placements(configs, tet_verts_local, face_verts_local,
-                        env_points, device):
+                        env_points, rad_points, rad_bins, device,
+                        return_angle_pts=False):
     """Evaluate a batch of SE(3) placements.
 
     Parameters
@@ -414,28 +518,175 @@ def evaluate_placements(configs, tet_verts_local, face_verts_local,
     face_verts_local : (F, 3, 3)   shape boundary triangles in local frame
     env_points       : (E, 3)      environment surface points (CPU)
     device           : torch device
+    return_angle_pts : bool        if True, also return the shape-surface point and
+                                    env point that realize the min-angle clearance
+                                    (debug/visualization only; adds an argmax).
 
     Returns
     -------
     is_free : (B,) bool, CPU
     dist    : (B,) float, CPU      clearance distance (shape face -> nearest env pt)
     normal  : (B, 6) float, CPU    unit SE(3) clearance normal (rotvec in /2pi units)
+
+    If ``return_angle_pts`` is True, two extra tensors follow:
+    shape_pt : (B, 3) float, CPU   winning shape-surface point (world frame)
+    env_pt   : (B, 3) float, CPU   winning env point (world frame)
     """
     B = configs.shape[0]
-    t = configs[:, 0:3].to(device)                             # (B,3)
-    R = rotvec_to_matrix(configs[:, 3:6].to(device))           # (B,3,3)
+    # Move everything to the device once, up front; all uses below stay on-device.
+    # generate_valid_pairs already hoists the static geometry, so those .to() calls
+    # are no-ops there -- but doing it here too keeps the function self-contained
+    # (correct when called directly with host tensors).
+    configs = configs.to(device)
+    env_points = env_points.to(device)
+    tet_verts_local = tet_verts_local.to(device)
+    face_verts_local = face_verts_local.to(device)
+    rad_points = rad_points.to(device)
+    rad_bins = rad_bins.to(device)
+    t = configs[:, 0:3]                                        # (B,3)
+    R = rotvec_to_matrix(configs[:, 3:6])                      # (B,3,3)
 
-    tets = tet_verts_local.to(device).reshape(1, -1, 3)        # (1, K*4, 3)
+    _prof_tic('transform', device)
+    tets = tet_verts_local.reshape(1, -1, 3)                   # (1, K*4, 3)
     tets = torch.einsum('bij,nj->bni', R, tets.squeeze(0)) + t.unsqueeze(1)
     tets = tets.reshape(B, -1, 4, 3)                           # (B,K,4,3)
 
-    faces = face_verts_local.to(device).reshape(-1, 3)         # (F*3, 3)
+    faces = face_verts_local.reshape(-1, 3)                    # (F*3, 3)
     faces = torch.einsum('bij,nj->bni', R, faces) + t.unsqueeze(1)
     faces = faces.reshape(B, -1, 3, 3)                         # (B,F,3,3)
 
-    is_free = points_inside_tets(tets, env_points)
-    dist, normal = calculate_dist(faces, env_points, configs[:, 0:3])
-    return is_free.cpu(), dist.cpu(), normal.cpu()
+    bins, num = rad_points.shape[0], rad_points.shape[1]
+    rad = rad_points.reshape(-1, 3)                            # (bins*num, 3)
+    translated_rad_points = torch.einsum('bij,nj->bni', R, rad) + t.unsqueeze(1)
+    translated_rad_points = translated_rad_points.reshape(B, bins, num, 3)   # (B,bins,num,3)
+    _prof_toc('transform', device)
+
+    _prof_tic('cull', device)
+    # Vector from each placement centre to every env point, and its length.
+    to_env = env_points.unsqueeze(0) - t.unsqueeze(1)              # (B,E,3)
+    to_env_dist = torch.linalg.norm(to_env, dim=-1)                # (B,E)
+
+    # ── Broad-phase env cull (correctness-preserving) ──────────────────────
+    # d(e, shape) is bounded by |to_env_dist(e) - R_shape| .. to_env_dist(e)+R,
+    # so the true nearest-to-surface env point always has
+    #   to_env_dist <= min_center_dist + 2*R_shape.
+    # Keep the nearest such points per placement (sized to the batch max so it
+    # stays a dense tensor) and run the expensive clearance / collision queries
+    # on this subset only -- the min distance, contact normal, and collision
+    # result are all unchanged, but the (B,E,F) / (B,K,E) work shrinks with E.
+    R_shape = face_verts_local.reshape(-1, 3).norm(dim=1).max()
+    sorted_d, sort_idx = torch.sort(to_env_dist, dim=1)            # (B,E) ascending
+    within = sorted_d <= (sorted_d[:, 0:1] + 2.0 * R_shape)       # (B,E)
+    num_keep = int(within.sum(dim=1).max().clamp(min=1))
+    keep_idx = sort_idx[:, :num_keep]                             # (B,num_keep) nearest
+    env_kept = env_points[keep_idx]                              # (B,num_keep,3)
+    _prof_toc('cull', device)
+
+    _prof_tic('angle_binning', device)
+    # Group env points into the shape's radial shells.  Bin i spans
+    # (rad_bins[i], rad_bins[i+1]]; points below the smallest / above the largest
+    # shell radius can never be reached by rotating the shape and are dropped.
+    #
+    # The cull above already produced a by-distance sort (sorted_d, sort_idx).
+    # Because the shells are radial, that single sort *also* orders points by bin
+    # (each shell is a contiguous run in sorted order), so we slice the bins out
+    # with searchsorted + one gather -- no per-bin sort.  right=True reproduces
+    # bucketize(to_env_dist) - 1 exactly: bin i == positions [pos[i], pos[i+1]).
+    E = to_env.shape[1]
+    edges = rad_bins
+    pos = torch.searchsorted(sorted_d, edges.expand(B, -1).contiguous(), right=True)  # (B,bins+1)
+    counts = pos[:, 1:] - pos[:, :bins]                            # (B,bins) per-shell occupancy
+    num_env = int(counts.max().clamp(min=1))                       # pad width = largest shell
+    empty_bins = counts == 0                                       # (B,bins)
+
+    # Position of each (bin, slot) in the by-distance order.  Invalid/padding
+    # slots point at the bin start (a real in-bin point -> can't beat the bin's
+    # true max), clamped to stay in range; empty shells are overwritten below.
+    slot = torch.arange(num_env, device=device)
+    starts = pos[:, :bins].unsqueeze(-1)                           # (B,bins,1)
+    cols = starts + slot                                           # (B,bins,num_env)
+    valid = slot < counts.unsqueeze(-1)                            # (B,bins,num_env)
+    cols = torch.where(valid, cols, starts).clamp(max=E - 1)
+    flat_cols = cols.reshape(B, bins * num_env)                    # (B, bins*num_env)
+
+    # binned_env : (B,bins,num_env,3) env->centre vectors grouped by shell.
+    to_env_sorted = torch.gather(to_env, 1, sort_idx.unsqueeze(-1).expand(-1, -1, 3))  # (B,E,3)
+    binned_env = torch.gather(
+        to_env_sorted, 1, flat_cols.unsqueeze(-1).expand(-1, -1, 3)).reshape(B, bins, num_env, 3)
+    filler = torch.tensor([1.0, 0.0, 0.0], device=device)
+    binned_env[empty_bins] = filler                               # shells with no env point
+    # Map each binned slot back to its original env-point index (viz only).
+    sel_all = torch.gather(sort_idx, 1, flat_cols).reshape(B, bins, num_env) \
+        if return_angle_pts else None
+    _prof_toc('angle_binning', device)
+
+
+
+
+
+
+    # Smallest angle between any shape-surface direction and any env direction
+    # (both measured from the placement centre), reduced to one value per
+    # placement.  min(angle) == arccos(max cosine), so we carry a running MAX
+    # COSINE and arccos it once at the end -- and we fuse the reduction into the
+    # loop so the full (B,bins,num,num_env) pairwise tensor is never allocated.
+    # The per-bin pairwise block (B,num,num_env) is still large, so we chunk it
+    # over the env axis to bound peak memory.
+    _prof_tic('angle_cosine', device)
+    ANGLE_CHUNK = 128
+    rad_vec = translated_rad_points - t.view(B, 1, 1, 3)          # (B,bins,num,3)
+    rad_u = rad_vec / (rad_vec.norm(dim=-1, keepdim=True) + EPS)  # unit dirs (B,bins,num,3)
+    env_u = binned_env / (binned_env.norm(dim=-1, keepdim=True) + EPS)  # (B,bins,num_env,3)
+
+    best_cos = torch.full((B,), -1.0, device=device)             # running max cosine
+    if return_angle_pts:
+        # Track which (bin, shape-dir, env-point) realizes the running max cosine.
+        best_bin   = torch.zeros(B, dtype=torch.long, device=device)
+        best_j     = torch.zeros(B, dtype=torch.long, device=device)  # shape rad-pt idx
+        best_eorig = torch.zeros(B, dtype=torch.long, device=device)  # original env idx
+    for bi in range(bins):
+
+        rb = rad_u[:, bi]                                         # (B,num,3)
+        for s in range(0, num_env, ANGLE_CHUNK):
+            eb = env_u[:, bi, s:s + ANGLE_CHUNK]                  # (B,c,3)
+            cos = torch.einsum('bjk,bmk->bjm', rb, eb)           # (B,num,c)
+            if return_angle_pts:
+                c = cos.shape[2]
+                blk_cos, blk_arg = cos.reshape(B, -1).max(dim=1) # (B,), (B,)
+                # ignore empty (placeholder) shells for this bin
+                blk_cos = torch.where(empty_bins[:, bi], best_cos, blk_cos)
+                win = blk_cos > best_cos
+                best_cos = torch.where(win, blk_cos, best_cos)
+                j_idx = blk_arg // c                             # shape-dir index
+                m_idx = blk_arg %  c + s                         # binned env slot
+                best_bin = torch.where(win, torch.full_like(best_bin, bi), best_bin)
+                best_j   = torch.where(win, j_idx, best_j)
+                # binned slot -> original env-point index
+                eorig = torch.gather(sel_all[:, bi], 1, m_idx.unsqueeze(1)).squeeze(1)
+                best_eorig = torch.where(win, eorig, best_eorig)
+            else:
+                blk = cos.amax(dim=(1, 2))                       # (B,) best in this block
+                # ignore empty (placeholder) shells for this bin
+                blk = torch.where(empty_bins[:, bi], best_cos, blk)
+                best_cos = torch.maximum(best_cos, blk)
+
+    min_angle = torch.arccos(best_cos.clamp(-1.0, 1.0))          # (B,)
+    _prof_toc('angle_cosine', device)
+
+    _prof_tic('collision', device)
+    is_free = points_inside_tets(tets, env_kept)
+    _prof_toc('collision', device)
+
+    _prof_tic('clearance', device)
+    dist, normal = calculate_dist(faces, env_kept, configs[:, 0:3])
+    _prof_toc('clearance', device)
+    if return_angle_pts:
+        b_ar = torch.arange(B, device=device)
+        shape_pt = translated_rad_points[b_ar, best_bin, best_j]      # (B,3) world frame
+        env_pt = env_points[best_eorig]                               # (B,3) world frame
+        return (is_free.cpu(), dist.cpu(), min_angle.cpu(), normal.cpu(),
+                shape_pt.cpu(), env_pt.cpu())
+    return is_free.cpu(), dist.cpu(), min_angle.cpu(), normal.cpu()
 
 
 # ---------------------------------------------------------------------------
@@ -458,10 +709,23 @@ def _sample_configs(n, hx, hy, hz):
     return c
 
 
+def _min_center_dist(positions, env, device):
+    """Smallest distance from each placement centre to any env point: (B,) CPU.
+
+    An ``O(B*E)`` broad-phase with no per-triangle work.  Because the shape is
+    contained in a ball of radius ``R`` about its centre, the true clearance is
+    bounded by ``m - R <= clearance <= m + R`` (m = this value), which lets us
+    cheaply reject placements that provably can't satisfy the clearance band
+    *before* paying for the full evaluate_placements query.
+    """
+    p = positions.to(device)
+    return torch.cdist(p, env).min(dim=1).values.cpu()
+
+
 def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
                          env_points, half_extent,
-                         margin, offset, batch_size=256, device='cuda',
-                         testing=False, yrot=False):
+                         margin, offset, rad_points, rad_bins, batch_size=256, device='cuda',
+                         testing=False, yrot=False, track_angle_pts=False):
     """Sample ``number_pairs`` SE(3) placement pairs.
 
     Training mode (default): correlated pairs -- ``x0`` is drawn in the narrow
@@ -480,22 +744,61 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
     pairs   : (number_pairs, 12)  raw [x0(6), x1(6)] (rotvec in radians)
     dists   : (number_pairs, 2)   raw clearance distances [d0, d1]
     normals : (number_pairs, 12)  SE(3) clearance normals [n0(6) | n1(6)]
+    ang_shape, ang_env : (number_pairs, 3) each, or None unless ``track_angle_pts``.
+        The shape-surface point and env point realizing x0's min-angle clearance.
     """
-    env_t = torch.tensor(env_points, dtype=torch.float32)
+    # Hoist the static geometry to the device ONCE -- these never change across
+    # batches, so re-transferring them inside every evaluate_placements call (twice
+    # per batch, env three times each) is pure overhead. After this the inner
+    # ``.to(device)`` calls are no-ops.
+    env_t = torch.tensor(env_points, dtype=torch.float32).to(device)
+    tet_verts_local = tet_verts_local.to(device)
+    face_verts_local = face_verts_local.to(device)
+    rad_points = rad_points.to(device)
+    rad_bins = rad_bins.to(device)
     hx, hy, hz = float(half_extent[0]), float(half_extent[1]), float(half_extent[2])
 
     pairs = torch.zeros(number_pairs, 12)
     dists = torch.zeros(number_pairs, 2)
+    angles = torch.zeros(number_pairs, 2)
     normals = torch.zeros(number_pairs, 12)
+    # Winning min-angle pair for x0 (debug/visualization only).
+    ang_shape = torch.zeros(number_pairs, 3) if track_angle_pts else None
+    ang_env = torch.zeros(number_pairs, 3) if track_angle_pts else None
     count = 0
     sqrt6 = float(np.sqrt(6.0))
     two_pi = 2.0 * np.pi
 
+    # Shape bounding radius -- drives the cheap broad-phase band gate (#1).
+    R_shape = float(face_verts_local.reshape(-1, 3).norm(dim=1).max())
+
+    def _eval0(cfg):
+        """Full x0 evaluation; returns (free, dist, angle, normal, shp, envp),
+        with shp/envp = None unless ``track_angle_pts``."""
+        if track_angle_pts:
+            return evaluate_placements(
+                cfg, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins,
+                device, return_angle_pts=True)
+        f, d, a, n = evaluate_placements(
+            cfg, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins, device)
+        return f, d, a, n, None, None
+
+    def _idx(mask, *tensors):
+        """Index a bundle of tensors by ``mask`` (None passes through)."""
+        return tuple(None if t is None else t[mask] for t in tensors)
+
+    def _sample_disp(n):
+        """Correlated SE(3) displacement for ``n`` placements (2pi-normalized)."""
+        d = torch.rand(n, 6) - 0.5
+        if yrot:
+            d[:, 3] = 0
+            d[:, 5] = 0
+        d = d / (torch.linalg.norm(d, dim=1, keepdim=True) + EPS)
+        return d * (torch.rand(n, 1) * sqrt6)                   # normalized units
+
     while count < number_pairs:
         # ── Sample x0: position uniform in the env bbox; rotation uniform ──
         x0 = _sample_configs(batch_size, hx, hy, hz)
-
-        # Y-rotation only: zero the x- and z-rotation components.
         if yrot:
             x0[:, 3] = 0
             x0[:, 5] = 0
@@ -503,49 +806,68 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
         if testing:
             # ── x1: a second, *independent* uniformly-random placement ──
             x1 = _sample_configs(batch_size, hx, hy, hz)
-
-            # Y-rotation only: zero the x- and z-rotation components.
             if yrot:
                 x1[:, 3] = 0
                 x1[:, 5] = 0
+            in_bbox = (x1[:, 0].abs() <= hx) & (x1[:, 1].abs() <= hy) & (x1[:, 2].abs() <= hz)
+            if int(in_bbox.sum()) == 0:
+                continue
+            x0, x1 = x0[in_bbox], x1[in_bbox]
+
+            # #1 cheap gate: both endpoints require clearance > offset, so drop any
+            # pair where an endpoint is provably too close (m + R < offset).
+            m0 = _min_center_dist(x0[:, 0:3], env_t, device)
+            m1 = _min_center_dist(x1[:, 0:3], env_t, device)
+            feas = (m0 + R_shape >= offset) & (m1 + R_shape >= offset)
+            if int(feas.sum()) == 0:
+                continue
+            x0, x1 = x0[feas], x1[feas]
+
+            free0, dist0, angle0, normal0, shp0, envp0 = _eval0(x0)
+            free1, dist1, angle1, normal1 = evaluate_placements(
+                x1, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins, device)
+            keep = free0 & free1 & (dist0 > offset) & (dist1 > offset)
         else:
-            # ── Correlated displacement to x1 in 2pi-normalized SE(3) ──
-            d = torch.rand(batch_size, 6) - 0.5
+            # ── Training: x0 in narrow band, x1 a reachable displacement ──
+            # #1 cheap gate on x0's band feasibility (clearance in (offset, margin)):
+            # clearance >= m - R and <= m + R, so reject before the full query.
+            m0 = _min_center_dist(x0[:, 0:3], env_t, device)
+            feas0 = (m0 - R_shape <= margin) & (m0 + R_shape >= offset)
+            if int(feas0.sum()) == 0:
+                continue
+            x0 = x0[feas0]
 
-            # Y-rotation only: zero the x- and z-rotation displacements.
-            if yrot:
-                d[:, 3] = 0
-                d[:, 5] = 0
+            free0, dist0, angle0, normal0, shp0, envp0 = _eval0(x0)
+            keep_x0 = free0 & (dist0 > offset) & (dist0 < margin)   # narrow band
+            if int(keep_x0.sum()) == 0:
+                continue
+            # #2 keep only x0 survivors, then build / evaluate x1 for *those* alone.
+            x0, dist0, angle0, normal0, shp0, envp0 = _idx(
+                keep_x0, x0, dist0, angle0, normal0, shp0, envp0)
 
-            d = d / (torch.linalg.norm(d, dim=1, keepdim=True) + EPS)
-            rL = torch.rand(batch_size, 1) * sqrt6
-            delta = d * rL                                      # normalized units
-
+            delta = _sample_disp(x0.shape[0])
             x1 = x0.clone()
             x1[:, 0:3] = x0[:, 0:3] + delta[:, 0:3]
             x1[:, 3:6] = wrap_rotvec(x0[:, 3:6] + delta[:, 3:6] * two_pi)
 
-        # ── Both endpoints must be inside the position bbox (rotation wraps) ──
-        in_bbox = (x1[:, 0].abs() <= hx) & (x1[:, 1].abs() <= hy) & (x1[:, 2].abs() <= hz)
-        if int(in_bbox.sum()) == 0:
-            continue
-        x0 = x0[in_bbox]
-        x1 = x1[in_bbox]
+            in_bbox = (x1[:, 0].abs() <= hx) & (x1[:, 1].abs() <= hy) & (x1[:, 2].abs() <= hz)
+            if int(in_bbox.sum()) == 0:
+                continue
+            x0, dist0, angle0, normal0, shp0, envp0 = _idx(
+                in_bbox, x0, dist0, angle0, normal0, shp0, envp0)
+            x1 = x1[in_bbox]
 
-        # ── Evaluate both endpoints ──
-        free0, dist0, normal0 = evaluate_placements(
-            x0, tet_verts_local, face_verts_local, env_t, device)
-        free1, dist1, normal1 = evaluate_placements(
-            x1, tet_verts_local, face_verts_local, env_t, device)
+            # #1 cheap gate on x1 (only needs clearance > offset -> drop too-close).
+            feas1 = _min_center_dist(x1[:, 0:3], env_t, device) + R_shape >= offset
+            if int(feas1.sum()) == 0:
+                continue
+            x0, dist0, angle0, normal0, shp0, envp0 = _idx(
+                feas1, x0, dist0, angle0, normal0, shp0, envp0)
+            x1 = x1[feas1]
 
-        if testing:
-            # ── Testing data: independent points, only require no collision ──
-            keep = free0 & free1 & (dist1 > offset)  & (dist0 > offset) 
-        else:
-            # ── Asymmetric filtering (matches the 2-D / gibson sampler) ──
-            keep_x0 = free0 & (dist0 > offset) & (dist0 < margin)   # narrow band
-            keep_x1 = free1 & (dist1 > offset)                      # loose: reachable
-            keep = keep_x0 & keep_x1
+            free1, dist1, angle1, normal1 = evaluate_placements(
+                x1, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins, device)
+            keep = free1 & (dist1 > offset)                        # x0 already in band
 
         nk = int(keep.sum())
         if nk == 0:
@@ -558,12 +880,17 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
         pairs[count:count + take, 6:12] = x1[idx]
         dists[count:count + take, 0] = dist0[idx]
         dists[count:count + take, 1] = dist1[idx]
+        angles[count:count + take, 0] = angle0[idx]
+        angles[count:count + take, 1] = angle1[idx]
         normals[count:count + take, 0:6] = normal0[idx]
         normals[count:count + take, 6:12] = normal1[idx]
+        if track_angle_pts:
+            ang_shape[count:count + take] = shp0[idx]
+            ang_env[count:count + take] = envp0[idx]
         count += take
         print('generated: {} / {}'.format(count, number_pairs))
 
-    return pairs, dists, normals
+    return pairs, dists, angles, normals, ang_shape, ang_env
 
 
 # ---------------------------------------------------------------------------
@@ -582,7 +909,8 @@ def _rotvec_to_matrix_np(rv):
 
 
 def visual_training(configs, speed, env_points, shape_V, shape_F, save_path,
-                    wall_V=None, wall_F=None, cnt=20):
+                    wall_V=None, wall_F=None, cnt=50,
+                    angle_shape_pts=None, angle_env_pts=None):
     """Interactive 3-D plotly view of the sampled placements.
 
     Mirrors the plotly style used in ``evaluate_training.py``: the environment is
@@ -599,6 +927,9 @@ def visual_training(configs, speed, env_points, shape_V, shape_F, save_path,
     shape_F : (nf, 3) shape mesh triangles
     wall_V  : (nv, 3) env vertices (normalized) for the translucent wall mesh
     wall_F  : (nf, 3) wall triangles (the faces excluded from point sampling)
+    angle_shape_pts, angle_env_pts : (N, 3) each, optional. When both are given,
+        a red segment is drawn from the shape-surface point to the env point that
+        realized each placement's min-angle clearance.
     """
     traces = []
 
@@ -644,6 +975,21 @@ def visual_training(configs, speed, env_points, shape_V, shape_F, save_path,
             colorbar=dict(title='clearance speed'),
         ))
 
+    # ── Min-angle clearance: red segment from shape point to env point ──
+    if angle_shape_pts is not None and angle_env_pts is not None:
+        seg_x, seg_y, seg_z = [], [], []
+        for i in range(m):
+            sp, ep = angle_shape_pts[i], angle_env_pts[i]
+            seg_x += [sp[0], ep[0], None]   # None breaks the polyline between pairs
+            seg_y += [sp[1], ep[1], None]
+            seg_z += [sp[2], ep[2], None]
+        traces.append(go.Scatter3d(
+            x=seg_x, y=seg_y, z=seg_z, mode='lines+markers',
+            line=dict(color='red', width=4),
+            marker=dict(size=3, color='red'),
+            name='min-angle pair',
+        ))
+
     fig = go.Figure(traces)
     fig.update_layout(
         title='Sampled placements (shape mesh colored by clearance speed)',
@@ -652,6 +998,33 @@ def visual_training(configs, speed, env_points, shape_V, shape_F, save_path,
                    camera=dict(up=dict(x=0, y=1, z=0))))
     fig.write_html(save_path, include_plotlyjs='cdn')
     print('Saved sample visualization: ' + save_path)
+
+
+def visual_speed_distribution(speed_pairs, save_path, label='speed', nbins=60):
+    """Histogram of a per-placement (N, 2) value, written to an HTML file.
+
+    Parameters
+    ----------
+    speed_pairs : (N, 2)  value for each endpoint [v0, v1]; both columns are
+        pooled into one distribution over all 2N placements.
+    save_path   : str     output HTML path.
+    label       : str     name of the quantity (used in title / x-axis).
+    nbins       : int     number of histogram bins.
+    """
+    speeds = np.asarray(speed_pairs).reshape(-1)        # pool x0 and x1
+    speeds = speeds[np.isfinite(speeds)]
+
+    fig = go.Figure(go.Histogram(x=speeds, nbinsx=nbins, marker_color='steelblue'))
+    fig.update_layout(
+        title='{} distribution (N={}, mean={:.3f}, min={:.3f}, max={:.3f})'.format(
+            label,
+            speeds.size,
+            float(speeds.mean()) if speeds.size else float('nan'),
+            float(speeds.min()) if speeds.size else float('nan'),
+            float(speeds.max()) if speeds.size else float('nan')),
+        xaxis_title=label, yaxis_title='count', bargap=0.02)
+    fig.write_html(save_path, include_plotlyjs='cdn')
+    print('Saved {} distribution: {}'.format(label, save_path))
 
 
 # ---------------------------------------------------------------------------
@@ -671,17 +1044,21 @@ def main():
     parser.add_argument('--shape_scale', type=float, default=1.0,
                         help='Uniform scale applied to the shape (1.0 = baseline '
                              'size in env-normalized units, <1 shrinks).')
-    parser.add_argument('--margin', type=float, default=0.1,
+    parser.add_argument('--margin', type=float, default=0.05,
                         help='Upper band: x0 must have clearance < margin; maps to speed=1.')
-    parser.add_argument('--offset', type=float, default=0.01,
+    parser.add_argument('--offset', type=float, default=0.001,
                         help='Lower band: x0 must have clearance > offset, and x1 '
                              '(paired goal) must also have clearance > offset. '
                              'Maps to the minimum speed value offset/margin.')
     parser.add_argument('--num_env_points', type=int, default=DEFAULT_ENV_POINTS,
                         help='Target number of points sampled on the env surface.')
+    parser.add_argument('--num_radius_points', type=int, default=1000,
+                        help='Number of shape-surface points binned by radius from origin.')
+    parser.add_argument('--radius_bins', type=int, default=10,
+                        help='Number of radial bins for the shape-surface points.')
     parser.add_argument('--tet_switches', default=DEFAULT_TET_SWITCHES,
                         help='tetgen switches used to tetrahedralize the shape.')
-    parser.add_argument('--batch_size', type=int, default=1000,
+    parser.add_argument('--batch_size', type=int, default=2000,
                         help='Sampling batch size (each batch evaluates 2x configs).')
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--visualize', action='store_true',
@@ -693,7 +1070,13 @@ def main():
     parser.add_argument('--yrot', action='store_true',
                         help='Restrict rotation to the y axis only: zero the x- '
                              'and z-rotation components of every sampled rotvec.')
+    parser.add_argument('--profile', action='store_true',
+                        help='Print per-block GPU timing of evaluate_placements '
+                             '(adds cuda syncs, so leave off for production runs).')
     args = parser.parse_args()
+
+    global _PROFILE
+    _PROFILE = args.profile
 
     os.makedirs(args.out, exist_ok=True)
 
@@ -707,12 +1090,9 @@ def main():
     scale = float((bb_max - bb_min).max())            # largest extent -> 1.0
     V_env_n = (V_env - center_env) / scale
 
-    # Do NOT sample surface points on objects whose name contains 'wall' -- they
-    # bound the workspace but should not act as collision obstacles to plan around.
+
     sample_mask = np.array(['null' not in str(n).lower() for n in names_env])
     n_wall = int((~sample_mask).sum())
-    print('[env] {} / {} triangles excluded from sampling (wall objects)'.format(
-        n_wall, len(F_env)))
     F_sample = F_env[sample_mask]
 
     env_points = sample_surface_points(V_env_n, F_sample, args.num_env_points)
@@ -738,26 +1118,51 @@ def main():
     print('Sampling {} (x0, x1) pairs [{}]   margin={}  offset={}  ...'.format(
         num_pairs, mode, args.margin, args.offset))
     t0 = time.time()
-    pairs, dists, normals = generate_valid_pairs(
+
+    radius_points, radius_bins = generate_radius_surface_points(
+        V_sh_local, F_sh, args.num_radius_points, args.radius_bins)
+
+
+
+
+    pairs, dists, angles, normals, ang_shape, ang_env = generate_valid_pairs(
         num_pairs, tet_verts_local, face_verts_local, env_points, half_extent,
         margin=args.margin, offset=args.offset,
         batch_size=args.batch_size, device=args.device,
-        testing=args.testing_data, yrot=args.yrot)
+        testing=args.testing_data, yrot=args.yrot, rad_points=radius_points, rad_bins=radius_bins,
+        track_angle_pts=args.visualize)
     print('Sampling done in {:.1f}s'.format(time.time() - t0))
+    _prof_report()
 
     pairs = pairs.cpu().numpy()
-    dists = dists.cpu().numpy()           # (N, 2)
+    dists = dists.cpu().numpy()
+    angles = angles.cpu().numpy()           # (N, 2)
     normals = normals.cpu().numpy()       # (N, 12)
 
     # Eikonal speed term: clearance clipped into [offset/margin, 1].
-    speed_pairs = np.clip(dists / args.margin,
-                          a_min=args.offset / args.margin, a_max=1.0)
+
+    speed_pairs = (np.clip(dists / args.margin,
+                          a_min=args.offset / args.margin, a_max=1.0) + angles/np.pi)/2
+    speed_angles = (angles/np.pi)
+    speed_dists = np.clip(dists / args.margin, a_min=args.offset / args.margin, a_max=1.0)
+
 
     if args.visualize:
         visual_training(pairs[:, 0:6].copy(), speed_pairs[:, 0], env_points,
                         V_sh_local, F_sh,
                         save_path=os.path.join(args.out, 'sampled_placements.html'),
-                        wall_V=V_env_n, wall_F=F_env[~sample_mask])
+                        wall_V=V_env_n, wall_F=F_env[~sample_mask],
+                        angle_shape_pts=ang_shape.cpu().numpy(),
+                        angle_env_pts=ang_env.cpu().numpy())
+        visual_speed_distribution(
+            speed_pairs, save_path=os.path.join(args.out, 'speed_distribution.html'),
+            label='speed')
+        visual_speed_distribution(
+            speed_angles, save_path=os.path.join(args.out, 'speed_angles_distribution.html'),
+            label='speed_angles')
+        visual_speed_distribution(
+            speed_dists, save_path=os.path.join(args.out, 'speed_dists_distribution.html'),
+            label='speed_dists')
 
     # rotvec -> normalized by 2*pi so all six coords share a comparable scale.
     pairs[:, 3:6] /= (2 * np.pi)
@@ -775,6 +1180,8 @@ def main():
 
     np.save(os.path.join(args.out, 'sampled_points'), pairs)
     np.save(os.path.join(args.out, 'speed'), speed_pairs)
+    np.save(os.path.join(args.out, 'speed_angles'), speed_angles)
+    np.save(os.path.join(args.out, 'speed_dists'), speed_dists)
     np.save(os.path.join(args.out, 'normal'), normals)
     np.save(os.path.join(args.out, 'env'), env_points)
 

@@ -5,12 +5,14 @@ from torch.autograd import Variable, grad
 #import open3d as o3d
 
 class _numpy2dataset(torch.utils.data.Dataset):
-    def __init__(self, points, speed, normal):
+    def __init__(self, points, speed, normal, speed_angles, speed_dists):
         # Creating identical pairs
         points    = Variable(Tensor(points))
         speed  = Variable(Tensor(speed))
         normal  = Variable(Tensor(normal))
-        self.data=torch.cat((points,speed,normal),dim=1)
+        speed_angles  = Variable(Tensor(speed_angles))
+        speed_dists = Variable(Tensor(speed_dists))
+        self.data=torch.cat((points,speed,normal, speed_dists,speed_angles ),dim=1)
         #self.grid  = Variable(Tensor(grid))
 
     def send_device(self,device):
@@ -29,6 +31,8 @@ def Database(PATH):
     points = np.load('{}/sampled_points.npy'.format(PATH))#[:100000,:]
     speed = np.load('{}/speed.npy'.format(PATH))#[:100000,:]
     normal = np.load('{}/normal.npy'.format(PATH))#[:100000,:]
+    speed_angles = np.load('{}/speed_angles.npy'.format(PATH))#[:100000,:]
+    speed_dists = np.load('{}/speed_dists.npy'.format(PATH))#[:100000,:]
     #occupancies = np.unpackbits(np.load('{}/voxelized_point_cloud_128res_20000points.npz'.format(PATH))['compressed_occupancies'])
     #input = np.reshape(occupancies, (128,)*3)
     #grid = np.array(input, dtype=np.float32)
@@ -52,7 +56,7 @@ def Database(PATH):
     print(points.shape,speed.shape)
     #print(np.shape(grid))
     #print(XP.shape,YP.shape)
-    database = _numpy2dataset(points,speed,normal)
+    database = _numpy2dataset(points,speed,normal,speed_angles,speed_dists)
     #database = _numpy2dataset(XP,YP)
     return database
 
