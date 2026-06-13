@@ -178,6 +178,11 @@ def _progress_color(t):
     return (int(r * 255), int(g * 255), int(b * 255))
 
 
+def _speed_color(s):
+    """Map a model-predicted speed s in [0, 1] to an RGB tuple (viridis)."""
+    return _progress_color(float(np.clip(s, 0.0, 1.0)))
+
+
 def add_environment(server, env_V, obst_F, wall_F):
     """Draw the environment as its actual triangle mesh (static scene).
 
@@ -194,25 +199,35 @@ def add_environment(server, env_V, obst_F, wall_F):
             color=(173, 216, 230), opacity=0.15, flat_shading=True, side='double')
 
 
-def render_episode(server, ep, shape_V, shape_F):
+def render_episode(server, ep, shape_V, shape_F, show_speed_labels=True):
     """Add the moving-shape sweep + start/goal poses for one episode.
 
-    The shape mesh is drawn at every waypoint, colored by progress along the
-    path; the start pose is red and the goal pose is green.  Returns the list of
-    scene handles so the caller can remove them before rendering the next episode.
+    The shape mesh is drawn at every waypoint, colored by the model's PREDICTED
+    SPEED at that config (viridis, 0=slow .. 1=fast) when ``ep['speeds']`` is
+    present, otherwise by progress along the path.  When ``show_speed_labels`` is
+    set, a small floating text label at each waypoint reports the numeric speed.
+    The start pose is red and the goal pose is green.  Returns the list of scene
+    handles so the caller can remove them before rendering the next episode.
 
     ``ep['waypoints']`` is a (T, 6) array of poses [x, y, z, rx, ry, rz] (rotvec
-    in radians).
+    in radians); ``ep['speeds']`` is a (T,) array of model-predicted speeds.
     """
     handles = []
     waypoints = ep['waypoints']
+    speeds = ep.get('speeds')
     T = len(waypoints)
     for t in range(T):
         Vp = _placed_mesh(shape_V, waypoints[t])
+        color = (_speed_color(speeds[t]) if speeds is not None
+                 else _progress_color(t / max(T - 1, 1)))
         handles.append(server.scene.add_mesh_simple(
             f'/episode/traj/{t:04d}', vertices=Vp, faces=shape_F,
-            color=_progress_color(t / max(T - 1, 1)), opacity=0.5,
+            color=color, opacity=0.5,
             flat_shading=True, side='double'))
+        if speeds is not None and show_speed_labels:
+            handles.append(server.scene.add_label(
+                f'/episode/spd/{t:04d}', text=f'{speeds[t]:.3f}',
+                position=tuple(Vp.mean(axis=0))))
 
     for cfg, col, nm in [(ep['begin_cfg'], (220, 30, 30), 'start'),
                          (ep['end_cfg'], (30, 180, 30), 'goal')]:
@@ -234,6 +249,8 @@ def launch_viser(episodes, shape_V, shape_F, env_V, obst_F, wall_F):
 
     options = [f"{ep['idx']:03d}_{ep['status']}" for ep in episodes]
     dropdown = server.gui.add_dropdown('Episode', options=options)
+    speed_labels = server.gui.add_checkbox('Show speed labels', initial_value=True)
+    speed_summary = server.gui.add_text('Predicted speed', initial_value='', disabled=True)
 
     current = []
 
@@ -241,9 +258,20 @@ def launch_viser(episodes, shape_V, shape_F, env_V, obst_F, wall_F):
         for h in current:
             h.remove()
         current.clear()
-        current.extend(render_episode(server, episodes[i], shape_V, shape_F))
+        ep = episodes[i]
+        current.extend(render_episode(
+            server, ep, shape_V, shape_F, show_speed_labels=speed_labels.value))
+        sp = ep.get('speeds')
+        speed_summary.value = (
+            'min {:.3f}  mean {:.3f}  max {:.3f}'.format(
+                float(np.min(sp)), float(np.mean(sp)), float(np.max(sp)))
+            if sp is not None and len(sp) else 'n/a')
 
     @dropdown.on_update
+    def _(_):
+        show(options.index(dropdown.value))
+
+    @speed_labels.on_update
     def _(_):
         show(options.index(dropdown.value))
 
@@ -277,7 +305,7 @@ else:
     pt = ckpts[-1]
 
 #pt = './Experiments/3dshape/3dshape_06_11_22_49/Model_Epoch_03000_ValLoss_7.413567e-03.pt'
-pt = './pretrained/baseline_rectangle_env1.pt'
+#pt = './pretrained/baseline_rectangle_env1.pt'
 print(f'Loading checkpoint: {pt}')
 
 
@@ -346,6 +374,18 @@ for XP in test_list:
         point, iter, success = MPPI(womodel, XP.clone(), dim=DIM)
     end = timer()
 
+    # Model-predicted speed at every waypoint.  Speed() runs network.out + the
+    # gradient of tau w.r.t. the *current* config (the first DIM coords) and
+    # returns 1/||grad tau|| -- i.e. what the model thinks the speed is at that
+    # config (measured toward this episode's goal).  point holds the normalized
+    # configs the network was trained on, so feed those directly (NOT the
+    # rotvec-de-normalized waypoints).  Outside the no_grad block: Speed needs
+    # autograd to differentiate tau.
+    cur = torch.cat(point, dim=0)                      # (T, DIM) normalized
+    goal = XP[0, DIM:2 * DIM].unsqueeze(0).expand(cur.shape[0], -1)
+    speeds = womodel.function.Speed(
+        torch.cat([cur, goal], dim=1)).detach().cpu().numpy()   # (T,)
+
     # Build (T, 6) waypoints; rotvec de-normalized to radians (stored / 2*pi).
     waypoints = np.zeros((len(point), DIM))
     for c, p in enumerate(point):
@@ -370,6 +410,7 @@ for XP in test_list:
         'waypoints': waypoints,
         'begin_cfg': begin_cfg,
         'end_cfg': end_cfg,
+        'speeds': speeds,
     })
 
     if ok:

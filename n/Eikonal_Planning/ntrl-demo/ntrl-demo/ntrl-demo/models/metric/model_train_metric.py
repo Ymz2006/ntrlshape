@@ -311,13 +311,16 @@ class Model():
                     # speed_angle is stored as angle/pi (in [0,1]); recover radians,
                     # cut at the max angle pi/18 (10 deg), then renormalize to [0,1].
 
-                    angle_max = 2*torch.pi/18
+                    angle_max = 1*torch.pi/18
                     speed_angle = torch.clamp(speed_angle * torch.pi, min=0, max=angle_max) / (angle_max)
 
-                    speed = speed*speed*(2-speed)*(2-speed)
-                    speed_dist = speed_dist*speed_dist*(2-speed_dist)*(2-speed_dist)
-
-                    speed_angle = speed_angle*speed_angle*(2-speed_angle)*(2-speed_angle)
+                    speed = (speed*2) * ((2-speed)**2)
+                    #speed_dist = speed_dist**2 *(2-speed_dist)*(2-speed_dist)
+                    speed_dist = speed_dist**4 *(2-speed_dist)**4
+                    
+                    #speed_angle = speed_angle*speed_angle*(2-speed_angle)*(2-speed_angle)
+                    speed_angle = speed_angle**4 *(2-speed_angle)**4
+                    
                     
                     speed=alpha*speed+1-alpha
                     speed_angle=alpha*speed_angle+1-alpha

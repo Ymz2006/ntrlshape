@@ -75,7 +75,7 @@ import plotly.graph_objects as go
 
 
 # Target number of points sampled (area-weighted) on the environment surface.
-DEFAULT_ENV_POINTS = 8000
+DEFAULT_ENV_POINTS = 10000
 # Default tetgen switches: piecewise-linear-complex, quality, preserve surface.
 DEFAULT_TET_SWITCHES = "pq1.414Y"
 EPS = 1e-12
@@ -1044,9 +1044,9 @@ def main():
     parser.add_argument('--shape_scale', type=float, default=1.0,
                         help='Uniform scale applied to the shape (1.0 = baseline '
                              'size in env-normalized units, <1 shrinks).')
-    parser.add_argument('--margin', type=float, default=0.05,
+    parser.add_argument('--margin', type=float, default=0.08,
                         help='Upper band: x0 must have clearance < margin; maps to speed=1.')
-    parser.add_argument('--offset', type=float, default=0.001,
+    parser.add_argument('--offset', type=float, default=0.002,
                         help='Lower band: x0 must have clearance > offset, and x1 '
                              '(paired goal) must also have clearance > offset. '
                              'Maps to the minimum speed value offset/margin.')
@@ -1058,7 +1058,7 @@ def main():
                         help='Number of radial bins for the shape-surface points.')
     parser.add_argument('--tet_switches', default=DEFAULT_TET_SWITCHES,
                         help='tetgen switches used to tetrahedralize the shape.')
-    parser.add_argument('--batch_size', type=int, default=2000,
+    parser.add_argument('--batch_size', type=int, default=3000,
                         help='Sampling batch size (each batch evaluates 2x configs).')
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--visualize', action='store_true',

@@ -192,8 +192,8 @@ class Function():
         normal1 = normal[:,self.dim:]
         #print(normal0)
         #print(DT0)
-        n_loss0 = (1.001-Yobs[:,0].unsqueeze(1))*(Yobs[:,0].unsqueeze(1)*DT0+normal0)**2
-        n_loss1 = (1.001-Yobs[:,1].unsqueeze(1))*(Yobs[:,1].unsqueeze(1)*DT1+normal1)**2
+        n_loss0 = (1.001-Yobs[:,0].unsqueeze(1))**2 * (Yobs[:,0].unsqueeze(1)*DT0+normal0)**2
+        n_loss1 = (1.001-Yobs[:,1].unsqueeze(1))**2 * (Yobs[:,1].unsqueeze(1)*DT1+normal1)**2
         #print(n_loss0.shape)
         #n_loss = normal_weight*torch.sum(n_loss0,dim=1)
         n_loss = normal_weight*(torch.sum(n_loss0,dim=1)+torch.sum(n_loss1,dim=1))
