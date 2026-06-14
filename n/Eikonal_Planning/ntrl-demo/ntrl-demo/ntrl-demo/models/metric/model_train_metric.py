@@ -120,7 +120,7 @@ class Model():
         self.Params['Training']['Number of sample points'] = 2e5
         self.Params['Training']['Batch Size'] = 2000
         self.Params['Training']['Validation Percentage'] = 10
-        self.Params['Training']['Number of Epochs'] = 5000
+        self.Params['Training']['Number of Epochs'] = 8000
         self.Params['Training']['Resampling Bounds'] = [0.1, 0.9]
         self.Params['Training']['Print Every * Epoch'] = 1
         self.Params['Training']['Save Every * Epoch'] = 500

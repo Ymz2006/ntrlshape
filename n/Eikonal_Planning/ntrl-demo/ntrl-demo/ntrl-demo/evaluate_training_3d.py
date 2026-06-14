@@ -306,6 +306,11 @@ else:
 
 #pt = './Experiments/3dshape/3dshape_06_11_22_49/Model_Epoch_03000_ValLoss_7.413567e-03.pt'
 #pt = './pretrained/baseline_rectangle_env1.pt'
+
+# 800k points diff4 model 
+#pt = './Experiments/3dshape/3dshape_06_12_23_00/Model_Epoch_05000_ValLoss_2.331354e-02.pt'
+
+pt = './Experiments/3dshape/3dshape_06_13_18_59/Model_Epoch_05000_ValLoss_1.170522e-02.pt'
 print(f'Loading checkpoint: {pt}')
 
 

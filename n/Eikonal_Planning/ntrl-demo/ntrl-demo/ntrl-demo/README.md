@@ -142,3 +142,40 @@ ntrl shape
    python evaluate_training_3d.py --dataPath testing_data/3dshape/rectangle_env1_yrot \
       --out ./results/output_3d/rectangle_env1_yrot
    ```
+
+
+
+### Lshape_env1
+
+1. **Preprocess** 
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/env1.obj \
+        --shape datasets/3dshape/Lshape3d.obj \
+        --out   datasets/3dshape/Lshape3d_env1 \
+        --num_samples 800000 \
+        --visualize \
+        --batch_size 2000 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/env1.obj \
+        --shape datasets/3dshape/Lshape3d.obj \
+        --out   testing_data/3dshape/Lshape3d_env1 \
+        --num_samples 1000 \
+        --testing_data \
+        --batch_size 1000 \
+        --visualize 
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/Lshape3d_env1
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d.py --dataPath testing_data/3dshape/Lshape3d_env1 \
+      --out ./results/output_3d/Lshape3d_env1
+   ```

@@ -78,6 +78,8 @@ class Function():
         dtau = self.gradient(tau, Xp)
 
 
+        #TESTING REMOVE
+        speed_angle = speed_dist
         
         D = torch.norm(Xp[:,self.dim:]-Xp[:,:self.dim], p=2, dim =1)
         
@@ -186,14 +188,14 @@ class Function():
         T = tau[:,0] #* torch.sqrt(T0)
         diff = loss0 + loss1 
 
-        normal_weight = 1e-3
+        normal_weight = 0
 
         normal0 = normal[:,:self.dim]
         normal1 = normal[:,self.dim:]
         #print(normal0)
         #print(DT0)
-        n_loss0 = (1.001-Yobs[:,0].unsqueeze(1))**2 * (Yobs[:,0].unsqueeze(1)*DT0+normal0)**2
-        n_loss1 = (1.001-Yobs[:,1].unsqueeze(1))**2 * (Yobs[:,1].unsqueeze(1)*DT1+normal1)**2
+        n_loss0 = (1.001-Yobs[:,0].unsqueeze(1)) * (Yobs[:,0].unsqueeze(1)*DT0+normal0)**2
+        n_loss1 = (1.001-Yobs[:,1].unsqueeze(1)) * (Yobs[:,1].unsqueeze(1)*DT1+normal1)**2
         #print(n_loss0.shape)
         #n_loss = normal_weight*torch.sum(n_loss0,dim=1)
         n_loss = normal_weight*(torch.sum(n_loss0,dim=1)+torch.sum(n_loss1,dim=1))

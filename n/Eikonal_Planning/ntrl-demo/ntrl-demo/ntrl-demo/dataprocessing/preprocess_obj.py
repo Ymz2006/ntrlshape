@@ -890,6 +890,8 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
         count += take
         print('generated: {} / {}'.format(count, number_pairs))
 
+
+
     return pairs, dists, angles, normals, ang_shape, ang_env
 
 
@@ -1058,7 +1060,7 @@ def main():
                         help='Number of radial bins for the shape-surface points.')
     parser.add_argument('--tet_switches', default=DEFAULT_TET_SWITCHES,
                         help='tetgen switches used to tetrahedralize the shape.')
-    parser.add_argument('--batch_size', type=int, default=3000,
+    parser.add_argument('--batch_size', type=int, default=1000,
                         help='Sampling batch size (each batch evaluates 2x configs).')
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--visualize', action='store_true',
@@ -1135,6 +1137,8 @@ def main():
     _prof_report()
 
     pairs = pairs.cpu().numpy()
+
+    dists = dists-0.03
     dists = dists.cpu().numpy()
     angles = angles.cpu().numpy()           # (N, 2)
     normals = normals.cpu().numpy()       # (N, 12)
