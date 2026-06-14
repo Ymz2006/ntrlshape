@@ -38,13 +38,20 @@ from timeit import default_timer as timer
 
 import numpy as np
 import torch
+import igl
 import viser
 import plotly.graph_objects as go
 
 from models.metric import model_train_metric as md
-from dataprocessing.preprocess_obj import load_obj, _rotvec_to_matrix_np
+from dataprocessing.preprocess_obj import (
+    load_obj, _rotvec_to_matrix_np, sample_surface_points)
 
-COLLISION_THRESH = 0.001
+# Sign convention for igl.signed_distance: the DEFAULT/WINDING_NUMBER types are
+# unreliable in this binding, but FAST_WINDING_NUMBER returns negative-inside and
+# is robust to per-face orientation (only requires a closed/watertight mesh).
+_SDF_SIGN = igl.SignedDistanceType.SIGNED_DISTANCE_TYPE_FAST_WINDING_NUMBER
+# Number of surface points sampled over the full environment mesh for collision.
+ENV_COLLISION_POINTS = 50000
 HTTP_PORT = 8080
 DIM = 6
 
@@ -73,13 +80,36 @@ for _stale in (glob(os.path.join(OUTPUT_DIR, 'episode_*.html'))
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ──────────────────────────────────────────────────────────────────────────────
-def check_trajectory_collision(traj, env_pts):
-    """Return True if ANY waypoint position comes within COLLISION_THRESH of ANY
-    environment point.  Only x, y, z (first 3 dims) are compared."""
-    waypoints = torch.cat(traj, dim=0)[:, :3].cuda()
-    diff = waypoints.unsqueeze(1) - env_pts.unsqueeze(0)
-    dists = torch.norm(diff, dim=-1)
-    return dists.min().item() < COLLISION_THRESH
+def check_trajectory_collision(traj, env_pts, shape_V, shape_F, shape_radius):
+    """Return True if the placed shape mesh overlaps the environment at ANY waypoint.
+
+    Collision uses the same point-in-solid test that labels the training data
+    (preprocess_obj.points_inside_tets): an environment surface point lying
+    *inside* the watertight shape mesh.  The full 6-DOF pose (position + rotvec)
+    is applied at each waypoint, and ``env_pts`` densely covers the whole
+    environment surface (obstacles *and* walls), so everything counts as an
+    obstacle.  No interpolation between waypoints -- each is checked on its own.
+
+    ``traj`` is a list of (1, DIM) configs with the rotvec stored normalized by
+    2*pi (as written by preprocess_obj); ``shape_V``/``shape_F`` is the shape
+    mesh in its local frame; ``shape_radius`` is max ||vertex|| about that frame.
+    """
+    two_pi = 2 * np.pi
+    for cfg_t in traj:
+        cfg = cfg_t.detach().cpu().numpy().reshape(-1)
+        t = cfg[0:3]
+        # Broad phase: a point inside the shape must lie within its bounding radius.
+        near = env_pts[np.linalg.norm(env_pts - t, axis=1) <= shape_radius]
+        if near.shape[0] == 0:
+            continue
+        # Map env points into the shape's local frame (inverse of _placed_mesh,
+        # which does  world = local @ R.T + t  =>  local = (world - t) @ R).
+        R = _rotvec_to_matrix_np(cfg[3:6] * two_pi)
+        near_local = np.ascontiguousarray((near - t) @ R)
+        S = igl.signed_distance(near_local, shape_V, shape_F, _SDF_SIGN)[0]
+        if S.size and S.min() < 0.0:
+            return True
+    return False
 
 
 def MPPI(womodel, XP, dim):
@@ -148,6 +178,11 @@ def _progress_color(t):
     return (int(r * 255), int(g * 255), int(b * 255))
 
 
+def _speed_color(s):
+    """Map a model-predicted speed s in [0, 1] to an RGB tuple (viridis)."""
+    return _progress_color(float(np.clip(s, 0.0, 1.0)))
+
+
 def add_environment(server, env_V, obst_F, wall_F):
     """Draw the environment as its actual triangle mesh (static scene).
 
@@ -164,25 +199,35 @@ def add_environment(server, env_V, obst_F, wall_F):
             color=(173, 216, 230), opacity=0.15, flat_shading=True, side='double')
 
 
-def render_episode(server, ep, shape_V, shape_F):
+def render_episode(server, ep, shape_V, shape_F, show_speed_labels=True):
     """Add the moving-shape sweep + start/goal poses for one episode.
 
-    The shape mesh is drawn at every waypoint, colored by progress along the
-    path; the start pose is red and the goal pose is green.  Returns the list of
-    scene handles so the caller can remove them before rendering the next episode.
+    The shape mesh is drawn at every waypoint, colored by the model's PREDICTED
+    SPEED at that config (viridis, 0=slow .. 1=fast) when ``ep['speeds']`` is
+    present, otherwise by progress along the path.  When ``show_speed_labels`` is
+    set, a small floating text label at each waypoint reports the numeric speed.
+    The start pose is red and the goal pose is green.  Returns the list of scene
+    handles so the caller can remove them before rendering the next episode.
 
     ``ep['waypoints']`` is a (T, 6) array of poses [x, y, z, rx, ry, rz] (rotvec
-    in radians).
+    in radians); ``ep['speeds']`` is a (T,) array of model-predicted speeds.
     """
     handles = []
     waypoints = ep['waypoints']
+    speeds = ep.get('speeds')
     T = len(waypoints)
     for t in range(T):
         Vp = _placed_mesh(shape_V, waypoints[t])
+        color = (_speed_color(speeds[t]) if speeds is not None
+                 else _progress_color(t / max(T - 1, 1)))
         handles.append(server.scene.add_mesh_simple(
             f'/episode/traj/{t:04d}', vertices=Vp, faces=shape_F,
-            color=_progress_color(t / max(T - 1, 1)), opacity=0.5,
+            color=color, opacity=0.5,
             flat_shading=True, side='double'))
+        if speeds is not None and show_speed_labels:
+            handles.append(server.scene.add_label(
+                f'/episode/spd/{t:04d}', text=f'{speeds[t]:.3f}',
+                position=tuple(Vp.mean(axis=0))))
 
     for cfg, col, nm in [(ep['begin_cfg'], (220, 30, 30), 'start'),
                          (ep['end_cfg'], (30, 180, 30), 'goal')]:
@@ -204,6 +249,8 @@ def launch_viser(episodes, shape_V, shape_F, env_V, obst_F, wall_F):
 
     options = [f"{ep['idx']:03d}_{ep['status']}" for ep in episodes]
     dropdown = server.gui.add_dropdown('Episode', options=options)
+    speed_labels = server.gui.add_checkbox('Show speed labels', initial_value=True)
+    speed_summary = server.gui.add_text('Predicted speed', initial_value='', disabled=True)
 
     current = []
 
@@ -211,9 +258,20 @@ def launch_viser(episodes, shape_V, shape_F, env_V, obst_F, wall_F):
         for h in current:
             h.remove()
         current.clear()
-        current.extend(render_episode(server, episodes[i], shape_V, shape_F))
+        ep = episodes[i]
+        current.extend(render_episode(
+            server, ep, shape_V, shape_F, show_speed_labels=speed_labels.value))
+        sp = ep.get('speeds')
+        speed_summary.value = (
+            'min {:.3f}  mean {:.3f}  max {:.3f}'.format(
+                float(np.min(sp)), float(np.mean(sp)), float(np.max(sp)))
+            if sp is not None and len(sp) else 'n/a')
 
     @dropdown.on_update
+    def _(_):
+        show(options.index(dropdown.value))
+
+    @speed_labels.on_update
     def _(_):
         show(options.index(dropdown.value))
 
@@ -245,7 +303,14 @@ else:
         raise FileNotFoundError(
             f'No latest.pt and no checkpoints under {modelPath}/*/Model_Epoch_*.pt')
     pt = ckpts[-1]
-pt = './Experiments/3dshape/3dshape_06_05_12_15/latest.pt'
+
+#pt = './Experiments/3dshape/3dshape_06_11_22_49/Model_Epoch_03000_ValLoss_7.413567e-03.pt'
+#pt = './pretrained/baseline_rectangle_env1.pt'
+
+# 800k points diff4 model 
+#pt = './Experiments/3dshape/3dshape_06_12_23_00/Model_Epoch_05000_ValLoss_2.331354e-02.pt'
+
+#pt = './Experiments/3dshape/3dshape_06_13_18_59/Model_Epoch_05000_ValLoss_1.170522e-02.pt'
 print(f'Loading checkpoint: {pt}')
 
 
@@ -254,9 +319,6 @@ womodel.network.eval()
 
 arr = np.load(os.path.join(dataPath, 'sampled_points.npy'))       # (N, 12)
 arr_speeds = np.load(os.path.join(dataPath, 'speed.npy'))         # (N, 2)
-environment_boundary_points = np.load(os.path.join(dataPath, 'env.npy'))   # (M, 3)
-env_pts_cuda = torch.tensor(environment_boundary_points[:, :3],
-                            dtype=torch.float32, device='cuda')
 
 # Reconstruct the shape + wall meshes in the normalized frame from meta.json
 # (written by preprocess_obj.py) so the visualization matches the sampling frame.
@@ -268,14 +330,22 @@ shape_scale = float(meta['shape_scale'])
 
 V_sh, F_sh, _ = load_obj(meta['shape_obj'])
 shape_center = 0.5 * (V_sh.min(axis=0) + V_sh.max(axis=0))
-shape_V = ((V_sh - shape_center) / env_scale * shape_scale).astype(np.float64)
-shape_F = F_sh
+shape_V = np.ascontiguousarray((V_sh - shape_center) / env_scale * shape_scale,
+                               dtype=np.float64)
+shape_F = np.ascontiguousarray(F_sh, dtype=np.int64)
+# Bounding radius of the shape about its local origin (used for collision broad phase).
+shape_radius = float(np.linalg.norm(shape_V, axis=1).max())
 
 V_env, F_env, names_env = load_obj(meta['env_obj'])
 V_env_n = (V_env - env_center) / env_scale
 wall_mask = np.array(['wall' in str(n).lower() for n in names_env])
 wall_F = F_env[wall_mask]
 obst_F = F_env[~wall_mask]
+
+# Collision point cloud: env.npy is obstacles-only, so resample densely over the
+# FULL environment mesh (obstacles + walls) -- everything counts as an obstacle.
+env_collision_pts = np.ascontiguousarray(
+    sample_surface_points(V_env_n, F_env, ENV_COLLISION_POINTS), dtype=np.float64)
 
 test_list = []
 test_list_speed = []
@@ -309,6 +379,18 @@ for XP in test_list:
         point, iter, success = MPPI(womodel, XP.clone(), dim=DIM)
     end = timer()
 
+    # Model-predicted speed at every waypoint.  Speed() runs network.out + the
+    # gradient of tau w.r.t. the *current* config (the first DIM coords) and
+    # returns 1/||grad tau|| -- i.e. what the model thinks the speed is at that
+    # config (measured toward this episode's goal).  point holds the normalized
+    # configs the network was trained on, so feed those directly (NOT the
+    # rotvec-de-normalized waypoints).  Outside the no_grad block: Speed needs
+    # autograd to differentiate tau.
+    cur = torch.cat(point, dim=0)                      # (T, DIM) normalized
+    goal = XP[0, DIM:2 * DIM].unsqueeze(0).expand(cur.shape[0], -1)
+    speeds = womodel.function.Speed(
+        torch.cat([cur, goal], dim=1)).detach().cpu().numpy()   # (T,)
+
     # Build (T, 6) waypoints; rotvec de-normalized to radians (stored / 2*pi).
     waypoints = np.zeros((len(point), DIM))
     for c, p in enumerate(point):
@@ -322,7 +404,8 @@ for XP in test_list:
                         XP[0][DIM + 3].item() * two_pi, XP[0][DIM + 4].item() * two_pi,
                         XP[0][DIM + 5].item() * two_pi])
 
-    collision = check_trajectory_collision(point, env_pts_cuda)
+    collision = check_trajectory_collision(
+        point, env_collision_pts, shape_V, shape_F, shape_radius)
     ok = success and not collision
 
     status = 'success' if ok else 'fail'
@@ -332,6 +415,7 @@ for XP in test_list:
         'waypoints': waypoints,
         'begin_cfg': begin_cfg,
         'end_cfg': end_cfg,
+        'speeds': speeds,
     })
 
     if ok:

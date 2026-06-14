@@ -105,7 +105,7 @@ class Function():
         S0 = torch.einsum('ij,ij->i', DT0, DT0)
         S1 = torch.einsum('ij,ij->i', DT1, DT1)
 
-        td_weight = 1e-3#np.clip(1e-2*(1-(epoch)/300.), a_min=1e-3, a_max=1e-2) #2e-3
+        td_weight = 0#1e-3#np.clip(1e-2*(1-(epoch)/300.), a_min=1e-3, a_max=1e-2) #2e-3
         with torch.no_grad():
 
             length0 = (0.03)/(Yobs[:,0]).unsqueeze(1)#5*torch.rand(Yobs.shape[0],1).cuda()
@@ -179,7 +179,7 @@ class Function():
         T = tau[:,0] #* torch.sqrt(T0)
         diff = loss0 + loss1 
 
-        normal_weight = 1e-3
+        normal_weight = 0#1e-3
 
         normal0 = normal[:,:self.dim]
         normal1 = normal[:,self.dim:]
