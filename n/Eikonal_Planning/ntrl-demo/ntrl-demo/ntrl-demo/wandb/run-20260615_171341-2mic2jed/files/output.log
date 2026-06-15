@@ -1,0 +1,51 @@
+wandb run: graceful-elevator-56 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/2mic2jed)
+Files copied successfully!
+torch.Size([128, 6])
+train
+(800000, 12)
+(800000, 2)
+(800000, 12)
+(800000, 12) (800000, 2)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+Epoch = 1 -- Loss = 1.4426e+00 -- Alpha = 1.0000e+00
+Epoch = 2 -- Loss = 1.2296e+00 -- Alpha = 1.0000e+00
+Epoch = 3 -- Loss = 1.1088e+00 -- Alpha = 1.0000e+00
+Epoch = 4 -- Loss = 9.2614e-01 -- Alpha = 1.0000e+00
+Epoch = 5 -- Loss = 7.6231e-01 -- Alpha = 1.0000e+00
+Epoch = 6 -- Loss = 6.0095e-01 -- Alpha = 1.0000e+00
+Epoch = 7 -- Loss = 4.4920e-01 -- Alpha = 1.0000e+00
+Epoch = 8 -- Loss = 3.0331e-01 -- Alpha = 1.0000e+00
+Epoch = 9 -- Loss = 1.5957e-01 -- Alpha = 1.0000e+00
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 50, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 377, in train
+    wandb.log({
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 329, in wrapper
+    return func(self, *args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 387, in wrapper_fn
+    return func(self, *args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 374, in wrapper
+    return func(self, *args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 1984, in log
+    self._log(data=data, step=step, commit=commit)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 1695, in _log
+    self._partial_history_callback(data, step, commit)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 329, in wrapper
+    return func(self, *args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 1526, in _partial_history_callback
+    self._interface.publish_partial_history(
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/interface/interface.py", line 708, in publish_partial_history
+    self._publish_partial_history(partial_history)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/interface/interface_shared.py", line 104, in _publish_partial_history
+    self._publish(rec)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/interface/interface_sock.py", line 46, in _publish
+    self._asyncer.run(lambda: self._client.publish(request))
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 137, in run
+    return future.result()
+  File "/opt/conda/lib/python3.10/concurrent/futures/_base.py", line 453, in result
+    self._condition.wait(timeout)
+  File "/opt/conda/lib/python3.10/threading.py", line 320, in wait
+    waiter.acquire()
+KeyboardInterrupt

@@ -312,14 +312,15 @@ class Model():
                     # cut at the max angle pi/18 (10 deg), then renormalize to [0,1].
 
                     angle_max = 1*torch.pi/18
-                    speed_angle = torch.clamp(speed_angle * torch.pi, min=0, max=angle_max) / (angle_max)
+                    angle_min = 0.0001
+                    speed_angle = torch.clamp(speed_angle/angle_max, min=angle_min/angle_max, max=1)
 
                     speed = (speed*2) * ((2-speed)**2)
                     #speed_dist = speed_dist**2 *(2-speed_dist)*(2-speed_dist)
-                    speed_dist = speed_dist**4 *(2-speed_dist)**4
+                    speed_dist = speed_dist**2 *(2-speed_dist)**2
                     
                     #speed_angle = speed_angle*speed_angle*(2-speed_angle)*(2-speed_angle)
-                    speed_angle = speed_angle**4 *(2-speed_angle)**4
+                    speed_angle = speed_angle**2 *(2-speed_angle)**2
                     
                     
                     speed=alpha*speed+1-alpha

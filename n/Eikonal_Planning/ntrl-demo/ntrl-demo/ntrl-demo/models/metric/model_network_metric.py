@@ -196,7 +196,7 @@ class NN(torch.nn.Module):
         x = torch.sqrt((x0-x1)**2+1e-6)
         x = x.view(x.shape[0],-1,16)
         x = (torch.logsumexp(10*x, 2)-np.log(16))/10
-        x = 0.2*(torch.sum(x,dim=1,keepdim=True))
+        x = (torch.sum(x,dim=1,keepdim=True))
 
         #L1
         # x = 0.01*torch.norm(x0-x1,p=1,dim=1).unsqueeze(1)

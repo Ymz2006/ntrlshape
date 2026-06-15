@@ -1046,9 +1046,9 @@ def main():
     parser.add_argument('--shape_scale', type=float, default=1.0,
                         help='Uniform scale applied to the shape (1.0 = baseline '
                              'size in env-normalized units, <1 shrinks).')
-    parser.add_argument('--margin', type=float, default=0.08,
+    parser.add_argument('--margin', type=float, default=0.05,
                         help='Upper band: x0 must have clearance < margin; maps to speed=1.')
-    parser.add_argument('--offset', type=float, default=0.002,
+    parser.add_argument('--offset', type=float, default=0.001,
                         help='Lower band: x0 must have clearance > offset, and x1 '
                              '(paired goal) must also have clearance > offset. '
                              'Maps to the minimum speed value offset/margin.')
@@ -1060,7 +1060,7 @@ def main():
                         help='Number of radial bins for the shape-surface points.')
     parser.add_argument('--tet_switches', default=DEFAULT_TET_SWITCHES,
                         help='tetgen switches used to tetrahedralize the shape.')
-    parser.add_argument('--batch_size', type=int, default=1000,
+    parser.add_argument('--batch_size', type=int, default=3000,
                         help='Sampling batch size (each batch evaluates 2x configs).')
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--visualize', action='store_true',
@@ -1138,7 +1138,7 @@ def main():
 
     pairs = pairs.cpu().numpy()
 
-    dists = dists-0.03
+    #dists = np.max(0,dists-0.03)
     dists = dists.cpu().numpy()
     angles = angles.cpu().numpy()           # (N, 2)
     normals = normals.cpu().numpy()       # (N, 12)
@@ -1149,7 +1149,7 @@ def main():
                           a_min=args.offset / args.margin, a_max=1.0) + angles/np.pi)/2
     speed_angles = (angles/np.pi)
     speed_dists = np.clip(dists / args.margin, a_min=args.offset / args.margin, a_max=1.0)
-
+    #speed_dists = np.clip(dists / args.margin, a_min=0.0001, a_max=1.0)
 
     if args.visualize:
         visual_training(pairs[:, 0:6].copy(), speed_pairs[:, 0], env_points,

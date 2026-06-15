@@ -44,14 +44,14 @@ import plotly.graph_objects as go
 
 from models.metric import model_train_metric as md
 from dataprocessing.preprocess_obj import (
-    load_obj, _rotvec_to_matrix_np, sample_surface_points)
+    load_obj, _rotvec_to_matrix_np, sample_surface_points, wrap_rotvec)
 
 # Sign convention for igl.signed_distance: the DEFAULT/WINDING_NUMBER types are
 # unreliable in this binding, but FAST_WINDING_NUMBER returns negative-inside and
 # is robust to per-face orientation (only requires a closed/watertight mesh).
 _SDF_SIGN = igl.SignedDistanceType.SIGNED_DISTANCE_TYPE_FAST_WINDING_NUMBER
 # Number of surface points sampled over the full environment mesh for collision.
-ENV_COLLISION_POINTS = 50000
+ENV_COLLISION_POINTS = 10000
 HTTP_PORT = 8080
 DIM = 6
 
@@ -112,10 +112,13 @@ def check_trajectory_collision(traj, env_pts, shape_V, shape_F, shape_radius):
     return False
 
 
-def MPPI(womodel, XP, dim):
+def MPPI(womodel, XP, dim, case_idx=-1):
     """Run MPPI for a single start/goal pair.
 
     Returns the recorded waypoints, the iteration count, and a success flag.
+
+    ``case_idx`` is only used for the per-step rotation-vector diagnostics printed
+    to the console (it labels which start/goal episode is being planned).
     """
     found_path = False
     steps = 200
@@ -149,6 +152,23 @@ def MPPI(womodel, XP, dim):
         dP_prior = (weight @ dP[:, 0, :])
 
         XP[:, 0:dim] = dP_prior + XP[:, 0:dim]
+
+        # ── Rotation-vector domain diagnostics (console only; planner unchanged) ──
+        # The trained rotvec domain is ||(rx,ry,rz)/2pi|| <= 0.5  (== pi rad, the
+        # axis-angle half-turn cap wrap_rotvec enforces in preprocess_obj).  MPPI
+        # steps Euclidean-ly and never wraps, so the query rotvec can leave it.
+        rv = XP[:, 3:dim]                                        # (1,3) normalized
+        mag = float(torch.linalg.norm(rv, dim=1))               # normalized magnitude
+        if torch.isnan(rv).any() or torch.isinf(rv).any():
+            print(f"case {case_idx} iter {iter}: rot vec error (nan/inf)")
+        else:
+            # equivalent wrapped rotvec (wrap_rotvec works in radians, so x2pi/÷2pi)
+            wmag = float(torch.linalg.norm(
+                wrap_rotvec(rv * (2 * np.pi)) / (2 * np.pi), dim=1))
+            if mag > 0.5 + 1e-6:                                 # outside principal range
+                print(f"case {case_idx} iter {iter}: wrap")
+            if wmag > 0.5 + 1e-6:                                # still out after wrapping
+                print(f"case {case_idx} iter {iter}: rot vec error")
 
         dis = torch.norm(XP[:, dim:dim * 2] - XP[:, 0:dim])
         point0.append(XP[:, 0:dim].clone())
@@ -310,7 +330,7 @@ else:
 # 800k points diff4 model 
 #pt = './Experiments/3dshape/3dshape_06_12_23_00/Model_Epoch_05000_ValLoss_2.331354e-02.pt'
 
-pt = './Experiments/3dshape/3dshape_06_13_18_59/Model_Epoch_05000_ValLoss_1.170522e-02.pt'
+#pt = './Experiments/3dshape/3dshape_06_13_18_59/Model_Epoch_05000_ValLoss_1.170522e-02.pt'
 print(f'Loading checkpoint: {pt}')
 
 
@@ -376,7 +396,7 @@ for XP in test_list:
 
     start = timer()
     with torch.no_grad():
-        point, iter, success = MPPI(womodel, XP.clone(), dim=DIM)
+        point, iter, success = MPPI(womodel, XP.clone(), dim=DIM, case_idx=cnt2)
     end = timer()
 
     # Model-predicted speed at every waypoint.  Speed() runs network.out + the

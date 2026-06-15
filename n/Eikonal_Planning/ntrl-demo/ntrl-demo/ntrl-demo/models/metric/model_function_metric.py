@@ -79,7 +79,7 @@ class Function():
 
 
         #TESTING REMOVE
-        speed_angle = speed_dist
+        #speed_angle = speed_dist
         
         D = torch.norm(Xp[:,self.dim:]-Xp[:,:self.dim], p=2, dim =1)
         
