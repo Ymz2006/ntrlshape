@@ -1,0 +1,57 @@
+wandb run: earnest-wind-66 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/iqcl6k0k)
+Files copied successfully!
+torch.Size([128, 6])
+train
+(400000, 12)
+(400000, 2)
+(400000, 12)
+(400000, 12) (400000, 2)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+Epoch = 1 -- Loss = 7.8607e+00 -- Alpha = 1.0000e+00
+Epoch = 2 -- Loss = 7.1970e+00 -- Alpha = 1.0000e+00
+Epoch = 3 -- Loss = 6.9778e+00 -- Alpha = 1.0000e+00
+Epoch = 4 -- Loss = 6.9634e+00 -- Alpha = 1.0000e+00
+Epoch = 5 -- Loss = 6.9428e+00 -- Alpha = 1.0000e+00
+Epoch = 6 -- Loss = 6.4581e+00 -- Alpha = 1.0000e+00
+Epoch = 7 -- Loss = 6.0989e+00 -- Alpha = 1.0000e+00
+Epoch = 8 -- Loss = 6.0583e+00 -- Alpha = 1.0000e+00
+Epoch = 9 -- Loss = 5.9949e+00 -- Alpha = 1.0000e+00
+Epoch = 10 -- Loss = 5.8052e+00 -- Alpha = 1.0000e+00
+Epoch = 11 -- Loss = 5.6499e+00 -- Alpha = 1.0000e+00
+Epoch = 12 -- Loss = 5.0966e+00 -- Alpha = 1.0000e+00
+Epoch = 13 -- Loss = 4.9261e+00 -- Alpha = 1.0000e+00
+Epoch = 14 -- Loss = 4.5971e+00 -- Alpha = 1.0000e+00
+Epoch = 15 -- Loss = 4.3468e+00 -- Alpha = 1.0000e+00
+Epoch = 16 -- Loss = 3.8283e+00 -- Alpha = 1.0000e+00
+Epoch = 17 -- Loss = 3.3321e+00 -- Alpha = 1.0000e+00
+Epoch = 18 -- Loss = 2.7306e+00 -- Alpha = 1.0000e+00
+Epoch = 19 -- Loss = 2.3874e+00 -- Alpha = 1.0000e+00
+Epoch = 20 -- Loss = 2.0053e+00 -- Alpha = 1.0000e+00
+Epoch = 21 -- Loss = 1.7232e+00 -- Alpha = 1.0000e+00
+Epoch = 22 -- Loss = 1.3004e+00 -- Alpha = 1.0000e+00
+Epoch = 23 -- Loss = 9.4658e-01 -- Alpha = 1.0000e+00
+Epoch = 24 -- Loss = 7.1793e-01 -- Alpha = 1.0000e+00
+Epoch = 25 -- Loss = 4.9891e-01 -- Alpha = 1.0000e+00
+Epoch = 26 -- Loss = 3.7330e-01 -- Alpha = 1.0000e+00
+Epoch = 27 -- Loss = 2.3454e-01 -- Alpha = 1.0000e+00
+Epoch = 28 -- Loss = 1.5341e-01 -- Alpha = 1.0000e+00
+Epoch = 29 -- Loss = 9.9902e-02 -- Alpha = 1.0000e+00
+Epoch = 30 -- Loss = 6.3817e-02 -- Alpha = 1.0000e+00
+Epoch = 31 -- Loss = 4.4500e-02 -- Alpha = 1.0000e+00
+Epoch = 32 -- Loss = 3.1826e-02 -- Alpha = 1.0000e+00
+Epoch = 33 -- Loss = 2.5447e-02 -- Alpha = 1.0000e+00
+Epoch = 34 -- Loss = 2.1989e-02 -- Alpha = 1.0000e+00
+Epoch = 35 -- Loss = 2.0256e-02 -- Alpha = 1.0000e+00
+Epoch = 36 -- Loss = 1.9558e-02 -- Alpha = 1.0000e+00
+Epoch = 37 -- Loss = 1.9164e-02 -- Alpha = 1.0000e+00
+Epoch = 38 -- Loss = 1.8960e-02 -- Alpha = 1.0000e+00
+Epoch = 39 -- Loss = 1.8557e-02 -- Alpha = 1.0000e+00
+Epoch = 40 -- Loss = 1.8655e-02 -- Alpha = 1.0000e+00
+Epoch = 41 -- Loss = 1.8486e-02 -- Alpha = 1.0000e+00
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 50, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 343, in train
+    total_train_loss += loss_value.item()
+KeyboardInterrupt

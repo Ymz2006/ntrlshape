@@ -322,6 +322,8 @@ class Model():
                     #speed_angle = speed_angle*speed_angle*(2-speed_angle)*(2-speed_angle)
                     speed_angle = speed_angle**2 *(2-speed_angle)**2
                     
+                    speed_dist = torch.clamp(speed_dist, min = 0.01)
+                    speed_angle = torch.clamp(speed_angle, min = 0.01)
                     
                     speed=alpha*speed+1-alpha
                     speed_angle=alpha*speed_angle+1-alpha
