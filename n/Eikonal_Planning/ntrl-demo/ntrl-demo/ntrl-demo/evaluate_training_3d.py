@@ -330,7 +330,7 @@ else:
 # 800k points diff4 model 
 #pt = './Experiments/3dshape/3dshape_06_12_23_00/Model_Epoch_05000_ValLoss_2.331354e-02.pt'
 
-#pt = './Experiments/3dshape/3dshape_06_13_18_59/Model_Epoch_05000_ValLoss_1.170522e-02.pt'
+#pt = './Experiments/3dshape/3dshape_06_15_15_19/Model_Epoch_03500_ValLoss_8.544786e-03.pt'
 print(f'Loading checkpoint: {pt}')
 
 
