@@ -80,8 +80,8 @@ for _stale in (glob(os.path.join(OUTPUT_DIR, 'episode_*.html'))
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ──────────────────────────────────────────────────────────────────────────────
-def check_trajectory_collision(traj, env_pts, shape_V, shape_F, shape_radius):
-    """Return True if the placed shape mesh overlaps the environment at ANY waypoint.
+def first_collision_index(traj, env_pts, shape_V, shape_F, shape_radius):
+    """Return the index of the FIRST waypoint whose placed shape collides, else -1.
 
     Collision uses the same point-in-solid test that labels the training data
     (preprocess_obj.points_inside_tets): an environment surface point lying
@@ -95,7 +95,7 @@ def check_trajectory_collision(traj, env_pts, shape_V, shape_F, shape_radius):
     mesh in its local frame; ``shape_radius`` is max ||vertex|| about that frame.
     """
     two_pi = 2 * np.pi
-    for cfg_t in traj:
+    for idx, cfg_t in enumerate(traj):
         cfg = cfg_t.detach().cpu().numpy().reshape(-1)
         t = cfg[0:3]
         # Broad phase: a point inside the shape must lie within its bounding radius.
@@ -108,8 +108,30 @@ def check_trajectory_collision(traj, env_pts, shape_V, shape_F, shape_radius):
         near_local = np.ascontiguousarray((near - t) @ R)
         S = igl.signed_distance(near_local, shape_V, shape_F, _SDF_SIGN)[0]
         if S.size and S.min() < 0.0:
-            return True
-    return False
+            return idx
+    return -1
+
+
+def check_trajectory_collision(traj, env_pts, shape_V, shape_F, shape_radius):
+    """True if the placed shape mesh overlaps the environment at ANY waypoint."""
+    return first_collision_index(traj, env_pts, shape_V, shape_F, shape_radius) >= 0
+
+
+def grad_block_mags(womodel, Xp_pair):
+    """|grad tau| split into translational / rotational query blocks.
+
+    ``Xp_pair`` is (B, 2*DIM) normalized [config | goal] (rotvec / 2*pi, as the
+    net was trained).  Mirrors Function.Speed's gradient (dtau over the first DIM
+    query coords), but instead of 1/||.|| returns the raw magnitudes of the
+    translational (dims 0:3) and rotational (dims 3:6) sub-blocks.  Needs
+    autograd, so call OUTSIDE a no_grad block.  Returns (trans, rot) numpy (B,).
+    """
+    tau, _w, coords = womodel.network.out(Xp_pair)
+    dtau = womodel.function.gradient(tau, coords)
+    DT0 = dtau[:, :DIM]
+    trans = torch.linalg.norm(DT0[:, :3], dim=1).detach().cpu().numpy()
+    rot = torch.linalg.norm(DT0[:, 3:DIM], dim=1).detach().cpu().numpy()
+    return trans, rot
 
 
 def MPPI(womodel, XP, dim, case_idx=-1):
@@ -257,6 +279,20 @@ def render_episode(server, ep, shape_V, shape_F, show_speed_labels=True):
         handles.append(server.scene.add_mesh_simple(
             f'/episode/{nm}', vertices=Vp, faces=shape_F,
             color=col, opacity=0.9, flat_shading=True, side='double'))
+
+    # Highlight the shape at the waypoint right BEFORE the first collision (orange),
+    # and label it with the predicted dtau split (translational / rotational).
+    precoll = ep.get('precoll_idx')
+    if precoll is not None and 0 <= precoll < T:
+        Vp = _placed_mesh(shape_V, waypoints[precoll])
+        handles.append(server.scene.add_mesh_simple(
+            '/episode/pre_collision', vertices=Vp, faces=shape_F,
+            color=(255, 140, 0), opacity=0.95, flat_shading=True, side='double'))
+        handles.append(server.scene.add_label(
+            '/episode/pre_collision_lbl',
+            text='pre-collision  dtau_trans={:.3f}  dtau_rot={:.3f}'.format(
+                ep['dtau_trans'], ep['dtau_rot']),
+            position=tuple(Vp.mean(axis=0))))
     return handles
 
 
@@ -271,6 +307,8 @@ def launch_viser(episodes, shape_V, shape_F, env_V, obst_F, wall_F):
     dropdown = server.gui.add_dropdown('Episode', options=options)
     speed_labels = server.gui.add_checkbox('Show speed labels', initial_value=True)
     speed_summary = server.gui.add_text('Predicted speed', initial_value='', disabled=True)
+    precoll_summary = server.gui.add_text(
+        'Pre-collision dtau', initial_value='', disabled=True)
 
     current = []
 
@@ -286,6 +324,12 @@ def launch_viser(episodes, shape_V, shape_F, env_V, obst_F, wall_F):
             'min {:.3f}  mean {:.3f}  max {:.3f}'.format(
                 float(np.min(sp)), float(np.mean(sp)), float(np.max(sp)))
             if sp is not None and len(sp) else 'n/a')
+        # Predicted gradient magnitude at the waypoint right before the first
+        # collision (orange shape in the scene); blank for non-colliding episodes.
+        precoll_summary.value = (
+            'trans {:.3f}  rot {:.3f}  (waypoint {})'.format(
+                ep['dtau_trans'], ep['dtau_rot'], ep['precoll_idx'])
+            if ep.get('precoll_idx') is not None else 'no collision')
 
     @dropdown.on_update
     def _(_):
@@ -331,6 +375,9 @@ else:
 #pt = './Experiments/3dshape/3dshape_06_12_23_00/Model_Epoch_05000_ValLoss_2.331354e-02.pt'
 
 #pt = './Experiments/3dshape/3dshape_06_13_18_59/Model_Epoch_05000_ValLoss_1.170522e-02.pt'
+#pt = './Experiments/3dshape/3dshape_06_17_16_07/latest.pt'
+#pt = './Experiments/3dshape/3dshape_06_17_16_07/Model_Epoch_08000_ValLoss_3.886423e-02.pt'
+#pt = './Experiments/3dshape/3dshape_06_21_18_23/Model_Epoch_08000_ValLoss_4.976554e-02.pt'
 print(f'Loading checkpoint: {pt}')
 
 
@@ -408,8 +455,12 @@ for XP in test_list:
     # autograd to differentiate tau.
     cur = torch.cat(point, dim=0)                      # (T, DIM) normalized
     goal = XP[0, DIM:2 * DIM].unsqueeze(0).expand(cur.shape[0], -1)
-    speeds = womodel.function.Speed(
-        torch.cat([cur, goal], dim=1)).detach().cpu().numpy()   # (T,)
+    pair = torch.cat([cur, goal], dim=1)
+    speeds = womodel.function.Speed(pair).detach().cpu().numpy()   # (T,)
+    # Predicted gradient magnitude at every waypoint, split into the translational
+    # (dims 0:3) and rotational (dims 3:6) query blocks -- used below to report the
+    # value at the waypoint right before the first collision.
+    dtau_trans_all, dtau_rot_all = grad_block_mags(womodel, pair)   # (T,), (T,)
 
     # Build (T, 6) waypoints; rotvec de-normalized to radians (stored / 2*pi).
     waypoints = np.zeros((len(point), DIM))
@@ -424,9 +475,20 @@ for XP in test_list:
                         XP[0][DIM + 3].item() * two_pi, XP[0][DIM + 4].item() * two_pi,
                         XP[0][DIM + 5].item() * two_pi])
 
-    collision = check_trajectory_collision(
+    first_col = first_collision_index(
         point, env_collision_pts, shape_V, shape_F, shape_radius)
+    collision = first_col >= 0
     ok = success and not collision
+
+    # Waypoint right BEFORE the first collision: report its predicted dtau split
+    # (translational / rotational).  If the very first waypoint already collides
+    # there is no prior config, so fall back to that waypoint itself (precoll==0).
+    precoll_idx = None
+    dtau_trans = dtau_rot = None
+    if collision:
+        precoll_idx = max(first_col - 1, 0)
+        dtau_trans = float(dtau_trans_all[precoll_idx])
+        dtau_rot = float(dtau_rot_all[precoll_idx])
 
     status = 'success' if ok else 'fail'
     episodes.append({
@@ -436,6 +498,9 @@ for XP in test_list:
         'begin_cfg': begin_cfg,
         'end_cfg': end_cfg,
         'speeds': speeds,
+        'precoll_idx': precoll_idx,
+        'dtau_trans': dtau_trans,
+        'dtau_rot': dtau_rot,
     })
 
     if ok:

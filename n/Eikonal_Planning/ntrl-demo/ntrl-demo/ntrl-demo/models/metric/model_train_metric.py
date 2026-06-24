@@ -158,26 +158,15 @@ class Model():
         # Initialising the network
         #self._init_network()
         self.B = torch.normal(0,1,size=(128,self.dim))
-        torch.nn.init.trunc_normal_(self.B, mean=0.0, std=1, a=-2.0, b=2.0)
+        torch.nn.init.trunc_normal_(self.B, mean=0.0, std=2, a=-2.0, b=2.0)
         #self.B = 0.5*self.B
         #torch.save(B, self.Params['ModelPath']+'/B.pt')
         freq_bands = 0.5**(torch.linspace(0, 8, 128)) 
 
-        # bvals = 2**np.linspace(-1,1,128//3) #- 1
-        # bvals = np.reshape(np.eye(3)*bvals[:,None,None], [len(bvals)*3, 3])
-        # print(bvals)
-        # #rot = np.array([[(2**.5)/2,-(2**.5)/2,0],[(2**.5)/2,(2**.5)/2,0],[0,0,1]])
-        # #bvals = bvals @ rot.T
-        # #rot = np.array([[1,0,0],[0,(2**.5)/2,-(2**.5)/2],[0,(2**.5)/2,(2**.5)/2]])
-        # #bvals = bvals @ rot.T
 
-        # print(bvals.shape)
-        
-        #self.B = torch.tensor(bvals).cuda().float()#freq_bands.unsqueeze(1).repeat(1,3)
-        #print(self.B)
         self.network = model_network.NN(self.Params['Device'],self.dim, self.B)
         self.network.apply(self.network.init_weights)
-        #self.network.float()
+
         self.network.to(self.Params['Device'])
         # Defining the optimization scheme
 
@@ -254,15 +243,8 @@ class Model():
             total_train_loss = 0
             total_val_loss = 0
             total_diff=0
-            '''
-            if epoch%100==0:
-                dataloader = FastTensorDataLoader(self.dataset.data, 
-                    batch_size=int(self.Params['Training']['Batch Size']), 
-                    shuffle=True)
-            '''
-            
 
-            alpha = 0.8#0.95#0.95#min(max(0.5,0.5+0.5*step),1.05)
+
             alpha = 1#min(max(0.5,0.5+0.5*step),1)
             step+=1.0/4000/((int)(epoch/4000)+1.)
             gamma=0.001#max((4000.0-epoch)/4000.0/20,0.001)
@@ -322,16 +304,19 @@ class Model():
                     #speed_angle = speed_angle*speed_angle*(2-speed_angle)*(2-speed_angle)
                     speed_angle = speed_angle**2 *(2-speed_angle)**2
                     
-                    speed_dist = torch.clamp(speed_dist, min = 0.01)
-                    speed_angle = torch.clamp(speed_angle, min = 0.01)
+                    speed_dist = torch.clamp(speed_dist, min = 0.001)
+                    speed_angle = torch.clamp(speed_angle, min = 0.001)
                     
-                    speed=alpha*speed+1-alpha
-                    speed_angle=alpha*speed_angle+1-alpha
-                    speed_dist=alpha*speed_dist+1-alpha
+                    #speed=alpha*speed+1-alpha
+                    #speed_angle=alpha*speed_angle+1-alpha
+                    #speed_dist=alpha*speed_dist+1-alpha
+
+                    #speed_angle = torch.sin(speed_angle*torch.pi)
+
+
 
                     loss_value, loss_n, wv = self.function.Loss(points, speed, normal, beta, gamma, epoch, speed_dist, speed_angle)
                     
-                    #Lambda[indexbatch,:] = Lamb
                     t1 = time.time()
                     #print(t1-t0)
                     
@@ -351,8 +336,8 @@ class Model():
                     del points, speed, loss_value, loss_n#, Lamb#,indexbatch
                 
                 
-                total_train_loss /= 4#len(dataloader)#dataloader train_loader
-                total_diff /= 4#len(dataloader)#dataloader train_loader
+                total_train_loss /= 5
+                total_diff /= 5
 
                 current_diff = total_diff
                 diff_ratio = current_diff/prev_diff

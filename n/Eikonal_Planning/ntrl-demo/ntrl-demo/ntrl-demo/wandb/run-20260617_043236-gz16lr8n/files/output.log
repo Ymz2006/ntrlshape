@@ -1,0 +1,110 @@
+wandb run: helpful-totem-92 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/gz16lr8n)
+Files copied successfully!
+train
+(400000, 12)
+(400000, 2)
+(400000, 12)
+(400000, 12) (400000, 2)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+tensor(1358, device='cuda:0')
+tensor(1337, device='cuda:0')
+tensor(1304, device='cuda:0')
+tensor(1356, device='cuda:0')
+tensor(1348, device='cuda:0')
+Epoch = 1 -- Loss = 7.4382e-01 -- Alpha = 1.0000e+00
+tensor(1321, device='cuda:0')
+tensor(1320, device='cuda:0')
+tensor(1294, device='cuda:0')
+tensor(1346, device='cuda:0')
+tensor(1327, device='cuda:0')
+Epoch = 2 -- Loss = 2.2671e-01 -- Alpha = 1.0000e+00
+tensor(1337, device='cuda:0')
+tensor(1302, device='cuda:0')
+tensor(1337, device='cuda:0')
+tensor(1326, device='cuda:0')
+tensor(1356, device='cuda:0')
+Epoch = 3 -- Loss = 1.0040e-01 -- Alpha = 1.0000e+00
+tensor(1341, device='cuda:0')
+tensor(1300, device='cuda:0')
+tensor(1332, device='cuda:0')
+tensor(1324, device='cuda:0')
+tensor(1316, device='cuda:0')
+Epoch = 4 -- Loss = 7.9094e-02 -- Alpha = 1.0000e+00
+tensor(1323, device='cuda:0')
+tensor(1329, device='cuda:0')
+tensor(1351, device='cuda:0')
+tensor(1327, device='cuda:0')
+tensor(1329, device='cuda:0')
+Epoch = 5 -- Loss = 7.6514e-02 -- Alpha = 1.0000e+00
+tensor(1381, device='cuda:0')
+tensor(1334, device='cuda:0')
+tensor(1326, device='cuda:0')
+tensor(1333, device='cuda:0')
+tensor(1350, device='cuda:0')
+Epoch = 6 -- Loss = 7.5431e-02 -- Alpha = 1.0000e+00
+tensor(1343, device='cuda:0')
+tensor(1339, device='cuda:0')
+tensor(1336, device='cuda:0')
+tensor(1364, device='cuda:0')
+tensor(1283, device='cuda:0')
+Epoch = 7 -- Loss = 7.3784e-02 -- Alpha = 1.0000e+00
+tensor(1309, device='cuda:0')
+tensor(1300, device='cuda:0')
+tensor(1319, device='cuda:0')
+tensor(1323, device='cuda:0')
+tensor(1312, device='cuda:0')
+Epoch = 8 -- Loss = 7.2937e-02 -- Alpha = 1.0000e+00
+tensor(1360, device='cuda:0')
+tensor(1318, device='cuda:0')
+tensor(1336, device='cuda:0')
+tensor(1303, device='cuda:0')
+tensor(1335, device='cuda:0')
+Epoch = 9 -- Loss = 7.2150e-02 -- Alpha = 1.0000e+00
+tensor(1303, device='cuda:0')
+tensor(1292, device='cuda:0')
+tensor(1299, device='cuda:0')
+tensor(1346, device='cuda:0')
+tensor(1329, device='cuda:0')
+Epoch = 10 -- Loss = 7.2576e-02 -- Alpha = 1.0000e+00
+tensor(1374, device='cuda:0')
+tensor(1341, device='cuda:0')
+tensor(1344, device='cuda:0')
+tensor(1333, device='cuda:0')
+tensor(1317, device='cuda:0')
+Epoch = 11 -- Loss = 7.3533e-02 -- Alpha = 1.0000e+00
+tensor(1320, device='cuda:0')
+tensor(1340, device='cuda:0')
+tensor(1321, device='cuda:0')
+tensor(1324, device='cuda:0')
+tensor(1335, device='cuda:0')
+Epoch = 12 -- Loss = 7.3463e-02 -- Alpha = 1.0000e+00
+tensor(1337, device='cuda:0')
+tensor(1335, device='cuda:0')
+tensor(1318, device='cuda:0')
+tensor(1348, device='cuda:0')
+tensor(1313, device='cuda:0')
+Epoch = 13 -- Loss = 7.1754e-02 -- Alpha = 1.0000e+00
+tensor(1344, device='cuda:0')
+tensor(1333, device='cuda:0')
+tensor(1321, device='cuda:0')
+tensor(1306, device='cuda:0')
+tensor(1301, device='cuda:0')
+Epoch = 14 -- Loss = 7.2115e-02 -- Alpha = 1.0000e+00
+tensor(1357, device='cuda:0')
+tensor(1280, device='cuda:0')
+tensor(1333, device='cuda:0')
+tensor(1357, device='cuda:0')
+tensor(1333, device='cuda:0')
+Epoch = 15 -- Loss = 7.2242e-02 -- Alpha = 1.0000e+00
+tensor(1340, device='cuda:0')
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 50, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 324, in train
+    loss_value.backward()
+  File "/opt/conda/lib/python3.10/site-packages/torch/_tensor.py", line 522, in backward
+    torch.autograd.backward(
+  File "/opt/conda/lib/python3.10/site-packages/torch/autograd/__init__.py", line 266, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt

@@ -24,8 +24,10 @@ provided (green, translucent).  By the eikonal equation ||grad_x tau(x, goal)||
 is the slowness at x independent of the goal, so the speed reading barely depends
 on where you put the goal -- move it to convince yourself, or just leave it.
 
-Run from the nested ntrl-demo root:
+Run from the nested ntrl-demo root (defaults to the latest checkpoint, like
+evaluate_training_3d.py -- pass --pt to probe a specific one):
 
+    python visual_pose.py --dataPath datasets/3dshape/rectangle_env1
     python visual_pose.py --pt ./Experiments/3dshape/.../Model_Epoch_XXXX.pt \
                           --dataPath datasets/3dshape/rectangle_env1
 
@@ -39,6 +41,7 @@ import os
 import json
 import time
 import argparse
+from glob import glob
 
 import numpy as np
 import torch
@@ -128,8 +131,10 @@ def add_environment(server, env_V, obst_F, wall_F):
 def main():
     parser = argparse.ArgumentParser(
         description='Drag a pose in viser and read the model speed + d tau/d config.')
-    parser.add_argument('--pt', default='./Experiments/3dshape/3dshape_06_11_22_49/Model_Epoch_03000_ValLoss_7.413567e-03.pt',
-                        help='Path to the trained checkpoint (.pt) to probe.')
+    parser.add_argument('--pt', default=None,
+                        help='Path to the trained checkpoint (.pt) to probe. '
+                             'Defaults to latest.pt under --modelPath (then the '
+                             'newest Model_Epoch_*.pt), like evaluate_training_3d.py.')
     parser.add_argument('--dataPath', default='datasets/3dshape/rectangle_env1',
                         help='Dataset dir with meta.json (shape/env meshes, scale).')
     parser.add_argument('--modelPath', default='./Experiments/3dshape',
@@ -142,8 +147,25 @@ def main():
 
     # ── Load the model ──
     womodel = md.Model(args.modelPath, args.dataPath, DIM, [0.0] * DIM, device=device)
-    print('Loading checkpoint: {}'.format(args.pt))
-    womodel.load(args.pt)
+
+    # Prefer an explicit --pt; otherwise default to the always-current latest.pt
+    # written every epoch by training, falling back to the most recent
+    # timestamped Model_Epoch_*.pt checkpoint (mirrors evaluate_training_3d.py).
+    pt = args.pt
+    if pt is None:
+        latest = os.path.join(args.modelPath, 'latest.pt')
+        if os.path.exists(latest):
+            pt = latest
+        else:
+            ckpts = sorted(glob(os.path.join(args.modelPath, '*', 'Model_Epoch_*.pt')))
+            if not ckpts:
+                raise FileNotFoundError(
+                    'No --pt given, no latest.pt and no checkpoints under '
+                    '{}/*/Model_Epoch_*.pt'.format(args.modelPath))
+            pt = ckpts[-1]
+
+    print('Loading checkpoint: {}'.format(pt))
+    womodel.load(pt)
     womodel.network.eval()
 
     # ── Reconstruct shape + environment meshes in the normalized frame ──
@@ -167,20 +189,25 @@ def main():
 
     # ── Model query: tau, speed, and the full d tau/d config at (query, goal) ──
     def probe(cfg_q, cfg_g):
-        """Return (tau, speed, grad6, pos_mag, rot_mag) for one (query, goal) pair.
+        """Return (tau, speed, grad6, pos_mag, rot_mag, pos_speed, rot_speed).
 
         grad6 = d tau / d query_config (the first DIM coords), exactly the
         Speed()/Loss() computation: out() then autograd grad of tau w.r.t. input.
+        speed     = 1 / ||grad6||         (full 6-D eikonal speed)
+        pos_speed = 1 / ||grad6[0:3]||    (translation-only speed)
+        rot_speed = 1 / ||grad6[3:6]||    (rotation-only speed)
         """
         x = np.concatenate([cfg_q, cfg_g]).astype(np.float32)[None]   # (1, 2*DIM)
         Xp = torch.from_numpy(x).to(device)
         tau, _w, coords = womodel.network.out(Xp)        # coords carries requires_grad
         g_full = torch.autograd.grad(tau.sum(), coords)[0][0]         # (2*DIM,)
         g = g_full[:DIM].detach().cpu().numpy().astype(np.float64)    # d tau/d query
-        grad_norm = float(np.linalg.norm(g))
-        speed = 1.0 / (grad_norm + 1e-12)
-        return (float(tau.item()), speed, g,
-                float(np.linalg.norm(g[0:3])), float(np.linalg.norm(g[3:6])))
+        speed = 1.0 / (float(np.linalg.norm(g)) + 1e-12)
+        pos_mag = float(np.linalg.norm(g[0:3]))
+        rot_mag = float(np.linalg.norm(g[3:6]))
+        pos_speed = 1.0 / (pos_mag + 1e-12)
+        rot_speed = 1.0 / (rot_mag + 1e-12)
+        return (float(tau.item()), speed, g, pos_mag, rot_mag, pos_speed, rot_speed)
 
     # ── viser scene ──
     server = viser.ViserServer(host='0.0.0.0', port=args.port)
@@ -202,6 +229,8 @@ def main():
 
     # GUI readouts.
     txt_speed = server.gui.add_text('speed (1/|grad|)', initial_value='', disabled=True)
+    txt_pos_speed = server.gui.add_text('pos speed (1/|grad xyz|)', initial_value='', disabled=True)
+    txt_rot_speed = server.gui.add_text('rot speed (1/|grad rxyz|)', initial_value='', disabled=True)
     txt_tau = server.gui.add_text('tau(query, goal)', initial_value='', disabled=True)
     txt_pos_mag = server.gui.add_text('|grad pos (xyz)|', initial_value='', disabled=True)
     txt_rot_mag = server.gui.add_text('|grad rot (rxyz)|', initial_value='', disabled=True)
@@ -211,9 +240,11 @@ def main():
     def update(_=None):
         cfg_q = gizmo_to_cfg(query_ctrl)
         cfg_g = gizmo_to_cfg(goal_ctrl)
-        tau, speed, g, pmag, rmag = probe(cfg_q, cfg_g)
+        tau, speed, g, pmag, rmag, pspeed, rspeed = probe(cfg_q, cfg_g)
 
         txt_speed.value = '{:.4f}'.format(speed)
+        txt_pos_speed.value = '{:.4f}'.format(pspeed)
+        txt_rot_speed.value = '{:.4f}'.format(rspeed)
         txt_tau.value = '{:.4f}'.format(tau)
         txt_pos_mag.value = '{:.4f}'.format(pmag)
         txt_rot_mag.value = '{:.4f}'.format(rmag)

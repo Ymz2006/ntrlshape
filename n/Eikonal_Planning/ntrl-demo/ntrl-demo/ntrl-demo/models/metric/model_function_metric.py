@@ -77,9 +77,6 @@ class Function():
         tau, w, Xp = self.network.out(points)
         dtau = self.gradient(tau, Xp)
 
-
-        #TESTING REMOVE
-        #speed_angle = speed_dist
         
         D = torch.norm(Xp[:,self.dim:]-Xp[:,:self.dim], p=2, dim =1)
         
@@ -113,6 +110,20 @@ class Function():
         LT1_dist_mag = LT1_dist_mag**2
         LT1_ang_mag = LT1_ang_mag**2
 
+        mm = 20
+
+        w0_dist = torch.clamp(1.0 / speed_dist[:,0], max=mm)
+        w0_ang  = torch.clamp(1.0 / speed_angle[:,0], max=mm)
+        w1_dist = torch.clamp(1.0 / speed_dist[:,1], max=mm)
+        w1_ang  = torch.clamp(1.0 / speed_angle[:,1], max=mm)
+
+        LT0_dist_mag = torch.where(speed_dist[:,0] < 0.9, LT0_dist_mag * w0_dist, LT0_dist_mag)
+        LT0_ang_mag = torch.where(speed_angle[:,0] < 0.9, LT0_ang_mag * w0_ang, LT0_ang_mag)
+        LT1_dist_mag = torch.where(speed_dist[:,1] < 0.9, LT1_dist_mag * w1_dist, LT1_dist_mag)
+        LT1_ang_mag = torch.where(speed_angle[:,1] < 0.9, LT1_ang_mag * w1_ang, LT1_ang_mag)
+
+
+        
         diff_4 = LT0_dist_mag + LT0_ang_mag + LT1_dist_mag + LT1_ang_mag
         td_weight = 0#1e-3
         with torch.no_grad():
@@ -212,10 +223,27 @@ class Function():
 
         diff_4 = diff_4 * loss_weight
         loss_n = (torch.sum((diff_4+n_loss +tau_loss)*torch.exp(-0.5*T)))/Yobs.shape[0]#*torch.exp(-para*T)
+
+
+        hess_weight = 1e-4
+        v = torch.randn_like(dtau)
+        Hv = torch.autograd.grad(dtau, Xp, grad_outputs=v,
+                                 create_graph=True, retain_graph=True)[0]  # H@v, (B,2*dim)
+        hess0 = (Hv[:, :self.dim] ** 2).sum(dim=1)     # curvature at x0 (query block)
+        hess1 = (Hv[:, self.dim:] ** 2).sum(dim=1)     # curvature at x1 (goal block)
+
+        free0 = ((speed_dist[:, 0] > 0.9) & (speed_angle[:, 0] > 0.9)).float()
+        free1 = ((speed_dist[:, 1] > 0.9) & (speed_angle[:, 1] > 0.9)).float()
+
+        loss_2nd = hess_weight * torch.sum(free0 * hess0 + free1 * hess1) / Yobs.shape[0]
+
+
+
+
         
-        loss = beta*loss_n #+ 1e-4*(reg_tau)
-        
-        return loss, loss_n, diff
+        loss = loss_n #+ loss_2nd
+
+        return loss, loss_n, diff_4
 
     def TravelTimes(self, Xp):
      

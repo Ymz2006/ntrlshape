@@ -46,82 +46,174 @@ class NN(torch.nn.Module):
         super(NN, self).__init__()
         self.dim = dim
 
-        h_size = 256 #512,256
-        #input_size = 128
-        #self.T=2
+        h_size = 256
 
-        self.B = B.T.to(device)
-        print(B.shape)
+        # Split the configuration into a translational route (first half of the
+        # dims: x,y,z) and a rotational route (last half: rx,ry,rz).  Each route
+        # owns its own Fourier frequencies (a column-slice of B) and a completely
+        # independent set of weights -- pe_gate, encoder, gate, encoder_norm.
+        half = self.dim // 2
+        self.B_trans = B[:, :half].T.to(device)   # (half, input_size)
+        self.B_rot   = B[:, half:].T.to(device)   # (half, input_size)
+
         input_size = B.shape[0]
-        #decoder
 
         self.scale = 10
-        #self.actvn = torch.sin()#nn.Softplus(beta=self.scale)
 
 
-        self.act = torch.nn.Softplus(beta=self.scale)#ELU,CELU
 
-        #self.env_act = torch.nn.Sigmoid()#ELU
-        #self.ddact = torch.nn.Sigmoid()-torch.nn.Sigmoid()*torch.nn.Sigmoid()
-        self.actout = Sigmoid_out()#ELU,CELU
-
-        #self.env_act = torch.nn.Sigmoid()#ELU
-
+        self.act = torch.nn.Softplus(beta=self.scale)
+        self.actout = Sigmoid_out()
         self.nl1=2
-        #self.nl2=2
 
-        self.encoder = torch.nn.ModuleList()
-        self.encoder_norm = InstanceNorm1d(h_size)#torch.nn.ModuleList()
-        #self.encoder.append(Linear(self.dim,h_size))
-        
-        self.encoder.append(Linear(252,h_size))
+        # Translational route (operates on the first `half` coordinates).
+        self.encoder_t, self.gate_t, self.pe_gate_t, self.encoder_norm_t = self._build_route(h_size)
+        # Rotational route (operates on the last `half` coordinates).
+        self.encoder_r, self.gate_r, self.pe_gate_r, self.encoder_norm_r = self._build_route(h_size)
 
-        for i in range(0,3*self.nl1):
-            self.encoder.append(Linear(h_size, h_size)) 
-        self.encoder.append(Linear(h_size, h_size)) 
 
-        self.gate = torch.nn.ModuleList()
+
+        self.fuse_len = 3
+        self.fuse = torch.nn.ModuleList()
+        self.fuse.append(Linear(2*h_size, h_size))   # 512 -> 256
+        for i in range (self.fuse_len):
+            self.fuse.append(Linear(h_size, h_size))     
+            self.fuse.append(Linear(h_size, h_size))     
+
+    def _build_route(self, h_size):
+        """Build one independent embedding route (same architecture as the
+        original single route).  Returns (encoder, gate, pe_gate, encoder_norm)."""
+        encoder = torch.nn.ModuleList()
+        encoder.append(Linear(252, h_size))
+        for i in range(0, 3*self.nl1):
+            encoder.append(Linear(h_size, h_size))
+        encoder.append(Linear(h_size, h_size))
+
+        gate = torch.nn.ModuleList()
         for i in range(self.nl1):
-            self.gate.append(Linear(1,1))
+            gate.append(Linear(1, 1))
 
-        self.pe_gate = torch.nn.ModuleList()
-        self.pe_gate.append(Linear(h_size,h_size))
-        self.pe_gate.append(Linear(h_size,h_size))
+        pe_gate = torch.nn.ModuleList()
+        pe_gate.append(Linear(h_size, h_size))
+        pe_gate.append(Linear(h_size, h_size))
+
+        encoder_norm = InstanceNorm1d(h_size)
+        return encoder, gate, pe_gate, encoder_norm
 
 
     #'''
     def init_weights(self, m):
         
         if type(m) == torch.nn.Linear:
-            #stdv = (1. / math.sqrt(m.weight.size(1))/1.)*2
             stdv = np.sqrt(2.0 / (m.weight.size(0)+m.weight.size(1)))
-            #stdv = np.sqrt(6 / 128.) #/ self.T
-            #m.weight.data.trunc_normal_(0, variance)
             torch.nn.init.trunc_normal_(m.weight, mean=0.0, std=stdv, a=-2.0*stdv, b=2.0*stdv)
             m.bias.data.fill_(0)
         
         for i in range(self.nl1):
-            self.gate[i].weight.data.fill_(0)
-            self.gate[i].bias.data.fill_(0)
+            self.gate_t[i].weight.data.fill_(0)
+            self.gate_t[i].bias.data.fill_(0)
+            self.gate_r[i].weight.data.fill_(0)
+            self.gate_r[i].bias.data.fill_(0)
 
         
    
     #'''
-    def input_mapping(self, x):
-        w = 2.*np.pi*self.B
+    def input_mapping(self, x, B):
+        w = 2.*np.pi*B
         x_proj = x @ w
         #x_proj = (2.*np.pi*x) @ self.B
         return torch.cat([torch.sin(x_proj), torch.cos(x_proj)], dim=-1)    #  2*len(B)
     
     def lip_norm(self, w):
-        #y = x@w.T+b
         absrowsum = torch.sqrt(torch.sum ( w**2 , dim =1)).detach()
-        #print(absrowsum.shape)
-        #scale = torch.clamp (1 / absrowsum ,max=1)#.squeeze()
         scale = 1 + 1e-5 - self.act(1 - 1 / absrowsum)
-        #print(w.shape)
         return w * scale.unsqueeze(1) #[: , None ]
     
+
+    def to_translational_embedding(self, x, B, pe_gate, gate, encoder, encoder_norm):
+        x = self.input_mapping(x, B)
+
+        w = self.lip_norm(pe_gate[0].weight)
+        b = pe_gate[0].bias
+        u = torch.sin(x@w.T+b)
+
+        w = self.lip_norm(pe_gate[1].weight)
+        b = pe_gate[1].bias
+        v = torch.sin(x@w.T+b)
+
+        for ii in range(0,self.nl1):
+            x_tmp = x
+
+            w = self.lip_norm(encoder[3*ii+1].weight)
+            b = encoder[3*ii+1].bias
+            y = x@w.T+b
+
+            x  = u*torch.sin(y)+v*(1-torch.sin(y))
+
+            w = self.lip_norm(encoder[3*ii+2].weight)
+            b = encoder[3*ii+2].bias
+            y = x@w.T+b
+
+            x  = u*torch.sin(y)+v*(1-torch.sin(y))
+
+            w = self.lip_norm(encoder[3*ii+3].weight)
+            b = encoder[3*ii+3].bias
+            y = x@w.T+b
+
+            weight = torch.sigmoid(0.1*gate[ii].weight)
+            x  = (1-weight)*x_tmp+(weight)*torch.sin(y)
+
+        w = self.lip_norm(encoder[-1].weight)
+        b = encoder[-1].bias
+
+        y = x@w.T+b
+        y = encoder_norm(y)
+
+        return y
+
+
+    def to_rotational_embedding(self, x, B, pe_gate, gate, encoder, encoder_norm):
+        x = self.input_mapping(x, B)
+
+        w = self.lip_norm(pe_gate[0].weight)
+        b = pe_gate[0].bias
+        u = torch.sin(x@w.T+b)
+
+        w = self.lip_norm(pe_gate[1].weight)
+        b = pe_gate[1].bias
+        v = torch.sin(x@w.T+b)
+
+        for ii in range(0,self.nl1):
+            x_tmp = x
+
+            w = self.lip_norm(encoder[3*ii+1].weight)
+            b = encoder[3*ii+1].bias
+            y = x@w.T+b
+
+            x  = u*torch.sin(y)+v*(1-torch.sin(y))
+
+            w = self.lip_norm(encoder[3*ii+2].weight)
+            b = encoder[3*ii+2].bias
+            y = x@w.T+b
+
+            x  = u*torch.sin(y)+v*(1-torch.sin(y))
+
+            w = self.lip_norm(encoder[3*ii+3].weight)
+            b = encoder[3*ii+3].bias
+            y = x@w.T+b
+
+            weight = torch.sigmoid(0.1*gate[ii].weight)
+            x  = (1-weight)*x_tmp+(weight)*torch.sin(y)
+
+        w = self.lip_norm(encoder[-1].weight)
+        b = encoder[-1].bias
+
+        y = x@w.T+b
+        y = encoder_norm(y)
+
+        return y
+
+
     def out(self, coords):
         
         coords = coords.clone().detach().requires_grad_(True) # allows to take derivative w.r.t. input
@@ -130,80 +222,54 @@ class NN(torch.nn.Module):
         x1 = coords[:,self.dim:]
         
         x = torch.vstack((x0,x1))
-        
-        
-        x = self.input_mapping(x)
 
-        w = self.pe_gate[0].weight
-        b = self.pe_gate[0].bias
-        w = self.lip_norm(w)
-        u = torch.sin(x@w.T+b)
 
-        w = self.pe_gate[1].weight
-        b = self.pe_gate[1].bias
-        w = self.lip_norm(w)
-        v = torch.sin(x@w.T+b)
+        half = 3
+        x_trans = x[:, :half]
+        x_rot   = x[:, half:]
 
-        for ii in range(0,self.nl1):
-            #i0 = x
-            x_tmp = x
+        translational_embedding = self.to_translational_embedding(
+            x_trans, self.B_trans, self.pe_gate_t, self.gate_t, self.encoder_t, self.encoder_norm_t)
+        rotational_embedding = self.to_rotational_embedding(
+            x_rot, self.B_rot, self.pe_gate_r, self.gate_r, self.encoder_r, self.encoder_norm_r)
+
+        y = torch.cat([translational_embedding, rotational_embedding], dim=-1)
+
+
+        residual_connection = y@self.fuse[0].weight.T + self.fuse[0].bias
+        for i in range (self.fuse_len):
+            y1 = residual_connection@self.fuse[2*i+1].weight.T + self.fuse[2*i+1].bias
+            y1 = self.act(y1)
+            y2 = y1@self.fuse[2*i+2].weight.T + self.fuse[2*i+2].bias
             
-            w = self.encoder[3*ii+1].weight
-            b = self.encoder[3*ii+1].bias
+            residual_connection = residual_connection + y2
+            residual_connection = self.act(residual_connection)
 
-            w = self.lip_norm(w)
 
-            y = x@w.T+b
+        # w = self.lip_norm(self.fuse[0].weight)
+        # y = y@w.T + self.fuse[0].bias
+        # w = self.lip_norm(self.fuse[1].weight)
+        # y = y@w.T + self.fuse[1].bias
 
-            x  = u*torch.sin(y)+v*(1-torch.sin(y))
 
-            w = self.encoder[3*ii+2].weight
-            b = self.encoder[3*ii+2].bias
 
-            w = self.lip_norm(w)
-
-            y = x@w.T+b
-
-            x  = u*torch.sin(y)+v*(1-torch.sin(y))
-
-            w = self.encoder[3*ii+3].weight
-            b = self.encoder[3*ii+3].bias
-
-            w = self.lip_norm(w)
-
-            y = x@w.T+b
-
-            weight = torch.sigmoid(0.1*self.gate[ii].weight)
-
-            x  = (1-weight)*x_tmp+(weight)*torch.sin(y)
-            #x  = u*torch.sin(y)+v*x_tmp
-            #x  = (1-weight)*x_tmp+weight*(u*torch.sin(y)+v*(1-torch.sin(y)))
-            
-        
-        w = self.encoder[-1].weight
-        b = self.encoder[-1].bias
-
-        w = self.lip_norm(w)
-        
-        y = x@w.T+b
-
-        y = self.encoder_norm(y)
-
-        x0 = y[:size,...]
-        x1 = y[size:,...]
+        x0 = residual_connection[:size,...]
+        x1 = residual_connection[size:,...]
 
         #OURS
         x = torch.sqrt((x0-x1)**2+1e-6)
         x = x.view(x.shape[0],-1,16)
         x = (torch.logsumexp(10*x, 2)-np.log(16))/10
         x = 0.2*(torch.sum(x,dim=1,keepdim=True))
-
+        
+        #test
+        #x = torch.exp(x)
         #L1
         # x = 0.01*torch.norm(x0-x1,p=1,dim=1).unsqueeze(1)
 
         
         
-        return x, w, coords
+        return x, None, coords
     
     def forward(self, coords):
         coords = coords.clone().detach().requires_grad_(True) # allows to take derivative w.r.t. input
