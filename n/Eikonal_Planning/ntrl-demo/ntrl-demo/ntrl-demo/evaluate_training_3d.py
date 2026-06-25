@@ -44,14 +44,14 @@ import plotly.graph_objects as go
 
 from models.metric import model_train_metric as md
 from dataprocessing.preprocess_obj import (
-    load_obj, _rotvec_to_matrix_np, sample_surface_points, wrap_rotvec)
+    load_obj, _rotvec_to_matrix_np, sample_surface_points)
 
 # Sign convention for igl.signed_distance: the DEFAULT/WINDING_NUMBER types are
 # unreliable in this binding, but FAST_WINDING_NUMBER returns negative-inside and
 # is robust to per-face orientation (only requires a closed/watertight mesh).
 _SDF_SIGN = igl.SignedDistanceType.SIGNED_DISTANCE_TYPE_FAST_WINDING_NUMBER
 # Number of surface points sampled over the full environment mesh for collision.
-ENV_COLLISION_POINTS = 10000
+ENV_COLLISION_POINTS = 50000
 HTTP_PORT = 8080
 DIM = 6
 
@@ -112,13 +112,26 @@ def check_trajectory_collision(traj, env_pts, shape_V, shape_F, shape_radius):
     return False
 
 
-def MPPI(womodel, XP, dim, case_idx=-1):
+def linear_interp_traj(start_cfg, goal_cfg, n_steps=50):
+    """Build a list of (1, DIM) configs linearly interpolating start -> goal.
+
+    Configs are returned in the same normalized space (rotvec stored / 2*pi)
+    that ``check_trajectory_collision`` consumes, so the straight-line path can
+    be collision-checked exactly like an MPPI trajectory.  Used to measure
+    whether the trivial linear interpolation from start to goal is itself a
+    valid (collision-free) path.
+    """
+    start = start_cfg.reshape(1, -1)
+    goal = goal_cfg.reshape(1, -1)
+    alphas = torch.linspace(0.0, 1.0, n_steps, device=start.device).reshape(-1, 1)
+    interp = (1.0 - alphas) * start + alphas * goal
+    return [interp[i:i + 1] for i in range(n_steps)]
+
+
+def MPPI(womodel, XP, dim):
     """Run MPPI for a single start/goal pair.
 
     Returns the recorded waypoints, the iteration count, and a success flag.
-
-    ``case_idx`` is only used for the per-step rotation-vector diagnostics printed
-    to the console (it labels which start/goal episode is being planned).
     """
     found_path = False
     steps = 200
@@ -152,23 +165,6 @@ def MPPI(womodel, XP, dim, case_idx=-1):
         dP_prior = (weight @ dP[:, 0, :])
 
         XP[:, 0:dim] = dP_prior + XP[:, 0:dim]
-
-        # ── Rotation-vector domain diagnostics (console only; planner unchanged) ──
-        # The trained rotvec domain is ||(rx,ry,rz)/2pi|| <= 0.5  (== pi rad, the
-        # axis-angle half-turn cap wrap_rotvec enforces in preprocess_obj).  MPPI
-        # steps Euclidean-ly and never wraps, so the query rotvec can leave it.
-        rv = XP[:, 3:dim]                                        # (1,3) normalized
-        mag = float(torch.linalg.norm(rv, dim=1))               # normalized magnitude
-        if torch.isnan(rv).any() or torch.isinf(rv).any():
-            print(f"case {case_idx} iter {iter}: rot vec error (nan/inf)")
-        else:
-            # equivalent wrapped rotvec (wrap_rotvec works in radians, so x2pi/÷2pi)
-            wmag = float(torch.linalg.norm(
-                wrap_rotvec(rv * (2 * np.pi)) / (2 * np.pi), dim=1))
-            if mag > 0.5 + 1e-6:                                 # outside principal range
-                print(f"case {case_idx} iter {iter}: wrap")
-            if wmag > 0.5 + 1e-6:                                # still out after wrapping
-                print(f"case {case_idx} iter {iter}: rot vec error")
 
         dis = torch.norm(XP[:, dim:dim * 2] - XP[:, 0:dim])
         point0.append(XP[:, 0:dim].clone())
@@ -330,7 +326,7 @@ else:
 # 800k points diff4 model 
 #pt = './Experiments/3dshape/3dshape_06_12_23_00/Model_Epoch_05000_ValLoss_2.331354e-02.pt'
 
-#pt = './Experiments/3dshape/3dshape_06_15_15_19/Model_Epoch_03500_ValLoss_8.544786e-03.pt'
+#pt = './Experiments/3dshape/3dshape_06_13_18_59/Model_Epoch_05000_ValLoss_1.170522e-02.pt'
 print(f'Loading checkpoint: {pt}')
 
 
@@ -382,6 +378,9 @@ BASE = torch.zeros((1, 2 * DIM)).cuda()
 total = 0
 n_collision = 0
 n_no_conv = 0
+n_lin_valid = 0       # cases where the straight-line start->goal path is collision-free
+n_succ_lin_valid = 0  # planner successes among cases where linear interp is valid
+n_succ_lin_invalid = 0  # planner successes among cases where linear interp is invalid
 success_list = []
 fail_list = []
 test_list_speed_failed = []
@@ -396,7 +395,7 @@ for XP in test_list:
 
     start = timer()
     with torch.no_grad():
-        point, iter, success = MPPI(womodel, XP.clone(), dim=DIM, case_idx=cnt2)
+        point, iter, success = MPPI(womodel, XP.clone(), dim=DIM)
     end = timer()
 
     # Model-predicted speed at every waypoint.  Speed() runs network.out + the
@@ -426,8 +425,24 @@ for XP in test_list:
 
     collision = check_trajectory_collision(
         point, env_collision_pts, shape_V, shape_F, shape_radius)
-    ok = success and not collision
+    did_not_converge = not success
 
+    # A case can independently collide AND fail to converge -- count both.
+    if collision:
+        n_collision += 1
+    if did_not_converge:
+        n_no_conv += 1
+
+    # Linear-interpolation baseline: is the straight line from start to goal a
+    # collision-free path on its own?  (Independent of what the planner found.)
+    lin_traj = linear_interp_traj(XP[0, 0:DIM], XP[0, DIM:2 * DIM])
+    lin_collision = check_trajectory_collision(
+        lin_traj, env_collision_pts, shape_V, shape_F, shape_radius)
+    lin_valid = not lin_collision
+    if lin_valid:
+        n_lin_valid += 1
+
+    ok = success and not collision
     status = 'success' if ok else 'fail'
     episodes.append({
         'idx': cnt2,
@@ -438,37 +453,54 @@ for XP in test_list:
         'speeds': speeds,
     })
 
+    print(
+        f"[{cnt2:03d}] {'PASS' if ok else 'FAIL'}  "
+        f"did_not_converge={did_not_converge}  "
+        f"collision={collision}  "
+        f"linear_interp_valid={lin_valid}")
+
     if ok:
         success_list.append(diff[:3])
-        print("success")
         total += 1
+        if lin_valid:
+            n_succ_lin_valid += 1
+        else:
+            n_succ_lin_invalid += 1
     else:
         fail_list.append(diff[:3])
-        reason = "collision" if collision else "no convergence"
-        if collision:
-            n_collision += 1
-        else:
-            n_no_conv += 1
-        print(f"fail ({reason})")
         test_list_speed_failed.append(test_list_speed[cnt2])
 
     cnt2 += 1
 
 n_total = len(test_list)
 success_rate = total / n_total if n_total else 0.0
+# Conditional planner success rates: how often the planner succeeds among cases
+# where the trivial straight-line (linear interp) path is valid vs. invalid.
+n_lin_invalid = n_total - n_lin_valid
+lin_valid_success_rate = n_succ_lin_valid / n_lin_valid if n_lin_valid else 0.0
+lin_invalid_success_rate = n_succ_lin_invalid / n_lin_invalid if n_lin_invalid else 0.0
 print(f"total: {total} / {n_total}  ({success_rate:.1%})")
+print(f"success | linear interp valid  : {n_succ_lin_valid} / {n_lin_valid}  "
+      f"({lin_valid_success_rate:.1%})")
+print(f"success | linear interp invalid: {n_succ_lin_invalid} / {n_lin_invalid}  "
+      f"({lin_invalid_success_rate:.1%})")
 
 # Success-rate summary written into the output directory.
 summary_lines = [
-    f"data_path     : {dataPath}",
-    f"model_path    : {modelPath}",
-    f"checkpoint    : {pt}",
-    f"episodes      : {n_total}",
-    f"successes     : {total}",
-    f"failures      : {n_total - total}",
-    f"  collision   : {n_collision}",
-    f"  no_converge : {n_no_conv}",
-    f"success_rate  : {success_rate:.4f}  ({success_rate:.1%})",
+    f"data_path                    : {dataPath}",
+    f"model_path                   : {modelPath}",
+    f"checkpoint                   : {pt}",
+    f"episodes                     : {n_total}",
+    f"successes                    : {total}",
+    f"failures                     : {n_total - total}",
+    f"  collision                  : {n_collision}",
+    f"  no_converge                : {n_no_conv}",
+    f"success_rate                 : {success_rate:.4f}  ({success_rate:.1%})",
+    f"linear_interp_valid          : {n_lin_valid} / {n_total}",
+    f"success_rate|lin_interp_valid: {lin_valid_success_rate:.4f}  "
+    f"({lin_valid_success_rate:.1%})  [{n_succ_lin_valid}/{n_lin_valid}]",
+    f"success_rate|lin_interp_fail : {lin_invalid_success_rate:.4f}  "
+    f"({lin_invalid_success_rate:.1%})  [{n_succ_lin_invalid}/{n_lin_invalid}]",
 ]
 with open(os.path.join(OUTPUT_DIR, 'success_rate.txt'), 'w') as f:
     f.write('\n'.join(summary_lines) + '\n')
