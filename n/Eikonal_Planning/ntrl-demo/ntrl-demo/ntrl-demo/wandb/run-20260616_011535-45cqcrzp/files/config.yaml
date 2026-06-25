@@ -1,0 +1,92 @@
+_wandb:
+    value:
+        cli_version: 0.27.1
+        e:
+            fsywo1zq8p6ki4rleiqmr82u6ieqyavw:
+                args:
+                    - --dataPath
+                    - datasets/3dshape/rectangle_env1
+                codePath: train/train_3dshape.py
+                codePathLocal: train/train_3dshape.py
+                cpu_count: 18
+                cpu_count_logical: 36
+                cudaVersion: "12.2"
+                disk:
+                    /:
+                        total: "995891556352"
+                        used: "865047756800"
+                email: jeffreyzhou123@gmail.com
+                executable: /opt/conda/bin/python
+                gpu: NVIDIA GeForce RTX 3090
+                gpu_count: 3
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 10496
+                      memoryTotal: "25769803776"
+                      name: NVIDIA GeForce RTX 3090
+                      uuid: GPU-af503d7e-ccad-9f33-694d-6ca70b37a23c
+                    - architecture: Ampere
+                      cudaCores: 10496
+                      memoryTotal: "25769803776"
+                      name: NVIDIA GeForce RTX 3090
+                      uuid: GPU-61ee0c47-26dc-ea41-d52a-6783c984416e
+                    - architecture: Ampere
+                      cudaCores: 10496
+                      memoryTotal: "25769803776"
+                      name: NVIDIA GeForce RTX 3090
+                      uuid: GPU-66ecac45-3eba-9b31-d32f-fcd23b850417
+                host: c685cf30c58b
+                memory:
+                    total: "134737866752"
+                os: Linux-5.4.0-216-generic-x86_64-with-glibc2.35
+                program: /workspace/ntrl-demo/train/train_3dshape.py
+                python: CPython 3.10.14
+                root: /workspace/ntrl-demo
+                startedAt: "2026-06-16T01:15:35.018333Z"
+                writerId: fsywo1zq8p6ki4rleiqmr82u6ieqyavw
+        m: []
+        python_version: 3.10.14
+        t:
+            "1":
+                - 1
+            "2":
+                - 1
+            "3":
+                - 16
+                - 61
+            "4": 3.10.14
+            "5": 0.27.1
+            "12": 0.27.1
+            "13": linux-x86_64
+data_path:
+    value: datasets/3dshape/rectangle_env1
+device:
+    value: cuda:0
+dim:
+    value: 6
+model_path:
+    value: ./Experiments/3dshape
+task:
+    value: 3dshape
+train/Batch Size:
+    value: 2000
+train/Learning Rate:
+    value: 5e-05
+train/Number of Epochs:
+    value: 8000
+train/Number of sample points:
+    value: 200000
+train/Print Every * Epoch:
+    value: 1
+train/Random Distance Sampling:
+    value: true
+train/Resampling Bounds:
+    value:
+        - 0.1
+        - 0.9
+train/Save Every * Epoch:
+    value: 500
+train/Use Scheduler (bool):
+    value: false
+train/Validation Percentage:
+    value: 10

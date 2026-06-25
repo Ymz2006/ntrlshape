@@ -1,0 +1,9 @@
+data_path     : testing_data/3dshape/Lshape3d_env1
+model_path    : ./Experiments/3dshape
+checkpoint    : ./Experiments/3dshape/latest.pt
+episodes      : 100
+successes     : 65
+failures      : 35
+  collision   : 34
+  no_converge : 1
+success_rate  : 0.6500  (65.0%)
