@@ -1,9 +1,9 @@
 data_path     : testing_data/3dshape/rectangle_env1
 model_path    : ./Experiments/3dshape
-checkpoint    : ./Experiments/3dshape/3dshape_06_15_15_19/Model_Epoch_03500_ValLoss_8.544786e-03.pt
+checkpoint    : ./Experiments/3dshape/latest.pt
 episodes      : 100
-successes     : 62
-failures      : 38
-  collision   : 35
-  no_converge : 3
-success_rate  : 0.6200  (62.0%)
+successes     : 25
+failures      : 75
+  collision   : 75
+  no_converge : 0
+success_rate  : 0.2500  (25.0%)
