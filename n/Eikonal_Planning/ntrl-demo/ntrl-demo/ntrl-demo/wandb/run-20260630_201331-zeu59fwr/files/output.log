@@ -1,0 +1,19 @@
+wandb run: comic-aardvark-149 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/zeu59fwr)
+Files copied successfully!
+train
+(400000, 12)
+(400000, 2)
+(400000, 12)
+(400000, 12) (400000, 2)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+only trans rot
+tensor(0.0319, device='cuda:0', grad_fn=<SumBackward0>)
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 52, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 323, in train
+    loss_value, loss_n, wv = self.function.Loss(points, speed, normal, beta, gamma, epoch, speed_dist, speed_angle,  trans_n, rot_n)
+  File "/workspace/ntrl-demo/./models/metric/model_function_metric.py", line 317, in Loss
+    print(torch.sum((trans_err + rot_err )*torch.exp(-0.5*T)))/Yobs.shape[0]
+TypeError: unsupported operand type(s) for /: 'NoneType' and 'int'

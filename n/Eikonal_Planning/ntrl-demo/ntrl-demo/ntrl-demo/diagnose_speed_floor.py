@@ -69,6 +69,7 @@ def main():
                 raise FileNotFoundError('no latest.pt and no Model_Epoch_*.pt found')
             pt = ckpts[-1]
     print('Loading checkpoint:', pt)
+    pt = './Experiments/3dshape/3dshape_06_26_13_22/latest.pt'
     womodel.load(pt)
     womodel.network.eval()
 

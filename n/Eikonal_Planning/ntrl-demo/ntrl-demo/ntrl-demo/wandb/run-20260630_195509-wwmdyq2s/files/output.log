@@ -1,0 +1,1547 @@
+wandb run: graceful-rain-142 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/wwmdyq2s)
+Files copied successfully!
+train
+(400000, 12)
+(400000, 2)
+(400000, 12)
+(400000, 12) (400000, 2)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.8561553955078125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1664): 10.064888000488281
+  median speed_dist (x0,tight)=0.4552  speed_angle (x0,tight)=0.4284
+  median ds/dn  trans=-0.05823  rot=-0.07851
+  median err  trans=0.03986  rot=0.03973
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.613252639770508
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1667): 9.710359573364258
+  median speed_dist (x0,tight)=0.4619  speed_angle (x0,tight)=0.4113
+  median ds/dn  trans=-0.09234  rot=-0.1307
+  median err  trans=0.03977  rot=0.03958
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.50197982788086
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1700): 7.0249199867248535
+  median speed_dist (x0,tight)=0.4693  speed_angle (x0,tight)=0.4472
+  median ds/dn  trans=-0.1352  rot=-0.1128
+  median err  trans=0.03956  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.949665069580078
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1672): 6.141757965087891
+  median speed_dist (x0,tight)=0.4698  speed_angle (x0,tight)=0.4272
+  median ds/dn  trans=-0.05996  rot=-0.1057
+  median err  trans=0.03988  rot=0.03973
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.467029571533203
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1687): 7.786917686462402
+  median speed_dist (x0,tight)=0.4181  speed_angle (x0,tight)=0.3808
+  median ds/dn  trans=-0.1032  rot=-0.1141
+  median err  trans=0.03971  rot=0.03969
+Epoch = 1 -- Loss = 1.1664e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.801723480224609
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1676): 6.39646053314209
+  median speed_dist (x0,tight)=0.4581  speed_angle (x0,tight)=0.4217
+  median ds/dn  trans=-0.08844  rot=-0.08424
+  median err  trans=0.03968  rot=0.03983
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.833625793457031
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1684): 9.522724151611328
+  median speed_dist (x0,tight)=0.4505  speed_angle (x0,tight)=0.4168
+  median ds/dn  trans=-0.05913  rot=-0.1132
+  median err  trans=0.03989  rot=0.03968
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.084749221801758
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1658): 5.279302597045898
+  median speed_dist (x0,tight)=0.4451  speed_angle (x0,tight)=0.3904
+  median ds/dn  trans=-0.0985  rot=-0.06738
+  median err  trans=0.03974  rot=0.03982
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.331132888793945
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1683): 9.738874435424805
+  median speed_dist (x0,tight)=0.4621  speed_angle (x0,tight)=0.4119
+  median ds/dn  trans=-0.0966  rot=-0.1017
+  median err  trans=0.03971  rot=0.03972
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.746673583984375
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1641): 11.489677429199219
+  median speed_dist (x0,tight)=0.4745  speed_angle (x0,tight)=0.4192
+  median ds/dn  trans=-0.06889  rot=-0.1231
+  median err  trans=0.03985  rot=0.03961
+Epoch = 2 -- Loss = 9.0130e-01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.28752326965332
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1660): 6.571769714355469
+  median speed_dist (x0,tight)=0.4406  speed_angle (x0,tight)=0.3878
+  median ds/dn  trans=-0.101  rot=-0.0705
+  median err  trans=0.03964  rot=0.03981
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 12.23897933959961
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1665): 3.6607742309570312
+  median speed_dist (x0,tight)=0.4774  speed_angle (x0,tight)=0.4464
+  median ds/dn  trans=-0.1081  rot=-0.03065
+  median err  trans=0.03967  rot=0.03993
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.278968811035156
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1670): 7.23724365234375
+  median speed_dist (x0,tight)=0.4947  speed_angle (x0,tight)=0.4341
+  median ds/dn  trans=-0.04344  rot=-0.0449
+  median err  trans=0.03986  rot=0.03985
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.6503753662109375
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1670): 7.807660102844238
+  median speed_dist (x0,tight)=0.4424  speed_angle (x0,tight)=0.4008
+  median ds/dn  trans=-0.07017  rot=-0.06559
+  median err  trans=0.03981  rot=0.03978
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.962108612060547
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1674): 1.1271476745605469
+  median speed_dist (x0,tight)=0.4602  speed_angle (x0,tight)=0.4247
+  median ds/dn  trans=-0.04921  rot=-0.008026
+  median err  trans=0.03991  rot=0.04004
+RepeatEpoch = 3 -- Loss = 2.2887e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.260110855102539
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1663): 10.520362854003906
+  median speed_dist (x0,tight)=0.4701  speed_angle (x0,tight)=0.4205
+  median ds/dn  trans=-0.03627  rot=-0.08119
+  median err  trans=0.03993  rot=0.03978
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.778217315673828
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1665): 10.773658752441406
+  median speed_dist (x0,tight)=0.4804  speed_angle (x0,tight)=0.4363
+  median ds/dn  trans=-0.039  rot=-0.07827
+  median err  trans=0.03988  rot=0.03976
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.24899673461914
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1674): 13.833141326904297
+  median speed_dist (x0,tight)=0.4496  speed_angle (x0,tight)=0.4032
+  median ds/dn  trans=-0.06063  rot=-0.1201
+  median err  trans=0.0398  rot=0.03961
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.570624351501465
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1677): 12.711143493652344
+  median speed_dist (x0,tight)=0.4455  speed_angle (x0,tight)=0.4142
+  median ds/dn  trans=-0.06183  rot=-0.1213
+  median err  trans=0.03982  rot=0.03966
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 10.415935516357422
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1659): 11.827564239501953
+  median speed_dist (x0,tight)=0.4683  speed_angle (x0,tight)=0.4414
+  median ds/dn  trans=-0.07045  rot=-0.1062
+  median err  trans=0.03977  rot=0.03966
+RepeatEpoch = 3 -- Loss = 1.6123e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.125564575195312
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1704): 7.507133483886719
+  median speed_dist (x0,tight)=0.4655  speed_angle (x0,tight)=0.4286
+  median ds/dn  trans=-0.09642  rot=-0.07032
+  median err  trans=0.03971  rot=0.03977
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.428955078125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1693): 10.409069061279297
+  median speed_dist (x0,tight)=0.4595  speed_angle (x0,tight)=0.4097
+  median ds/dn  trans=-0.07113  rot=-0.09765
+  median err  trans=0.03983  rot=0.03971
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.3055267333984375
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1634): 11.510944366455078
+  median speed_dist (x0,tight)=0.463  speed_angle (x0,tight)=0.4125
+  median ds/dn  trans=-0.06646  rot=-0.08727
+  median err  trans=0.03986  rot=0.03973
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.883856773376465
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1649): 8.699512481689453
+  median speed_dist (x0,tight)=0.4677  speed_angle (x0,tight)=0.4231
+  median ds/dn  trans=-0.0836  rot=-0.08182
+  median err  trans=0.03976  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 3.8715362548828125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1640): 10.76664924621582
+  median speed_dist (x0,tight)=0.4604  speed_angle (x0,tight)=0.3964
+  median ds/dn  trans=-0.04666  rot=-0.07497
+  median err  trans=0.03989  rot=0.03978
+RepeatEpoch = 3 -- Loss = 7.5457e+01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.1280975341796875
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1682): 12.180233001708984
+  median speed_dist (x0,tight)=0.4518  speed_angle (x0,tight)=0.4173
+  median ds/dn  trans=-0.03599  rot=-0.1058
+  median err  trans=0.0399  rot=0.03967
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.246444702148438
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1688): 11.562061309814453
+  median speed_dist (x0,tight)=0.457  speed_angle (x0,tight)=0.4161
+  median ds/dn  trans=-0.09213  rot=-0.08784
+  median err  trans=0.03975  rot=0.03974
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.842206954956055
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1641): 8.087635040283203
+  median speed_dist (x0,tight)=0.4637  speed_angle (x0,tight)=0.4171
+  median ds/dn  trans=-0.07437  rot=-0.05311
+  median err  trans=0.03978  rot=0.03982
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.857772827148438
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1640): 8.742332458496094
+  median speed_dist (x0,tight)=0.4706  speed_angle (x0,tight)=0.4138
+  median ds/dn  trans=-0.1073  rot=-0.08085
+  median err  trans=0.03966  rot=0.03977
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.864757537841797
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1710): 8.597373962402344
+  median speed_dist (x0,tight)=0.4067  speed_angle (x0,tight)=0.3762
+  median ds/dn  trans=-0.09652  rot=-0.06651
+  median err  trans=0.0397  rot=0.03984
+RepeatEpoch = 3 -- Loss = 1.1514e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 7.081890106201172
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1656): 10.162544250488281
+  median speed_dist (x0,tight)=0.4668  speed_angle (x0,tight)=0.4129
+  median ds/dn  trans=-0.05514  rot=-0.07575
+  median err  trans=0.03988  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.39495849609375
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1661): 8.728981018066406
+  median speed_dist (x0,tight)=0.4603  speed_angle (x0,tight)=0.3926
+  median ds/dn  trans=-0.04338  rot=-0.07899
+  median err  trans=0.03988  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1998): 6.198883056640625
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1666): 9.734249114990234
+  median speed_dist (x0,tight)=0.4686  speed_angle (x0,tight)=0.4376
+  median ds/dn  trans=-0.03832  rot=-0.09551
+  median err  trans=0.03994  rot=0.03976
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.23121452331543
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1671): 9.697282791137695
+  median speed_dist (x0,tight)=0.4781  speed_angle (x0,tight)=0.3943
+  median ds/dn  trans=-0.05242  rot=-0.07653
+  median err  trans=0.03993  rot=0.03977
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 15.21310806274414
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1688): 10.192632675170898
+  median speed_dist (x0,tight)=0.4973  speed_angle (x0,tight)=0.4453
+  median ds/dn  trans=-0.1168  rot=-0.07889
+  median err  trans=0.03962  rot=0.03975
+RepeatEpoch = 3 -- Loss = 2.0980e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.883598327636719
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1669): 9.437179565429688
+  median speed_dist (x0,tight)=0.4362  speed_angle (x0,tight)=0.4266
+  median ds/dn  trans=-0.05557  rot=-0.08244
+  median err  trans=0.03986  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.002830505371094
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1676): 9.125614166259766
+  median speed_dist (x0,tight)=0.4639  speed_angle (x0,tight)=0.4032
+  median ds/dn  trans=-0.06377  rot=-0.07434
+  median err  trans=0.03985  rot=0.03976
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.097434997558594
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1664): 6.894826889038086
+  median speed_dist (x0,tight)=0.4517  speed_angle (x0,tight)=0.4024
+  median ds/dn  trans=-0.06547  rot=-0.05397
+  median err  trans=0.03984  rot=0.03987
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.347057342529297
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1686): 9.202766418457031
+  median speed_dist (x0,tight)=0.4454  speed_angle (x0,tight)=0.4079
+  median ds/dn  trans=-0.0868  rot=-0.08501
+  median err  trans=0.03974  rot=0.03973
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.847640991210938
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1644): 10.367536544799805
+  median speed_dist (x0,tight)=0.4618  speed_angle (x0,tight)=0.4265
+  median ds/dn  trans=-0.1022  rot=-0.0853
+  median err  trans=0.0397  rot=0.03974
+RepeatEpoch = 3 -- Loss = 1.1517e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.059120178222656
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1652): 7.09686279296875
+  median speed_dist (x0,tight)=0.4567  speed_angle (x0,tight)=0.4057
+  median ds/dn  trans=-0.06579  rot=-0.05401
+  median err  trans=0.03978  rot=0.03985
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.800479888916016
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1684): 9.749603271484375
+  median speed_dist (x0,tight)=0.4569  speed_angle (x0,tight)=0.423
+  median ds/dn  trans=-0.1039  rot=-0.08465
+  median err  trans=0.03966  rot=0.0397
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.711288452148438
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1660): 7.3764801025390625
+  median speed_dist (x0,tight)=0.4852  speed_angle (x0,tight)=0.4184
+  median ds/dn  trans=-0.08075  rot=-0.05945
+  median err  trans=0.03977  rot=0.03985
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.699371337890625
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1657): 12.729930877685547
+  median speed_dist (x0,tight)=0.4848  speed_angle (x0,tight)=0.4209
+  median ds/dn  trans=-0.06063  rot=-0.1
+  median err  trans=0.03982  rot=0.0397
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.412792205810547
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1687): 10.474777221679688
+  median speed_dist (x0,tight)=0.439  speed_angle (x0,tight)=0.3717
+  median ds/dn  trans=-0.05076  rot=-0.08803
+  median err  trans=0.03991  rot=0.0397
+RepeatEpoch = 3 -- Loss = 6.8732e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 0.9157180786132812
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1631): 3.7075042724609375
+  median speed_dist (x0,tight)=0.4858  speed_angle (x0,tight)=0.4194
+  median ds/dn  trans=-0.01179  rot=-0.04039
+  median err  trans=0.04002  rot=0.03992
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.206317901611328
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1637): 7.081317901611328
+  median speed_dist (x0,tight)=0.465  speed_angle (x0,tight)=0.4008
+  median ds/dn  trans=-0.09068  rot=-0.07178
+  median err  trans=0.03971  rot=0.03978
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.050586700439453
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1644): 9.113597869873047
+  median speed_dist (x0,tight)=0.4771  speed_angle (x0,tight)=0.4217
+  median ds/dn  trans=-0.04995  rot=-0.0929
+  median err  trans=0.03986  rot=0.03972
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 6.440114974975586
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1680): 10.517215728759766
+  median speed_dist (x0,tight)=0.4437  speed_angle (x0,tight)=0.4103
+  median ds/dn  trans=-0.05626  rot=-0.07052
+  median err  trans=0.03984  rot=0.03977
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1998): 8.523750305175781
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1667): 7.718753814697266
+  median speed_dist (x0,tight)=0.4667  speed_angle (x0,tight)=0.4224
+  median ds/dn  trans=-0.06455  rot=-0.05866
+  median err  trans=0.03982  rot=0.03986
+RepeatEpoch = 3 -- Loss = 1.5906e+01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.070732116699219
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1707): 7.35931396484375
+  median speed_dist (x0,tight)=0.4403  speed_angle (x0,tight)=0.4072
+  median ds/dn  trans=-0.09204  rot=-0.1061
+  median err  trans=0.03976  rot=0.03977
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.854698181152344
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1671): 6.025791168212891
+  median speed_dist (x0,tight)=0.4523  speed_angle (x0,tight)=0.4208
+  median ds/dn  trans=-0.1446  rot=-0.1131
+  median err  trans=0.03957  rot=0.03972
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.87441635131836
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1682): 6.984138488769531
+  median speed_dist (x0,tight)=0.4511  speed_angle (x0,tight)=0.3935
+  median ds/dn  trans=-0.1105  rot=-0.08942
+  median err  trans=0.0397  rot=0.0398
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 3.2011032104492188
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1665): 3.6342620849609375
+  median speed_dist (x0,tight)=0.4845  speed_angle (x0,tight)=0.4294
+  median ds/dn  trans=-0.03556  rot=-0.05177
+  median err  trans=0.03997  rot=0.03988
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.404945373535156
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1696): 6.423091888427734
+  median speed_dist (x0,tight)=0.4433  speed_angle (x0,tight)=0.3962
+  median ds/dn  trans=-0.07384  rot=-0.05613
+  median err  trans=0.0398  rot=0.03984
+RepeatEpoch = 3 -- Loss = 6.1797e+02 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 2.618694305419922
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1692): 10.066819190979004
+  median speed_dist (x0,tight)=0.4537  speed_angle (x0,tight)=0.42
+  median ds/dn  trans=-0.02292  rot=-0.0827
+  median err  trans=0.03997  rot=0.03972
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.954906463623047
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1697): 9.21030044555664
+  median speed_dist (x0,tight)=0.4516  speed_angle (x0,tight)=0.4208
+  median ds/dn  trans=-0.07178  rot=-0.06349
+  median err  trans=0.03975  rot=0.03986
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.151653289794922
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1681): 10.432624816894531
+  median speed_dist (x0,tight)=0.4527  speed_angle (x0,tight)=0.4227
+  median ds/dn  trans=-0.05498  rot=-0.09989
+  median err  trans=0.03985  rot=0.03971
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 8.710289001464844
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1665): 8.857917785644531
+  median speed_dist (x0,tight)=0.4535  speed_angle (x0,tight)=0.3911
+  median ds/dn  trans=-0.06361  rot=-0.072
+  median err  trans=0.03982  rot=0.0398
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.13298225402832
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1636): 10.466766357421875
+  median speed_dist (x0,tight)=0.477  speed_angle (x0,tight)=0.4188
+  median ds/dn  trans=-0.07576  rot=-0.1003
+  median err  trans=0.03978  rot=0.03968
+RepeatEpoch = 3 -- Loss = 1.1352e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.633089065551758
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1676): 9.098052978515625
+  median speed_dist (x0,tight)=0.454  speed_angle (x0,tight)=0.4183
+  median ds/dn  trans=-0.1142  rot=-0.1459
+  median err  trans=0.03965  rot=0.03968
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.08660888671875
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1632): 5.260419845581055
+  median speed_dist (x0,tight)=0.457  speed_angle (x0,tight)=0.3836
+  median ds/dn  trans=-0.1098  rot=-0.07816
+  median err  trans=0.03967  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.077047348022461
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1651): 7.160520553588867
+  median speed_dist (x0,tight)=0.4691  speed_angle (x0,tight)=0.4274
+  median ds/dn  trans=-0.1499  rot=-0.09676
+  median err  trans=0.0395  rot=0.03972
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.460165023803711
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1665): 5.362987518310547
+  median speed_dist (x0,tight)=0.475  speed_angle (x0,tight)=0.4032
+  median ds/dn  trans=-0.08691  rot=-0.08666
+  median err  trans=0.03975  rot=0.03982
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.263465881347656
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1649): 9.489965438842773
+  median speed_dist (x0,tight)=0.453  speed_angle (x0,tight)=0.4185
+  median ds/dn  trans=-0.1415  rot=-0.1142
+  median err  trans=0.03955  rot=0.0397
+RepeatEpoch = 3 -- Loss = 3.3710e+01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.643606185913086
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1653): 10.563802719116211
+  median speed_dist (x0,tight)=0.4456  speed_angle (x0,tight)=0.4043
+  median ds/dn  trans=-0.05155  rot=-0.084
+  median err  trans=0.03991  rot=0.03976
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.878448486328125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1667): 9.258842468261719
+  median speed_dist (x0,tight)=0.4675  speed_angle (x0,tight)=0.4065
+  median ds/dn  trans=-0.05034  rot=-0.06767
+  median err  trans=0.03988  rot=0.03983
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.246925354003906
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1669): 14.18299674987793
+  median speed_dist (x0,tight)=0.4573  speed_angle (x0,tight)=0.4169
+  median ds/dn  trans=-0.04083  rot=-0.1016
+  median err  trans=0.0399  rot=0.03971
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.306316375732422
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1670): 7.529854774475098
+  median speed_dist (x0,tight)=0.4729  speed_angle (x0,tight)=0.4146
+  median ds/dn  trans=-0.04639  rot=-0.06818
+  median err  trans=0.03992  rot=0.03977
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.0545654296875
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1662): 10.533905029296875
+  median speed_dist (x0,tight)=0.4548  speed_angle (x0,tight)=0.4163
+  median ds/dn  trans=-0.08569  rot=-0.09746
+  median err  trans=0.03976  rot=0.03973
+RepeatEpoch = 3 -- Loss = 1.1805e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 3.8030624389648438
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1675): 6.527900695800781
+  median speed_dist (x0,tight)=0.418  speed_angle (x0,tight)=0.3712
+  median ds/dn  trans=-0.02998  rot=-0.04732
+  median err  trans=0.03997  rot=0.03986
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.223964691162109
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1673): 14.066028594970703
+  median speed_dist (x0,tight)=0.4624  speed_angle (x0,tight)=0.4016
+  median ds/dn  trans=-0.05195  rot=-0.1108
+  median err  trans=0.03987  rot=0.03963
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.77850341796875
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1652): 7.525825500488281
+  median speed_dist (x0,tight)=0.456  speed_angle (x0,tight)=0.3896
+  median ds/dn  trans=-0.0492  rot=-0.07722
+  median err  trans=0.03996  rot=0.03982
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.0621490478515625
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1686): 9.364700317382812
+  median speed_dist (x0,tight)=0.4442  speed_angle (x0,tight)=0.3827
+  median ds/dn  trans=-0.05154  rot=-0.08012
+  median err  trans=0.03987  rot=0.03973
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.788730621337891
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1648): 13.179397583007812
+  median speed_dist (x0,tight)=0.4648  speed_angle (x0,tight)=0.4389
+  median ds/dn  trans=-0.05193  rot=-0.09276
+  median err  trans=0.03987  rot=0.03966
+RepeatEpoch = 3 -- Loss = 1.2595e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 12.87989616394043
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1673): 8.957910537719727
+  median speed_dist (x0,tight)=0.487  speed_angle (x0,tight)=0.4497
+  median ds/dn  trans=-0.1275  rot=-0.07453
+  median err  trans=0.03959  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.6842803955078125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1659): 11.26699447631836
+  median speed_dist (x0,tight)=0.4638  speed_angle (x0,tight)=0.4116
+  median ds/dn  trans=-0.05317  rot=-0.07728
+  median err  trans=0.03984  rot=0.03973
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 5.190277099609375
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1668): 8.95085334777832
+  median speed_dist (x0,tight)=0.475  speed_angle (x0,tight)=0.4288
+  median ds/dn  trans=-0.04208  rot=-0.05988
+  median err  trans=0.0399  rot=0.03981
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.1914215087890625
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1653): 17.98114776611328
+  median speed_dist (x0,tight)=0.4397  speed_angle (x0,tight)=0.4034
+  median ds/dn  trans=-0.05087  rot=-0.1409
+  median err  trans=0.0399  rot=0.03958
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.636739730834961
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1677): 3.1625747680664062
+  median speed_dist (x0,tight)=0.4486  speed_angle (x0,tight)=0.4112
+  median ds/dn  trans=-0.04008  rot=-0.04
+  median err  trans=0.03989  rot=0.03994
+RepeatEpoch = 3 -- Loss = 1.2299e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 4.900360107421875
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1680): 15.984010696411133
+  median speed_dist (x0,tight)=0.447  speed_angle (x0,tight)=0.4346
+  median ds/dn  trans=-0.02731  rot=-0.1274
+  median err  trans=0.03994  rot=0.0396
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.564735412597656
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1679): 11.735916137695312
+  median speed_dist (x0,tight)=0.4322  speed_angle (x0,tight)=0.3857
+  median ds/dn  trans=-0.05967  rot=-0.09239
+  median err  trans=0.03982  rot=0.03969
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.632137298583984
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1646): 12.562370300292969
+  median speed_dist (x0,tight)=0.4922  speed_angle (x0,tight)=0.4298
+  median ds/dn  trans=-0.05201  rot=-0.1194
+  median err  trans=0.03986  rot=0.03963
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 3.9484024047851562
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1654): 8.340644836425781
+  median speed_dist (x0,tight)=0.4473  speed_angle (x0,tight)=0.3971
+  median ds/dn  trans=-0.03389  rot=-0.06766
+  median err  trans=0.03991  rot=0.03982
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.558849334716797
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1664): 7.282257080078125
+  median speed_dist (x0,tight)=0.4784  speed_angle (x0,tight)=0.4255
+  median ds/dn  trans=-0.04042  rot=-0.05559
+  median err  trans=0.03988  rot=0.03984
+RepeatEpoch = 3 -- Loss = 1.5100e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.686542510986328
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1681): 9.935283660888672
+  median speed_dist (x0,tight)=0.4649  speed_angle (x0,tight)=0.4061
+  median ds/dn  trans=-0.07213  rot=-0.07427
+  median err  trans=0.03979  rot=0.03976
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.221820831298828
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1682): 5.946934223175049
+  median speed_dist (x0,tight)=0.457  speed_angle (x0,tight)=0.4116
+  median ds/dn  trans=-0.03598  rot=-0.04329
+  median err  trans=0.03993  rot=0.03996
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.163213729858398
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1679): 7.520747184753418
+  median speed_dist (x0,tight)=0.4478  speed_angle (x0,tight)=0.4293
+  median ds/dn  trans=-0.07559  rot=-0.0734
+  median err  trans=0.03973  rot=0.0398
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.106565475463867
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1672): 8.14065933227539
+  median speed_dist (x0,tight)=0.4561  speed_angle (x0,tight)=0.4153
+  median ds/dn  trans=-0.05724  rot=-0.05489
+  median err  trans=0.03985  rot=0.0399
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.774707794189453
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1688): 5.8795928955078125
+  median speed_dist (x0,tight)=0.4821  speed_angle (x0,tight)=0.4118
+  median ds/dn  trans=-0.09736  rot=-0.05272
+  median err  trans=0.03972  rot=0.03982
+RepeatEpoch = 3 -- Loss = 1.2885e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.283519744873047
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1652): 9.229660034179688
+  median speed_dist (x0,tight)=0.4505  speed_angle (x0,tight)=0.3845
+  median ds/dn  trans=-0.06508  rot=-0.06738
+  median err  trans=0.03979  rot=0.0398
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 3.72314453125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1645): 7.455635070800781
+  median speed_dist (x0,tight)=0.4892  speed_angle (x0,tight)=0.4369
+  median ds/dn  trans=-0.04075  rot=-0.0727
+  median err  trans=0.0399  rot=0.03975
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 7.4726104736328125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1679): 11.065658569335938
+  median speed_dist (x0,tight)=0.4395  speed_angle (x0,tight)=0.3928
+  median ds/dn  trans=-0.07064  rot=-0.1056
+  median err  trans=0.03982  rot=0.03969
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.34023666381836
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1636): 8.337211608886719
+  median speed_dist (x0,tight)=0.4772  speed_angle (x0,tight)=0.4149
+  median ds/dn  trans=-0.0987  rot=-0.1015
+  median err  trans=0.03968  rot=0.0398
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.631683349609375
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1635): 9.790754318237305
+  median speed_dist (x0,tight)=0.4418  speed_angle (x0,tight)=0.4041
+  median ds/dn  trans=-0.08735  rot=-0.09145
+  median err  trans=0.03972  rot=0.03976
+RepeatEpoch = 3 -- Loss = 1.1228e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 10.695600509643555
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1645): 8.779239654541016
+  median speed_dist (x0,tight)=0.4602  speed_angle (x0,tight)=0.4276
+  median ds/dn  trans=-0.1483  rot=-0.1365
+  median err  trans=0.03958  rot=0.03961
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.136678695678711
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1662): 5.714321136474609
+  median speed_dist (x0,tight)=0.4863  speed_angle (x0,tight)=0.4366
+  median ds/dn  trans=-0.09176  rot=-0.08053
+  median err  trans=0.03973  rot=0.03981
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.88521671295166
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1661): 9.444236755371094
+  median speed_dist (x0,tight)=0.4763  speed_angle (x0,tight)=0.4306
+  median ds/dn  trans=-0.09873  rot=-0.1433
+  median err  trans=0.03973  rot=0.0396
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 6.86492919921875
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1684): 7.2646260261535645
+  median speed_dist (x0,tight)=0.4466  speed_angle (x0,tight)=0.4175
+  median ds/dn  trans=-0.07925  rot=-0.09723
+  median err  trans=0.03976  rot=0.03976
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.003639221191406
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1711): 6.877422332763672
+  median speed_dist (x0,tight)=0.4581  speed_angle (x0,tight)=0.4282
+  median ds/dn  trans=-0.1115  rot=-0.09125
+  median err  trans=0.03963  rot=0.03984
+RepeatEpoch = 3 -- Loss = 1.1334e+04 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.934261322021484
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1661): 7.614278793334961
+  median speed_dist (x0,tight)=0.4858  speed_angle (x0,tight)=0.437
+  median ds/dn  trans=-0.06278  rot=-0.06336
+  median err  trans=0.03981  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.3291778564453125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1661): 13.624191284179688
+  median speed_dist (x0,tight)=0.4502  speed_angle (x0,tight)=0.3887
+  median ds/dn  trans=-0.06055  rot=-0.09517
+  median err  trans=0.03984  rot=0.03967
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.445832252502441
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1668): 14.658164978027344
+  median speed_dist (x0,tight)=0.4632  speed_angle (x0,tight)=0.4235
+  median ds/dn  trans=-0.08721  rot=-0.1216
+  median err  trans=0.03974  rot=0.03961
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 3.0405759811401367
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1666): 7.491517066955566
+  median speed_dist (x0,tight)=0.4645  speed_angle (x0,tight)=0.4136
+  median ds/dn  trans=-0.02507  rot=-0.06557
+  median err  trans=0.03997  rot=0.03984
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.203269958496094
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1673): 7.295656204223633
+  median speed_dist (x0,tight)=0.4431  speed_angle (x0,tight)=0.4004
+  median ds/dn  trans=-0.06468  rot=-0.06035
+  median err  trans=0.03984  rot=0.03987
+RepeatEpoch = 3 -- Loss = 9.7477e+03 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 10.463953018188477
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1673): 6.075716018676758
+  median speed_dist (x0,tight)=0.479  speed_angle (x0,tight)=0.4081
+  median ds/dn  trans=-0.07083  rot=-0.05917
+  median err  trans=0.03978  rot=0.03981
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.905509948730469
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1670): 6.182193756103516
+  median speed_dist (x0,tight)=0.4831  speed_angle (x0,tight)=0.4479
+  median ds/dn  trans=-0.05966  rot=-0.06697
+  median err  trans=0.03985  rot=0.03989
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.999517440795898
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1685): 1.3697624206542969
+  median speed_dist (x0,tight)=0.4582  speed_angle (x0,tight)=0.4291
+  median ds/dn  trans=-0.0526  rot=-0.01284
+  median err  trans=0.03987  rot=0.03999
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 12.297534942626953
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1682): 5.246067047119141
+  median speed_dist (x0,tight)=0.4635  speed_angle (x0,tight)=0.4143
+  median ds/dn  trans=-0.1053  rot=-0.0521
+  median err  trans=0.03967  rot=0.03989
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.286476135253906
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1683): 12.005043029785156
+  median speed_dist (x0,tight)=0.4935  speed_angle (x0,tight)=0.4502
+  median ds/dn  trans=-0.07424  rot=-0.08733
+  median err  trans=0.03982  rot=0.03978
+RepeatEpoch = 3 -- Loss = 3.0828e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.391475677490234
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1691): 0.12240409851074219
+  median speed_dist (x0,tight)=0.444  speed_angle (x0,tight)=0.4168
+  median ds/dn  trans=-0.06668  rot=-0.003387
+  median err  trans=0.03982  rot=0.04004
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.412837982177734
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1659): 2.946758270263672
+  median speed_dist (x0,tight)=0.4881  speed_angle (x0,tight)=0.4206
+  median ds/dn  trans=-0.05674  rot=-0.02042
+  median err  trans=0.03986  rot=0.03997
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.276939392089844
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1645): 9.401226043701172
+  median speed_dist (x0,tight)=0.4888  speed_angle (x0,tight)=0.4304
+  median ds/dn  trans=-0.07309  rot=-0.07276
+  median err  trans=0.03976  rot=0.03974
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 4.01310920715332
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1661): 0.0400543212890625
+  median speed_dist (x0,tight)=0.4834  speed_angle (x0,tight)=0.4207
+  median ds/dn  trans=-0.03443  rot=-5.094e-05
+  median err  trans=0.03995  rot=0.04007
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.315468788146973
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1648): 12.32614517211914
+  median speed_dist (x0,tight)=0.4698  speed_angle (x0,tight)=0.4186
+  median ds/dn  trans=-0.06076  rot=-0.09444
+  median err  trans=0.03983  rot=0.0397
+RepeatEpoch = 3 -- Loss = 2.2604e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.809688568115234
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1650): 10.126399993896484
+  median speed_dist (x0,tight)=0.4468  speed_angle (x0,tight)=0.4241
+  median ds/dn  trans=-0.04997  rot=-0.07875
+  median err  trans=0.03983  rot=0.03973
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.903362274169922
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1677): 7.56840705871582
+  median speed_dist (x0,tight)=0.4581  speed_angle (x0,tight)=0.4252
+  median ds/dn  trans=-0.06734  rot=-0.07178
+  median err  trans=0.03981  rot=0.03978
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 9.91983413696289
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1650): 8.595085144042969
+  median speed_dist (x0,tight)=0.4673  speed_angle (x0,tight)=0.4017
+  median ds/dn  trans=-0.07654  rot=-0.05673
+  median err  trans=0.03975  rot=0.03981
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.271835327148438
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1667): 7.346820831298828
+  median speed_dist (x0,tight)=0.4737  speed_angle (x0,tight)=0.4329
+  median ds/dn  trans=-0.08927  rot=-0.05163
+  median err  trans=0.03969  rot=0.03989
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.473800659179688
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1697): 12.780094146728516
+  median speed_dist (x0,tight)=0.4424  speed_angle (x0,tight)=0.4088
+  median ds/dn  trans=-0.09066  rot=-0.09889
+  median err  trans=0.03973  rot=0.03968
+RepeatEpoch = 3 -- Loss = 1.1355e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 9.061765670776367
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1659): 5.762958526611328
+  median speed_dist (x0,tight)=0.4652  speed_angle (x0,tight)=0.4149
+  median ds/dn  trans=-0.06983  rot=-0.0486
+  median err  trans=0.03976  rot=0.03988
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.3385009765625
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1695): 8.369159698486328
+  median speed_dist (x0,tight)=0.449  speed_angle (x0,tight)=0.4145
+  median ds/dn  trans=-0.05455  rot=-0.07026
+  median err  trans=0.03988  rot=0.03976
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 12.617230415344238
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1659): 12.231159210205078
+  median speed_dist (x0,tight)=0.4977  speed_angle (x0,tight)=0.4346
+  median ds/dn  trans=-0.1126  rot=-0.1022
+  median err  trans=0.03962  rot=0.03966
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 1.9143104553222656
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1686): 5.237209796905518
+  median speed_dist (x0,tight)=0.4507  speed_angle (x0,tight)=0.4082
+  median ds/dn  trans=-0.01619  rot=-0.03679
+  median err  trans=0.04  rot=0.0399
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.085845947265625
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1667): 7.2235107421875
+  median speed_dist (x0,tight)=0.4709  speed_angle (x0,tight)=0.4223
+  median ds/dn  trans=-0.09405  rot=-0.06961
+  median err  trans=0.03972  rot=0.0398
+RepeatEpoch = 3 -- Loss = 1.5853e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 12.943673133850098
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1673): 5.0914764404296875
+  median speed_dist (x0,tight)=0.4622  speed_angle (x0,tight)=0.3968
+  median ds/dn  trans=-0.1769  rot=-0.07038
+  median err  trans=0.03937  rot=0.03983
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.137683868408203
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1679): 8.189535140991211
+  median speed_dist (x0,tight)=0.4527  speed_angle (x0,tight)=0.4229
+  median ds/dn  trans=-0.1139  rot=-0.123
+  median err  trans=0.0397  rot=0.03968
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.398414611816406
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1633): 7.6114654541015625
+  median speed_dist (x0,tight)=0.466  speed_angle (x0,tight)=0.4213
+  median ds/dn  trans=-0.1005  rot=-0.119
+  median err  trans=0.03972  rot=0.03964
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.084892272949219
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1674): 10.899168014526367
+  median speed_dist (x0,tight)=0.4422  speed_angle (x0,tight)=0.3891
+  median ds/dn  trans=-0.1371  rot=-0.1443
+  median err  trans=0.0396  rot=0.03969
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.4742584228515625
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1668): 5.638742446899414
+  median speed_dist (x0,tight)=0.4853  speed_angle (x0,tight)=0.4596
+  median ds/dn  trans=-0.06617  rot=-0.09608
+  median err  trans=0.03986  rot=0.03974
+RepeatEpoch = 3 -- Loss = 2.2446e+01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.4893951416015625
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1662): 5.308628082275391
+  median speed_dist (x0,tight)=0.4557  speed_angle (x0,tight)=0.416
+  median ds/dn  trans=-0.102  rot=-0.07803
+  median err  trans=0.03968  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.70926284790039
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1650): 6.216168403625488
+  median speed_dist (x0,tight)=0.4474  speed_angle (x0,tight)=0.3801
+  median ds/dn  trans=-0.1151  rot=-0.08685
+  median err  trans=0.03961  rot=0.03976
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.10232162475586
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1660): 6.317424774169922
+  median speed_dist (x0,tight)=0.4561  speed_angle (x0,tight)=0.4068
+  median ds/dn  trans=-0.1033  rot=-0.1073
+  median err  trans=0.03969  rot=0.03977
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.078147888183594
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1673): 7.953166961669922
+  median speed_dist (x0,tight)=0.4382  speed_angle (x0,tight)=0.3845
+  median ds/dn  trans=-0.07327  rot=-0.1085
+  median err  trans=0.03985  rot=0.03967
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.040189743041992
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1689): 10.990762710571289
+  median speed_dist (x0,tight)=0.4852  speed_angle (x0,tight)=0.4299
+  median ds/dn  trans=-0.1135  rot=-0.1553
+  median err  trans=0.03971  rot=0.03954
+RepeatEpoch = 3 -- Loss = 4.0585e+02 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.136747360229492
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1652): 8.576536178588867
+  median speed_dist (x0,tight)=0.4775  speed_angle (x0,tight)=0.4277
+  median ds/dn  trans=-0.1204  rot=-0.1201
+  median err  trans=0.03966  rot=0.0397
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.767175674438477
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1664): 1.8406867980957031
+  median speed_dist (x0,tight)=0.4662  speed_angle (x0,tight)=0.4326
+  median ds/dn  trans=-0.1162  rot=-0.02852
+  median err  trans=0.03967  rot=0.04002
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.500289916992188
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1673): 8.454513549804688
+  median speed_dist (x0,tight)=0.446  speed_angle (x0,tight)=0.4101
+  median ds/dn  trans=-0.111  rot=-0.1128
+  median err  trans=0.0396  rot=0.03972
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 6.722688674926758
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1660): 6.2317609786987305
+  median speed_dist (x0,tight)=0.4619  speed_angle (x0,tight)=0.4003
+  median ds/dn  trans=-0.08928  rot=-0.1146
+  median err  trans=0.03978  rot=0.03965
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.401226043701172
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1678): 2.197122573852539
+  median speed_dist (x0,tight)=0.4705  speed_angle (x0,tight)=0.4215
+  median ds/dn  trans=-0.1292  rot=-0.0388
+  median err  trans=0.03959  rot=0.03997
+RepeatEpoch = 3 -- Loss = 2.4400e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 5.02166748046875
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1664): 11.692237854003906
+  median speed_dist (x0,tight)=0.4533  speed_angle (x0,tight)=0.4179
+  median ds/dn  trans=-0.04394  rot=-0.0873
+  median err  trans=0.03991  rot=0.03978
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.805325508117676
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1658): 10.216331481933594
+  median speed_dist (x0,tight)=0.4638  speed_angle (x0,tight)=0.4105
+  median ds/dn  trans=-0.05576  rot=-0.09896
+  median err  trans=0.03987  rot=0.03967
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.461355209350586
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1643): 6.356382369995117
+  median speed_dist (x0,tight)=0.4766  speed_angle (x0,tight)=0.4222
+  median ds/dn  trans=-0.08703  rot=-0.06031
+  median err  trans=0.03968  rot=0.0398
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 7.656669616699219
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1698): 12.259054183959961
+  median speed_dist (x0,tight)=0.4278  speed_angle (x0,tight)=0.4053
+  median ds/dn  trans=-0.06095  rot=-0.1273
+  median err  trans=0.03983  rot=0.03954
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.15744400024414
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1666): 14.010047912597656
+  median speed_dist (x0,tight)=0.4428  speed_angle (x0,tight)=0.3892
+  median ds/dn  trans=-0.07693  rot=-0.1275
+  median err  trans=0.03975  rot=0.03957
+RepeatEpoch = 3 -- Loss = 1.1108e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.946678161621094
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1660): 7.500171661376953
+  median speed_dist (x0,tight)=0.4881  speed_angle (x0,tight)=0.4331
+  median ds/dn  trans=-0.1506  rot=-0.08565
+  median err  trans=0.03953  rot=0.03988
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.201981544494629
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1659): 9.530162811279297
+  median speed_dist (x0,tight)=0.4969  speed_angle (x0,tight)=0.4288
+  median ds/dn  trans=-0.1191  rot=-0.1467
+  median err  trans=0.03966  rot=0.03959
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.490276336669922
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1653): 1.8456220626831055
+  median speed_dist (x0,tight)=0.457  speed_angle (x0,tight)=0.4481
+  median ds/dn  trans=-0.09912  rot=-0.02362
+  median err  trans=0.03969  rot=0.04002
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 12.587785720825195
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1665): 6.035196781158447
+  median speed_dist (x0,tight)=0.4833  speed_angle (x0,tight)=0.4392
+  median ds/dn  trans=-0.1867  rot=-0.09874
+  median err  trans=0.03941  rot=0.03977
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.367633819580078
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1652): 8.74176025390625
+  median speed_dist (x0,tight)=0.4827  speed_angle (x0,tight)=0.4356
+  median ds/dn  trans=-0.1204  rot=-0.1297
+  median err  trans=0.0397  rot=0.03964
+RepeatEpoch = 3 -- Loss = 2.0947e+09 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.358028411865234
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1663): 7.952642440795898
+  median speed_dist (x0,tight)=0.4795  speed_angle (x0,tight)=0.4022
+  median ds/dn  trans=-0.0724  rot=-0.1415
+  median err  trans=0.03982  rot=0.03968
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.645198822021484
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1675): 8.806753158569336
+  median speed_dist (x0,tight)=0.4406  speed_angle (x0,tight)=0.4056
+  median ds/dn  trans=-0.1667  rot=-0.1304
+  median err  trans=0.03948  rot=0.03961
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 12.24222183227539
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1652): 12.468290328979492
+  median speed_dist (x0,tight)=0.4699  speed_angle (x0,tight)=0.42
+  median ds/dn  trans=-0.1478  rot=-0.1742
+  median err  trans=0.03963  rot=0.03953
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.443117141723633
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1682): 4.398083686828613
+  median speed_dist (x0,tight)=0.4874  speed_angle (x0,tight)=0.4417
+  median ds/dn  trans=-0.1033  rot=-0.09461
+  median err  trans=0.03971  rot=0.03983
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.182550430297852
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1648): 11.340904235839844
+  median speed_dist (x0,tight)=0.4845  speed_angle (x0,tight)=0.4196
+  median ds/dn  trans=-0.0933  rot=-0.1675
+  median err  trans=0.03977  rot=0.03953
+RepeatEpoch = 3 -- Loss = 2.2212e+02 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.65378189086914
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1647): 6.253623962402344
+  median speed_dist (x0,tight)=0.4535  speed_angle (x0,tight)=0.4118
+  median ds/dn  trans=-0.09847  rot=-0.05285
+  median err  trans=0.03975  rot=0.03988
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.866024017333984
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1665): 8.163928985595703
+  median speed_dist (x0,tight)=0.4644  speed_angle (x0,tight)=0.4216
+  median ds/dn  trans=-0.06985  rot=-0.06009
+  median err  trans=0.03978  rot=0.03981
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.365848541259766
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1687): 6.702327728271484
+  median speed_dist (x0,tight)=0.4352  speed_angle (x0,tight)=0.4154
+  median ds/dn  trans=-0.05217  rot=-0.0512
+  median err  trans=0.03988  rot=0.03984
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 3.5562515258789062
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1665): 11.485099792480469
+  median speed_dist (x0,tight)=0.4743  speed_angle (x0,tight)=0.426
+  median ds/dn  trans=-0.0299  rot=-0.09214
+  median err  trans=0.03994  rot=0.03968
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.273887634277344
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1660): 7.981014251708984
+  median speed_dist (x0,tight)=0.4816  speed_angle (x0,tight)=0.4329
+  median ds/dn  trans=-0.06856  rot=-0.0675
+  median err  trans=0.0398  rot=0.03987
+RepeatEpoch = 3 -- Loss = 2.5867e+02 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 3.127908706665039
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1674): 11.373043060302734
+  median speed_dist (x0,tight)=0.4625  speed_angle (x0,tight)=0.4049
+  median ds/dn  trans=-0.03697  rot=-0.09848
+  median err  trans=0.03997  rot=0.03964
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.606601715087891
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1682): 11.538314819335938
+  median speed_dist (x0,tight)=0.4545  speed_angle (x0,tight)=0.4162
+  median ds/dn  trans=-0.06102  rot=-0.09347
+  median err  trans=0.03984  rot=0.03974
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.147857666015625
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1672): 7.331085205078125
+  median speed_dist (x0,tight)=0.4534  speed_angle (x0,tight)=0.4127
+  median ds/dn  trans=-0.09285  rot=-0.06827
+  median err  trans=0.03978  rot=0.03983
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.411264419555664
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1679): 6.740379333496094
+  median speed_dist (x0,tight)=0.4483  speed_angle (x0,tight)=0.3771
+  median ds/dn  trans=-0.07524  rot=-0.05121
+  median err  trans=0.03975  rot=0.03984
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.077766418457031
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1692): 12.09716796875
+  median speed_dist (x0,tight)=0.4435  speed_angle (x0,tight)=0.389
+  median ds/dn  trans=-0.05595  rot=-0.09043
+  median err  trans=0.03985  rot=0.0397
+RepeatEpoch = 3 -- Loss = 1.6716e+09 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.108184814453125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1664): 10.555267333984375
+  median speed_dist (x0,tight)=0.4471  speed_angle (x0,tight)=0.4004
+  median ds/dn  trans=-0.09126  rot=-0.09068
+  median err  trans=0.03974  rot=0.03972
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.833812713623047
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1665): 4.8736572265625
+  median speed_dist (x0,tight)=0.4408  speed_angle (x0,tight)=0.4213
+  median ds/dn  trans=-0.07366  rot=-0.05183
+  median err  trans=0.03981  rot=0.03985
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 3.141450881958008
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1656): 7.493448257446289
+  median speed_dist (x0,tight)=0.4516  speed_angle (x0,tight)=0.4113
+  median ds/dn  trans=-0.02795  rot=-0.05706
+  median err  trans=0.03997  rot=0.03986
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.120824813842773
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1652): 9.440898895263672
+  median speed_dist (x0,tight)=0.4612  speed_angle (x0,tight)=0.4156
+  median ds/dn  trans=-0.06297  rot=-0.07065
+  median err  trans=0.03983  rot=0.03978
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 3.4894943237304688
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1637): 10.966110229492188
+  median speed_dist (x0,tight)=0.4749  speed_angle (x0,tight)=0.4125
+  median ds/dn  trans=-0.03353  rot=-0.105
+  median err  trans=0.03991  rot=0.03965
+RepeatEpoch = 3 -- Loss = 1.1828e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 9.713482856750488
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1692): 7.045841217041016
+  median speed_dist (x0,tight)=0.4575  speed_angle (x0,tight)=0.4196
+  median ds/dn  trans=-0.1307  rot=-0.1143
+  median err  trans=0.03963  rot=0.03966
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.1989545822143555
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1675): 7.223701477050781
+  median speed_dist (x0,tight)=0.4546  speed_angle (x0,tight)=0.4181
+  median ds/dn  trans=-0.07639  rot=-0.09591
+  median err  trans=0.03985  rot=0.03975
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1998): 7.114410400390625
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1684): 4.727935791015625
+  median speed_dist (x0,tight)=0.4732  speed_angle (x0,tight)=0.4268
+  median ds/dn  trans=-0.1018  rot=-0.0799
+  median err  trans=0.03971  rot=0.03988
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.445045471191406
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1650): 8.45489501953125
+  median speed_dist (x0,tight)=0.4631  speed_angle (x0,tight)=0.4068
+  median ds/dn  trans=-0.1601  rot=-0.1202
+  median err  trans=0.0395  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.7940673828125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1653): 4.609918594360352
+  median speed_dist (x0,tight)=0.4512  speed_angle (x0,tight)=0.4201
+  median ds/dn  trans=-0.1141  rot=-0.05365
+  median err  trans=0.03961  rot=0.03986
+Epoch = 3 -- Loss = 8.7387e-01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 12.648868560791016
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1709): 4.018497467041016
+  median speed_dist (x0,tight)=0.4463  speed_angle (x0,tight)=0.4188
+  median ds/dn  trans=-0.1817  rot=-0.05099
+  median err  trans=0.03948  rot=0.04001
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.489323616027832
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1679): 8.730340003967285
+  median speed_dist (x0,tight)=0.4367  speed_angle (x0,tight)=0.3978
+  median ds/dn  trans=-0.1094  rot=-0.1046
+  median err  trans=0.0397  rot=0.03974
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.4132232666015625
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1672): 12.294197082519531
+  median speed_dist (x0,tight)=0.4536  speed_angle (x0,tight)=0.4084
+  median ds/dn  trans=-0.06093  rot=-0.1448
+  median err  trans=0.0399  rot=0.03956
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 3.063821792602539
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1659): 7.49359130859375
+  median speed_dist (x0,tight)=0.4577  speed_angle (x0,tight)=0.3955
+  median ds/dn  trans=-0.04717  rot=-0.1159
+  median err  trans=0.04  rot=0.0397
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.972026824951172
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1673): 6.738615036010742
+  median speed_dist (x0,tight)=0.4333  speed_angle (x0,tight)=0.3999
+  median ds/dn  trans=-0.09222  rot=-0.1078
+  median err  trans=0.03974  rot=0.03971
+Epoch = 4 -- Loss = 8.5885e-01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.907150268554688
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1668): 3.8506507873535156
+  median speed_dist (x0,tight)=0.467  speed_angle (x0,tight)=0.4424
+  median ds/dn  trans=-0.1455  rot=-0.05716
+  median err  trans=0.03955  rot=0.0399
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.963039398193359
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1676): 4.860115051269531
+  median speed_dist (x0,tight)=0.449  speed_angle (x0,tight)=0.3915
+  median ds/dn  trans=-0.09188  rot=-0.08833
+  median err  trans=0.03978  rot=0.03985
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.325172424316406
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1677): 8.656024932861328
+  median speed_dist (x0,tight)=0.4728  speed_angle (x0,tight)=0.4116
+  median ds/dn  trans=-0.1248  rot=-0.1302
+  median err  trans=0.03965  rot=0.03972
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 12.509822845458984
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1670): 4.803323745727539
+  median speed_dist (x0,tight)=0.4492  speed_angle (x0,tight)=0.3972
+  median ds/dn  trans=-0.1508  rot=-0.08133
+  median err  trans=0.03957  rot=0.03981
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 5.998468399047852
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1660): 7.465839385986328
+  median speed_dist (x0,tight)=0.4548  speed_angle (x0,tight)=0.4079
+  median ds/dn  trans=-0.06542  rot=-0.1263
+  median err  trans=0.03988  rot=0.03967
+RepeatEpoch = 5 -- Loss = 3.8228e+01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 13.907718658447266
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1682): 9.012699127197266
+  median speed_dist (x0,tight)=0.4533  speed_angle (x0,tight)=0.4015
+  median ds/dn  trans=-0.1189  rot=-0.08758
+  median err  trans=0.03959  rot=0.03974
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 5.796480178833008
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1644): 3.802490234375
+  median speed_dist (x0,tight)=0.4663  speed_angle (x0,tight)=0.427
+  median ds/dn  trans=-0.0405  rot=-0.04079
+  median err  trans=0.03997  rot=0.03992
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.620170593261719
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1685): -0.7734060287475586
+  median speed_dist (x0,tight)=0.4513  speed_angle (x0,tight)=0.3951
+  median ds/dn  trans=-0.03796  rot=0.01373
+  median err  trans=0.0399  rot=0.04012
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.31768798828125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1678): 4.757881164550781
+  median speed_dist (x0,tight)=0.4783  speed_angle (x0,tight)=0.4402
+  median ds/dn  trans=-0.0389  rot=-0.03694
+  median err  trans=0.03995  rot=0.03993
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.001615524291992
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1662): 3.0922889709472656
+  median speed_dist (x0,tight)=0.4682  speed_angle (x0,tight)=0.3965
+  median ds/dn  trans=-0.04324  rot=-0.0167
+  median err  trans=0.03985  rot=0.04003
+RepeatEpoch = 5 -- Loss = 1.2799e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.643341064453125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1671): 6.801605224609375
+  median speed_dist (x0,tight)=0.4127  speed_angle (x0,tight)=0.4023
+  median ds/dn  trans=-0.1039  rot=-0.09691
+  median err  trans=0.03967  rot=0.03973
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 10.856056213378906
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1675): 8.094644546508789
+  median speed_dist (x0,tight)=0.4602  speed_angle (x0,tight)=0.4121
+  median ds/dn  trans=-0.1428  rot=-0.1468
+  median err  trans=0.03957  rot=0.03958
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 7.144498825073242
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1685): 9.661483764648438
+  median speed_dist (x0,tight)=0.44  speed_angle (x0,tight)=0.4168
+  median ds/dn  trans=-0.1074  rot=-0.1539
+  median err  trans=0.03972  rot=0.03952
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.386112213134766
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1662): 6.89697265625
+  median speed_dist (x0,tight)=0.4565  speed_angle (x0,tight)=0.4074
+  median ds/dn  trans=-0.09785  rot=-0.106
+  median err  trans=0.03979  rot=0.03975
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 13.104438781738281
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1665): 3.013467788696289
+  median speed_dist (x0,tight)=0.4389  speed_angle (x0,tight)=0.437
+  median ds/dn  trans=-0.1436  rot=-0.04762
+  median err  trans=0.03951  rot=0.04005
+RepeatEpoch = 5 -- Loss = 3.6092e+02 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 12.229061126708984
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1698): 6.839084625244141
+  median speed_dist (x0,tight)=0.422  speed_angle (x0,tight)=0.3758
+  median ds/dn  trans=-0.1388  rot=-0.1023
+  median err  trans=0.03959  rot=0.03984
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.084539413452148
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1644): 6.752109527587891
+  median speed_dist (x0,tight)=0.4673  speed_angle (x0,tight)=0.4309
+  median ds/dn  trans=-0.08183  rot=-0.1135
+  median err  trans=0.03979  rot=0.03973
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.89530086517334
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1661): 6.052684783935547
+  median speed_dist (x0,tight)=0.4486  speed_angle (x0,tight)=0.4222
+  median ds/dn  trans=-0.135  rot=-0.0892
+  median err  trans=0.03959  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 11.65623664855957
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1659): 7.86290168762207
+  median speed_dist (x0,tight)=0.4686  speed_angle (x0,tight)=0.4089
+  median ds/dn  trans=-0.1299  rot=-0.1113
+  median err  trans=0.03961  rot=0.03968
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.928371429443359
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1686): 3.8643836975097656
+  median speed_dist (x0,tight)=0.4589  speed_angle (x0,tight)=0.4271
+  median ds/dn  trans=-0.1251  rot=-0.06051
+  median err  trans=0.0397  rot=0.03998
+RepeatEpoch = 5 -- Loss = 1.2145e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.543418884277344
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1705): 12.236785888671875
+  median speed_dist (x0,tight)=0.4416  speed_angle (x0,tight)=0.4109
+  median ds/dn  trans=-0.09223  rot=-0.09988
+  median err  trans=0.03975  rot=0.03966
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.753634452819824
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1652): 13.574981689453125
+  median speed_dist (x0,tight)=0.4528  speed_angle (x0,tight)=0.3952
+  median ds/dn  trans=-0.07976  rot=-0.1068
+  median err  trans=0.03974  rot=0.03967
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 12.397336959838867
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1656): 2.4850845336914062
+  median speed_dist (x0,tight)=0.4777  speed_angle (x0,tight)=0.4233
+  median ds/dn  trans=-0.09621  rot=-0.01477
+  median err  trans=0.03968  rot=0.04001
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.0512542724609375
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1668): 9.683990478515625
+  median speed_dist (x0,tight)=0.4939  speed_angle (x0,tight)=0.4538
+  median ds/dn  trans=-0.05849  rot=-0.08656
+  median err  trans=0.03987  rot=0.03977
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 3.4959793090820312
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1681): 9.976768493652344
+  median speed_dist (x0,tight)=0.4438  speed_angle (x0,tight)=0.4286
+  median ds/dn  trans=-0.03773  rot=-0.08855
+  median err  trans=0.03991  rot=0.03984
+RepeatEpoch = 5 -- Loss = 1.4069e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.273717880249023
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1668): 8.867263793945312
+  median speed_dist (x0,tight)=0.4556  speed_angle (x0,tight)=0.3996
+  median ds/dn  trans=-0.1451  rot=-0.1538
+  median err  trans=0.03954  rot=0.03955
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.637163162231445
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1681): 4.780244827270508
+  median speed_dist (x0,tight)=0.4592  speed_angle (x0,tight)=0.4164
+  median ds/dn  trans=-0.1442  rot=-0.05997
+  median err  trans=0.03954  rot=0.0399
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 6.409168243408203
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1662): 3.898000717163086
+  median speed_dist (x0,tight)=0.4761  speed_angle (x0,tight)=0.431
+  median ds/dn  trans=-0.0898  rot=-0.07036
+  median err  trans=0.03981  rot=0.03988
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 3.6171913146972656
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1655): 7.955503463745117
+  median speed_dist (x0,tight)=0.4731  speed_angle (x0,tight)=0.4361
+  median ds/dn  trans=-0.03963  rot=-0.1162
+  median err  trans=0.03993  rot=0.03965
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.012197494506836
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1660): 3.8834571838378906
+  median speed_dist (x0,tight)=0.456  speed_angle (x0,tight)=0.4323
+  median ds/dn  trans=-0.1485  rot=-0.05466
+  median err  trans=0.03956  rot=0.03987
+RepeatEpoch = 5 -- Loss = 1.0822e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 10.778999328613281
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1670): 9.244394302368164
+  median speed_dist (x0,tight)=0.4706  speed_angle (x0,tight)=0.4145
+  median ds/dn  trans=-0.1273  rot=-0.1322
+  median err  trans=0.03962  rot=0.03964
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.593632698059082
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1659): 6.5288543701171875
+  median speed_dist (x0,tight)=0.4715  speed_angle (x0,tight)=0.4212
+  median ds/dn  trans=-0.08525  rot=-0.09833
+  median err  trans=0.03977  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.558322906494141
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1665): 8.919095993041992
+  median speed_dist (x0,tight)=0.468  speed_angle (x0,tight)=0.4165
+  median ds/dn  trans=-0.09605  rot=-0.1306
+  median err  trans=0.03973  rot=0.03968
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.366325378417969
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1660): 9.151411056518555
+  median speed_dist (x0,tight)=0.4577  speed_angle (x0,tight)=0.3987
+  median ds/dn  trans=-0.0874  rot=-0.1734
+  median err  trans=0.03979  rot=0.03941
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.59719467163086
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1667): 7.874488830566406
+  median speed_dist (x0,tight)=0.468  speed_angle (x0,tight)=0.4312
+  median ds/dn  trans=-0.0993  rot=-0.1136
+  median err  trans=0.03983  rot=0.03969
+RepeatEpoch = 5 -- Loss = 1.1597e+04 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.41355037689209
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1688): 15.46182632446289
+  median speed_dist (x0,tight)=0.4479  speed_angle (x0,tight)=0.3933
+  median ds/dn  trans=-0.09094  rot=-0.1016
+  median err  trans=0.03968  rot=0.03967
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.170749664306641
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1665): 13.200640678405762
+  median speed_dist (x0,tight)=0.4576  speed_angle (x0,tight)=0.4035
+  median ds/dn  trans=-0.06245  rot=-0.09424
+  median err  trans=0.03985  rot=0.03972
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.860424995422363
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1673): 8.069515228271484
+  median speed_dist (x0,tight)=0.4574  speed_angle (x0,tight)=0.4071
+  median ds/dn  trans=-0.03508  rot=-0.05778
+  median err  trans=0.03993  rot=0.03982
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 4.633617401123047
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1675): 10.03570556640625
+  median speed_dist (x0,tight)=0.4397  speed_angle (x0,tight)=0.3934
+  median ds/dn  trans=-0.04025  rot=-0.08082
+  median err  trans=0.03993  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 2.9996871948242188
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1682): 14.456701278686523
+  median speed_dist (x0,tight)=0.434  speed_angle (x0,tight)=0.4013
+  median ds/dn  trans=-0.02625  rot=-0.1118
+  median err  trans=0.03993  rot=0.03959
+RepeatEpoch = 5 -- Loss = 1.1617e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 3.958415985107422
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1661): 5.256080627441406
+  median speed_dist (x0,tight)=0.4591  speed_angle (x0,tight)=0.4198
+  median ds/dn  trans=-0.04089  rot=-0.06137
+  median err  trans=0.0399  rot=0.03988
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.49151611328125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1681): 6.8134307861328125
+  median speed_dist (x0,tight)=0.4706  speed_angle (x0,tight)=0.4142
+  median ds/dn  trans=-0.09017  rot=-0.06407
+  median err  trans=0.03973  rot=0.03986
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.39398193359375
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1682): 12.021112442016602
+  median speed_dist (x0,tight)=0.4778  speed_angle (x0,tight)=0.4348
+  median ds/dn  trans=-0.05884  rot=-0.1076
+  median err  trans=0.03984  rot=0.03967
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.47838020324707
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1662): 4.044580459594727
+  median speed_dist (x0,tight)=0.4834  speed_angle (x0,tight)=0.4347
+  median ds/dn  trans=-0.06601  rot=-0.03387
+  median err  trans=0.03977  rot=0.03996
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.676719665527344
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1654): 5.945634841918945
+  median speed_dist (x0,tight)=0.4551  speed_angle (x0,tight)=0.3983
+  median ds/dn  trans=-0.06617  rot=-0.04788
+  median err  trans=0.03979  rot=0.03992
+RepeatEpoch = 5 -- Loss = 1.1392e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.807445526123047
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1672): 9.604120254516602
+  median speed_dist (x0,tight)=0.4935  speed_angle (x0,tight)=0.451
+  median ds/dn  trans=-0.07108  rot=-0.08555
+  median err  trans=0.03978  rot=0.03976
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 2.7698516845703125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1679): 1.3286828994750977
+  median speed_dist (x0,tight)=0.4363  speed_angle (x0,tight)=0.3943
+  median ds/dn  trans=-0.02104  rot=-0.01238
+  median err  trans=0.03998  rot=0.03998
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.276630401611328
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1664): 8.372306823730469
+  median speed_dist (x0,tight)=0.4823  speed_angle (x0,tight)=0.4302
+  median ds/dn  trans=-0.06884  rot=-0.06623
+  median err  trans=0.03982  rot=0.03978
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.884910583496094
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1696): 10.533332824707031
+  median speed_dist (x0,tight)=0.4578  speed_angle (x0,tight)=0.407
+  median ds/dn  trans=-0.04564  rot=-0.09611
+  median err  trans=0.03993  rot=0.03968
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.585527420043945
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1666): 10.872745513916016
+  median speed_dist (x0,tight)=0.4486  speed_angle (x0,tight)=0.4046
+  median ds/dn  trans=-0.04166  rot=-0.1007
+  median err  trans=0.03989  rot=0.03964
+RepeatEpoch = 5 -- Loss = 1.7315e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.840015411376953
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1676): 7.079029083251953
+  median speed_dist (x0,tight)=0.4599  speed_angle (x0,tight)=0.4266
+  median ds/dn  trans=-0.07812  rot=-0.0987
+  median err  trans=0.03978  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.217880249023438
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1669): 4.365372657775879
+  median speed_dist (x0,tight)=0.4329  speed_angle (x0,tight)=0.3813
+  median ds/dn  trans=-0.1255  rot=-0.06837
+  median err  trans=0.03965  rot=0.03994
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 3.206157684326172
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1667): 4.030132293701172
+  median speed_dist (x0,tight)=0.4691  speed_angle (x0,tight)=0.4504
+  median ds/dn  trans=-0.05126  rot=-0.04935
+  median err  trans=0.0399  rot=0.03994
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.892084121704102
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1659): 4.242944717407227
+  median speed_dist (x0,tight)=0.4655  speed_angle (x0,tight)=0.417
+  median ds/dn  trans=-0.1127  rot=-0.06983
+  median err  trans=0.03962  rot=0.03993
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.442617416381836
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1664): 9.213733673095703
+  median speed_dist (x0,tight)=0.4631  speed_angle (x0,tight)=0.4089
+  median ds/dn  trans=-0.1003  rot=-0.1416
+  median err  trans=0.03976  rot=0.03961
+Epoch = 5 -- Loss = 9.3040e-01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.202695846557617
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1654): 5.579137802124023
+  median speed_dist (x0,tight)=0.4571  speed_angle (x0,tight)=0.4075
+  median ds/dn  trans=-0.11  rot=-0.08555
+  median err  trans=0.03969  rot=0.03986
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.807899475097656
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1680): 10.57586669921875
+  median speed_dist (x0,tight)=0.4653  speed_angle (x0,tight)=0.4141
+  median ds/dn  trans=-0.09815  rot=-0.1576
+  median err  trans=0.0397  rot=0.0395
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.750415802001953
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1667): 5.2410125732421875
+  median speed_dist (x0,tight)=0.4501  speed_angle (x0,tight)=0.4086
+  median ds/dn  trans=-0.1064  rot=-0.08369
+  median err  trans=0.03977  rot=0.03982
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.774398803710938
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1669): 5.849742889404297
+  median speed_dist (x0,tight)=0.4675  speed_angle (x0,tight)=0.4091
+  median ds/dn  trans=-0.1169  rot=-0.09103
+  median err  trans=0.03966  rot=0.03977
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.159421920776367
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1669): 8.027029037475586
+  median speed_dist (x0,tight)=0.4742  speed_angle (x0,tight)=0.4355
+  median ds/dn  trans=-0.1262  rot=-0.09984
+  median err  trans=0.03963  rot=0.03978
+RepeatEpoch = 6 -- Loss = 5.1516e+08 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 9.26980972290039
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1668): 3.869009017944336
+  median speed_dist (x0,tight)=0.4237  speed_angle (x0,tight)=0.3967
+  median ds/dn  trans=-0.1407  rot=-0.04212
+  median err  trans=0.03957  rot=0.03992
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.524898529052734
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1697): 7.304525375366211
+  median speed_dist (x0,tight)=0.4588  speed_angle (x0,tight)=0.4268
+  median ds/dn  trans=-0.07165  rot=-0.1146
+  median err  trans=0.03983  rot=0.03975
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 6.649208068847656
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1647): 7.545948028564453
+  median speed_dist (x0,tight)=0.4663  speed_angle (x0,tight)=0.3952
+  median ds/dn  trans=-0.08071  rot=-0.1061
+  median err  trans=0.03983  rot=0.03982
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.691356658935547
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1651): 4.9335479736328125
+  median speed_dist (x0,tight)=0.4798  speed_angle (x0,tight)=0.4364
+  median ds/dn  trans=-0.1356  rot=-0.06126
+  median err  trans=0.03963  rot=0.03992
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 8.699417114257812
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1684): 6.772029399871826
+  median speed_dist (x0,tight)=0.431  speed_angle (x0,tight)=0.4102
+  median ds/dn  trans=-0.1179  rot=-0.0914
+  median err  trans=0.03966  rot=0.03978
+RepeatEpoch = 6 -- Loss = 3.8362e+01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 7.841229438781738
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1663): 4.129457473754883
+  median speed_dist (x0,tight)=0.4868  speed_angle (x0,tight)=0.458
+  median ds/dn  trans=-0.1157  rot=-0.0756
+  median err  trans=0.03967  rot=0.03988
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.544162750244141
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1681): 8.06121826171875
+  median speed_dist (x0,tight)=0.4428  speed_angle (x0,tight)=0.3919
+  median ds/dn  trans=-0.05675  rot=-0.1476
+  median err  trans=0.03988  rot=0.03955
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.976839065551758
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1650): 6.925392150878906
+  median speed_dist (x0,tight)=0.49  speed_angle (x0,tight)=0.436
+  median ds/dn  trans=-0.1306  rot=-0.1102
+  median err  trans=0.03958  rot=0.03973
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 7.870626449584961
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1644): 8.926677703857422
+  median speed_dist (x0,tight)=0.4952  speed_angle (x0,tight)=0.4304
+  median ds/dn  trans=-0.09037  rot=-0.1382
+  median err  trans=0.03976  rot=0.03962
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.876015663146973
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1651): 6.981086730957031
+  median speed_dist (x0,tight)=0.455  speed_angle (x0,tight)=0.3874
+  median ds/dn  trans=-0.1079  rot=-0.1131
+  median err  trans=0.03967  rot=0.03969
+Epoch = 6 -- Loss = 9.3717e-01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.172107696533203
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1688): 8.0108642578125
+  median speed_dist (x0,tight)=0.4296  speed_angle (x0,tight)=0.3907
+  median ds/dn  trans=-0.08559  rot=-0.1184
+  median err  trans=0.03976  rot=0.0397
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.435199737548828
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1682): 9.409451484680176
+  median speed_dist (x0,tight)=0.3993  speed_angle (x0,tight)=0.3534
+  median ds/dn  trans=-0.152  rot=-0.1392
+  median err  trans=0.03961  rot=0.03962
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.646846771240234
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1651): 6.876564025878906
+  median speed_dist (x0,tight)=0.4794  speed_angle (x0,tight)=0.4414
+  median ds/dn  trans=-0.1058  rot=-0.08428
+  median err  trans=0.03967  rot=0.03975
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.301616668701172
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1661): 9.826374053955078
+  median speed_dist (x0,tight)=0.4467  speed_angle (x0,tight)=0.4254
+  median ds/dn  trans=-0.1065  rot=-0.1174
+  median err  trans=0.03969  rot=0.03965
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.466552734375
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1663): 11.968517303466797
+  median speed_dist (x0,tight)=0.4664  speed_angle (x0,tight)=0.4027
+  median ds/dn  trans=-0.1334  rot=-0.1956
+  median err  trans=0.03959  rot=0.03938
+RepeatEpoch = 7 -- Loss = 5.2334e+06 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.896446228027344
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1657): 7.731103897094727
+  median speed_dist (x0,tight)=0.4463  speed_angle (x0,tight)=0.4023
+  median ds/dn  trans=-0.1229  rot=-0.1105
+  median err  trans=0.03967  rot=0.03969
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.746650695800781
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1658): 7.368803024291992
+  median speed_dist (x0,tight)=0.45  speed_angle (x0,tight)=0.3847
+  median ds/dn  trans=-0.08247  rot=-0.1287
+  median err  trans=0.03983  rot=0.03972
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.653091430664062
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1649): 7.925987243652344
+  median speed_dist (x0,tight)=0.4686  speed_angle (x0,tight)=0.4086
+  median ds/dn  trans=-0.1281  rot=-0.1065
+  median err  trans=0.03962  rot=0.03981
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.990076065063477
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1650): 3.1470775604248047
+  median speed_dist (x0,tight)=0.4725  speed_angle (x0,tight)=0.3827
+  median ds/dn  trans=-0.07046  rot=-0.06085
+  median err  trans=0.03985  rot=0.04001
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.06825065612793
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1670): 3.590846061706543
+  median speed_dist (x0,tight)=0.4746  speed_angle (x0,tight)=0.4321
+  median ds/dn  trans=-0.1431  rot=-0.06466
+  median err  trans=0.03953  rot=0.03989
+RepeatEpoch = 7 -- Loss = 2.8082e+01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 8.758735656738281
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1654): 9.900140762329102
+  median speed_dist (x0,tight)=0.4648  speed_angle (x0,tight)=0.4303
+  median ds/dn  trans=-0.1319  rot=-0.1191
+  median err  trans=0.03962  rot=0.03964
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.762264251708984
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1649): 9.415817260742188
+  median speed_dist (x0,tight)=0.4402  speed_angle (x0,tight)=0.3977
+  median ds/dn  trans=-0.1093  rot=-0.1086
+  median err  trans=0.03968  rot=0.03974
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.695098876953125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1691): 8.387327194213867
+  median speed_dist (x0,tight)=0.4513  speed_angle (x0,tight)=0.4473
+  median ds/dn  trans=-0.139  rot=-0.1411
+  median err  trans=0.0396  rot=0.03959
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 12.944602966308594
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1671): 6.267309188842773
+  median speed_dist (x0,tight)=0.4564  speed_angle (x0,tight)=0.4139
+  median ds/dn  trans=-0.1793  rot=-0.1182
+  median err  trans=0.03946  rot=0.03966
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.525230407714844
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1671): 5.2089691162109375
+  median speed_dist (x0,tight)=0.4483  speed_angle (x0,tight)=0.392
+  median ds/dn  trans=-0.09091  rot=-0.07257
+  median err  trans=0.03981  rot=0.03983
+Epoch = 7 -- Loss = 7.8941e-01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 6.953287124633789
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1659): 10.74361801147461
+  median speed_dist (x0,tight)=0.461  speed_angle (x0,tight)=0.4146
+  median ds/dn  trans=-0.08691  rot=-0.1453
+  median err  trans=0.03978  rot=0.03957
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.494638442993164
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1677): 10.224294662475586
+  median speed_dist (x0,tight)=0.4731  speed_angle (x0,tight)=0.4292
+  median ds/dn  trans=-0.1291  rot=-0.1536
+  median err  trans=0.03958  rot=0.03956
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.942535400390625
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1615): 7.131147384643555
+  median speed_dist (x0,tight)=0.4536  speed_angle (x0,tight)=0.4012
+  median ds/dn  trans=-0.07782  rot=-0.08902
+  median err  trans=0.0398  rot=0.03987
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.660816192626953
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1661): 3.7769317626953125
+  median speed_dist (x0,tight)=0.4673  speed_angle (x0,tight)=0.4261
+  median ds/dn  trans=-0.1167  rot=-0.04895
+  median err  trans=0.03964  rot=0.03993
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.765887260437012
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1694): 7.982873916625977
+  median speed_dist (x0,tight)=0.4466  speed_angle (x0,tight)=0.4172
+  median ds/dn  trans=-0.1146  rot=-0.1413
+  median err  trans=0.03975  rot=0.03962
+RepeatEpoch = 8 -- Loss = 6.7008e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 7.602214813232422
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1687): 7.954931259155273
+  median speed_dist (x0,tight)=0.4798  speed_angle (x0,tight)=0.4206
+  median ds/dn  trans=-0.1185  rot=-0.1141
+  median err  trans=0.03964  rot=0.03967
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 10.053539276123047
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1670): 6.214761734008789
+  median speed_dist (x0,tight)=0.4574  speed_angle (x0,tight)=0.4198
+  median ds/dn  trans=-0.1395  rot=-0.09092
+  median err  trans=0.03963  rot=0.03983
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.54585075378418
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1675): 8.980369567871094
+  median speed_dist (x0,tight)=0.476  speed_angle (x0,tight)=0.4269
+  median ds/dn  trans=-0.1115  rot=-0.1305
+  median err  trans=0.03965  rot=0.03967
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 6.578540802001953
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1660): 4.0225982666015625
+  median speed_dist (x0,tight)=0.4479  speed_angle (x0,tight)=0.4088
+  median ds/dn  trans=-0.08873  rot=-0.06042
+  median err  trans=0.03974  rot=0.03986
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.725288391113281
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1689): 8.558464050292969
+  median speed_dist (x0,tight)=0.4796  speed_angle (x0,tight)=0.4247
+  median ds/dn  trans=-0.06835  rot=-0.1046
+  median err  trans=0.03986  rot=0.03971
+RepeatEpoch = 8 -- Loss = 7.5097e+01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 3.9791107177734375
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1652): 5.939674377441406
+  median speed_dist (x0,tight)=0.4699  speed_angle (x0,tight)=0.4146
+  median ds/dn  trans=-0.05028  rot=-0.05173
+  median err  trans=0.03988  rot=0.0399
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.320449829101562
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1680): 4.953908920288086
+  median speed_dist (x0,tight)=0.4717  speed_angle (x0,tight)=0.4274
+  median ds/dn  trans=-0.06905  rot=-0.05505
+  median err  trans=0.0398  rot=0.03986
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 7.659482955932617
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1664): 9.481620788574219
+  median speed_dist (x0,tight)=0.4699  speed_angle (x0,tight)=0.4254
+  median ds/dn  trans=-0.06195  rot=-0.08532
+  median err  trans=0.03978  rot=0.03972
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 13.335847854614258
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1693): 6.8668365478515625
+  median speed_dist (x0,tight)=0.4611  speed_angle (x0,tight)=0.4289
+  median ds/dn  trans=-0.125  rot=-0.04325
+  median err  trans=0.03962  rot=0.0399
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.295177459716797
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1661): 6.974887847900391
+  median speed_dist (x0,tight)=0.4731  speed_angle (x0,tight)=0.4026
+  median ds/dn  trans=-0.0703  rot=-0.06775
+  median err  trans=0.03979  rot=0.03987
+RepeatEpoch = 8 -- Loss = 9.8061e-01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.953428268432617
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1631): 6.588172912597656
+  median speed_dist (x0,tight)=0.4604  speed_angle (x0,tight)=0.418
+  median ds/dn  trans=-0.1126  rot=-0.09369
+  median err  trans=0.03966  rot=0.03972
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 13.285636901855469
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1652): 10.938644409179688
+  median speed_dist (x0,tight)=0.4914  speed_angle (x0,tight)=0.4494
+  median ds/dn  trans=-0.2051  rot=-0.1497
+  median err  trans=0.03937  rot=0.03958
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.751344680786133
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1674): 6.0192108154296875
+  median speed_dist (x0,tight)=0.4347  speed_angle (x0,tight)=0.3867
+  median ds/dn  trans=-0.109  rot=-0.09492
+  median err  trans=0.03973  rot=0.03972
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 4.795074462890625
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1670): 3.810000419616699
+  median speed_dist (x0,tight)=0.4489  speed_angle (x0,tight)=0.4128
+  median ds/dn  trans=-0.07578  rot=-0.05968
+  median err  trans=0.03982  rot=0.03987
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.161663055419922
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1663): 5.9020280838012695
+  median speed_dist (x0,tight)=0.47  speed_angle (x0,tight)=0.4172
+  median ds/dn  trans=-0.1075  rot=-0.09447
+  median err  trans=0.03973  rot=0.03975
+RepeatEpoch = 8 -- Loss = 7.4971e+00 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 11.783981323242188
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1678): 1.6755104064941406
+  median speed_dist (x0,tight)=0.4525  speed_angle (x0,tight)=0.4104
+  median ds/dn  trans=-0.09417  rot=-0.02457
+  median err  trans=0.03972  rot=0.04
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.109405517578125
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1661): 3.6499500274658203
+  median speed_dist (x0,tight)=0.4685  speed_angle (x0,tight)=0.4167
+  median ds/dn  trans=-0.04199  rot=-0.02823
+  median err  trans=0.0399  rot=0.03996
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 13.160228729248047
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1682): 4.753875732421875
+  median speed_dist (x0,tight)=0.467  speed_angle (x0,tight)=0.4173
+  median ds/dn  trans=-0.109  rot=-0.04087
+  median err  trans=0.03967  rot=0.03994
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=1999): 7.651996612548828
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1673): 6.814289093017578
+  median speed_dist (x0,tight)=0.4786  speed_angle (x0,tight)=0.438
+  median ds/dn  trans=-0.06803  rot=-0.05218
+  median err  trans=0.03981  rot=0.0399
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.67721939086914
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1660): 2.681303024291992
+  median speed_dist (x0,tight)=0.4446  speed_angle (x0,tight)=0.4067
+  median ds/dn  trans=-0.09833  rot=-0.02187
+  median err  trans=0.03972  rot=0.04
+RepeatEpoch = 8 -- Loss = 9.5450e-01 -- Alpha = 1.0000e+00
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.580039978027344
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1656): 6.947803497314453
+  median speed_dist (x0,tight)=0.4776  speed_angle (x0,tight)=0.4372
+  median ds/dn  trans=-0.1127  rot=-0.09119
+  median err  trans=0.03964  rot=0.03978
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 9.971094131469727
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1702): 5.9383392333984375
+  median speed_dist (x0,tight)=0.4881  speed_angle (x0,tight)=0.4546
+  median ds/dn  trans=-0.1247  rot=-0.08294
+  median err  trans=0.03963  rot=0.03979
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 8.603835105895996
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1664): 5.715084075927734
+  median speed_dist (x0,tight)=0.4582  speed_angle (x0,tight)=0.4064
+  median ds/dn  trans=-0.118  rot=-0.08494
+  median err  trans=0.03966  rot=0.03984
+median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n=2000): 5.805110931396484
+median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n=1663): 5.205202102661133
+  median speed_dist (x0,tight)=0.4487  speed_angle (x0,tight)=0.3925
+  median ds/dn  trans=-0.07401  rot=-0.08571
+  median err  trans=0.03978  rot=0.03988
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 52, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 329, in train
+    loss_value.backward()
+  File "/opt/conda/lib/python3.10/site-packages/torch/_tensor.py", line 522, in backward
+    torch.autograd.backward(
+  File "/opt/conda/lib/python3.10/site-packages/torch/autograd/__init__.py", line 266, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt

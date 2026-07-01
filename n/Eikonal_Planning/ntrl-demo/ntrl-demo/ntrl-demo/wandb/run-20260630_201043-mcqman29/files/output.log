@@ -1,0 +1,169 @@
+wandb run: dulcet-yogurt-147 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/mcqman29)
+Files copied successfully!
+train
+(400000, 12)
+(400000, 2)
+(400000, 12)
+(400000, 12) (400000, 2)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+  median err  trans=9.946e-06  rot=9.959e-06
+  median err  trans=9.943e-06  rot=9.901e-06
+  median err  trans=9.906e-06  rot=9.916e-06
+  median err  trans=9.982e-06  rot=9.931e-06
+  median err  trans=9.889e-06  rot=9.854e-06
+Epoch = 1 -- Loss = 8.0160e-01 -- Alpha = 1.0000e+00
+  median err  trans=1.966e-05  rot=1.994e-05
+  median err  trans=1.962e-05  rot=1.996e-05
+  median err  trans=1.956e-05  rot=2e-05
+  median err  trans=1.946e-05  rot=1.99e-05
+  median err  trans=1.947e-05  rot=2.005e-05
+RepeatEpoch = 2 -- Loss = 1.6495e+01 -- Alpha = 1.0000e+00
+  median err  trans=1.999e-05  rot=1.986e-05
+  median err  trans=1.995e-05  rot=1.99e-05
+  median err  trans=1.993e-05  rot=1.993e-05
+  median err  trans=1.99e-05  rot=1.99e-05
+  median err  trans=1.992e-05  rot=1.99e-05
+RepeatEpoch = 2 -- Loss = 1.1123e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.997e-05  rot=1.986e-05
+  median err  trans=1.991e-05  rot=1.993e-05
+  median err  trans=1.984e-05  rot=1.989e-05
+  median err  trans=1.994e-05  rot=2.008e-05
+  median err  trans=1.992e-05  rot=1.994e-05
+RepeatEpoch = 2 -- Loss = 1.1328e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.999e-05  rot=1.997e-05
+  median err  trans=1.988e-05  rot=1.99e-05
+  median err  trans=1.991e-05  rot=1.989e-05
+  median err  trans=1.985e-05  rot=1.988e-05
+  median err  trans=1.991e-05  rot=1.99e-05
+RepeatEpoch = 2 -- Loss = 1.1449e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.992e-05  rot=1.985e-05
+  median err  trans=1.991e-05  rot=1.984e-05
+  median err  trans=1.992e-05  rot=1.99e-05
+  median err  trans=1.987e-05  rot=1.992e-05
+  median err  trans=1.991e-05  rot=1.991e-05
+RepeatEpoch = 2 -- Loss = 1.0928e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.994e-05  rot=1.997e-05
+  median err  trans=1.988e-05  rot=1.989e-05
+  median err  trans=1.999e-05  rot=1.996e-05
+  median err  trans=1.985e-05  rot=1.989e-05
+  median err  trans=1.991e-05  rot=1.992e-05
+RepeatEpoch = 2 -- Loss = 1.1419e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.983e-05  rot=1.986e-05
+  median err  trans=1.997e-05  rot=1.994e-05
+  median err  trans=1.993e-05  rot=1.993e-05
+  median err  trans=1.991e-05  rot=1.991e-05
+  median err  trans=1.99e-05  rot=1.993e-05
+RepeatEpoch = 2 -- Loss = 1.0974e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.996e-05  rot=1.991e-05
+  median err  trans=1.986e-05  rot=1.986e-05
+  median err  trans=1.999e-05  rot=1.991e-05
+  median err  trans=1.987e-05  rot=1.996e-05
+  median err  trans=1.991e-05  rot=1.987e-05
+RepeatEpoch = 2 -- Loss = 1.1304e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.989e-05  rot=1.985e-05
+  median err  trans=1.993e-05  rot=1.994e-05
+  median err  trans=1.987e-05  rot=1.993e-05
+  median err  trans=1.991e-05  rot=1.997e-05
+  median err  trans=1.982e-05  rot=1.994e-05
+RepeatEpoch = 2 -- Loss = 1.1495e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.99e-05  rot=1.99e-05
+  median err  trans=1.991e-05  rot=1.993e-05
+  median err  trans=1.999e-05  rot=1.991e-05
+  median err  trans=2.002e-05  rot=1.992e-05
+  median err  trans=1.993e-05  rot=1.987e-05
+RepeatEpoch = 2 -- Loss = 1.0978e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.988e-05  rot=1.993e-05
+  median err  trans=2.003e-05  rot=1.993e-05
+  median err  trans=1.979e-05  rot=1.992e-05
+  median err  trans=1.993e-05  rot=2.001e-05
+  median err  trans=1.992e-05  rot=1.993e-05
+RepeatEpoch = 2 -- Loss = 1.1381e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.994e-05  rot=1.998e-05
+  median err  trans=1.998e-05  rot=2.002e-05
+  median err  trans=1.991e-05  rot=1.998e-05
+  median err  trans=1.989e-05  rot=1.985e-05
+  median err  trans=1.987e-05  rot=1.98e-05
+RepeatEpoch = 2 -- Loss = 1.1542e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.992e-05  rot=1.984e-05
+  median err  trans=1.985e-05  rot=1.999e-05
+  median err  trans=1.999e-05  rot=1.99e-05
+  median err  trans=1.997e-05  rot=1.995e-05
+  median err  trans=1.99e-05  rot=1.999e-05
+RepeatEpoch = 2 -- Loss = 1.1522e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.999e-05  rot=1.989e-05
+  median err  trans=1.996e-05  rot=1.989e-05
+  median err  trans=1.988e-05  rot=1.989e-05
+  median err  trans=2.001e-05  rot=1.998e-05
+  median err  trans=1.995e-05  rot=1.988e-05
+RepeatEpoch = 2 -- Loss = 1.1248e+00 -- Alpha = 1.0000e+00
+  median err  trans=2.006e-05  rot=1.993e-05
+  median err  trans=1.987e-05  rot=1.994e-05
+  median err  trans=1.991e-05  rot=1.982e-05
+  median err  trans=1.988e-05  rot=1.992e-05
+  median err  trans=1.986e-05  rot=1.99e-05
+RepeatEpoch = 2 -- Loss = 1.1558e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.994e-05  rot=1.993e-05
+  median err  trans=1.992e-05  rot=1.998e-05
+  median err  trans=1.987e-05  rot=1.981e-05
+  median err  trans=1.992e-05  rot=1.997e-05
+  median err  trans=1.985e-05  rot=1.989e-05
+RepeatEpoch = 2 -- Loss = 1.1354e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.996e-05  rot=1.992e-05
+  median err  trans=1.988e-05  rot=1.988e-05
+  median err  trans=1.996e-05  rot=1.999e-05
+  median err  trans=1.995e-05  rot=1.998e-05
+  median err  trans=1.987e-05  rot=1.992e-05
+RepeatEpoch = 2 -- Loss = 1.1315e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.989e-05  rot=1.987e-05
+  median err  trans=1.991e-05  rot=1.997e-05
+  median err  trans=1.988e-05  rot=1.982e-05
+  median err  trans=1.999e-05  rot=1.987e-05
+  median err  trans=1.986e-05  rot=1.985e-05
+RepeatEpoch = 2 -- Loss = 1.1442e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.992e-05  rot=1.987e-05
+  median err  trans=1.988e-05  rot=1.995e-05
+  median err  trans=1.992e-05  rot=2e-05
+  median err  trans=1.995e-05  rot=1.986e-05
+  median err  trans=1.996e-05  rot=1.995e-05
+RepeatEpoch = 2 -- Loss = 1.1221e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.988e-05  rot=1.992e-05
+  median err  trans=1.987e-05  rot=1.995e-05
+  median err  trans=1.99e-05  rot=2.001e-05
+  median err  trans=1.99e-05  rot=1.992e-05
+  median err  trans=1.999e-05  rot=1.993e-05
+RepeatEpoch = 2 -- Loss = 1.1795e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.996e-05  rot=1.991e-05
+  median err  trans=1.99e-05  rot=1.987e-05
+  median err  trans=1.989e-05  rot=2.001e-05
+  median err  trans=1.995e-05  rot=1.99e-05
+  median err  trans=1.995e-05  rot=1.998e-05
+RepeatEpoch = 2 -- Loss = 1.5320e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.986e-05  rot=2e-05
+  median err  trans=1.995e-05  rot=1.98e-05
+  median err  trans=1.995e-05  rot=1.988e-05
+  median err  trans=1.994e-05  rot=1.984e-05
+  median err  trans=1.985e-05  rot=1.996e-05
+RepeatEpoch = 2 -- Loss = 1.1240e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.998e-05  rot=2e-05
+  median err  trans=1.997e-05  rot=1.99e-05
+  median err  trans=1.995e-05  rot=1.989e-05
+  median err  trans=1.99e-05  rot=2.004e-05
+  median err  trans=1.994e-05  rot=1.986e-05
+RepeatEpoch = 2 -- Loss = 1.1611e+00 -- Alpha = 1.0000e+00
+  median err  trans=1.986e-05  rot=1.989e-05
+  median err  trans=1.987e-05  rot=1.989e-05
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 52, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 332, in train
+    self.optimizer.step()
+  File "/opt/conda/lib/python3.10/site-packages/torch/optim/optimizer.py", line 385, in wrapper
+    out = func(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/torch/optim/optimizer.py", line 76, in _use_grad
+    ret = func(self, *args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/torch/optim/adamw.py", line 176, in step
+    has_complex = self._init_group(
+  File "/opt/conda/lib/python3.10/site-packages/torch/optim/adamw.py", line 114, in _init_group
+    if len(state) == 0:
+KeyboardInterrupt

@@ -48,6 +48,12 @@ Outputs (written to ``--out``):
     sampled_points.npy  (N, 12)  -- pair per row [x0(6), x1(6)]
     speed.npy           (N, 2)   -- [speed0, speed1]
     normal.npy          (N, 12)  -- [n0(6) | n1(6)]
+    trans_n.npy         (N, 12)  -- [trans_n0(6) | trans_n1(6)]  unit translation
+                                    direction that reduces obstacle distance most
+                                    (translation half non-zero, rotation half 0)
+    rot_n.npy           (N, 12)  -- [rot_n0(6) | rot_n1(6)]  unit rotation axis that
+                                    reduces rotational clearance most (rotation half
+                                    non-zero, translation half 0)
     env.npy             (M, 3)   -- environment surface points
     meta.json                    -- shape_scale, margin, offset, ...
 
@@ -428,6 +434,8 @@ def calculate_dist(face_verts, env_points, centers):
     normal   : (B, 6)   unit (d/dx, d/dy, d/dz, d/drx, d/dry, d/drz) direction
                         that increases clearance; rotation part chain-ruled to
                         the 2*pi-normalized coordinates used elsewhere.
+    n_ws     : (B, 3)   unit workspace contact normal (direction the shape moves
+                        to gain translational clearance).
     """
     B, F = face_verts.shape[0], face_verts.shape[1]
     device = face_verts.device
@@ -463,7 +471,7 @@ def calculate_dist(face_verts, env_points, centers):
     # rotvec is stored normalized by 2*pi, so d/d(rotvec_norm) = 2*pi * d/d(rotvec)
     normal = torch.cat([n_ws, 2.0 * np.pi * moment], dim=1)    # (B,6)
     normal = normal / (torch.linalg.norm(normal, dim=1, keepdim=True) + EPS)
-    return min_dist, normal
+    return min_dist, normal, n_ws
 
 
 # ---------------------------------------------------------------------------
@@ -526,7 +534,14 @@ def evaluate_placements(configs, tet_verts_local, face_verts_local,
     -------
     is_free : (B,) bool, CPU
     dist    : (B,) float, CPU      clearance distance (shape face -> nearest env pt)
+    min_angle : (B,) float, CPU    smallest shape-dir / env-dir angle (rotational clearance)
     normal  : (B, 6) float, CPU    unit SE(3) clearance normal (rotvec in /2pi units)
+    trans_n : (B, 6) float, CPU    unit translation direction that *reduces* the
+                                   distance to the obstacle the most. Only the
+                                   first 3 dims are non-zero (= -n_ws); last 3 = 0.
+    rot_n   : (B, 6) float, CPU    unit rotation axis that *reduces* the rotational
+                                   clearance (min angle) the most. Only the last 3
+                                   dims are non-zero (= unit(u_s x u_e)); first 3 = 0.
 
     If ``return_angle_pts`` is True, two extra tensors follow:
     shape_pt : (B, 3) float, CPU   winning shape-surface point (world frame)
@@ -615,9 +630,10 @@ def evaluate_placements(configs, tet_verts_local, face_verts_local,
         to_env_sorted, 1, flat_cols.unsqueeze(-1).expand(-1, -1, 3)).reshape(B, bins, num_env, 3)
     filler = torch.tensor([1.0, 0.0, 0.0], device=device)
     binned_env[empty_bins] = filler                               # shells with no env point
-    # Map each binned slot back to its original env-point index (viz only).
-    sel_all = torch.gather(sort_idx, 1, flat_cols).reshape(B, bins, num_env) \
-        if return_angle_pts else None
+    # Map each binned slot back to its original env-point index. Needed to recover
+    # the winning env point for the rotational-clearance direction (rot_n) below,
+    # and for the optional min-angle visualization.
+    sel_all = torch.gather(sort_idx, 1, flat_cols).reshape(B, bins, num_env)
     _prof_toc('angle_binning', device)
 
 
@@ -639,38 +655,50 @@ def evaluate_placements(configs, tet_verts_local, face_verts_local,
     env_u = binned_env / (binned_env.norm(dim=-1, keepdim=True) + EPS)  # (B,bins,num_env,3)
 
     best_cos = torch.full((B,), -1.0, device=device)             # running max cosine
-    if return_angle_pts:
-        # Track which (bin, shape-dir, env-point) realizes the running max cosine.
-        best_bin   = torch.zeros(B, dtype=torch.long, device=device)
-        best_j     = torch.zeros(B, dtype=torch.long, device=device)  # shape rad-pt idx
-        best_eorig = torch.zeros(B, dtype=torch.long, device=device)  # original env idx
+    # Track which (bin, shape-dir, env-point) realizes the running max cosine. This
+    # winning pair defines the rotational-clearance direction (rot_n) and is also
+    # used for the optional min-angle visualization.
+    best_bin   = torch.zeros(B, dtype=torch.long, device=device)
+    best_j     = torch.zeros(B, dtype=torch.long, device=device)  # shape rad-pt idx
+    best_eorig = torch.zeros(B, dtype=torch.long, device=device)  # original env idx
     for bi in range(bins):
 
         rb = rad_u[:, bi]                                         # (B,num,3)
         for s in range(0, num_env, ANGLE_CHUNK):
             eb = env_u[:, bi, s:s + ANGLE_CHUNK]                  # (B,c,3)
             cos = torch.einsum('bjk,bmk->bjm', rb, eb)           # (B,num,c)
-            if return_angle_pts:
-                c = cos.shape[2]
-                blk_cos, blk_arg = cos.reshape(B, -1).max(dim=1) # (B,), (B,)
-                # ignore empty (placeholder) shells for this bin
-                blk_cos = torch.where(empty_bins[:, bi], best_cos, blk_cos)
-                win = blk_cos > best_cos
-                best_cos = torch.where(win, blk_cos, best_cos)
-                j_idx = blk_arg // c                             # shape-dir index
-                m_idx = blk_arg %  c + s                         # binned env slot
-                best_bin = torch.where(win, torch.full_like(best_bin, bi), best_bin)
-                best_j   = torch.where(win, j_idx, best_j)
-                # binned slot -> original env-point index
-                eorig = torch.gather(sel_all[:, bi], 1, m_idx.unsqueeze(1)).squeeze(1)
-                best_eorig = torch.where(win, eorig, best_eorig)
-            else:
-                blk = cos.amax(dim=(1, 2))                       # (B,) best in this block
-                # ignore empty (placeholder) shells for this bin
-                blk = torch.where(empty_bins[:, bi], best_cos, blk)
-                best_cos = torch.maximum(best_cos, blk)
+            c = cos.shape[2]
+            blk_cos, blk_arg = cos.reshape(B, -1).max(dim=1)     # (B,), (B,)
+            # ignore empty (placeholder) shells for this bin
+            blk_cos = torch.where(empty_bins[:, bi], best_cos, blk_cos)
+            win = blk_cos > best_cos
+            best_cos = torch.where(win, blk_cos, best_cos)
+            j_idx = blk_arg // c                                 # shape-dir index
+            m_idx = blk_arg %  c + s                             # binned env slot
+            best_bin = torch.where(win, torch.full_like(best_bin, bi), best_bin)
+            best_j   = torch.where(win, j_idx, best_j)
+            # binned slot -> original env-point index
+            eorig = torch.gather(sel_all[:, bi], 1, m_idx.unsqueeze(1)).squeeze(1)
+            best_eorig = torch.where(win, eorig, best_eorig)
 
     min_angle = torch.arccos(best_cos.clamp(-1.0, 1.0))          # (B,)
+
+    # ── Rotational-clearance direction (rot_n) ───────────────────────────────
+    # The min angle is between the shape-surface direction u_s and the env
+    # direction u_e (both from the placement centre). Rotating u_s towards u_e
+    # reduces that angle the fastest about the axis (u_s x u_e); that unit axis,
+    # placed in the rotation half of an SE(3) vector, is rot_n.
+    b_ar = torch.arange(B, device=device)
+    shape_pt = translated_rad_points[b_ar, best_bin, best_j]      # (B,3) world frame
+    env_pt = env_points[best_eorig]                              # (B,3) world frame
+    u_s = shape_pt - t                                          # (B,3)
+    u_s = u_s / (u_s.norm(dim=1, keepdim=True) + EPS)
+    u_e = env_pt - t                                            # (B,3)
+    u_e = u_e / (u_e.norm(dim=1, keepdim=True) + EPS)
+    rot_axis = torch.linalg.cross(u_s, u_e, dim=1)               # (B,3)
+    rot_axis = rot_axis / (rot_axis.norm(dim=1, keepdim=True) + EPS)
+    zeros3 = torch.zeros(B, 3, device=device)
+    rot_n = torch.cat([zeros3, rot_axis], dim=1)                 # (B,6)
     _prof_toc('angle_cosine', device)
 
     _prof_tic('collision', device)
@@ -678,15 +706,20 @@ def evaluate_placements(configs, tet_verts_local, face_verts_local,
     _prof_toc('collision', device)
 
     _prof_tic('clearance', device)
-    dist, normal = calculate_dist(faces, env_kept, configs[:, 0:3])
+    dist, normal, n_ws = calculate_dist(faces, env_kept, configs[:, 0:3])
     _prof_toc('clearance', device)
+
+    # ── Translational-clearance direction (trans_n) ──────────────────────────
+    # n_ws is the unit direction the shape moves to *gain* clearance, so moving
+    # the opposite way (-n_ws) reduces the distance to the obstacle the fastest.
+    # Placed in the translation half of an SE(3) vector, that is trans_n.
+    trans_n = torch.cat([-n_ws, zeros3], dim=1)                  # (B,6)
+
     if return_angle_pts:
-        b_ar = torch.arange(B, device=device)
-        shape_pt = translated_rad_points[b_ar, best_bin, best_j]      # (B,3) world frame
-        env_pt = env_points[best_eorig]                               # (B,3) world frame
         return (is_free.cpu(), dist.cpu(), min_angle.cpu(), normal.cpu(),
-                shape_pt.cpu(), env_pt.cpu())
-    return is_free.cpu(), dist.cpu(), min_angle.cpu(), normal.cpu()
+                trans_n.cpu(), rot_n.cpu(), shape_pt.cpu(), env_pt.cpu())
+    return (is_free.cpu(), dist.cpu(), min_angle.cpu(), normal.cpu(),
+            trans_n.cpu(), rot_n.cpu())
 
 
 # ---------------------------------------------------------------------------
@@ -744,6 +777,11 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
     pairs   : (number_pairs, 12)  raw [x0(6), x1(6)] (rotvec in radians)
     dists   : (number_pairs, 2)   raw clearance distances [d0, d1]
     normals : (number_pairs, 12)  SE(3) clearance normals [n0(6) | n1(6)]
+    trans_normals : (number_pairs, 12)  unit translation directions that reduce the
+        distance to the obstacle the most [trans_n0(6) | trans_n1(6)] (only the
+        translation half is non-zero).
+    rot_normals : (number_pairs, 12)  unit rotation axes that reduce the rotational
+        clearance the most [rot_n0(6) | rot_n1(6)] (only the rotation half is non-zero).
     ang_shape, ang_env : (number_pairs, 3) each, or None unless ``track_angle_pts``.
         The shape-surface point and env point realizing x0's min-angle clearance.
     """
@@ -762,6 +800,8 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
     dists = torch.zeros(number_pairs, 2)
     angles = torch.zeros(number_pairs, 2)
     normals = torch.zeros(number_pairs, 12)
+    trans_normals = torch.zeros(number_pairs, 12)
+    rot_normals = torch.zeros(number_pairs, 12)
     # Winning min-angle pair for x0 (debug/visualization only).
     ang_shape = torch.zeros(number_pairs, 3) if track_angle_pts else None
     ang_env = torch.zeros(number_pairs, 3) if track_angle_pts else None
@@ -773,15 +813,16 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
     R_shape = float(face_verts_local.reshape(-1, 3).norm(dim=1).max())
 
     def _eval0(cfg):
-        """Full x0 evaluation; returns (free, dist, angle, normal, shp, envp),
-        with shp/envp = None unless ``track_angle_pts``."""
+        """Full x0 evaluation; returns
+        (free, dist, angle, normal, trans_n, rot_n, shp, envp), with shp/envp =
+        None unless ``track_angle_pts``."""
         if track_angle_pts:
             return evaluate_placements(
                 cfg, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins,
                 device, return_angle_pts=True)
-        f, d, a, n = evaluate_placements(
+        f, d, a, n, tn, rn = evaluate_placements(
             cfg, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins, device)
-        return f, d, a, n, None, None
+        return f, d, a, n, tn, rn, None, None
 
     def _idx(mask, *tensors):
         """Index a bundle of tensors by ``mask`` (None passes through)."""
@@ -823,8 +864,8 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
                 continue
             x0, x1 = x0[feas], x1[feas]
 
-            free0, dist0, angle0, normal0, shp0, envp0 = _eval0(x0)
-            free1, dist1, angle1, normal1 = evaluate_placements(
+            free0, dist0, angle0, normal0, trans0, rot0, shp0, envp0 = _eval0(x0)
+            free1, dist1, angle1, normal1, trans1, rot1 = evaluate_placements(
                 x1, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins, device)
             keep = free0 & free1 & (dist0 > offset) & (dist1 > offset)
         else:
@@ -837,13 +878,13 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
                 continue
             x0 = x0[feas0]
 
-            free0, dist0, angle0, normal0, shp0, envp0 = _eval0(x0)
+            free0, dist0, angle0, normal0, trans0, rot0, shp0, envp0 = _eval0(x0)
             keep_x0 = free0 & (dist0 > offset) & (dist0 < margin)   # narrow band
             if int(keep_x0.sum()) == 0:
                 continue
             # #2 keep only x0 survivors, then build / evaluate x1 for *those* alone.
-            x0, dist0, angle0, normal0, shp0, envp0 = _idx(
-                keep_x0, x0, dist0, angle0, normal0, shp0, envp0)
+            x0, dist0, angle0, normal0, trans0, rot0, shp0, envp0 = _idx(
+                keep_x0, x0, dist0, angle0, normal0, trans0, rot0, shp0, envp0)
 
             delta = _sample_disp(x0.shape[0])
             x1 = x0.clone()
@@ -853,19 +894,19 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
             in_bbox = (x1[:, 0].abs() <= hx) & (x1[:, 1].abs() <= hy) & (x1[:, 2].abs() <= hz)
             if int(in_bbox.sum()) == 0:
                 continue
-            x0, dist0, angle0, normal0, shp0, envp0 = _idx(
-                in_bbox, x0, dist0, angle0, normal0, shp0, envp0)
+            x0, dist0, angle0, normal0, trans0, rot0, shp0, envp0 = _idx(
+                in_bbox, x0, dist0, angle0, normal0, trans0, rot0, shp0, envp0)
             x1 = x1[in_bbox]
 
             # #1 cheap gate on x1 (only needs clearance > offset -> drop too-close).
             feas1 = _min_center_dist(x1[:, 0:3], env_t, device) + R_shape >= offset
             if int(feas1.sum()) == 0:
                 continue
-            x0, dist0, angle0, normal0, shp0, envp0 = _idx(
-                feas1, x0, dist0, angle0, normal0, shp0, envp0)
+            x0, dist0, angle0, normal0, trans0, rot0, shp0, envp0 = _idx(
+                feas1, x0, dist0, angle0, normal0, trans0, rot0, shp0, envp0)
             x1 = x1[feas1]
 
-            free1, dist1, angle1, normal1 = evaluate_placements(
+            free1, dist1, angle1, normal1, trans1, rot1 = evaluate_placements(
                 x1, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins, device)
             keep = free1 & (dist1 > offset)                        # x0 already in band
 
@@ -884,6 +925,10 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
         angles[count:count + take, 1] = angle1[idx]
         normals[count:count + take, 0:6] = normal0[idx]
         normals[count:count + take, 6:12] = normal1[idx]
+        trans_normals[count:count + take, 0:6] = trans0[idx]
+        trans_normals[count:count + take, 6:12] = trans1[idx]
+        rot_normals[count:count + take, 0:6] = rot0[idx]
+        rot_normals[count:count + take, 6:12] = rot1[idx]
         if track_angle_pts:
             ang_shape[count:count + take] = shp0[idx]
             ang_env[count:count + take] = envp0[idx]
@@ -892,7 +937,8 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
 
 
 
-    return pairs, dists, angles, normals, ang_shape, ang_env
+    return (pairs, dists, angles, normals, trans_normals, rot_normals,
+            ang_shape, ang_env)
 
 
 # ---------------------------------------------------------------------------
@@ -1127,7 +1173,7 @@ def main():
 
 
 
-    pairs, dists, angles, normals, ang_shape, ang_env = generate_valid_pairs(
+    pairs, dists, angles, normals, trans_normals, rot_normals, ang_shape, ang_env = generate_valid_pairs(
         num_pairs, tet_verts_local, face_verts_local, env_points, half_extent,
         margin=args.margin, offset=args.offset,
         batch_size=args.batch_size, device=args.device,
@@ -1142,6 +1188,8 @@ def main():
     dists = dists.cpu().numpy()
     angles = angles.cpu().numpy()           # (N, 2)
     normals = normals.cpu().numpy()       # (N, 12)
+    trans_normals = trans_normals.cpu().numpy()   # (N, 12)  [trans_n0 | trans_n1]
+    rot_normals = rot_normals.cpu().numpy()       # (N, 12)  [rot_n0 | rot_n1]
 
     # Eikonal speed term: clearance clipped into [offset/margin, 1].
 
@@ -1187,6 +1235,8 @@ def main():
     np.save(os.path.join(args.out, 'speed_angles'), speed_angles)
     np.save(os.path.join(args.out, 'speed_dists'), speed_dists)
     np.save(os.path.join(args.out, 'normal'), normals)
+    np.save(os.path.join(args.out, 'trans_n'), trans_normals)
+    np.save(os.path.join(args.out, 'rot_n'), rot_normals)
     np.save(os.path.join(args.out, 'env'), env_points)
 
     meta = {
@@ -1209,6 +1259,8 @@ def main():
     print('  sampled_points.npy', pairs.shape)
     print('  speed.npy         ', speed_pairs.shape)
     print('  normal.npy        ', normals.shape)
+    print('  trans_n.npy       ', trans_normals.shape)
+    print('  rot_n.npy         ', rot_normals.shape)
     print('  env.npy           ', env_points.shape)
 
 

@@ -184,7 +184,7 @@ def main():
         single config -- identical computation to the dataset, but B = 1.
         """
         configs = torch.tensor(cfg, dtype=torch.float32).unsqueeze(0)   # (1,6) radians
-        free, dist, angle, normal, shp, envp = evaluate_placements(
+        free, dist, angle, normal, _trans_n, _rot_n, shp, envp = evaluate_placements(
             configs, tet_verts_local, face_verts_local, env_t,
             radius_points, radius_bins, device, return_angle_pts=True)
         return (bool(free[0].item()), float(dist[0].item()), float(angle[0].item()),

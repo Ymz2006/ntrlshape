@@ -17,7 +17,7 @@ tet  = torch.randn(K,4,3)*0.05
 env  = torch.randn(E,3)*0.5
 cfg  = torch.cat([torch.randn(B,3)*0.2, torch.randn(B,3)*0.5], 1)
 
-free, dist, ang, normal = pp.evaluate_placements(
+free, dist, ang, normal, *_ = pp.evaluate_placements(
     cfg, tet, face, env, rad_pts, edges, dev)
 
 # brute-force min_angle reference

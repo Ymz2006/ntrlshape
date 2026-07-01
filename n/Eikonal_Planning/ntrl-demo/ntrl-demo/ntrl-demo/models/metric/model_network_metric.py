@@ -40,6 +40,120 @@ class Sigmoid_out(torch.nn.Module):
        
         return sigmoid_out(input) 
 
+def to_euler_angles(rotvec, seq='xyz', degrees=False):
+    """Convert an axis-angle rotation vector to Euler angles via SciPy.
+
+    Uses ``scipy.spatial.transform.Rotation`` -- NOT differentiable (goes through
+    NumPy), so use it only for preprocessing / evaluation, never inside the loss.
+
+    Args:
+        rotvec: (..., 3) axis-angle / rotation vector (direction = axis,
+            magnitude = angle in radians).  NOTE: this codebase stores rotation
+            coords normalized by 2*pi, so multiply by ``2*np.pi`` first if you
+            pass stored coords.
+        seq: Euler convention string for ``Rotation.as_euler`` (lowercase =
+            intrinsic, uppercase = extrinsic), e.g. 'xyz', 'ZYX'.
+        degrees: if True, return degrees instead of radians.
+
+    Returns:
+        (..., 3) array of Euler angles.  Returns a torch.Tensor (on the input's
+        device/dtype) if given one, otherwise a NumPy array.
+    """
+    from scipy.spatial.transform import Rotation
+
+    is_tensor = isinstance(rotvec, torch.Tensor)
+    if is_tensor:
+        arr = rotvec.detach().cpu().numpy()
+    else:
+        arr = np.asarray(rotvec)
+
+    flat = arr.reshape(-1, 3)
+    euler = Rotation.from_rotvec(flat).as_euler(seq, degrees=degrees)
+    euler = euler.reshape(arr.shape)
+
+    if is_tensor:
+        return torch.as_tensor(euler, dtype=rotvec.dtype, device=rotvec.device)
+    return euler
+
+
+def axis_angle_to_euler(rotvec, eps=1e-8):
+    """Differentiable axis-angle -> intrinsic ZYX Euler angles (radians).
+
+    Use this one inside the network (autograd flows through it), unlike the
+    SciPy ``to_euler_angles`` which detaches.
+
+    Args:
+        rotvec: (..., 3) axis-angle rotation vector in RADIANS (direction=axis,
+            magnitude=angle).
+    Returns:
+        (..., 3) Euler angles (roll_x, pitch_y, yaw_z) for
+        R = Rz(yaw) @ Ry(pitch) @ Rx(roll).
+    """
+    theta = torch.norm(rotvec, dim=-1, keepdim=True)
+    k = rotvec / (theta + eps)
+    kx, ky, kz = k[..., 0], k[..., 1], k[..., 2]
+    th = theta[..., 0]
+    s, c = torch.sin(th), torch.cos(th)
+    C = 1.0 - c
+
+    # Rodrigues' rotation matrix entries (R = I + sin*K + (1-cos)*K^2).
+    r00 = c + kx * kx * C
+    r10 = ky * kx * C + kz * s
+    r11 = c + ky * ky * C
+    r12 = ky * kz * C - kx * s
+    r20 = kz * kx * C - ky * s
+    r21 = kz * ky * C + kx * s
+    r22 = c + kz * kz * C
+
+    cy = torch.sqrt(r00 * r00 + r10 * r10)          # cos(pitch)
+    pitch = torch.atan2(-r20, cy)
+    yaw = torch.atan2(r10, r00)
+    roll = torch.atan2(r21, r22)
+
+    # Gimbal-lock fallback (cy ~ 0).
+    gimbal = cy < 1e-6
+    roll = torch.where(gimbal, torch.atan2(-r12, r11), roll)
+    yaw = torch.where(gimbal, torch.zeros_like(yaw), yaw)
+
+    return torch.stack([roll, pitch, yaw], dim=-1)
+
+
+def euler_to_rotation_features(euler, mode='6d'):
+    """Rotation-matrix entries as trig products of ZYX Euler angles.
+
+    These are the *continuous* combinations (sin a cos b, sin a sin b sin c, ...)
+    that make up R = Rz(yaw) @ Ry(pitch) @ Rx(roll).  Feed the result DIRECTLY
+    into the encoder -- do NOT wrap it in sin/cos Fourier features (the entries
+    are already cosines in [-1,1], not angles).
+
+    Args:
+        euler: (..., 3) = (roll_x, pitch_y, yaw_z) in radians.
+        mode: '6d' -> first two columns (6 entries, minimal continuous rep);
+              '9d' -> full rotation matrix (9 entries).
+    Returns:
+        (..., 6) or (..., 9) differentiable feature tensor.
+    """
+    a, b, g = euler[..., 0], euler[..., 1], euler[..., 2]   # roll, pitch, yaw
+    sa, ca = torch.sin(a), torch.cos(a)
+    sb, cb = torch.sin(b), torch.cos(b)
+    sg, cg = torch.sin(g), torch.cos(g)
+
+    # First two columns of R = Rz(g) Ry(b) Rx(a).
+    r00 = cg * cb
+    r10 = sg * cb
+    r20 = -sb
+    r01 = cg * sb * sa - sg * ca
+    r11 = sg * sb * sa + cg * ca
+    r21 = cb * sa
+    if mode == '6d':
+        return torch.stack([r00, r10, r20, r01, r11, r21], dim=-1)
+
+    r02 = cg * sb * ca + sg * sa
+    r12 = sg * sb * ca - cg * sa
+    r22 = cb * ca
+    return torch.stack([r00, r10, r20, r01, r11, r21, r02, r12, r22], dim=-1)
+
+
 class NN(torch.nn.Module):
     
     def __init__(self, device, dim ,B):#10

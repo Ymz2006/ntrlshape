@@ -33,6 +33,8 @@ modelPath = './Experiments/3dshape'
 parser = argparse.ArgumentParser(description='Train the 3-D shape planner.')
 parser.add_argument('--dataPath', default='./datasets/3dshape/rectangle_env1_yrot',
                     help='Directory holding the .npy training data.')
+parser.add_argument('--device', default='cuda:0',
+                    help='Torch device to train on, e.g. cuda:0, cuda:2, cpu.')
 add_wandb_args(parser)
 args = parser.parse_args()
 
@@ -41,7 +43,7 @@ args = parser.parse_args()
 dataPath = args.data or args.dataPath
 
 # source / goal configuration (x, y, z, rx, ry, rz) -- rotvec stored normalized by 2*pi
-model = md.Model(modelPath, dataPath, 6, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], device='cuda:0')
+model = md.Model(modelPath, dataPath, 6, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], device=args.device)
 
 apply_overrides(model, args)
 start_run(args, model, task='3dshape')

@@ -75,7 +75,7 @@ def main():
     t0 = time.time()
     while n < args.num_samples:
         cfg = P._sample_configs(args.batch_size, hx, hy, hz)
-        free, d, a, _ = P.evaluate_placements(
+        free, d, a, *_ = P.evaluate_placements(
             cfg, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins, dev)
         dists.append(d[free].numpy())
         angles.append(a[free].numpy())

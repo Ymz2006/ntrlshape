@@ -67,6 +67,8 @@ def load_model(model_path, data_path, ckpt=None, device='cuda'):
     print('checkpoint:', pt)
 
     #pt = './Experiments/3dshape/3dshape_06_22_11_16/latest.pt'
+    #pt = './Experiments/3dshape/3dshape_06_26_16_46/Model_Epoch_06000_ValLoss_3.277650e-01.pt'
+    pt = './Experiments/3dshape/3dshape_07_01_12_45/latest.pt'
     model.load(pt)
     model.network.eval()
     return model
@@ -192,8 +194,22 @@ def main():
     print('  dist  loss x0   median=%.4g max=%.4g' % (np.median(dist_loss), dist_loss.max()))
     print('  angle loss x0   median=%.4g max=%.4g\n' % (np.median(angle_loss), angle_loss.max()))
 
+    # Signed Eikonal mismatch (actual - predicted) of the gradient magnitudes.
+    # The Eikonal target is |grad tau| * speed == 1, so the ACTUAL (target)
+    # gradient magnitude is 1/speed and the PREDICTED one is what the model
+    # gives (trans / rot).  diff = actual - predicted = 1/speed - |grad tau|.
+    #   diff > 0  ->  model gradient too SMALL  (field too fast / under-slowed)
+    #   diff < 0  ->  model gradient too LARGE  (field too slow / over-slowed)
+    dist_diff = 1.0 / xd - trans          # actual - predicted, translation
+    angle_diff = 1.0 / xa - rot           # actual - predicted, rotation
+    print('dist  diff x0 (1/speed_dist  - |grad_xyz|)   '
+          'median=%.4g mean=%.4g' % (np.median(dist_diff), dist_diff.mean()))
+    print('angle diff x0 (1/speed_angle - |grad_rot|)   '
+          'median=%.4g mean=%.4g\n' % (np.median(angle_diff), angle_diff.mean()))
+
     blocks = {'full': full, 'trans': trans, 'rot': rot,
-              'loss': loss, 'dist_loss': dist_loss, 'angle_loss': angle_loss}
+              'loss': loss, 'dist_loss': dist_loss, 'angle_loss': angle_loss,
+              'dist_diff': dist_diff, 'angle_diff': angle_diff}
     grids = {name: grid_stats(xd, xa, val, d_edges, a_edges)
              for name, val in blocks.items()}
 
@@ -217,6 +233,11 @@ def main():
                 grids['dist_loss']['median'], d_edges, a_edges)
     _print_grid('MEDIAN ANGLE loss (x0) per cell:',
                 grids['angle_loss']['median'], d_edges, a_edges)
+    # signed mismatch (actual - predicted); + = grad too small, - = grad too large
+    _print_grid('MEDIAN DIST  diff (actual-pred = 1/speed_dist - |grad_xyz|) per cell:',
+                grids['dist_diff']['median'], d_edges, a_edges)
+    _print_grid('MEDIAN ANGLE diff (actual-pred = 1/speed_angle - |grad_rot|) per cell:',
+                grids['angle_diff']['median'], d_edges, a_edges)
 
     if args.out:
         os.makedirs(args.out, exist_ok=True)

@@ -289,7 +289,12 @@ class Model():
                     speed = data[:,2*self.dim:2*self.dim+2]#.float()#.cuda()
                     normal = data[:,2*self.dim+2:4*self.dim+2]
                     speed_dist = data[:,4*self.dim+2:4*self.dim+4]
-                    speed_angle = data[:,4*self.dim+4:4*self.dim+6]  
+                    speed_angle = data[:,4*self.dim+4:4*self.dim+6]
+                    # trans_n / rot_n: per-endpoint unit directions that reduce the
+                    # translational / rotational clearance the most (each 2*dim wide,
+                    # same layout as ``normal``; appended last by data_mlp.Database).
+                    trans_n = data[:,4*self.dim+6:6*self.dim+6]
+                    rot_n = data[:,6*self.dim+6:8*self.dim+6]
                     # speed_angle is stored as angle/pi (in [0,1]); recover radians,
                     # cut at the max angle pi/18 (10 deg), then renormalize to [0,1].
 
@@ -315,7 +320,7 @@ class Model():
 
 
 
-                    loss_value, loss_n, wv = self.function.Loss(points, speed, normal, beta, gamma, epoch, speed_dist, speed_angle)
+                    loss_value, loss_n, wv = self.function.Loss(points, speed, normal, beta, gamma, epoch, speed_dist, speed_angle,  trans_n, rot_n)
                     
                     t1 = time.time()
                     #print(t1-t0)

@@ -1,0 +1,289 @@
+wandb run: astral-smoke-148 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/n22zywor)
+Files copied successfully!
+train
+(400000, 12)
+(400000, 2)
+(400000, 12)
+(400000, 12) (400000, 2)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+  median err  trans=9.919e-06  rot=9.946e-06
+  median err  trans=9.937e-06  rot=9.91e-06
+  median err  trans=9.867e-06  rot=9.925e-06
+  median err  trans=9.92e-06  rot=9.951e-06
+  median err  trans=9.814e-06  rot=9.906e-06
+Epoch = 1 -- Loss = 7.9887e-01 -- Alpha = 1.0000e+00
+  median err  trans=1.961e-05  rot=1.993e-05
+  median err  trans=1.958e-05  rot=1.981e-05
+  median err  trans=1.955e-05  rot=1.986e-05
+  median err  trans=1.95e-05  rot=2.005e-05
+  median err  trans=1.937e-05  rot=1.99e-05
+Epoch = 2 -- Loss = 2.9950e-01 -- Alpha = 1.0000e+00
+  median err  trans=2.922e-05  rot=3.038e-05
+  median err  trans=2.836e-05  rot=3.013e-05
+  median err  trans=2.877e-05  rot=3.039e-05
+  median err  trans=2.901e-05  rot=3.028e-05
+  median err  trans=2.869e-05  rot=3.064e-05
+Epoch = 3 -- Loss = 1.2610e-01 -- Alpha = 1.0000e+00
+  median err  trans=3.842e-05  rot=4.055e-05
+  median err  trans=3.915e-05  rot=4.198e-05
+  median err  trans=3.822e-05  rot=4.216e-05
+  median err  trans=3.956e-05  rot=4.231e-05
+  median err  trans=4.004e-05  rot=4.2e-05
+Epoch = 4 -- Loss = 8.9932e-02 -- Alpha = 1.0000e+00
+  median err  trans=4.874e-05  rot=5.391e-05
+  median err  trans=5.095e-05  rot=5.376e-05
+  median err  trans=4.929e-05  rot=5.198e-05
+  median err  trans=4.941e-05  rot=5.227e-05
+  median err  trans=4.839e-05  rot=5.23e-05
+Epoch = 5 -- Loss = 8.4433e-02 -- Alpha = 1.0000e+00
+  median err  trans=5.961e-05  rot=6.231e-05
+  median err  trans=6.015e-05  rot=6.194e-05
+  median err  trans=5.906e-05  rot=6.227e-05
+  median err  trans=5.935e-05  rot=6.206e-05
+  median err  trans=5.873e-05  rot=6.201e-05
+Epoch = 6 -- Loss = 8.2512e-02 -- Alpha = 1.0000e+00
+  median err  trans=6.861e-05  rot=7.272e-05
+  median err  trans=6.768e-05  rot=7.343e-05
+  median err  trans=6.735e-05  rot=7.365e-05
+  median err  trans=6.783e-05  rot=7.126e-05
+  median err  trans=6.76e-05  rot=7.119e-05
+Epoch = 7 -- Loss = 7.9439e-02 -- Alpha = 1.0000e+00
+  median err  trans=7.744e-05  rot=8.18e-05
+  median err  trans=7.488e-05  rot=8.496e-05
+  median err  trans=7.564e-05  rot=8.445e-05
+  median err  trans=7.596e-05  rot=8.197e-05
+  median err  trans=7.702e-05  rot=8.261e-05
+Epoch = 8 -- Loss = 7.7356e-02 -- Alpha = 1.0000e+00
+  median err  trans=8.689e-05  rot=9.423e-05
+  median err  trans=8.714e-05  rot=9.247e-05
+  median err  trans=8.481e-05  rot=9.325e-05
+  median err  trans=8.426e-05  rot=9.305e-05
+  median err  trans=8.643e-05  rot=9.293e-05
+Epoch = 9 -- Loss = 7.7713e-02 -- Alpha = 1.0000e+00
+  median err  trans=9.649e-05  rot=0.0001032
+  median err  trans=9.36e-05  rot=0.0001015
+  median err  trans=9.429e-05  rot=0.0001025
+  median err  trans=9.583e-05  rot=0.0001023
+  median err  trans=9.561e-05  rot=0.0001027
+Epoch = 10 -- Loss = 7.5294e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0001035  rot=0.0001143
+  median err  trans=0.0001017  rot=0.0001112
+  median err  trans=0.0001039  rot=0.0001137
+  median err  trans=0.0001038  rot=0.000114
+  median err  trans=0.000104  rot=0.0001121
+Epoch = 11 -- Loss = 7.6284e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0001147  rot=0.0001193
+  median err  trans=0.0001138  rot=0.0001213
+  median err  trans=0.0001127  rot=0.0001193
+  median err  trans=0.0001122  rot=0.0001223
+  median err  trans=0.0001147  rot=0.0001212
+Epoch = 12 -- Loss = 7.4705e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0001225  rot=0.0001335
+  median err  trans=0.0001214  rot=0.0001291
+  median err  trans=0.0001226  rot=0.000132
+  median err  trans=0.0001233  rot=0.000131
+  median err  trans=0.0001226  rot=0.0001325
+Epoch = 13 -- Loss = 7.5776e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0001325  rot=0.0001425
+  median err  trans=0.0001301  rot=0.0001414
+  median err  trans=0.0001306  rot=0.0001428
+  median err  trans=0.0001291  rot=0.0001397
+  median err  trans=0.0001312  rot=0.0001427
+Epoch = 14 -- Loss = 7.3954e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0001388  rot=0.0001528
+  median err  trans=0.0001407  rot=0.0001508
+  median err  trans=0.0001399  rot=0.0001508
+  median err  trans=0.0001395  rot=0.0001524
+  median err  trans=0.0001382  rot=0.0001515
+Epoch = 15 -- Loss = 7.2830e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0001489  rot=0.0001609
+  median err  trans=0.0001492  rot=0.0001623
+  median err  trans=0.0001485  rot=0.0001594
+  median err  trans=0.0001498  rot=0.0001654
+  median err  trans=0.0001485  rot=0.0001646
+Epoch = 16 -- Loss = 7.2402e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0001558  rot=0.0001722
+  median err  trans=0.0001564  rot=0.0001724
+  median err  trans=0.0001598  rot=0.0001716
+  median err  trans=0.0001606  rot=0.0001736
+  median err  trans=0.0001563  rot=0.0001697
+Epoch = 17 -- Loss = 7.0894e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0001685  rot=0.0001792
+  median err  trans=0.0001667  rot=0.0001787
+  median err  trans=0.0001676  rot=0.000183
+  median err  trans=0.0001662  rot=0.0001808
+  median err  trans=0.000162  rot=0.0001821
+Epoch = 18 -- Loss = 7.1992e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.000175  rot=0.0001902
+  median err  trans=0.0001766  rot=0.0001948
+  median err  trans=0.0001751  rot=0.000193
+  median err  trans=0.0001763  rot=0.0001908
+  median err  trans=0.0001765  rot=0.000194
+Epoch = 19 -- Loss = 7.0625e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0001837  rot=0.0002026
+  median err  trans=0.0001844  rot=0.0002045
+  median err  trans=0.0001862  rot=0.0001986
+  median err  trans=0.0001808  rot=0.000201
+  median err  trans=0.000182  rot=0.0002008
+Epoch = 20 -- Loss = 6.9754e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0001932  rot=0.0002075
+  median err  trans=0.0001901  rot=0.0002099
+  median err  trans=0.0001914  rot=0.0002133
+  median err  trans=0.0001952  rot=0.0002108
+  median err  trans=0.0001899  rot=0.00021
+Epoch = 21 -- Loss = 6.9017e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0002048  rot=0.0002209
+  median err  trans=0.0002065  rot=0.0002191
+  median err  trans=0.0002023  rot=0.0002203
+  median err  trans=0.0002019  rot=0.0002209
+  median err  trans=0.0002023  rot=0.00022
+Epoch = 22 -- Loss = 6.9917e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0002105  rot=0.00023
+  median err  trans=0.0002116  rot=0.0002288
+  median err  trans=0.0002107  rot=0.0002334
+  median err  trans=0.0002149  rot=0.0002273
+  median err  trans=0.0002063  rot=0.0002278
+Epoch = 23 -- Loss = 6.8737e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0002162  rot=0.0002434
+  median err  trans=0.0002208  rot=0.0002388
+  median err  trans=0.0002232  rot=0.0002453
+  median err  trans=0.0002215  rot=0.0002421
+  median err  trans=0.0002138  rot=0.0002387
+Epoch = 24 -- Loss = 6.8548e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0002283  rot=0.0002593
+  median err  trans=0.0002285  rot=0.0002511
+  median err  trans=0.0002281  rot=0.0002519
+  median err  trans=0.000227  rot=0.0002519
+  median err  trans=0.0002224  rot=0.0002489
+Epoch = 25 -- Loss = 6.7828e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.000236  rot=0.0002587
+  median err  trans=0.0002351  rot=0.0002615
+  median err  trans=0.0002362  rot=0.0002596
+  median err  trans=0.0002347  rot=0.0002631
+  median err  trans=0.0002368  rot=0.0002584
+Epoch = 26 -- Loss = 6.8620e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.000243  rot=0.000267
+  median err  trans=0.0002416  rot=0.0002674
+  median err  trans=0.0002403  rot=0.0002736
+  median err  trans=0.0002409  rot=0.0002693
+  median err  trans=0.0002419  rot=0.0002715
+Epoch = 27 -- Loss = 6.7556e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0002529  rot=0.0002808
+  median err  trans=0.0002526  rot=0.0002788
+  median err  trans=0.0002488  rot=0.0002737
+  median err  trans=0.0002582  rot=0.000275
+  median err  trans=0.0002539  rot=0.000278
+Epoch = 28 -- Loss = 6.7022e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0002582  rot=0.0002882
+  median err  trans=0.0002593  rot=0.000291
+  median err  trans=0.0002619  rot=0.0002861
+  median err  trans=0.0002646  rot=0.0002911
+  median err  trans=0.0002644  rot=0.0002875
+Epoch = 29 -- Loss = 6.6523e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0002695  rot=0.0002983
+  median err  trans=0.0002727  rot=0.0003
+  median err  trans=0.000271  rot=0.0003011
+  median err  trans=0.0002728  rot=0.0003018
+  median err  trans=0.0002687  rot=0.0003019
+Epoch = 30 -- Loss = 6.7680e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0002775  rot=0.000312
+  median err  trans=0.0002881  rot=0.00031
+  median err  trans=0.0002764  rot=0.0003086
+  median err  trans=0.0002763  rot=0.0003089
+  median err  trans=0.0002807  rot=0.0003099
+Epoch = 31 -- Loss = 6.5747e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0002843  rot=0.000319
+  median err  trans=0.0002856  rot=0.0003182
+  median err  trans=0.0002868  rot=0.000319
+  median err  trans=0.0002921  rot=0.0003185
+  median err  trans=0.0002846  rot=0.000323
+Epoch = 32 -- Loss = 6.5819e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.000293  rot=0.0003249
+  median err  trans=0.0002936  rot=0.0003329
+  median err  trans=0.0002971  rot=0.0003294
+  median err  trans=0.0002996  rot=0.0003284
+  median err  trans=0.0002944  rot=0.0003297
+Epoch = 33 -- Loss = 6.3161e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0003034  rot=0.0003379
+  median err  trans=0.0003098  rot=0.0003364
+  median err  trans=0.0003042  rot=0.0003407
+  median err  trans=0.0003059  rot=0.0003385
+  median err  trans=0.0003047  rot=0.0003379
+Epoch = 34 -- Loss = 6.4971e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0003162  rot=0.0003429
+  median err  trans=0.0003111  rot=0.0003476
+  median err  trans=0.0003109  rot=0.0003488
+  median err  trans=0.0003159  rot=0.0003517
+  median err  trans=0.0003153  rot=0.0003473
+Epoch = 35 -- Loss = 6.5108e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0003215  rot=0.0003568
+  median err  trans=0.0003223  rot=0.000355
+  median err  trans=0.0003204  rot=0.0003646
+  median err  trans=0.0003164  rot=0.0003579
+  median err  trans=0.0003308  rot=0.0003559
+Epoch = 36 -- Loss = 6.5566e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0003294  rot=0.0003674
+  median err  trans=0.0003292  rot=0.0003637
+  median err  trans=0.000328  rot=0.000367
+  median err  trans=0.0003339  rot=0.0003629
+  median err  trans=0.0003305  rot=0.0003674
+Epoch = 37 -- Loss = 6.4098e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0003426  rot=0.0003741
+  median err  trans=0.0003346  rot=0.0003778
+  median err  trans=0.0003374  rot=0.0003793
+  median err  trans=0.0003388  rot=0.0003726
+  median err  trans=0.000336  rot=0.0003782
+Epoch = 38 -- Loss = 6.4961e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0003475  rot=0.0003857
+  median err  trans=0.0003567  rot=0.0003815
+  median err  trans=0.0003486  rot=0.0003861
+  median err  trans=0.0003489  rot=0.0003851
+  median err  trans=0.0003481  rot=0.0003865
+Epoch = 39 -- Loss = 6.3988e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0003508  rot=0.0003983
+  median err  trans=0.0003566  rot=0.0003995
+  median err  trans=0.0003508  rot=0.0003966
+  median err  trans=0.000356  rot=0.0003977
+  median err  trans=0.0003615  rot=0.0004001
+Epoch = 40 -- Loss = 6.2919e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0003665  rot=0.0004024
+  median err  trans=0.000367  rot=0.0004079
+  median err  trans=0.0003628  rot=0.0004053
+  median err  trans=0.0003686  rot=0.0004037
+  median err  trans=0.0003648  rot=0.0004022
+Epoch = 41 -- Loss = 6.4376e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0003753  rot=0.0004156
+  median err  trans=0.0003804  rot=0.0004144
+  median err  trans=0.0003707  rot=0.000417
+  median err  trans=0.0003748  rot=0.0004167
+  median err  trans=0.0003787  rot=0.0004195
+Epoch = 42 -- Loss = 6.2924e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0003819  rot=0.0004248
+  median err  trans=0.0003799  rot=0.0004255
+  median err  trans=0.0003849  rot=0.000425
+  median err  trans=0.0003854  rot=0.000426
+  median err  trans=0.0003881  rot=0.0004271
+Epoch = 43 -- Loss = 6.3923e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.000387  rot=0.0004382
+  median err  trans=0.0003875  rot=0.0004395
+  median err  trans=0.0003899  rot=0.0004313
+  median err  trans=0.0003924  rot=0.0004362
+  median err  trans=0.0003892  rot=0.000432
+Epoch = 44 -- Loss = 6.3111e-02 -- Alpha = 1.0000e+00
+  median err  trans=0.0003978  rot=0.0004453
+  median err  trans=0.0003947  rot=0.0004453
+  median err  trans=0.0003994  rot=0.0004512
+  median err  trans=0.0003956  rot=0.0004415
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 52, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 323, in train
+    loss_value, loss_n, wv = self.function.Loss(points, speed, normal, beta, gamma, epoch, speed_dist, speed_angle,  trans_n, rot_n)
+  File "/workspace/ntrl-demo/./models/metric/model_function_metric.py", line 209, in Loss
+    n_loss0 = (1.001-Yobs[:,0].unsqueeze(1)) * (Yobs[:,0].unsqueeze(1)*DT0+normal0)**2
+  File "/opt/conda/lib/python3.10/site-packages/torch/_tensor.py", line 40, in wrapped
+    return f(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/torch/_tensor.py", line 941, in __rsub__
+    return _C._VariableFunctions.rsub(self, other)
+KeyboardInterrupt

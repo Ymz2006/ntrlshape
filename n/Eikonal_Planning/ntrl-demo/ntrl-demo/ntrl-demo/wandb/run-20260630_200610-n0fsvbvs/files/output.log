@@ -1,0 +1,43 @@
+wandb run: spring-hill-145 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/n0fsvbvs)
+Files copied successfully!
+train
+(400000, 12)
+(400000, 2)
+(400000, 12)
+(400000, 12) (400000, 2)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+RepeatEpoch = 1 -- Loss = 2.2901e+05 -- Alpha = 1.0000e+00
+Epoch = 1 -- Loss = 1.1283e+00 -- Alpha = 1.0000e+00
+RepeatEpoch = 2 -- Loss = 4.5123e+00 -- Alpha = 1.0000e+00
+Epoch = 2 -- Loss = 1.2012e+00 -- Alpha = 1.0000e+00
+Epoch = 3 -- Loss = 9.1302e-01 -- Alpha = 1.0000e+00
+Epoch = 4 -- Loss = 5.9579e-01 -- Alpha = 1.0000e+00
+RepeatEpoch = 5 -- Loss = 7.6730e+02 -- Alpha = 1.0000e+00
+RepeatEpoch = 5 -- Loss = 1.0145e+00 -- Alpha = 1.0000e+00
+RepeatEpoch = 5 -- Loss = 1.0084e+00 -- Alpha = 1.0000e+00
+RepeatEpoch = 5 -- Loss = 1.3421e+00 -- Alpha = 1.0000e+00
+RepeatEpoch = 5 -- Loss = 4.8217e+01 -- Alpha = 1.0000e+00
+RepeatEpoch = 5 -- Loss = 1.3489e+00 -- Alpha = 1.0000e+00
+RepeatEpoch = 5 -- Loss = 1.0238e+00 -- Alpha = 1.0000e+00
+RepeatEpoch = 5 -- Loss = 1.0181e+00 -- Alpha = 1.0000e+00
+Epoch = 5 -- Loss = 7.0183e-01 -- Alpha = 1.0000e+00
+Epoch = 6 -- Loss = 7.2743e-01 -- Alpha = 1.0000e+00
+Epoch = 7 -- Loss = 6.0074e-01 -- Alpha = 1.0000e+00
+Epoch = 8 -- Loss = 4.7606e-01 -- Alpha = 1.0000e+00
+Epoch = 9 -- Loss = 4.1107e-01 -- Alpha = 1.0000e+00
+RepeatEpoch = 10 -- Loss = 2.1452e+02 -- Alpha = 1.0000e+00
+RepeatEpoch = 10 -- Loss = 6.7267e-01 -- Alpha = 1.0000e+00
+RepeatEpoch = 10 -- Loss = 5.9132e-01 -- Alpha = 1.0000e+00
+Epoch = 10 -- Loss = 4.1263e-01 -- Alpha = 1.0000e+00
+Epoch = 11 -- Loss = 3.4217e-01 -- Alpha = 1.0000e+00
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 52, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 329, in train
+    loss_value.backward()
+  File "/opt/conda/lib/python3.10/site-packages/torch/_tensor.py", line 522, in backward
+    torch.autograd.backward(
+  File "/opt/conda/lib/python3.10/site-packages/torch/autograd/__init__.py", line 266, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt
