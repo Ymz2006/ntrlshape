@@ -332,8 +332,8 @@ class Function():
             # Two new errors: squared deviation of ds/dn from the target rate, kept
             # per-sample (batched like diff_4). Keep the value where the band is tight
             # (speed < 1); set the error to 0 where speed == 1 (open / no contact).
-            trans_err_weight = 3e-6 
-            rot_err_weight = 3e-6 
+            trans_err_weight = 0
+            rot_err_weight = 0 
             # Clamp ds/dn before the squared error: 1/|grad tau|^2 blows up to ~1e7
             # for band samples with near-zero gradient, and one such row dominates the
             # batch sum. The real signal lives well within +-150 (p1..p99), so this
