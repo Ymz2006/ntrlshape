@@ -120,7 +120,7 @@ class Model():
         self.Params['Training']['Number of sample points'] = 2e5
         self.Params['Training']['Batch Size'] = 2000
         self.Params['Training']['Validation Percentage'] = 10
-        self.Params['Training']['Number of Epochs'] = 8000
+        self.Params['Training']['Number of Epochs'] = 5000
         self.Params['Training']['Resampling Bounds'] = [0.1, 0.9]
         self.Params['Training']['Print Every * Epoch'] = 1
         self.Params['Training']['Save Every * Epoch'] = 500
@@ -274,6 +274,15 @@ class Model():
             while True:
                 total_train_loss = 0
                 total_diff = 0
+                # Per-epoch ds/dn medians, averaged over the batches that
+                # produced one. Reset per attempt so a rejected epoch's values
+                # are discarded along with its loss.
+                dsdn_trans_acc = []
+                dsdn_rot_acc = []
+                # Same treatment for the loss-term contributions.
+                eik_acc = []
+                tr_acc = []
+                cap_acc = []
                 #for i in range(10):
                 ii = 0
                 for i, wholedata in enumerate(dataloader,0):#train_loader_wei,dataloader
@@ -302,19 +311,19 @@ class Model():
                     angle_min = 0.0001
                     speed_angle = torch.clamp(speed_angle/angle_max, min=angle_min/angle_max, max=1)
 
-                    speed = (speed*2) * ((2-speed)**2)
-                    #speed_dist = speed_dist**2 *(2-speed_dist)*(2-speed_dist)
-                    speed_dist = speed_dist**2 *(2-speed_dist)**2
+                    speed = (speed*2) * ((2-speed)**2)                    
                     
-                    #speed_angle = speed_angle*speed_angle*(2-speed_angle)*(2-speed_angle)
+                    speed_dist = speed_dist**2 *(2-speed_dist)**2
                     speed_angle = speed_angle**2 *(2-speed_angle)**2
                     
                     speed_dist = torch.clamp(speed_dist, min = 0.001)
                     speed_angle = torch.clamp(speed_angle, min = 0.001)
                     
-                    #speed=alpha*speed+1-alpha
-                    #speed_angle=alpha*speed_angle+1-alpha
-                    #speed_dist=alpha*speed_dist+1-alpha
+                    # speed=alpha*speed+1-alpha
+                    # speed_angle=alpha*speed_angle+1-alpha
+                    # speed_dist=alpha*speed_dist+1-alpha
+
+
 
                     #speed_angle = torch.sin(speed_angle*torch.pi)
 
@@ -334,6 +343,15 @@ class Model():
 
                     total_train_loss += loss_value.item()
                     total_diff += loss_n.item()
+
+                    if not math.isnan(self.function.dsdn_trans_median):
+                        dsdn_trans_acc.append(self.function.dsdn_trans_median)
+                    if not math.isnan(self.function.dsdn_rot_median):
+                        dsdn_rot_acc.append(self.function.dsdn_rot_median)
+                    if not math.isnan(self.function.eik_contrib):
+                        eik_acc.append(self.function.eik_contrib)
+                        tr_acc.append(self.function.tr_contrib)
+                        cap_acc.append(self.function.tr_cap_scale)
                     
                     t1 = time.time()
 
@@ -366,13 +384,36 @@ class Model():
             self.total_train_loss.append(total_train_loss)
 
             if wandb is not None and wandb.run is not None:
-                wandb.log({
+                log_dict = {
                     'epoch': epoch,
                     'loss': total_diff,
                     'train_loss': total_train_loss,
                     'alpha': alpha,
                     'lr': self.optimizer.param_groups[0]['lr'],
-                }, step=epoch)
+                }
+                # ds/dn medians of the accepted epoch, averaged over its
+                # batches. Omitted (rather than logged as nan) when no batch
+                # had in-band samples, so the wandb series stays clean.
+                if dsdn_trans_acc:
+                    log_dict['dsdn/trans_median'] = (
+                        sum(dsdn_trans_acc) / len(dsdn_trans_acc))
+                if dsdn_rot_acc:
+                    log_dict['dsdn/rot_median'] = (
+                        sum(dsdn_rot_acc) / len(dsdn_rot_acc))
+                # Loss-term contributions, averaged over the epoch's batches.
+                # eik/tr are pre-cap, so the ratio shows how hard the trans/rot
+                # term is *pushing* to exceed its budget; cap_scale (<1 when the
+                # cap binds) shows how much of that push actually got through.
+                if eik_acc:
+                    eik_mean = sum(eik_acc) / len(eik_acc)
+                    tr_mean = sum(tr_acc) / len(tr_acc)
+                    log_dict['loss/eikonal'] = eik_mean
+                    log_dict['loss/trans_rot'] = tr_mean
+                    log_dict['loss/trans_rot_over_eikonal'] = (
+                        tr_mean / (eik_mean + 1e-12))
+                    log_dict['loss/tr_cap_scale'] = (
+                        sum(cap_acc) / len(cap_acc))
+                wandb.log(log_dict, step=epoch)
 
             beta = 1.0/total_diff
             

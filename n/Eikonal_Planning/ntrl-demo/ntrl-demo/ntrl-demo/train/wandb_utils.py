@@ -18,6 +18,7 @@ Typical use in a trainer::
 """
 
 import argparse
+import os
 
 
 def add_wandb_args(parser):
@@ -32,7 +33,8 @@ def add_wandb_args(parser):
     g.add_argument('--entity', default=None,
                    help='W&B entity (team/user); defaults to your wandb login.')
     g.add_argument('--run-name', default=None,
-                   help='Name for this run (defaults to a wandb-generated name).')
+                   help='Name for this run (defaults to the experiment folder '
+                        'name, e.g. 3dshape_06_07_19_10).')
     g.add_argument('--tags', nargs='*', default=None,
                    help='Tags for this run, e.g. --tags baseline rectangle env1.')
     g.add_argument('--notes', default=None,
@@ -87,6 +89,19 @@ def apply_overrides(model, args):
         model.Params['Training']['Learning Rate'] = args.lr
 
 
+def run_name(model):
+    """Name of the experiment folder this run writes into (may be None).
+
+    ``Model.__init__`` builds ``self.folder`` as
+    ``<ModelPath>/<dataset>_<MM_DD_HH_MM>``; we use just the last component so
+    the wandb run and the on-disk folder share the same name.
+    """
+    folder = getattr(model, 'folder', None)
+    if not folder:
+        return None
+    return os.path.basename(folder.rstrip('/'))
+
+
 def build_config(model, args, task):
     """Assemble the wandb run config from the model params + CLI extras."""
     config = {
@@ -95,6 +110,7 @@ def build_config(model, args, task):
         'data_path': model.Params['DataPath'],
         'model_path': model.Params['ModelPath'],
         'device': model.Params['Device'],
+        'experiment_folder': getattr(model, 'folder', None),
     }
     config.update({'train/' + k: v for k, v in model.Params['Training'].items()})
     config.update(_parse_set(getattr(args, 'set', None)))
@@ -109,7 +125,7 @@ def start_run(args, model, task):
     run = wandb.init(
         project=args.project,
         entity=args.entity,
-        name=args.run_name,
+        name=args.run_name or run_name(model),
         tags=args.tags,
         notes=args.notes,
         mode=args.mode,

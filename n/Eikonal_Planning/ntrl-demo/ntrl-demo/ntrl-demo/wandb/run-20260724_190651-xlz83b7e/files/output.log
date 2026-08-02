@@ -1,0 +1,20 @@
+wandb run: 3dshape_07_24_14_06 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/xlz83b7e)
+Files copied successfully!
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 52, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 168, in train
+    self.network.apply(self.network.init_weights)
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 890, in apply
+    module.apply(fn)
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 890, in apply
+    module.apply(fn)
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 891, in apply
+    fn(self)
+  File "/workspace/ntrl-demo/./models/metric/model_network_metric.py", line 228, in init_weights
+    torch.nn.init.trunc_normal_(m.weight, mean=0.0, std=stdv, a=-2.0*stdv, b=2.0*stdv)
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/init.py", line 205, in trunc_normal_
+    return _no_grad_trunc_normal_(tensor, mean, std, a, b, generator=generator)
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/init.py", line 43, in _no_grad_trunc_normal_
+    tensor.uniform_(2 * l - 1, 2 * u - 1, generator=generator)
+KeyboardInterrupt

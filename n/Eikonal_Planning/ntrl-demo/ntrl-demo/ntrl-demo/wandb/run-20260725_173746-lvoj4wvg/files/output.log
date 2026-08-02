@@ -1,0 +1,61 @@
+wandb run: 3dshape_07_25_12_37 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/lvoj4wvg)
+Files copied successfully!
+train
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 52, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 179, in train
+    self.optimizer = torch.optim.AdamW(
+  File "/opt/conda/lib/python3.10/site-packages/torch/optim/adamw.py", line 52, in __init__
+    super().__init__(params, defaults)
+  File "/opt/conda/lib/python3.10/site-packages/torch/optim/optimizer.py", line 278, in __init__
+    self.add_param_group(cast(dict, param_group))
+  File "/opt/conda/lib/python3.10/site-packages/torch/_compile.py", line 22, in inner
+    import torch._dynamo
+  File "/opt/conda/lib/python3.10/site-packages/torch/_dynamo/__init__.py", line 2, in <module>
+    from . import allowed_functions, convert_frame, eval_frame, resume_execution
+  File "/opt/conda/lib/python3.10/site-packages/torch/_dynamo/allowed_functions.py", line 30, in <module>
+    from .utils import hashable, is_safe_constant, NP_SUPPORTED_MODULES
+  File "/opt/conda/lib/python3.10/site-packages/torch/_dynamo/utils.py", line 89, in <module>
+    import torch.fx.experimental.symbolic_shapes
+  File "/opt/conda/lib/python3.10/site-packages/torch/fx/experimental/symbolic_shapes.py", line 38, in <module>
+    from torch.utils._sympy.functions import FloorDiv, Mod, IsNonOverlappingAndDenseIndicator
+  File "/opt/conda/lib/python3.10/site-packages/torch/utils/_sympy/functions.py", line 1, in <module>
+    import sympy
+  File "/opt/conda/lib/python3.10/site-packages/sympy/__init__.py", line 74, in <module>
+    from .polys import (Poly, PurePoly, poly_from_expr, parallel_poly_from_expr,
+  File "/opt/conda/lib/python3.10/site-packages/sympy/polys/__init__.py", line 78, in <module>
+    from .polyfuncs import (symmetrize, horner, interpolate,
+  File "/opt/conda/lib/python3.10/site-packages/sympy/polys/polyfuncs.py", line 10, in <module>
+    from sympy.polys.specialpolys import (
+  File "/opt/conda/lib/python3.10/site-packages/sympy/polys/specialpolys.py", line 298, in <module>
+    from sympy.polys.rings import ring
+  File "/opt/conda/lib/python3.10/site-packages/sympy/polys/rings.py", line 30, in <module>
+    from sympy.printing.defaults import DefaultPrinting
+  File "/opt/conda/lib/python3.10/site-packages/sympy/printing/__init__.py", line 5, in <module>
+    from .latex import latex, print_latex, multiline_latex
+  File "/opt/conda/lib/python3.10/site-packages/sympy/printing/latex.py", line 18, in <module>
+    from sympy.tensor.array import NDimArray
+  File "/opt/conda/lib/python3.10/site-packages/sympy/tensor/__init__.py", line 4, in <module>
+    from .indexed import IndexedBase, Idx, Indexed
+  File "/opt/conda/lib/python3.10/site-packages/sympy/tensor/indexed.py", line 114, in <module>
+    from sympy.functions.special.tensor_functions import KroneckerDelta
+  File "/opt/conda/lib/python3.10/site-packages/sympy/functions/__init__.py", line 26, in <module>
+    from sympy.functions.special.error_functions import (erf, erfc, erfi, erf2,
+  File "/opt/conda/lib/python3.10/site-packages/sympy/functions/special/error_functions.py", line 21, in <module>
+    from sympy.functions.special.hyper import hyper, meijerg
+  File "/opt/conda/lib/python3.10/site-packages/sympy/functions/special/hyper.py", line 885, in <module>
+    class HyperRep_log1(HyperRep):
+  File "/opt/conda/lib/python3.10/site-packages/sympy/core/function.py", line 165, in __init__
+    nargs = kwargs.pop('nargs', cls.__dict__.get('nargs', arity(cls)))
+  File "/opt/conda/lib/python3.10/site-packages/sympy/core/function.py", line 144, in arity
+    parameters = inspect.signature(eval_).parameters.items()
+  File "/opt/conda/lib/python3.10/inspect.py", line 3254, in signature
+    return Signature.from_callable(obj, follow_wrapped=follow_wrapped,
+  File "/opt/conda/lib/python3.10/inspect.py", line 3002, in from_callable
+    return _signature_from_callable(obj, sigcls=cls,
+  File "/opt/conda/lib/python3.10/inspect.py", line 2401, in _signature_from_callable
+    sig = _get_signature_of(obj.__func__)
+  File "/opt/conda/lib/python3.10/inspect.py", line 2387, in _signature_from_callable
+    _get_signature_of = functools.partial(_signature_from_callable,
+KeyboardInterrupt

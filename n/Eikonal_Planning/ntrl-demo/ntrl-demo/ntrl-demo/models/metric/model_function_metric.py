@@ -28,7 +28,67 @@ from timeit import default_timer as timer
 # Prior versions relied on ``torch_kdtree`` for nearest neighbour queries.
 # The implementation no longer depends on that package.
 
+# Optional Weights & Biases logging. Guarded by ``wandb.run is not None`` so it
+# is a no-op unless a trainer started a run (see train/wandb_utils.py).
+try:
+    import wandb
+except ImportError:
+    wandb = None
+
 torch.backends.cudnn.benchmark = True
+
+
+def log_dsdn(trans_dsdn, rot_dsdn, trans_mask, rot_mask, epoch,
+             every=50, verbose=True):
+    """Summarise ds/dn for the translation and rotation probes.
+
+    ``trans_dsdn`` / ``rot_dsdn`` are the per-sample speed slopes computed in
+    ``Loss``; the masks select the samples inside the tight clearance band
+    (speed < 1), which are the only ones the trans/rot error acts on.
+
+    Always returns ``(trans_median, rot_median)`` (``nan`` when a mask is
+    empty) so the caller can log the medians every epoch alongside the loss.
+    The fuller quantile summary is printed / pushed to wandb only every
+    ``every`` epochs, since it is the expensive and noisy part.
+    """
+    verbose = verbose and (epoch % every == 0)
+    medians = {}
+    stats = {}
+
+    for name, t, m in (('trans', trans_dsdn, trans_mask),
+                       ('rot', rot_dsdn, rot_mask)):
+        v = t.detach()[m].flatten()
+        if v.numel() == 0:
+            medians[name] = float('nan')
+            if verbose:
+                print('  ds/dn {}: no in-band samples'.format(name))
+            continue
+
+        qs = torch.tensor([0.05, 0.25, 0.5, 0.75, 0.95],
+                          device=v.device, dtype=v.dtype)
+        p5, p25, med, p75, p95 = torch.quantile(v, qs).tolist()
+        medians[name] = med
+        stats.update({
+            'dsdn/{}_n'.format(name): int(v.numel()),
+            'dsdn/{}_mean'.format(name): v.mean().item(),
+            'dsdn/{}_min'.format(name): v.min().item(),
+            'dsdn/{}_p5'.format(name): p5,
+            'dsdn/{}_p25'.format(name): p25,
+            'dsdn/{}_p75'.format(name): p75,
+            'dsdn/{}_p95'.format(name): p95,
+            'dsdn/{}_max'.format(name): v.max().item(),
+        })
+
+        if verbose:
+            print('  ds/dn {} (n={}): med={:.4g}  mean={:.4g}  '
+                  'p5={:.4g}  p95={:.4g}  min={:.4g}  max={:.4g}'.format(
+                      name, v.numel(), med, v.mean().item(),
+                      p5, p95, v.min().item(), v.max().item()))
+
+    if verbose and stats and wandb is not None and wandb.run is not None:
+        wandb.log(stats, step=epoch)
+
+    return medians['trans'], medians['rot']
 
 
 class Function():
@@ -49,6 +109,18 @@ class Function():
         self.total_val_loss = []
         #input_file = "datasets/gibson/Cabin/mesh_z_up_scaled.off"
         #self.kdtree, self.v_obs, self.n_obs = self.pc_kdtree(input_file)
+
+        # Latest per-batch medians of ds/dn, refreshed by every Loss() call that
+        # runs the trans/rot probes; nan until then. Read by the training loop.
+        self.dsdn_trans_median = float('nan')
+        self.dsdn_rot_median = float('nan')
+
+        # Latest per-batch loss-term contributions, refreshed by every Loss()
+        # call. eik/tr are per-sample and PRE-cap; see the stash site in Loss.
+        self.eik_contrib = float('nan')
+        self.tr_contrib = float('nan')
+        self.tr_over_eik = float('nan')
+        self.tr_cap_scale = float('nan')
 
         self.alpha = 1.025
         limit = 0.5
@@ -111,7 +183,7 @@ class Function():
         LT1_dist_mag = LT1_dist_mag**2
         LT1_ang_mag = LT1_ang_mag**2
 
-        mm = 10
+        mm = 20
 
         w0_dist = torch.clamp(1.0 / speed_dist[:,0], max=mm)
         w0_ang  = torch.clamp(1.0 / speed_angle[:,0], max=mm)
@@ -219,7 +291,7 @@ class Function():
         # nudged point with the original NON-band point (x1, the "start") -- so the
         # new pairs are [x0 + step*trans_n , x1] and [x0 + step*rot_n , x1] -- then
         # read dtau/dconfig for both probes (start point unchanged = non-band x1).
-        step = 0.01
+        step = 0.02
         dtau_trans = None
         dtau_rot = None
         if trans_n is not None and rot_n is not None:
@@ -277,21 +349,19 @@ class Function():
 
 
 
-            # Detach the ORIGINAL (band-point) magnitude in the finite difference so
-            # only the nudged (deeper) point carries gradient. Otherwise the term can
-            # cheaply raise the slope by DEFLATING the tight-band gradient
-            # (dtau_original_*_mag) -- which collapses exactly the tight-vs-open range
-            # we measure. This route is nearly the only one available to rotation
-            # (the rot_n nudge barely moves the deeper point), so it hit rotation
-            # hardest. With the detach, the term can only push the deeper point up.
             trans_slope = (dtau_trans_mag - dtau_original_trans_mag) / step
             rot_slope = (dtau_rot_mag - dtau_original_rot_mag) / step
 
-            trans_dsdn = -trans_slope / (dtau_original_trans_mag.detach() ** 2)
-            rot_dsdn = -rot_slope / (dtau_original_rot_mag.detach() ** 2)
+            trans_dsdn = (1.0 / dtau_trans_mag - 1.0 / dtau_original_trans_mag) / step
+            rot_dsdn = (1.0 / dtau_rot_mag - 1.0 / dtau_original_rot_mag) / step
 
             md = speed_dist[:, 0] < 1
             ma = speed_angle[:, 0] < 1
+
+            # Medians are stashed for the trainer to log every epoch (see
+            # model_train_metric.py); the quantile dump is on its own cadence.
+            self.dsdn_trans_median, self.dsdn_rot_median = log_dsdn(
+                trans_dsdn, rot_dsdn, md, ma, epoch)
 
             def _median(t):
                 return t.median().item() if t.numel() > 0 else float('nan')
@@ -316,32 +386,18 @@ class Function():
                     for i, c in enumerate(counts):
                         print('    [{:8.3g},{:8.3g}) {:7d} {}'.format(
                             edges[i], edges[i + 1], int(c), '#' * int(40 * c / cmax)))
-            # _dist('trans_dsdn (speed_dist<1)', trans_dsdn[md])
-            # _dist('rot_dsdn   (speed_angle<1)', rot_dsdn[ma])\
-            
-            # print('median d|grad_xyz tau|/d(trans_n) (speed_dist<1, n={}):'.format(
-            #     int(md.sum())), _median(trans_slope[md]))
-            # print('median d|grad_rot tau|/d(rot_n)   (speed_angle<1, n={}):'.format(
-            #     int(ma.sum())), _median(rot_slope[ma]))
-            # # speed magnitudes and raw clearance gradient ds/dn (1/speed^2 amplifier removed)
-            # print('  median speed_dist (x0,tight)={:.4g}  speed_angle (x0,tight)={:.4g}'.format(
-            #     _median(speed_dist[md, 0]), _median(speed_angle[ma, 0])))
-            # print('  median ds/dn  trans={:.4g}  rot={:.4g}'.format(
-            #     _median(trans_dsdn[md]), _median(rot_dsdn[ma])))
 
-            # Two new errors: squared deviation of ds/dn from the target rate, kept
-            # per-sample (batched like diff_4). Keep the value where the band is tight
-            # (speed < 1); set the error to 0 where speed == 1 (open / no contact).
-            trans_err_weight = 0
-            rot_err_weight = 0 
-            # Clamp ds/dn before the squared error: 1/|grad tau|^2 blows up to ~1e7
-            # for band samples with near-zero gradient, and one such row dominates the
-            # batch sum. The real signal lives well within +-150 (p1..p99), so this
-            # caps only the off-chart artifacts. (Raw trans_dsdn/rot_dsdn kept for the
-            # distribution print above.)
-            dsdn_clip = 150.0
-            trans_dsdn_c = trans_dsdn.clamp(-dsdn_clip, dsdn_clip)
-            rot_dsdn_c = rot_dsdn.clamp(-dsdn_clip, dsdn_clip)
+
+            err_weight = 8e-5 * min(max((epoch - 1500) / 2000.0, 0.0), 1.0)
+            trans_err_weight = err_weight
+            rot_err_weight = err_weight
+
+            dsdn_clip = 10
+            trans_dsdn_c = trans_dsdn.clamp(rate, dsdn_clip)
+            rot_dsdn_c = rot_dsdn.clamp(rate, dsdn_clip)
+
+
+
             trans_err = trans_err_weight * (rate - trans_dsdn_c) ** 2
             rot_err = rot_err_weight * (rate - rot_dsdn_c) ** 2
             trans_err = torch.where(md, trans_err, torch.zeros_like(trans_err))
@@ -360,57 +416,20 @@ class Function():
         tr_contrib = ((trans_err + rot_err) * weight_T).sum()
         tr_cap_scale = torch.clamp((eik_contrib / 1.5) / (tr_contrib + 1e-12),
                                    max=1.0).detach()
+
+        # Stashed for the trainer to log every epoch. Both contributions are
+        # PRE-cap and per-sample (same 1/N as loss_n), so their ratio is what
+        # the cap reacts to -- not what actually lands in the loss. The cap
+        # binds exactly when the ratio exceeds 1/1.5, i.e. tr_cap_scale < 1.
+        self.eik_contrib = eik_contrib.item() / Yobs.shape[0]
+        self.tr_contrib = tr_contrib.item() / Yobs.shape[0]
+        self.tr_over_eik = tr_contrib.item() / (eik_contrib.item() + 1e-12)
+        self.tr_cap_scale = tr_cap_scale.item()
+
         trans_err = trans_err * tr_cap_scale
         rot_err = rot_err * tr_cap_scale
         loss_n = (torch.sum((diff_4+ trans_err + rot_err  + n_loss +tau_loss)*weight_T))/Yobs.shape[0]#*torch.exp(-para*T)
         #loss_n = (torch.sum((diff_4+n_loss +tau_loss) ))/Yobs.shape[0]#*torch.exp(-para*T)
-
-
-
-
-        hess_weight = 1e-4
-        v = torch.randn_like(dtau)
-        Hv = torch.autograd.grad(dtau, Xp, grad_outputs=v,
-                                 create_graph=True, retain_graph=True)[0]  # H@v, (B,2*dim)
-        hess0 = (Hv[:, :self.dim] ** 2).sum(dim=1)     # curvature at x0 (query block)
-        hess1 = (Hv[:, self.dim:] ** 2).sum(dim=1)     # curvature at x1 (goal block)
-
-        free0 = ((speed_dist[:, 0] > 0.9) & (speed_angle[:, 0] > 0.9)).float()
-        free1 = ((speed_dist[:, 1] > 0.9) & (speed_angle[:, 1] > 0.9)).float()
-
-        loss_2nd = hess_weight * torch.sum(free0 * hess0 + free1 * hess1) / Yobs.shape[0]
-
-
-        # # ---- cross translation<->rotation decoupling diagnostic
-        # def _mixed_block_sq(grad_t, x, trans_idx, rot_idx):
-        #     ones = torch.ones_like(grad_t[:, 0])
-        #     acc = torch.zeros(grad_t.shape[0], device=grad_t.device)
-        #     # d(dtau/d trans_i)/d rot_j
-        #     for i in trans_idx:
-        #         row = torch.autograd.grad(grad_t[:, i], x, grad_outputs=ones,
-        #                                   create_graph=True, retain_graph=True)[0]
-        #         acc = acc + (row[:, rot_idx] ** 2).sum(dim=1)
-        #     # the other way around: d(dtau/d rot_j)/d trans_i
-        #     for j in rot_idx:
-        #         row = torch.autograd.grad(grad_t[:, j], x, grad_outputs=ones,
-        #                                   create_graph=True, retain_graph=True)[0]
-        #         acc = acc + (row[:, trans_idx] ** 2).sum(dim=1)
-        #     return acc
-
-        # trans0 = [0, 1, 2]
-        # rot0 = [3, 4, 5]
-        # trans1 = [self.dim + 0, self.dim + 1, self.dim + 2]
-        # rot1 = [self.dim + 3, self.dim + 4, self.dim + 5]
-
-        # cross0 = _mixed_block_sq(dtau, Xp, trans0, rot0)
-        # cross1 = _mixed_block_sq(dtau, Xp, trans1, rot1)
-        # cross_loss = torch.sum(cross0 + cross1) / Yobs.shape[0]
-
-
-        # cross_weight = cross_frac * loss_n.detach() / (cross_loss.detach() + 1e-12)
-        # cross_term = cross_weight * cross_loss
-        # print('cross trans-rot decoupling loss: %.6g  (weighted: %.6g, w=%.3g)'
-        #       % (cross_loss.item(), cross_term.item(), cross_weight.item()))
 
 
 

@@ -395,8 +395,8 @@ else:
 
 
 #pt = './Experiments/3dshape/3dshape_06_13_18_59/Model_Epoch_05000_ValLoss_1.170522e-02.pt'
+pt = './Experiments/3dshape/3dshape_06_30_16_59/latest.pt'
 
-#pt = './Experiments/3dshape/3dshape_06_30_17_02/latest.pt'
 print(f'Loading checkpoint: {pt}')
 
 

@@ -1,0 +1,120 @@
+Loading checkpoint: ./Experiments/3dshape/latest.pt
+[epochs-wrapper] loading checkpoint: /workspace/ntrl-demo/Experiments/3dshape/3dshape_07_17_15_47/Model_Epoch_00001_ValLoss_7.513209e-01.pt
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+[load_obj] '/workspace/ntrl-demo/datasets/3dshape/rectangle.obj': 1 objects/groups
+  [0] 'Body1'  (12 triangles)
+[load_obj] '/workspace/ntrl-demo/datasets/3dshape/env1.obj': 5 objects/groups
+  [0] 'Body2'  (12 triangles)
+  [1] 'Body3'  (12 triangles)
+  [2] 'Body4'  (12 triangles)
+  [3] 'Body5'  (12 triangles)
+  [4] 'wall (2)'  (12 triangles)
+[000] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[001] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[002] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[003] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[004] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[005] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[006] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[007] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[008] FAIL  did_not_converge=True  collision=False  linear_interp_valid=False
+[009] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[010] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[011] FAIL  did_not_converge=True  collision=False  linear_interp_valid=False
+[012] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[013] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[014] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[015] FAIL  did_not_converge=True  collision=False  linear_interp_valid=False
+[016] FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[017] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[018] FAIL  did_not_converge=False  collision=True  linear_interp_valid=True
+[019] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[020] PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[021] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[022] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[023] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[024] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[025] PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[026] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[027] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[028] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[029] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[030] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[031] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[032] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[033] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[034] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[035] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[036] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[037] FAIL  did_not_converge=False  collision=True  linear_interp_valid=True
+[038] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[039] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[040] FAIL  did_not_converge=False  collision=True  linear_interp_valid=True
+[041] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[042] FAIL  did_not_converge=False  collision=True  linear_interp_valid=True
+[043] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[044] PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[045] FAIL  did_not_converge=True  collision=False  linear_interp_valid=False
+[046] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[047] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[048] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[049] FAIL  did_not_converge=True  collision=False  linear_interp_valid=False
+[050] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[051] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[052] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[053] PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[054] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[055] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[056] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[057] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[058] PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[059] FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[060] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[061] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[062] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[063] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[064] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[065] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[066] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[067] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[068] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[069] FAIL  did_not_converge=True  collision=False  linear_interp_valid=False
+[070] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[071] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[072] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[073] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[074] FAIL  did_not_converge=False  collision=True  linear_interp_valid=True
+[075] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[076] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[077] PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[078] FAIL  did_not_converge=False  collision=True  linear_interp_valid=True
+[079] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[080] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[081] PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[082] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[083] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[084] PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[085] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[086] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[087] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[088] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[089] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[090] FAIL  did_not_converge=True  collision=False  linear_interp_valid=True
+[091] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[092] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[093] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[094] FAIL  did_not_converge=True  collision=False  linear_interp_valid=False
+[095] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[096] FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[097] FAIL  did_not_converge=True  collision=True  linear_interp_valid=True
+[098] PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[099] FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+total: 9 / 100  (9.0%)
+success | linear interp valid  : 8 / 33  (24.2%)
+success | linear interp invalid: 1 / 67  (1.5%)
+Wrote ./results/output_3d/rectangle_env1/epoch_00001/success_rate.txt
+
+Summary plots saved to ./results/output_3d/rectangle_env1/epoch_00001/

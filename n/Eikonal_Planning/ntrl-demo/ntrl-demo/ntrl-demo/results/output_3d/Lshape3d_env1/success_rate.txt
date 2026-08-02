@@ -1,12 +1,14 @@
 data_path                    : testing_data/3dshape/Lshape3d_env1
 model_path                   : ./Experiments/3dshape
 checkpoint                   : ./Experiments/3dshape/latest.pt
-episodes                     : 100
-successes                    : 78
-failures                     : 22
-  collision                  : 20
-  no_converge                : 7
-success_rate                 : 0.7800  (78.0%)
-linear_interp_valid          : 25 / 100
-success_rate|lin_interp_valid: 1.0000  (100.0%)  [25/25]
-success_rate|lin_interp_fail : 0.7067  (70.7%)  [53/75]
+test_cases                   : 1000
+discarded_invalid_endpoints  : 10  (start: 7, goal: 3)
+episodes                     : 990   [evaluated = test_cases - discarded]
+successes                    : 778
+failures                     : 212
+  collision                  : 199
+  no_converge                : 32
+success_rate                 : 0.7859  (78.6%)
+linear_interp_valid          : 257 / 990
+success_rate|lin_interp_valid: 0.9650  (96.5%)  [248/257]
+success_rate|lin_interp_fail : 0.7231  (72.3%)  [530/733]

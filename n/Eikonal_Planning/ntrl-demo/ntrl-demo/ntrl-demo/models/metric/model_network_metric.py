@@ -186,6 +186,11 @@ class NN(torch.nn.Module):
         self.encoder_r, self.gate_r, self.pe_gate_r, self.encoder_norm_r = self._build_route(h_size)
 
 
+        # rot6_freq_scale = 2.0
+        # self.register_buffer(
+        #    'B_rot6', (rot6_freq_scale * torch.normal(0, 1, size=(6, 128))).to(device))
+
+
 
         self.fuse_len = 3
         self.fuse = torch.nn.ModuleList()
@@ -237,6 +242,18 @@ class NN(torch.nn.Module):
         x_proj = x @ w
         #x_proj = (2.*np.pi*x) @ self.B
         return torch.cat([torch.sin(x_proj), torch.cos(x_proj)], dim=-1)    #  2*len(B)
+
+    def rotation_input_mapping(self, x):
+        # Replacement for input_mapping on the rotation route. `x` is the stored
+        # rotation coords (axis-angle rotvec normalized by 2*pi). Convert to the
+        # continuous 6D rotation representation, then apply RANDOM FOURIER
+        # FEATURES over it (B_rot6 mixes the 6 entries into 128 frequencies).
+        # This keeps continuity (6D) AND high-frequency richness (Fourier),
+        # unlike a plain linear lift (underfit) or plain sin/cos of the entries.
+        euler = axis_angle_to_euler(x * (2.0 * np.pi))
+        feats = euler_to_rotation_features(euler, mode='6d')   # (N, 6), in [-1,1]
+        x_proj = feats @ self.B_rot6                           # (N, 128)
+        return torch.cat([torch.sin(x_proj), torch.cos(x_proj)], dim=-1)  # (N, 256)
     
     def lip_norm(self, w):
         absrowsum = torch.sqrt(torch.sum ( w**2 , dim =1)).detach()
@@ -287,6 +304,8 @@ class NN(torch.nn.Module):
 
 
     def to_rotational_embedding(self, x, B, pe_gate, gate, encoder, encoder_norm):
+
+        #x = self.rotation_input_mapping(x)
         x = self.input_mapping(x, B)
 
         w = self.lip_norm(pe_gate[0].weight)

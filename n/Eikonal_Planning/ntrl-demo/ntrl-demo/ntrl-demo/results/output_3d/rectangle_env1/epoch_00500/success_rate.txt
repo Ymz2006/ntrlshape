@@ -1,0 +1,12 @@
+data_path                    : testing_data/3dshape/rectangle_env1
+model_path                   : ./Experiments/3dshape
+checkpoint                   : ./Experiments/3dshape/latest.pt
+episodes                     : 100
+successes                    : 46
+failures                     : 54
+  collision                  : 53
+  no_converge                : 2
+success_rate                 : 0.4600  (46.0%)
+linear_interp_valid          : 32 / 100
+success_rate|lin_interp_valid: 0.9375  (93.8%)  [30/32]
+success_rate|lin_interp_fail : 0.2353  (23.5%)  [16/68]
