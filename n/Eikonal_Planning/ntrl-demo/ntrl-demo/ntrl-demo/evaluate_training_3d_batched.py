@@ -446,7 +446,7 @@ else:
     pt = ckpts[-1]
 
 
-#pt = './Experiments/3dshape/3dshape_08_01_12_15/latest.pt'
+pt = './Experiments/3dshape/3dshape_08_01_12_19/latest.pt'
 
 print(f'Loading checkpoint: {pt}')
 
