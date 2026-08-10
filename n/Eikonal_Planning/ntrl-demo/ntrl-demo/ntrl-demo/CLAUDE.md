@@ -55,9 +55,14 @@ Key deps: PyTorch 2.2 / CUDA 12.1, `libigl` (mesh SDF / tetrahedralization), `ez
 
 ### The `Model` / `Function` / `NN` triad
 
-Each task package (`models/metric/` for shapes & gibson, `models/metric_arm/` for the UR5) is a
-near-copy of the same three files. **Changes to the core algorithm usually need to be mirrored
-across both packages.**
+Each task package is a near-copy of the same three files:
+
+- `models/metric_2dshape/` — the 2-D shape pipeline (`train/train_2dshape.py`, `evaluate_training.py`,
+  `evaluate_training_batched.py`).
+- `models/metric/` — 3-D shape, maze, gibson, and all the ad-hoc probe/diagnostic scripts.
+- `models/metric_arm/` — the UR5.
+
+**Changes to the core algorithm usually need to be mirrored across all three packages.**
 
 - **`model_network_metric.py` — `NN`**: the field network. Inputs are Fourier-mapped
   (`input_mapping`), passed through Lipschitz-normalized layers (`lip_norm`), and the travel time
@@ -85,7 +90,8 @@ across both packages.**
   unpacking) — these reshape the clearance signal, not raw clearance.
 - LR is **hard-overwritten to `5e-4` inside the loop**, so `--lr` / `self.Params` LR is largely
   cosmetic; change the in-loop assignment to actually alter LR.
-- On the first `train()` call the contents of `models/metric/` are **copied into the run folder**
+- On the first `train()` call the contents of the task's model package (`source_folder` in
+  `model_train_metric.py`) are **copied into the run folder**
   (`Experiments/<task>/<dataset>_<timestamp>/models/`) to snapshot the exact code used.
 
 ### Checkpoints

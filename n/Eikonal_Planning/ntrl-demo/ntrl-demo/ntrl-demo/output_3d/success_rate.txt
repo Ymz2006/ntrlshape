@@ -1,0 +1,19 @@
+data_path                    : ./testing_data/3dshape/rectangle_env1
+model_path                   : ./Experiments/3dshape
+checkpoint                   : ./Experiments/3dshape/3dshape_08_06_17_06/latest.pt
+test_cases                   : 1000
+discarded_invalid_endpoints  : 35  (start: 18, goal: 17)
+episodes                     : 965   [evaluated = test_cases - discarded]
+successes                    : 867
+failures                     : 98
+  collision                  : 74
+  no_converge                : 45
+success_rate                 : 0.8984  (89.8%)
+successes_flipped            : 864  (collision: 81, no_converge: 48)
+success_rate_flipped         : 0.8953  (89.5%)
+successes_either             : 951   [regular OR flipped]
+success_rate_either          : 0.9855  (98.5%)
+rescued_by_flip              : 84
+linear_interp_valid          : 290 / 965
+success_rate|lin_interp_valid: 0.9241  (92.4%)  [268/290]
+success_rate|lin_interp_fail : 0.8874  (88.7%)  [599/675]

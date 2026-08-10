@@ -23,7 +23,7 @@ sys.path.append('.')
 import time
 import argparse
 
-from models.metric import model_train_metric as md
+from models.metric_2dshape import model_train_metric as md
 from train.wandb_utils import add_wandb_args, apply_overrides, start_run, finish_run
 
 modelPath = './Experiments/2dshape'

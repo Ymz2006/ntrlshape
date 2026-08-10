@@ -71,6 +71,15 @@ parser.add_argument('--out', default='./output_3d',
 parser.add_argument('--batch', type=int, default=250,
                     help='Number of episodes whose MPPI rollouts are run together '
                          'on the GPU per chunk (bounds GPU memory).')
+parser.add_argument('--device', default='cuda',
+                    help='Torch device the network and the batched rollouts run '
+                         'on (e.g. cuda, cuda:2, cpu).')
+parser.add_argument('--nbins_dist', type=int, default=8,
+                    help='speed_dist bins (uniform over [0,1]) for the end-of-run '
+                         'endpoint frequency tables.')
+parser.add_argument('--nbins_angle', type=int, default=8,
+                    help='speed_angle bins (uniform over [0,1]) for the end-of-run '
+                         'endpoint frequency tables.')
 parser.add_argument('--no-viser', action='store_true',
                     help='Skip launching the interactive viser viewer (still '
                          'writes success_rate.txt and the summary HTML plots).')
@@ -79,6 +88,7 @@ args = parser.parse_args()
 
 OUTPUT_DIR = args.out
 EPISODE_BATCH = args.batch
+DEVICE = args.device
 
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -169,7 +179,7 @@ def MPPI_batched(womodel, XP, dim):
     """Batched MPPI: run ``B`` start/goal pairs' rollouts together on the GPU.
 
 
-    ``XP`` is a (B, 2*dim) tensor on cuda (each row ``[start(dim) | goal(dim)]``,
+    ``XP`` is a (B, 2*dim) tensor on the run device (each row ``[start(dim) | goal(dim)]``,
     rotvec stored normalized by 2*pi).  This is the vectorized-over-episodes form
     of the single-episode ``MPPI`` in evaluate_training_3d.py: identical sampling,
     cost, softmax-weighting and convergence rule, just with a leading batch axis.
@@ -430,7 +440,7 @@ modelPath = './Experiments/3dshape'
 dataPath = args.dataPath
 
 
-womodel = md.Model(modelPath, dataPath, DIM, [0.0] * DIM, device='cuda')
+womodel = md.Model(modelPath, dataPath, DIM, [0.0] * DIM, device=DEVICE)
 
 
 # Prefer the always-current latest.pt written every epoch by training; fall back
@@ -446,7 +456,7 @@ else:
     pt = ckpts[-1]
 
 
-pt = './Experiments/3dshape/3dshape_08_01_12_19/latest.pt'
+pt = './Experiments/3dshape/3dshape_08_08_22_26/latest.pt'
 
 print(f'Loading checkpoint: {pt}')
 
@@ -457,6 +467,18 @@ womodel.network.eval()
 
 arr = np.load(os.path.join(dataPath, 'sampled_points.npy'))       # (N, 12)
 arr_speeds = np.load(os.path.join(dataPath, 'speed.npy'))         # (N, 2)
+
+
+# Per-endpoint clearance proxies, used only for the end-of-run frequency tables.
+# Column 0 is the START (x0), column 1 the GOAL (x1).  Optional: older datasets
+# may predate them, in which case the tables are skipped.
+def _try_load(name):
+    p = os.path.join(dataPath, name)
+    return np.load(p) if os.path.exists(p) else None
+
+
+arr_speed_dists = _try_load('speed_dists.npy')                    # (N, 2) or None
+arr_speed_angles = _try_load('speed_angles.npy')                  # (N, 2) or None
 
 
 # Reconstruct the shape + wall meshes in the normalized frame from meta.json
@@ -492,8 +514,8 @@ env_collision_pts = np.ascontiguousarray(
 
 test_list = []
 test_list_speed = []
-for i in range(1000):
-    curr = torch.tensor(arr[i]).cuda()
+for i in range(500):
+    curr = torch.tensor(arr[i]).to(DEVICE)
     test_list.append(curr)
     test_list_speed.append(min(arr_speeds[i]))
 
@@ -540,13 +562,21 @@ print(f"\nEndpoint check took {timer() - filter_start:.1f}s: "
 # Batched evaluation loop (MPPI rollouts run EPISODE_BATCH at a time on the GPU)
 # ──────────────────────────────────────────────────────────────────────────────
 total = 0
+total_flip = 0         # successes of the flipped (goal -> start) attempt alone
+total_either = 0       # successes of EITHER attempt -- the 2-path planner
+n_rescued = 0          # regular failed but flipped succeeded
 n_collision = 0
 n_no_conv = 0
+n_collision_flip = 0
+n_no_conv_flip = 0
 n_lin_valid = 0       # cases where the straight-line start->goal path is collision-free
 n_succ_lin_valid = 0  # planner successes among cases where linear interp is valid
 n_succ_lin_invalid = 0  # planner successes among cases where linear interp is invalid
 success_list = []
 fail_list = []
+failed_idx = []        # original test-case index of every FAILED episode
+failed_both_idx = []   # index of every case where BOTH regular AND flipped failed
+rescued_idx = []       # index of every case the flip rescued (regular fail, flip pass)
 test_list_speed_failed = []
 episodes = []          # per-episode data for the interactive viser viewer
 
@@ -558,11 +588,20 @@ eval_start = timer()
 for chunk_start in range(0, n_total, EPISODE_BATCH):
     chunk = eval_list[chunk_start:chunk_start + EPISODE_BATCH]
     XPb = torch.stack([c.reshape(2 * DIM) for c in chunk], dim=0)   # (B, 2*DIM)
+    # Second attempt at the same case, planned BACKWARDS (goal -> start).  Rows are
+    # [start | goal], so flipping is a half-swap.  tau is symmetric by construction
+    # but the MPPI rollout is not: it is stochastic and descends the field from a
+    # different end, so a case whose forward rollout gets trapped can still be
+    # solvable in reverse.  Two paths are generated per case and the case counts as
+    # solved if EITHER succeeds.
+    XPb_flip = torch.cat([XPb[:, DIM:2 * DIM], XPb[:, 0:DIM]], dim=1)
 
 
     # Batched MPPI rollout for the whole chunk (network-heavy part, on GPU).
     with torch.no_grad():
         points_list, iters, successes = MPPI_batched(womodel, XPb.clone(), dim=DIM)
+        points_list_f, iters_f, successes_f = MPPI_batched(
+            womodel, XPb_flip.clone(), dim=DIM)
 
 
     # Model-predicted speed at every waypoint of every episode, computed in one
@@ -620,6 +659,17 @@ for chunk_start in range(0, n_total, EPISODE_BATCH):
             n_no_conv += 1
 
 
+        # ── Flipped attempt (goal -> start), scored by the same rules ──
+        collision_f = check_trajectory_collision(
+            points_list_f[b], env_collision_pts, shape_V, shape_F, shape_radius)
+        did_not_converge_f = not successes_f[b]
+        if collision_f:
+            n_collision_flip += 1
+        if did_not_converge_f:
+            n_no_conv_flip += 1
+        ok_flip = successes_f[b] and not collision_f
+
+
         # Linear-interpolation baseline: is the straight line from start to goal a
         # collision-free path on its own?  (Independent of what the planner found.)
         lin_traj = linear_interp_traj(XP[0, 0:DIM], XP[0, DIM:2 * DIM])
@@ -631,10 +681,22 @@ for chunk_start in range(0, n_total, EPISODE_BATCH):
 
 
         ok = success and not collision
+        ok_either = ok or ok_flip
+        if ok_flip:
+            total_flip += 1
+        if ok_either:
+            total_either += 1
+        if ok_either and not ok:
+            n_rescued += 1
+            rescued_idx.append(cnt2)
+        if not ok_either:
+            # Hard failure: the flip did not rescue it either.
+            failed_both_idx.append(cnt2)
         status = 'success' if ok else 'fail'
         episodes.append({
             'idx': cnt2,
             'status': status,
+            'status_flip': 'success' if ok_flip else 'fail',
             'waypoints': waypoints,
             'begin_cfg': begin_cfg,
             'end_cfg': end_cfg,
@@ -644,6 +706,8 @@ for chunk_start in range(0, n_total, EPISODE_BATCH):
 
         print(
             f"[{cnt2:03d}] {'PASS' if ok else 'FAIL'}  "
+            f"flipped={'PASS' if ok_flip else 'FAIL'}  "
+            f"either={'PASS' if ok_either else 'FAIL'}  "
             f"did_not_converge={did_not_converge}  "
             f"collision={collision}  "
             f"linear_interp_valid={lin_valid}")
@@ -658,6 +722,7 @@ for chunk_start in range(0, n_total, EPISODE_BATCH):
                 n_succ_lin_invalid += 1
         else:
             fail_list.append(diff[:3])
+            failed_idx.append(cnt2)
             test_list_speed_failed.append(test_list_speed[cnt2])
 
 
@@ -671,8 +736,18 @@ success_rate = total / n_total if n_total else 0.0
 n_lin_invalid = n_total - n_lin_valid
 lin_valid_success_rate = n_succ_lin_valid / n_lin_valid if n_lin_valid else 0.0
 lin_invalid_success_rate = n_succ_lin_invalid / n_lin_invalid if n_lin_invalid else 0.0
+flip_rate = total_flip / n_total if n_total else 0.0
+either_rate = total_either / n_total if n_total else 0.0
 print(f"discarded (start/goal in collision): {n_invalid_endpoints} / {n_cases}")
 print(f"total: {total} / {n_total}  ({success_rate:.1%})")
+print(f"\n--- two-path planner (regular + flipped) ---")
+print(f"  step 1  regular (start->goal): {total} / {n_total}  ({success_rate:.1%})")
+print(f"          flipped (goal->start): {total_flip} / {n_total}  ({flip_rate:.1%})")
+print(f"  step 2  EITHER succeeded     : {total_either} / {n_total}  ({either_rate:.1%})")
+print(f"          rescued by the flip  : {n_rescued}  "
+      f"(+{either_rate - success_rate:.1%} over regular alone)")
+print(f"          failed BOTH ways     : {len(failed_both_idx)} / {n_total}  "
+      f"({(1 - either_rate):.1%})")
 print(f"success | linear interp valid  : {n_succ_lin_valid} / {n_lin_valid}  "
       f"({lin_valid_success_rate:.1%})")
 print(f"success | linear interp invalid: {n_succ_lin_invalid} / {n_lin_invalid}  "
@@ -693,6 +768,15 @@ summary_lines = [
     f"  collision                  : {n_collision}",
     f"  no_converge                : {n_no_conv}",
     f"success_rate                 : {success_rate:.4f}  ({success_rate:.1%})",
+    f"successes_flipped            : {total_flip}"
+    f"  (collision: {n_collision_flip}, no_converge: {n_no_conv_flip})",
+    f"success_rate_flipped         : {flip_rate:.4f}  ({flip_rate:.1%})",
+    f"successes_either             : {total_either}   [regular OR flipped]",
+    f"success_rate_either          : {either_rate:.4f}  ({either_rate:.1%})",
+    f"rescued_by_flip              : {n_rescued}",
+    f"failures_both                : {len(failed_both_idx)}"
+    f"   [regular AND flipped both failed]",
+    f"failure_rate_both            : {1 - either_rate:.4f}  ({1 - either_rate:.1%})",
     f"linear_interp_valid          : {n_lin_valid} / {n_total}",
     f"success_rate|lin_interp_valid: {lin_valid_success_rate:.4f}  "
     f"({lin_valid_success_rate:.1%})  [{n_succ_lin_valid}/{n_lin_valid}]",
@@ -738,6 +822,124 @@ if test_list_speed_failed:
     fig.update_layout(title='Distribution of Speed (Failed Cases)',
                       xaxis_title='Speed Value', yaxis_title='Frequency', bargap=0.05)
     fig.write_html(os.path.join(OUTPUT_DIR, 'summary_speed_failed.html'), include_plotlyjs='cdn')
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Failure frequency tables over the (speed_dist x speed_angle) grid
+# ──────────────────────────────────────────────────────────────────────────────
+# Where the FAILED episodes sit in clearance space -- one table binned by the
+# start's clearance, one by the goal's.  Both cover the same set of failed cases
+# (an episode fails as a whole), so the two grand totals are equal; what differs
+# is which endpoint's clearance is used as the coordinate.  Bins are uniform over
+# [0,1], the range both proxies are already normalized to.  Cases discarded by
+# the endpoint filter never ran, so they are absent from both.
+def print_speed_freq_table(title, rows, sd_col, sa_col, html_name=None):
+    """Frequency of `rows` over the speed_dist x speed_angle grid, with margins.
+
+    If `html_name` is given, the same grid is also written to OUTPUT_DIR as a
+    plotly heatmap (rows = angular-speed bin, cols = translational-speed bin).
+    """
+    if arr_speed_dists is None or arr_speed_angles is None:
+        print(f'\n{title}: skipped (speed_dists.npy / speed_angles.npy not in {dataPath})')
+        return
+    if not rows:
+        print(f'\n{title}: none')
+        return
+    idx = np.asarray(rows)
+    sd = np.asarray(arr_speed_dists)[idx, sd_col].astype(np.float64)
+    sa = np.asarray(arr_speed_angles)[idx, sa_col].astype(np.float64)
+
+    nb_d, nb_a = args.nbins_dist, args.nbins_angle
+    di = np.clip((sd * nb_d).astype(np.int64), 0, nb_d - 1)
+    ai = np.clip((sa * nb_a).astype(np.int64), 0, nb_a - 1)
+    grid = np.zeros((nb_a, nb_d), dtype=np.int64)
+    np.add.at(grid, (ai, di), 1)
+
+    print('\n' + '=' * (13 + 8 * nb_d + 9))
+    print(f'{title}   N = {len(idx)}')
+    print('rows = speed_angle bin, cols = speed_dist bin  (0 = tight -> 1 = open)')
+    print('=' * (13 + 8 * nb_d + 9))
+    hdr = ' angle\\dist '
+    for d in range(nb_d):
+        hdr += '%8s' % ('%.2f' % ((d + 0.5) / nb_d))
+    print(hdr + '  |   total')
+    for a in range(nb_a - 1, -1, -1):                 # high angle on top
+        row = '%11s ' % ('%.2f' % ((a + 0.5) / nb_a))
+        for d in range(nb_d):
+            row += '%8d' % grid[a, d]
+        print(row + '  |%8d' % grid[a].sum())
+    print(' ' * 12 + '-' * (8 * nb_d + 11))
+    row = '%11s ' % 'total'
+    for d in range(nb_d):
+        row += '%8d' % grid[:, d].sum()
+    print(row + '  |%8d' % grid.sum())
+
+    if html_name is not None:
+        d_centers = [(d + 0.5) / nb_d for d in range(nb_d)]
+        a_centers = [(a + 0.5) / nb_a for a in range(nb_a)]
+        fig = go.Figure(go.Heatmap(
+            z=grid, x=d_centers, y=a_centers, colorscale='Reds',
+            text=grid, texttemplate='%{text}', hovertemplate=(
+                'trans speed %{x:.2f}<br>angular speed %{y:.2f}'
+                '<br>count %{z}<extra></extra>'),
+            colorbar=dict(title='count')))
+        fig.update_layout(title=f'{title}   (N = {len(idx)})',
+                          xaxis_title='speed_dist bin (0 = tight -> 1 = open)',
+                          yaxis_title='speed_angle bin (0 = tight -> 1 = open)')
+        path = os.path.join(OUTPUT_DIR, html_name)
+        fig.write_html(path, include_plotlyjs='cdn')
+        print('Wrote ' + path)
+
+
+print_speed_freq_table('FREQUENCY: FAILED episodes, binned by START clearance',
+                       failed_idx, 0, 0)
+print_speed_freq_table('FREQUENCY: FAILED episodes, binned by END POINT clearance',
+                       failed_idx, 1, 1)
+
+
+# ── Hard failures: neither the regular nor the flipped rollout solved the case ──
+# These are the cases the flip could not rescue, so they isolate genuinely hard
+# geometry rather than an unlucky rollout direction.  Same grid as above, one
+# table/heatmap per endpoint.
+print_speed_freq_table(
+    'FREQUENCY: FAILED BOTH WAYS (regular AND flipped), binned by START clearance',
+    failed_both_idx, 0, 0, html_name='summary_failed_both_start.html')
+print_speed_freq_table(
+    'FREQUENCY: FAILED BOTH WAYS (regular AND flipped), binned by END POINT clearance',
+    failed_both_idx, 1, 1, html_name='summary_failed_both_end.html')
+
+
+# ── Rescued: the regular run failed but the flipped run solved it ──
+# These isolate the cases where the planning DIRECTION is what mattered.  The
+# test pairs are symmetric by construction (preprocess_obj --testing_data draws
+# both endpoints as independent uniform collision-free placements), so a global
+# directional preference cannot show up in the marginal rates -- it can only show
+# up here, in WHERE the rescued cases sit in clearance space.
+#
+# Read the two tables against each other: if the flip helps because entering a
+# tight goal is harder than leaving a tight start, the rescued mass concentrates
+# in LOW bins of the END table and HIGH bins of the START table.  If instead the
+# two tables look alike (and alike to the overall clearance distribution), the
+# rescues are just MPPI's per-rollout randomness and carry no directional signal.
+#
+# The baseline below is what makes the rescued tables readable: it is the same
+# grid over EVERY evaluated case, so "the rescues sit in the low-clearance bins"
+# can be told apart from "most cases sit in the low-clearance bins".  Compare
+# rescued-cell / baseline-cell, not the raw rescued counts.
+print_speed_freq_table(
+    'BASELINE: ALL evaluated episodes, binned by START clearance',
+    eval_idx, 0, 0)
+print_speed_freq_table(
+    'BASELINE: ALL evaluated episodes, binned by END POINT clearance',
+    eval_idx, 1, 1)
+
+
+print_speed_freq_table(
+    'FREQUENCY: RESCUED BY FLIP (regular fail, flipped pass), binned by START clearance',
+    rescued_idx, 0, 0, html_name='summary_rescued_start.html')
+print_speed_freq_table(
+    'FREQUENCY: RESCUED BY FLIP (regular fail, flipped pass), binned by END POINT clearance',
+    rescued_idx, 1, 1, html_name='summary_rescued_end.html')
 
 
 # ──────────────────────────────────────────────────────────────────────────────

@@ -395,7 +395,7 @@ else:
 
 
 #pt = './Experiments/3dshape/3dshape_06_13_18_59/Model_Epoch_05000_ValLoss_1.170522e-02.pt'
-pt = './Experiments/3dshape/3dshape_06_30_16_59/latest.pt'
+pt = './Experiments/3dshape/3dshape_08_06_17_05/latest.pt'
 
 print(f'Loading checkpoint: {pt}')
 
@@ -443,7 +443,7 @@ env_collision_pts = np.ascontiguousarray(
 
 test_list = []
 test_list_speed = []
-for i in range(100):
+for i in range(1000):
     curr = torch.tensor(arr[i]).cuda()
     test_list.append(curr)
     test_list_speed.append(min(arr_speeds[i]))

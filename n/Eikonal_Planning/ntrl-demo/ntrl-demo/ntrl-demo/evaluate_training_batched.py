@@ -4,7 +4,7 @@ sys.path.append('.')
 import os
 from glob import glob
 
-from models.metric import model_train_metric as md
+from models.metric_2dshape import model_train_metric as md
 import torch
 import numpy as np
 import matplotlib.pyplot as plt

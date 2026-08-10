@@ -1,0 +1,286 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{booktabs}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{remark}[proposition]{Remark}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\Exp}{Exp}
+\DeclareMathOperator{\Log}{Log}
+\DeclareMathOperator{\sinc}{sinc}
+\newcommand{\so}{\mathfrak{so}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ip}[2]{\langle #1,\, #2 \rangle}
+\newcommand{\skewm}[1]{[#1]_{\times}}
+\newcommand{\Jl}{J_{\ell}}
+\newcommand{\Jr}{J_{r}}
+
+\title{Spatial versus chart gradients on $\SO(3)$\\
+{\large why $\nabla_r f = \Jl(r)^{\!\top}\nabla_\omega f$}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Setup}
+
+Let $\skewm{\cdot}:\R^3\to\so(3)$ be the hat map,
+\[
+  \skewm{v} =
+  \begin{pmatrix}
+    0 & -v_3 & v_2\\
+    v_3 & 0 & -v_1\\
+    -v_2 & v_1 & 0
+  \end{pmatrix},
+  \qquad \skewm{v}w = v\times w,
+\]
+and let $\Exp:\R^3\to\SO(3)$ be the exponential map, given by Rodrigues' formula
+\[
+  \Exp(r) = I + \frac{\sin\theta}{\theta}\skewm{r}
+          + \frac{1-\cos\theta}{\theta^{2}}\skewm{r}^{2},
+  \qquad \theta := \lVert r\rVert .
+\]
+We call $r$ the \emph{rotation vector} (the chart coordinate) and $R=\Exp(r)$ the
+group element it represents.
+
+Let $f:\SO(3)\to\R$ be a differentiable scalar field --- in our application the
+translational clearance $d$, the angular clearance $\alpha$, or the travel time
+$T$. There are two inequivalent notions of ``the gradient of $f$'', and the
+entire issue is that our pipeline computes one and consumes the other.
+
+\begin{description}
+\item[Chart gradient.] Set $F := f\circ\Exp:\R^3\to\R$. Then
+  $\nabla_r f := \nabla F(r)\in\R^3$ is the ordinary Euclidean gradient of the
+  composed map. \emph{This is what automatic differentiation returns}, because
+  the network consumes $r$ (in our code, $r/2\pi$) as an input vector.
+
+\item[Spatial gradient.] For $\omega\in\R^3$ define the left (spatial)
+  directional derivative
+  \[
+    D_\omega f(R) := \left.\frac{d}{dt}\right|_{t=0} f\!\left(\Exp(t\omega)\,R\right).
+  \]
+  This is linear in $\omega$, so there is a unique $\nabla_\omega f\in\R^3$ with
+  $D_\omega f = \ip{\nabla_\omega f}{\omega}$. \emph{This is what the geometric
+  preprocessing computes} (see Section~\ref{sec:app}), because it perturbs the
+  placement by a physical rotation, not by a coordinate increment.
+\end{description}
+
+\section{The left Jacobian}
+
+\begin{definition}
+The \emph{left Jacobian} $\Jl(r)\in\R^{3\times3}$ is defined by the first-order
+expansion
+\begin{equation}\label{eq:jldef}
+  \Exp(r+\delta) \;=\; \Exp\!\big(\Jl(r)\,\delta + O(\lVert\delta\rVert^{2})\big)\,\Exp(r).
+\end{equation}
+\end{definition}
+
+Equation~\eqref{eq:jldef} says precisely: \emph{a coordinate increment $\delta$
+produces, to first order, a spatial rotation $\omega = \Jl(r)\delta$.}
+It admits the closed form
+\begin{equation}\label{eq:jlclosed}
+  \Jl(r) \;=\; I \;+\; \frac{1-\cos\theta}{\theta^{2}}\skewm{r}
+              \;+\; \frac{\theta-\sin\theta}{\theta^{3}}\skewm{r}^{2}.
+\end{equation}
+
+\section{The relation}
+
+\begin{proposition}\label{prop:main}
+For all $r$ with $\theta=\lVert r\rVert<\pi$,
+\[
+  \boxed{\;\nabla_r f \;=\; \Jl(r)^{\!\top}\,\nabla_\omega f\;}
+\]
+\end{proposition}
+
+\begin{proof}
+Fix $r$ and let $\delta\in\R^3$. Applying \eqref{eq:jldef} and then the
+definition of the spatial gradient with $\omega=\Jl(r)\delta$,
+\begin{align*}
+  F(r+\delta)
+    &= f\!\big(\Exp(r+\delta)\big) \\
+    &= f\!\left(\Exp\big(\Jl(r)\delta + O(\lVert\delta\rVert^{2})\big)\,\Exp(r)\right)\\
+    &= f\!\big(\Exp(r)\big) \;+\; \ip{\nabla_\omega f}{\Jl(r)\delta} \;+\; O(\lVert\delta\rVert^{2})\\
+    &= F(r) \;+\; \ip{\Jl(r)^{\!\top}\nabla_\omega f}{\delta} \;+\; O(\lVert\delta\rVert^{2}).
+\end{align*}
+Comparing with $F(r+\delta) = F(r) + \ip{\nabla F(r)}{\delta} + O(\lVert\delta\rVert^2)$
+and using uniqueness of the gradient gives $\nabla F(r) = \Jl(r)^{\!\top}\nabla_\omega f$.
+\end{proof}
+
+\begin{remark}[Why the transpose]
+A gradient is a \emph{covector}. Tangent vectors push forward by $\Jl$
+(Eq.~\eqref{eq:jldef}); covectors therefore pull back by $\Jl^{\!\top}$. Confusing
+the two is the practical trap: see Corollary~\ref{cor:vecvscovec}.
+\end{remark}
+
+\section{Structure of $\Jl$}
+
+Write $\hat r = r/\theta$. Using $\skewm{r}=\theta\skewm{\hat r}$ and
+$\skewm{r}^{2}=\theta^{2}\big(\hat r\hat r^{\top}-I\big)$ in \eqref{eq:jlclosed}
+and collecting terms,
+\begin{equation}\label{eq:jlspectral}
+  \Jl(r) \;=\; \frac{\sin\theta}{\theta}\,I
+         \;+\; \left(1-\frac{\sin\theta}{\theta}\right)\hat r\hat r^{\top}
+         \;+\; \frac{1-\cos\theta}{\theta}\,\skewm{\hat r}.
+\end{equation}
+
+\begin{proposition}\label{prop:spectral}
+Decompose $\R^{3}=\operatorname{span}(\hat r)\oplus \hat r^{\perp}$. Then
+\begin{enumerate}
+\item $\Jl(r)\,\hat r = \hat r$: the axial direction is fixed exactly, with unit gain.
+\item On $\hat r^{\perp}$, $\Jl(r)$ acts as a rotation by $\theta/2$ within that
+  plane, scaled by $\sinc(\theta/2) = \dfrac{\sin(\theta/2)}{\theta/2}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) is immediate from \eqref{eq:jlspectral}, since $\hat r\hat r^\top \hat r=\hat r$
+and $\skewm{\hat r}\hat r=0$, giving
+$\Jl\hat r = \tfrac{\sin\theta}{\theta}\hat r + (1-\tfrac{\sin\theta}{\theta})\hat r = \hat r$.
+
+For (2), on $\hat r^{\perp}$ the term $\hat r\hat r^{\top}$ vanishes and
+$\skewm{\hat r}$ acts as a rotation by $\pi/2$ inside the plane. Hence
+$\Jl|_{\perp} = a\,I_{\perp} + b\,\mathrm{Rot}_{\pi/2}$ with
+$a=\sin\theta/\theta$, $b=(1-\cos\theta)/\theta$, which is the rotation by
+$\arctan(b/a)$ scaled by $\sqrt{a^{2}+b^{2}}$. Now
+\[
+  a^{2}+b^{2}
+  = \frac{\sin^{2}\theta + 1 - 2\cos\theta + \cos^{2}\theta}{\theta^{2}}
+  = \frac{2-2\cos\theta}{\theta^{2}}
+  = \frac{4\sin^{2}(\theta/2)}{\theta^{2}},
+\]
+so $\sqrt{a^2+b^2} = \dfrac{2\sin(\theta/2)}{\theta} = \sinc(\theta/2)$, and
+\[
+  \arctan\frac{b}{a}
+  = \arctan\frac{1-\cos\theta}{\sin\theta}
+  = \arctan\frac{2\sin^{2}(\theta/2)}{2\sin(\theta/2)\cos(\theta/2)}
+  = \arctan\tan\frac{\theta}{2}
+  = \frac{\theta}{2}. \qedhere
+\]
+\end{proof}
+
+\begin{corollary}
+$\Jl(r)^{\!\top} = \Jl(-r) =: \Jr(r)$, the right Jacobian. It fixes $\hat r$ and
+acts on $\hat r^{\perp}$ as $\sinc(\theta/2)$ times a rotation by $-\theta/2$.
+\end{corollary}
+
+\begin{corollary}[Combined probe attenuation]
+Take a coordinate step $\delta = s\,u$ with $u\perp\hat r$ a unit vector. The
+induced spatial rotation has magnitude $s\,\sinc(\theta/2)$, and its axis is
+rotated by $\theta/2$ away from $u$. The component of the rotation actually
+about $u$ therefore carries the factor
+\[
+  \sinc(\theta/2)\cos(\theta/2)
+  = \frac{2\sin(\theta/2)\cos(\theta/2)}{\theta}
+  = \frac{\sin\theta}{\theta} = \sinc(\theta),
+\]
+which vanishes at $\theta=\pi$.
+\end{corollary}
+
+\begin{corollary}[Vectors versus covectors]\label{cor:vecvscovec}
+Let $n$ be a direction expressed in the spatial frame.
+\begin{itemize}
+\item To \emph{step} so that the placement rotates about $n$ (a tangent vector),
+  the chart increment is $\delta \propto \Jl(r)^{-1} n$.
+\item To \emph{compare} $n$ against a chart-space gradient such as
+  $\nabla_r T$ (a covector), the chart-space direction is
+  $\propto \Jl(r)^{\!\top} n$.
+\end{itemize}
+These differ. Since $\Jl^{-1}$ and $\Jl^{\!\top}$ both fix $\hat r$ and both
+rotate $\hat r^{\perp}$ by $-\theta/2$ but with reciprocal scalings
+$\sinc(\theta/2)^{-1}$ and $\sinc(\theta/2)$, they act identically only on
+vectors that are purely axial or purely perpendicular.
+\end{corollary}
+
+\section{Application to the preprocessed normals}\label{sec:app}
+
+Both geometric quantities produced by the preprocessing are \emph{spatial}
+gradients, so both require Proposition~\ref{prop:main} before being compared
+with a network gradient.
+
+\paragraph{Translational clearance.}
+Let $s^{\star}$ be the closest point of the placed body to the obstacle set,
+$c$ the placement centre, $\rho := s^{\star}-c$, and $n_{ws}$ the unit contact
+normal. An infinitesimal spatial rotation $\omega$ displaces $s^{\star}$ by
+$\omega\times\rho$, so the clearance $d$ changes by
+\[
+  \delta d = \ip{n_{ws}}{\omega\times\rho} = \ip{\omega}{\rho\times n_{ws}}
+  \quad\Longrightarrow\quad
+  \nabla_\omega d = \rho\times n_{ws} \;=:\; \mathrm{moment}.
+\]
+Hence the chart gradient, in the $2\pi$-normalised coordinate
+$\tilde r = r/2\pi$, is
+\[
+  \nabla_{\tilde r}\, d \;=\; 2\pi\,\Jl(r)^{\!\top}\big(\rho\times n_{ws}\big),
+\]
+whereas the code stores $2\pi\,(\rho\times n_{ws})$, i.e.\ it omits
+$\Jl(r)^{\!\top}$.
+
+\paragraph{Angular clearance.}
+Let $\alpha=\arccos\ip{u_s}{u_e}$ with $u_s,u_e$ unit spatial directions from
+the centre. Then $\delta\ip{u_s}{u_e} = \ip{\omega\times u_s}{u_e}
+= \ip{\omega}{u_s\times u_e}$, and since
+$\delta\alpha = -\delta\cos\alpha/\sin\alpha$,
+\[
+  \nabla_\omega \alpha \;=\; -\,\frac{u_s\times u_e}{\sin\alpha}.
+\]
+So the stored axis $\texttt{rot\_n}=\widehat{u_s\times u_e}$ is the normalised
+spatial direction of steepest \emph{decrease} of $\alpha$. Its chart-space
+counterpart --- the object that may legitimately be aligned against
+$\nabla_{\tilde r}T$ --- is
+\[
+  \widehat{\Jl(r)^{\!\top}\big(u_s\times u_e\big)}.
+\]
+
+\begin{remark}[The $2\pi$ is harmless; the Jacobian is not]
+Rescaling $r\mapsto r/2\pi$ multiplies the gradient by the scalar $2\pi$ and
+therefore leaves \emph{directions} unchanged. Any purely directional loss (e.g.\
+normal alignment) is insensitive to it. By contrast $\Jl^{\!\top}$ scales the
+component perpendicular to $\hat r$ by $\sinc(\theta/2)$ while fixing the axial
+component, \emph{and} rotates the perpendicular part by $-\theta/2$; both change
+the direction.
+\end{remark}
+
+\paragraph{Magnitude of the error.}
+Table~\ref{tab:err} reports the angle between $n$ and
+$\widehat{\Jl(r)^{\!\top}n}$ for $n$ drawn uniformly on the sphere and
+independent of $\hat r$, which matches how the contact axis $u_s\times u_e$
+relates to the base rotation in our sampler.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lrr}
+\toprule
+$\theta=\lVert r\rVert$ & mean dev. & max dev. \\
+\midrule
+$0.25$   & $5.6^{\circ}$  & $7.2^{\circ}$ \\
+$0.50$   & $11.3^{\circ}$ & $14.3^{\circ}$ \\
+$1.00$   & $22.5^{\circ}$ & $28.6^{\circ}$ \\
+$\pi/2$  & $34.9^{\circ}$ & $45.0^{\circ}$ \\
+$2.00$   & $43.8^{\circ}$ & $57.3^{\circ}$ \\
+$2.50$   & $53.5^{\circ}$ & $71.6^{\circ}$ \\
+$3.00$   & $63.0^{\circ}$ & $85.9^{\circ}$ \\
+\midrule
+$\theta\sim\mathcal{U}[0,\pi]$ & \multicolumn{2}{c}{mean $33.7^{\circ}$,\; median $30.6^{\circ}$,\; p95 $75.0^{\circ}$} \\
+\bottomrule
+\end{tabular}
+\caption{Misalignment incurred by treating the spatial axis as a chart-space
+covector. The base rotation angle is drawn as $\theta\sim\mathcal{U}[0,\pi]$ by
+the sampler, giving the aggregate figures in the last row.}
+\label{tab:err}
+\end{table}
+
+\begin{remark}[Translation]
+For the translational block the configuration space is the vector space $\R^{3}$:
+the chart is the group, $\Jl\equiv I$, and vectors and covectors transform
+identically. The stored $n_{ws}$ therefore needs no correction, which is why the
+translational terms behave while the rotational ones do not.
+\end{remark}
+
+\end{document}

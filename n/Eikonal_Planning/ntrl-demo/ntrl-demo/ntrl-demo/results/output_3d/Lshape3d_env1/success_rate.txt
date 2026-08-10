@@ -1,14 +1,21 @@
 data_path                    : testing_data/3dshape/Lshape3d_env1
 model_path                   : ./Experiments/3dshape
-checkpoint                   : ./Experiments/3dshape/3dshape_08_01_12_19/latest.pt
-test_cases                   : 1000
-discarded_invalid_endpoints  : 34  (start: 20, goal: 14)
-episodes                     : 966   [evaluated = test_cases - discarded]
-successes                    : 706
-failures                     : 260
-  collision                  : 249
-  no_converge                : 52
-success_rate                 : 0.7308  (73.1%)
-linear_interp_valid          : 201 / 966
-success_rate|lin_interp_valid: 0.9303  (93.0%)  [187/201]
-success_rate|lin_interp_fail : 0.6784  (67.8%)  [519/765]
+checkpoint                   : ./Experiments/3dshape/3dshape_08_08_22_26/latest.pt
+test_cases                   : 500
+discarded_invalid_endpoints  : 21  (start: 13, goal: 10)
+episodes                     : 479   [evaluated = test_cases - discarded]
+successes                    : 397
+failures                     : 82
+  collision                  : 73
+  no_converge                : 32
+success_rate                 : 0.8288  (82.9%)
+successes_flipped            : 386  (collision: 83, no_converge: 32)
+success_rate_flipped         : 0.8058  (80.6%)
+successes_either             : 449   [regular OR flipped]
+success_rate_either          : 0.9374  (93.7%)
+rescued_by_flip              : 52
+failures_both                : 30   [regular AND flipped both failed]
+failure_rate_both            : 0.0626  (6.3%)
+linear_interp_valid          : 111 / 479
+success_rate|lin_interp_valid: 0.9279  (92.8%)  [103/111]
+success_rate|lin_interp_fail : 0.7989  (79.9%)  [294/368]

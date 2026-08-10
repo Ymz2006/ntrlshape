@@ -30,7 +30,7 @@ import numpy as np
 import torch
 import plotly.graph_objects as go
 
-from models.metric import model_train_metric as md
+from models.metric_2dshape import model_train_metric as md
 from dataprocessing.parse_shape import dxf_to_shape, shape_to_points
 from visualfunctions import visual_training
 

@@ -272,16 +272,43 @@ class Function():
         T = tau[:,0] #* torch.sqrt(T0)
         diff = loss0 + loss1 
 
-        normal_weight = 0
+
+
+
+
+        normal_weight = 0#1e-3
 
         normal0 = normal[:,:self.dim]
         normal1 = normal[:,self.dim:]
-        #print(normal0)
-        #print(DT0)
-        n_loss0 = (1.001-Yobs[:,0].unsqueeze(1)) * (Yobs[:,0].unsqueeze(1)*DT0+normal0)**2
-        n_loss1 = (1.001-Yobs[:,1].unsqueeze(1)) * (Yobs[:,1].unsqueeze(1)*DT1+normal1)**2
-        #print(n_loss0.shape)
-        #n_loss = normal_weight*torch.sum(n_loss0,dim=1)
+
+
+        DT0_dist = dtau[:,:half_dim]
+        DT0_ang = dtau[:,half_dim : self.dim]
+        DT1_dist = dtau[:,self.dim : self.dim+half_dim]        
+        DT1_ang = dtau[:,self.dim+half_dim:]  
+
+
+        # Block-split normal alignment (band point x0 only), mirroring the way the
+        # eikonal term is split into dist / angle.  Per block:
+        #     (1 - S*) * || S* * grad_block(tau)  +  n_block ||^2
+        # with S* the GROUND-TRUTH speed for that block -- a (B,) scalar, so it needs
+        # .unsqueeze(1) to broadcast across the 3 components of its gradient block.
+        #
+        # trans_n / rot_n point toward DECREASING clearance (trans_n = -n_ws, and
+        # rot_axis = u_s x u_e closes the min angle), whereas this loss wants
+        # grad S*/|grad S*|, which points AWAY from the obstacle -- hence the sign
+        # flip.  Both are already unit vectors within their own 3-component block.
+        sd0 = speed_dist[:, 0].unsqueeze(1)             # (B,1)
+        sa0 = speed_angle[:, 0].unsqueeze(1)            # (B,1)
+
+        n_trans0 = -trans_n[:, :half_dim]               # (B,3)
+        n_rot0 = -rot_n[:, half_dim:self.dim]           # (B,3)
+
+        n_loss0 = (1.001 - sd0) * (sd0 * DT0_dist + n_trans0)**2
+        n_loss1 = (1.001 - sa0) * (sa0 * DT0_ang + n_rot0)**2
+
+
+
         n_loss = normal_weight*(torch.sum(n_loss0,dim=1)+torch.sum(n_loss1,dim=1))
 
 
@@ -311,8 +338,8 @@ class Function():
             dtau_rot = self.gradient(tau_rot, Xp_rot)         # (B, 2*dim)
 
 
-        rate = -1/0.05
-
+        rate_trans = -1/0.05
+        rate_rot = -1/(1/12) # 1/6 pi / 2pi
 
 
         # Gradient magnitudes (sqrt of the einsum squared-magnitude, same +1e-8
@@ -388,18 +415,18 @@ class Function():
                             edges[i], edges[i + 1], int(c), '#' * int(40 * c / cmax)))
 
 
-            err_weight = 8e-5 * min(max((epoch - 1500) / 2000.0, 0.0), 1.0)
+            err_weight = 1e-4 * min(max((epoch - 1500) / 2000.0, 0.0), 1.0)
             trans_err_weight = err_weight
             rot_err_weight = err_weight
 
             dsdn_clip = 10
-            trans_dsdn_c = trans_dsdn.clamp(rate, dsdn_clip)
-            rot_dsdn_c = rot_dsdn.clamp(rate, dsdn_clip)
+            trans_dsdn_c = trans_dsdn.clamp(rate_trans, dsdn_clip)
+            rot_dsdn_c = rot_dsdn.clamp(rate_rot, dsdn_clip)
 
 
 
-            trans_err = trans_err_weight * (rate - trans_dsdn_c) ** 2
-            rot_err = rot_err_weight * (rate - rot_dsdn_c) ** 2
+            trans_err = trans_err_weight * (rate_trans - trans_dsdn_c) ** 2
+            rot_err = rot_err_weight * (rate_rot - rot_dsdn_c) ** 2
             trans_err = torch.where(md, trans_err, torch.zeros_like(trans_err))
             rot_err = torch.where(ma, rot_err, torch.zeros_like(rot_err))
 

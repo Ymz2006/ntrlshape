@@ -120,7 +120,7 @@ class Model():
         self.Params['Training']['Number of sample points'] = 2e5
         self.Params['Training']['Batch Size'] = 2000
         self.Params['Training']['Validation Percentage'] = 10
-        self.Params['Training']['Number of Epochs'] = 5000
+        self.Params['Training']['Number of Epochs'] = 10000
         self.Params['Training']['Resampling Bounds'] = [0.1, 0.9]
         self.Params['Training']['Print Every * Epoch'] = 1
         self.Params['Training']['Save Every * Epoch'] = 500
@@ -307,7 +307,7 @@ class Model():
                     # speed_angle is stored as angle/pi (in [0,1]); recover radians,
                     # cut at the max angle pi/18 (10 deg), then renormalize to [0,1].
 
-                    angle_max = 1*torch.pi/18
+                    angle_max = 1/6
                     angle_min = 0.0001
                     speed_angle = torch.clamp(speed_angle/angle_max, min=angle_min/angle_max, max=1)
 

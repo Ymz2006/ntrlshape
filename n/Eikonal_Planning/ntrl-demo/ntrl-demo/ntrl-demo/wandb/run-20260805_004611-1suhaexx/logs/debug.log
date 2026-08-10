@@ -1,0 +1,597 @@
+2026-08-05 00:46:11,772 INFO    MainThread:525 [wandb_setup.py:_flush():81] Current SDK version is 0.27.1
+2026-08-05 00:46:11,772 INFO    MainThread:525 [wandb_setup.py:_flush():81] Configure stats pid to 525
+2026-08-05 00:46:11,772 INFO    MainThread:525 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-08-05 00:46:11,772 INFO    MainThread:525 [wandb_init.py:setup_run_log_directory():723] Logging user logs to /workspace/ntrl-demo/wandb/run-20260805_004611-1suhaexx/logs/debug.log
+2026-08-05 00:46:11,773 INFO    MainThread:525 [wandb_init.py:setup_run_log_directory():724] Logging internal logs to /workspace/ntrl-demo/wandb/run-20260805_004611-1suhaexx/logs/debug-internal.log
+2026-08-05 00:46:11,773 INFO    MainThread:525 [wandb_init.py:init():766] calling init triggers
+2026-08-05 00:46:11,773 INFO    MainThread:525 [wandb_init.py:init():771] wandb.init called with sweep_config: {}
+config: {'task': '3dshape', 'dim': 6, 'data_path': 'datasets/3dshape/rectangle_env1', 'model_path': './Experiments/3dshape', 'device': 'cuda:0', 'experiment_folder': './Experiments/3dshape/3dshape_08_04_19_46', 'train/Number of sample points': 200000.0, 'train/Batch Size': 2000, 'train/Validation Percentage': 10, 'train/Number of Epochs': 5000, 'train/Resampling Bounds': [0.1, 0.9], 'train/Print Every * Epoch': 1, 'train/Save Every * Epoch': 500, 'train/Learning Rate': 5e-05, 'train/Random Distance Sampling': True, 'train/Use Scheduler (bool)': False, '_wandb': {}}
+2026-08-05 00:46:11,773 INFO    MainThread:525 [wandb_init.py:init():814] starting backend
+2026-08-05 00:46:11,773 INFO    MainThread:525 [wandb_init.py:init():829] sending inform_init request
+2026-08-05 00:46:11,976 INFO    MainThread:525 [wandb_init.py:init():834] backend started and connected
+2026-08-05 00:46:11,993 INFO    MainThread:525 [wandb_init.py:init():904] updated telemetry
+2026-08-05 00:46:11,994 INFO    MainThread:525 [wandb_init.py:init():927] communicating run to backend with 90.0 second timeout
+2026-08-05 00:46:12,251 INFO    MainThread:525 [wandb_init.py:init():972] starting run threads in backend
+2026-08-05 00:46:12,362 INFO    MainThread:525 [wandb_run.py:_console_start():2509] atexit reg
+2026-08-05 00:46:12,363 INFO    MainThread:525 [wandb_run.py:_redirect():2359] redirect: wrap_raw
+2026-08-05 00:46:12,363 INFO    MainThread:525 [wandb_run.py:_redirect():2428] Wrapping output streams.
+2026-08-05 00:46:12,363 INFO    MainThread:525 [wandb_run.py:_redirect():2451] Redirects installed.
+2026-08-05 00:46:12,366 INFO    MainThread:525 [wandb_init.py:init():1010] run started, returning control to user process
+2026-08-05 00:50:11,091 INFO    wandb-AsyncioManager-main:525 [service_client.py:_forward_responses():122] [no run ID] Reached EOF.
+2026-08-05 00:50:11,092 INFO    wandb-AsyncioManager-main:525 [mailbox.py:close():154] [no run ID] Closing mailbox, abandoning 2 handles.
+2026-08-05 00:50:11,092 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/run_messages.py", line 90, in loop
+    await asyncio_compat.race(
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_compat.py", line 279, in race
+    async with open_task_group(race=True) as tg:
+  File "/opt/conda/lib/python3.10/contextlib.py", line 206, in __aexit__
+    await anext(self.gen)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_compat.py", line 241, in open_task_group
+    await task_group._wait_all(race=race, timeout=exit_timeout)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_compat.py", line 181, in _wait_all
+    raise exc
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/run_messages.py", line 113, in _print_all
+    result = await handle.wait_async(timeout=None)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/mailbox/mailbox_handle.py", line 127, in wait_async
+    response = await self._handle.wait_async(timeout=timeout)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/mailbox/response_handle.py", line 123, in wait_async
+    raise HandleAbandonedError()
+wandb.sdk.mailbox.mailbox_handle.HandleAbandonedError
+2026-08-05 00:50:11,450 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,454 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,454 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,455 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,457 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,458 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,460 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,462 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,463 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,463 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,463 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,464 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,465 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,465 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,465 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,466 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,466 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,466 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,467 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,467 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,467 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,468 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,469 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,469 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,469 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,470 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,470 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,470 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,471 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,471 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,471 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,472 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
+2026-08-05 00:50:11,472 ERROR   wandb-AsyncioManager-main:525 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 75, in _send_server_request
+    raise self._broken_exc.with_traceback(self._broken_tb)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 84, in _send_server_request
+    await self._drain_writer()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/service/service_client.py", line 92, in _drain_writer
+    await self._writer.drain()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "/opt/conda/lib/python3.10/asyncio/streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost
