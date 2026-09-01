@@ -1,0 +1,43 @@
+wandb run: 3dshape_08_31_15_26 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/f4hfye2m)
+Files copied successfully!
+train
+(800000, 12)
+(800000, 2)
+(800000, 12)
+(800000, 12) (800000, 2)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+only trans rot
+0.0
+only trans rot
+0.0
+only trans rot
+0.0
+only trans rot
+0.0
+only trans rot
+0.0
+Epoch = 1 -- Loss = 7.5812e-01 -- Alpha = 1.0000e+00
+only trans rot
+0.0
+only trans rot
+0.0
+only trans rot
+0.0
+only trans rot
+0.0
+only trans rot
+0.0
+Epoch = 2 -- Loss = 2.5925e-01 -- Alpha = 1.0000e+00
+only trans rot
+0.0
+only trans rot
+0.0
+only trans rot
+0.0
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/ntrl-demo/train/train_3dshape.py", line 52, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/ntrl-demo/./models/metric/model_train_metric.py", line 344, in train
+    total_train_loss += loss_value.item()
+KeyboardInterrupt

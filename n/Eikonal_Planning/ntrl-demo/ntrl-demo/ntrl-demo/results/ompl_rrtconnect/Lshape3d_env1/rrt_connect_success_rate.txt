@@ -2,17 +2,28 @@ shape                     : datasets/3dshape/Lshape3d.obj
 environment               : datasets/3dshape/env1.obj
 data_path                 : testing_data/3dshape/Lshape3d_env1
 planner                   : RRTConnect (OMPL, SE(3))
-time_limit_per_case       : 5.000 s
-test_cases                : 100
-successes                 : 99
-failures                  : 1
-  no_solution_in_time     : 0
+time_limit_per_case       : 30.000 s  (a case over this = fail)
+path_simplification       : off
+
+test_cases_total          : 1000
+invalid_start_or_goal     : 33  (excluded, unplannable)
+test_cases_scored         : 967  [valid start+goal only]
+successes                 : 960
+failures                  : 7
+  no_solution_in_time     : 7
+  over_time_limit         : 0
   path_in_collision       : 0
-  invalid_start_or_goal   : 1
-success_rate              : 0.9900  (99.0%)
-success_rate|valid_endpts : 1.0000  (100.0%)  [99/99]
-avg_time_per_case         : 0.6596 s
-avg_time_successful_cases : 0.6662 s
-median_time_per_case      : 0.4859 s
-total_time                : 65.96 s
-collision_checks          : 81152
+success_rate              : 0.9928  (99.3%)  [960/967]
+
+time_mean                 : 0.8310 s   [all 967 scored cases]
+time_std                  : 2.5845 s
+time_mean_successful      : 0.6177 s   [960 successful cases]
+time_std_successful       : 0.6645 s
+time_median               : 0.4509 s
+
+path_length_mean          : 3.1169   [960 successful cases]
+path_length_std           : 1.3200
+path_length_total         : 2992.2244
+
+total_time                : 803.53 s
+collision_checks          : 1033968

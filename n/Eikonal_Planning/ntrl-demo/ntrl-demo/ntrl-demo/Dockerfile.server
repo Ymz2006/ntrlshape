@@ -18,6 +18,7 @@ RUN pip install --no-cache-dir \
     shapely \
     descartes \
     plotly \
+    pymunk \
     wandb
 
 WORKDIR /workspace

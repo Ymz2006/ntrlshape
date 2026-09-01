@@ -1,0 +1,29 @@
+data_path                    : testing_data/3dshape/rectangle_env2
+model_path                   : ./Experiments/3dshape
+checkpoint                   : ./Experiments/3dshape/3dshape_08_29_15_41/latest.pt
+test_cases                   : 1000
+mppi_momentum                : 2.0
+mppi_step                    : 0.015   [convergence ball is 0.01]
+mppi_taper                   : 0.0
+mppi_planar (--2d)           : False
+no_conv_min_dis_median       : 0.4571
+no_conv_min_dis_within_2ball : 0 / 33   [overshoot: got inside 0.02 but never inside 0.01]
+discarded_invalid_endpoints  : 136  (start: 71, goal: 70)
+episodes                     : 864   [evaluated = test_cases - discarded]
+successes                    : 731
+failures                     : 133
+  collision                  : 115
+  no_converge                : 33
+success_rate                 : 0.8461  (84.6%)
+successes_flipped            : 728  (collision: 109, no_converge: 51)
+success_rate_flipped         : 0.8426  (84.3%)
+successes_either             : 845   [regular OR flipped]
+success_rate_either          : 0.9780  (97.8%)
+rescued_by_flip              : 114
+lost_by_flip                 : 117   [regular passed but flipped failed; symmetric with rescued_by_flip iff the flip carries no directional signal]
+failures_both                : 19   [regular AND flipped both failed]
+failure_rate_both            : 0.0220  (2.2%)
+failure_corr_phi_flip        : -0.0170   [P(both fail)=0.0220, independent=0.0242]
+linear_interp_valid          : 231 / 864
+success_rate|lin_interp_valid: 0.9351  (93.5%)  [216/231]
+success_rate|lin_interp_fail : 0.8136  (81.4%)  [515/633]

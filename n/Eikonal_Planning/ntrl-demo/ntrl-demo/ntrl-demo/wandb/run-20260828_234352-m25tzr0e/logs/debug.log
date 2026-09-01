@@ -1,0 +1,19 @@
+2026-08-28 23:43:52,983 INFO    MainThread:279 [wandb_setup.py:_flush():81] Current SDK version is 0.27.1
+2026-08-28 23:43:52,984 INFO    MainThread:279 [wandb_setup.py:_flush():81] Configure stats pid to 279
+2026-08-28 23:43:52,984 INFO    MainThread:279 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-08-28 23:43:52,984 INFO    MainThread:279 [wandb_init.py:setup_run_log_directory():723] Logging user logs to /workspace/ntrl-demo/wandb/run-20260828_234352-m25tzr0e/logs/debug.log
+2026-08-28 23:43:52,984 INFO    MainThread:279 [wandb_init.py:setup_run_log_directory():724] Logging internal logs to /workspace/ntrl-demo/wandb/run-20260828_234352-m25tzr0e/logs/debug-internal.log
+2026-08-28 23:43:52,984 INFO    MainThread:279 [wandb_init.py:init():766] calling init triggers
+2026-08-28 23:43:52,984 INFO    MainThread:279 [wandb_init.py:init():771] wandb.init called with sweep_config: {}
+config: {'task': '3dshape', 'dim': 6, 'data_path': 'datasets/3dshape/rectangle_env2', 'model_path': './Experiments/3dshape', 'device': 'cuda:0', 'experiment_folder': './Experiments/3dshape/3dshape_08_28_18_43', 'train/Number of sample points': 200000.0, 'train/Batch Size': 2000, 'train/Validation Percentage': 10, 'train/Number of Epochs': 10000, 'train/Resampling Bounds': [0.1, 0.9], 'train/Print Every * Epoch': 1, 'train/Save Every * Epoch': 500, 'train/Learning Rate': 5e-05, 'train/Random Distance Sampling': True, 'train/Use Scheduler (bool)': False, '_wandb': {}}
+2026-08-28 23:43:52,984 INFO    MainThread:279 [wandb_init.py:init():814] starting backend
+2026-08-28 23:43:52,984 INFO    MainThread:279 [wandb_init.py:init():829] sending inform_init request
+2026-08-28 23:43:53,180 INFO    MainThread:279 [wandb_init.py:init():834] backend started and connected
+2026-08-28 23:43:53,208 INFO    MainThread:279 [wandb_init.py:init():904] updated telemetry
+2026-08-28 23:43:53,211 INFO    MainThread:279 [wandb_init.py:init():927] communicating run to backend with 90.0 second timeout
+2026-08-28 23:43:53,496 INFO    MainThread:279 [wandb_init.py:init():972] starting run threads in backend
+2026-08-28 23:43:53,577 INFO    MainThread:279 [wandb_run.py:_console_start():2509] atexit reg
+2026-08-28 23:43:53,577 INFO    MainThread:279 [wandb_run.py:_redirect():2359] redirect: wrap_raw
+2026-08-28 23:43:53,577 INFO    MainThread:279 [wandb_run.py:_redirect():2428] Wrapping output streams.
+2026-08-28 23:43:53,577 INFO    MainThread:279 [wandb_run.py:_redirect():2451] Redirects installed.
+2026-08-28 23:43:53,580 INFO    MainThread:279 [wandb_init.py:init():1010] run started, returning control to user process

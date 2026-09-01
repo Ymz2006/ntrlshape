@@ -1,0 +1,29 @@
+data_path                    : testing_data/3dshape/Tshape3d_env4
+model_path                   : ./Experiments/3dshape
+checkpoint                   : ./Experiments/3dshape/3dshape_08_19_12_31/latest.pt
+test_cases                   : 100
+mppi_momentum                : 2.0
+mppi_step                    : 0.015   [convergence ball is 0.01]
+mppi_taper                   : 0.0
+mppi_planar (--2d)           : True   [free dims (0, 1, 5) = x, y, rz]
+no_conv_min_dis_median       : 0.7908
+no_conv_min_dis_within_2ball : 0 / 1   [overshoot: got inside 0.02 but never inside 0.01]
+discarded_invalid_endpoints  : 0  (start: 0, goal: 0)
+episodes                     : 100   [evaluated = test_cases - discarded]
+successes                    : 99
+failures                     : 1
+  collision                  : 1
+  no_converge                : 1
+success_rate                 : 0.9900  (99.0%)
+successes_flipped            : 98  (collision: 2, no_converge: 1)
+success_rate_flipped         : 0.9800  (98.0%)
+successes_either             : 100   [regular OR flipped]
+success_rate_either          : 1.0000  (100.0%)
+rescued_by_flip              : 1
+lost_by_flip                 : 2   [regular passed but flipped failed; symmetric with rescued_by_flip iff the flip carries no directional signal]
+failures_both                : 0   [regular AND flipped both failed]
+failure_rate_both            : 0.0000  (0.0%)
+failure_corr_phi_flip        : -0.0144   [P(both fail)=0.0000, independent=0.0002]
+linear_interp_valid          : 27 / 100
+success_rate|lin_interp_valid: 1.0000  (100.0%)  [27/27]
+success_rate|lin_interp_fail : 0.9863  (98.6%)  [72/73]

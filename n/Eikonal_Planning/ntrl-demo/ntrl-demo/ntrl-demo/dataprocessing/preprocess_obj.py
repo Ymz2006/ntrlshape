@@ -23,6 +23,13 @@ normalized by ``2*pi`` so that all six coordinates live on a comparable scale
 (the network treats them identically through its Fourier features), exactly like
 ``theta`` in the 2-D pipeline.
 
+A planar ``--2d`` mode is available for problems that are really SE(2): it
+flattens the environment onto ``z = 0``, squashes the shape to a very thin slab
+in z (``TWOD_SHAPE_THICKNESS``, so tetrahedralization still succeeds), and samples
+only the ``(x, y, rz)`` slice -- ``z`` is pinned to 0 and the rotvec is
+``(0, 0, rz)``.  Everything else (clearance, angle clearance, normals, speeds,
+output files) is produced exactly as in the full SE(3) pipeline.
+
 Sampling mirrors ``preprocess_dxf.py`` (and the gibson sampler it is based on):
 each training row is a correlated pair ``(x0, x1)`` where
 
@@ -85,6 +92,10 @@ DEFAULT_ENV_POINTS = 10000
 # Default tetgen switches: piecewise-linear-complex, quality, preserve surface.
 DEFAULT_TET_SWITCHES = "pq1.414Y"
 EPS = 1e-12
+# --2d mode: thickness (in env-normalized units) the shape's z extent is squashed
+# to.  Kept non-zero so the mesh stays a solid and tetgen can still tetrahedralize
+# it, but small enough that the body behaves like a flat 2-D footprint.
+TWOD_SHAPE_THICKNESS = 0.01
 
 
 # ---------------------------------------------------------------------------
@@ -516,7 +527,7 @@ def points_inside_tets(tet_verts, env_points):
 # ---------------------------------------------------------------------------
 def evaluate_placements(configs, tet_verts_local, face_verts_local,
                         env_points, rad_points, rad_bins, device,
-                        return_angle_pts=False):
+                        return_angle_pts=False, two_d=False):
     """Evaluate a batch of SE(3) placements.
 
     Parameters
@@ -529,6 +540,9 @@ def evaluate_placements(configs, tet_verts_local, face_verts_local,
     return_angle_pts : bool        if True, also return the shape-surface point and
                                     env point that realize the min-angle clearance
                                     (debug/visualization only; adds an argmax).
+    two_d            : bool        planar (``--2d``) mode: project every returned
+                                    SE(3) direction onto the (x, y, rz) sub-space
+                                    before renormalizing.
 
     Returns
     -------
@@ -696,6 +710,11 @@ def evaluate_placements(configs, tet_verts_local, face_verts_local,
     u_e = env_pt - t                                            # (B,3)
     u_e = u_e / (u_e.norm(dim=1, keepdim=True) + EPS)
     rot_axis = torch.linalg.cross(u_s, u_e, dim=1)               # (B,3)
+    if two_d:
+        # Planar mode: only rotation about z exists, so keep that component and
+        # drop the x/y tilt (pure residue of the shape's finite slab thickness).
+        rot_axis[:, 0] = 0.0
+        rot_axis[:, 1] = 0.0
     rot_axis = rot_axis / (rot_axis.norm(dim=1, keepdim=True) + EPS)
     zeros3 = torch.zeros(B, 3, device=device)
     rot_n = torch.cat([zeros3, rot_axis], dim=1)                 # (B,6)
@@ -707,6 +726,16 @@ def evaluate_placements(configs, tet_verts_local, face_verts_local,
 
     _prof_tic('clearance', device)
     dist, normal, n_ws = calculate_dist(faces, env_kept, configs[:, 0:3])
+    if two_d:
+        # Same projection for the clearance normal / contact direction: the z
+        # translation and the x/y rotation components are not part of the planar
+        # configuration space, so zero them and renormalize.
+        normal[:, 2] = 0.0
+        normal[:, 3] = 0.0
+        normal[:, 4] = 0.0
+        normal = normal / (torch.linalg.norm(normal, dim=1, keepdim=True) + EPS)
+        n_ws[:, 2] = 0.0
+        n_ws = n_ws / (torch.linalg.norm(n_ws, dim=1, keepdim=True) + EPS)
     _prof_toc('clearance', device)
 
     # ── Translational-clearance direction (trans_n) ──────────────────────────
@@ -728,12 +757,23 @@ def evaluate_placements(configs, tet_verts_local, face_verts_local,
 #   x0 : drawn in the narrow band  offset < dist(x0) < margin
 #   x1 : x0 + random SE(3) displacement, kept iff collision-free and dist > offset
 # ---------------------------------------------------------------------------
-def _sample_configs(n, hx, hy, hz):
+def _sample_configs(n, hx, hy, hz, two_d=False):
     """Sample ``n`` uniformly-random SE(3) placements (position in bbox, random
-    rotation as axis-angle with angle in [0, pi])."""
+    rotation as axis-angle with angle in [0, pi]).
+
+    With ``two_d=True`` the samples are confined to the planar sub-space the
+    ``--2d`` mode plans in: ``z`` is forced to 0 and the rotvec is ``(0, 0, rz)``
+    with ``rz`` uniform in ``[-pi, pi)`` -- i.e. rotation about the z axis only.
+    """
     c = torch.empty(n, 6)
     c[:, 0].uniform_(-hx, hx)
     c[:, 1].uniform_(-hy, hy)
+    if two_d:
+        c[:, 2] = 0.0
+        c[:, 3] = 0.0
+        c[:, 4] = 0.0
+        c[:, 5].uniform_(-np.pi, np.pi)
+        return c
     c[:, 2].uniform_(-hz, hz)
     axis = torch.randn(n, 3)
     axis = axis / (torch.linalg.norm(axis, dim=1, keepdim=True) + EPS)
@@ -758,7 +798,7 @@ def _min_center_dist(positions, env, device):
 def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
                          env_points, half_extent,
                          margin, offset, rad_points, rad_bins, batch_size=256, device='cuda',
-                         testing=False, yrot=False, track_angle_pts=False):
+                         testing=False, yrot=False, two_d=False, track_angle_pts=False):
     """Sample ``number_pairs`` SE(3) placement pairs.
 
     Training mode (default): correlated pairs -- ``x0`` is drawn in the narrow
@@ -771,6 +811,10 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
 
     Y-rotation-only mode (``yrot=True``): the x- and z-rotation components of the
     rotvec are zeroed so the shape can only rotate about the y axis.
+
+    Planar mode (``two_d=True``): every placement has ``z = 0`` and a rotvec of
+    ``(0, 0, rz)``, so the sampled configuration space is the SE(2) slice
+    ``(x, y, rz)`` embedded in the SE(3) layout (the unused coordinates stay 0).
 
     Returns
     -------
@@ -819,9 +863,10 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
         if track_angle_pts:
             return evaluate_placements(
                 cfg, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins,
-                device, return_angle_pts=True)
+                device, return_angle_pts=True, two_d=two_d)
         f, d, a, n, tn, rn = evaluate_placements(
-            cfg, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins, device)
+            cfg, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins, device,
+            two_d=two_d)
         return f, d, a, n, tn, rn, None, None
 
     def _idx(mask, *tensors):
@@ -834,19 +879,24 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
         if yrot:
             d[:, 3] = 0
             d[:, 5] = 0
+        if two_d:
+            # keep x0 + delta inside the planar slice: no z travel, no x/y tilt.
+            d[:, 2] = 0
+            d[:, 3] = 0
+            d[:, 4] = 0
         d = d / (torch.linalg.norm(d, dim=1, keepdim=True) + EPS)
         return d * (torch.rand(n, 1) * sqrt6)                   # normalized units
 
     while count < number_pairs:
         # ── Sample x0: position uniform in the env bbox; rotation uniform ──
-        x0 = _sample_configs(batch_size, hx, hy, hz)
+        x0 = _sample_configs(batch_size, hx, hy, hz, two_d=two_d)
         if yrot:
             x0[:, 3] = 0
             x0[:, 5] = 0
 
         if testing:
             # ── x1: a second, *independent* uniformly-random placement ──
-            x1 = _sample_configs(batch_size, hx, hy, hz)
+            x1 = _sample_configs(batch_size, hx, hy, hz, two_d=two_d)
             if yrot:
                 x1[:, 3] = 0
                 x1[:, 5] = 0
@@ -866,7 +916,8 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
 
             free0, dist0, angle0, normal0, trans0, rot0, shp0, envp0 = _eval0(x0)
             free1, dist1, angle1, normal1, trans1, rot1 = evaluate_placements(
-                x1, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins, device)
+                x1, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins, device,
+                two_d=two_d)
             keep = free0 & free1 & (dist0 > offset) & (dist1 > offset)
         else:
             # ── Training: x0 in narrow band, x1 a reachable displacement ──
@@ -907,7 +958,8 @@ def generate_valid_pairs(number_pairs, tet_verts_local, face_verts_local,
             x1 = x1[feas1]
 
             free1, dist1, angle1, normal1, trans1, rot1 = evaluate_placements(
-                x1, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins, device)
+                x1, tet_verts_local, face_verts_local, env_t, rad_points, rad_bins, device,
+                two_d=two_d)
             keep = free1 & (dist1 > offset)                        # x0 already in band
 
         nk = int(keep.sum())
@@ -1115,6 +1167,13 @@ def main():
                         help='Generate TEST pairs: x0 and x1 are independent, '
                              'uniformly-random placements kept only if both are '
                              'collision-free (no narrow-band / clearance filtering).')
+    parser.add_argument('--2d', dest='two_d', action='store_true',
+                        help='Planar mode: flatten the environment onto z=0, '
+                             'squash the shape to {} thick in z (so it still '
+                             'tetrahedralizes), and sample only in the '
+                             '(x, y, rz) slice -- z is pinned to 0 and the '
+                             'rotation is about the z axis only.'.format(
+                                 TWOD_SHAPE_THICKNESS))
     parser.add_argument('--yrot', action='store_true',
                         help='Restrict rotation to the y axis only: zero the x- '
                              'and z-rotation components of every sampled rotvec.')
@@ -1130,6 +1189,13 @@ def main():
 
     # ── Environment: load, normalize to a unit box, sample its surface ──
     V_env, F_env, names_env = load_obj(args.env)
+    if args.two_d:
+        # Planar mode: collapse the whole environment onto the z=0 plane.  Done
+        # before the bbox below so the normalization is driven by the x-y
+        # footprint alone; the surface samples then all land on z=0 too, which is
+        # exactly the plane the (flattened) shape sweeps through.
+        V_env[:, 2] = 0.0
+        print('[--2d] environment flattened onto z=0')
     # Bounding box uses *all* geometry (walls included) so the normalized frame
     # matches the true extent of the environment.
     bb_min = V_env.min(axis=0)
@@ -1148,11 +1214,27 @@ def main():
 
     ranges = (bb_max - bb_min) / scale
     half_extent = ranges * 0.5 - 0.01                 # small inset, like the 2-D code
+    if args.two_d:
+        # The z range collapsed to nothing; pin it to the single valid value so
+        # the in-bbox test on sampled placements (|z| <= hz) accepts z == 0.
+        half_extent[2] = 0.0
 
     # ── Shape: load, normalize into the same units, tetrahedralize ──
     V_sh, F_sh, _ = load_obj(args.shape)
     shape_center = 0.5 * (V_sh.min(axis=0) + V_sh.max(axis=0))
     V_sh_local = (V_sh - shape_center) / scale * args.shape_scale
+    if args.two_d:
+        # Squash the shape's z extent down to TWOD_SHAPE_THICKNESS: thin enough to
+        # act as a flat 2-D footprint, thick enough to stay a solid that tetgen can
+        # tetrahedralize.  It stays centred on z=0, i.e. on the flattened env plane.
+        z = V_sh_local[:, 2]
+        z_ext = float(z.max() - z.min())
+        if z_ext > 1e-12:
+            V_sh_local[:, 2] = (z - 0.5 * (z.max() + z.min())) * (TWOD_SHAPE_THICKNESS / z_ext)
+        else:
+            V_sh_local[:, 2] = 0.0
+        print('[--2d] shape z extent {:.4f} -> {:.4f} (env-normalized units)'.format(
+            z_ext, TWOD_SHAPE_THICKNESS))
 
     TV, TT, TF = tetrahedralize_shape(V_sh_local, F_sh, switches=args.tet_switches)
     tet_verts_local = torch.tensor(TV[TT], dtype=torch.float32)     # (K,4,3)
@@ -1163,6 +1245,8 @@ def main():
     num_pairs = int(args.num_samples)
     mode = 'TESTING (independent collision-free pairs)' if args.testing_data \
         else 'TRAINING (narrow-band correlated pairs)'
+    if args.two_d:
+        mode += ' | PLANAR 2-D (z=0, rotation about z only)'
     print('Sampling {} (x0, x1) pairs [{}]   margin={}  offset={}  ...'.format(
         num_pairs, mode, args.margin, args.offset))
     t0 = time.time()
@@ -1177,7 +1261,8 @@ def main():
         num_pairs, tet_verts_local, face_verts_local, env_points, half_extent,
         margin=args.margin, offset=args.offset,
         batch_size=args.batch_size, device=args.device,
-        testing=args.testing_data, yrot=args.yrot, rad_points=radius_points, rad_bins=radius_bins,
+        testing=args.testing_data, yrot=args.yrot, two_d=args.two_d,
+        rad_points=radius_points, rad_bins=radius_bins,
         track_angle_pts=args.visualize)
     print('Sampling done in {:.1f}s'.format(time.time() - t0))
     _prof_report()
@@ -1248,6 +1333,8 @@ def main():
         'rot_norm':    float(2 * np.pi),
         'testing_data': bool(args.testing_data),
         'yrot':        bool(args.yrot),
+        'two_d':       bool(args.two_d),
+        'shape_z_thickness': float(TWOD_SHAPE_THICKNESS) if args.two_d else None,
         'env_scale':   scale,
         'env_center':  center_env.tolist(),
         'num_tets':    int(TT.shape[0]),

@@ -339,7 +339,7 @@ class Function():
 
 
         rate_trans = -1/0.05
-        rate_rot = -1/(1/12) # 1/6 pi / 2pi
+        rate_rot = -1/(1/6) # 1/6 pi / 2pi
 
 
         # Gradient magnitudes (sqrt of the einsum squared-magnitude, same +1e-8

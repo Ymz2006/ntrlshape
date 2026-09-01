@@ -1,0 +1,29 @@
+shape                     : datasets/3dshape/Fshape3d.obj
+environment               : datasets/3dshape/env1.obj
+data_path                 : testing_data/3dshape/Fshape3d_env1
+planner                   : RRTConnect (OMPL, SE(3))
+time_limit_per_case       : 30.000 s  (a case over this = fail)
+path_simplification       : off
+
+test_cases_total          : 1000
+invalid_start_or_goal     : 132  (excluded, unplannable)
+test_cases_scored         : 868  [valid start+goal only]
+successes                 : 865
+failures                  : 3
+  no_solution_in_time     : 3
+  over_time_limit         : 0
+  path_in_collision       : 0
+success_rate              : 0.9965  (99.7%)  [865/868]
+
+time_mean                 : 1.6002 s   [all 868 scored cases]
+time_std                  : 2.5246 s
+time_mean_successful      : 1.5012 s   [865 successful cases]
+time_std_successful       : 1.8857 s
+time_median               : 1.0314 s
+
+path_length_mean          : 3.1850   [865 successful cases]
+path_length_std           : 1.4058
+path_length_total         : 2755.0352
+
+total_time                : 1388.99 s
+collision_checks          : 832504

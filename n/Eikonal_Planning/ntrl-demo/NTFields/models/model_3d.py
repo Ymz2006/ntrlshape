@@ -149,7 +149,7 @@ class NN(torch.nn.Module):
 
 
 class Model():
-    def __init__(self, ModelPath, DataPath, dim, pos,device='cpu'):
+    def __init__(self, ModelPath, DataPath, dim, pos,device):
 
         self.Params = {}
         self.Params['ModelPath'] = ModelPath
@@ -163,11 +163,11 @@ class Model():
         self.Params['Network'] = {}
 
         self.Params['Training'] = {}
-        self.Params['Training']['Batch Size'] = 10000
+        self.Params['Training']['Batch Size'] = 5000
         self.Params['Training']['Number of Epochs'] = 20000
         self.Params['Training']['Resampling Bounds'] = [0.2, 0.95]
         self.Params['Training']['Print Every * Epoch'] = 1
-        self.Params['Training']['Save Every * Epoch'] = 10
+        self.Params['Training']['Save Every * Epoch'] = 1000
         self.Params['Training']['Learning Rate'] = 2e-4#5e-5
 
         # Parameters to alter during training
@@ -253,7 +253,7 @@ class Model():
         weights = Tensor(torch.ones(len(self.dataset))).to(
             torch.device(self.Params['Device']))
         
-        dists=torch.norm(self.dataset.data[:,0:3]-self.dataset.data[:,3:6],dim=1)
+        dists=torch.norm(self.dataset.data[:,:self.dim]-self.dataset.data[:,self.dim:2*self.dim],dim=1)
         weights = dists.max()-dists
 
         weights = torch.clamp(

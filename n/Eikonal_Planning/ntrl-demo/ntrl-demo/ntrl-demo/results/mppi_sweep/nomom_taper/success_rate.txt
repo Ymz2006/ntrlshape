@@ -1,0 +1,41 @@
+data_path                    : testing_data/3dshape/Lshape3d_env1
+model_path                   : ./Experiments/3dshape
+checkpoint                   : ./Experiments/3dshape/3dshape_08_15_20_19/latest.pt
+test_cases                   : 500
+mppi_momentum                : 0.0
+mppi_step                    : 0.015   [convergence ball is 0.01]
+mppi_taper                   : 0.5
+no_conv_min_dis_median       : 0.4170
+no_conv_min_dis_within_2ball : 0 / 35   [overshoot: got inside 0.02 but never inside 0.01]
+discarded_invalid_endpoints  : 20  (start: 12, goal: 10)
+episodes                     : 480   [evaluated = test_cases - discarded]
+successes                    : 380
+failures                     : 100
+  collision                  : 89
+  no_converge                : 35
+success_rate                 : 0.7917  (79.2%)
+successes_flipped            : 383  (collision: 89, no_converge: 27)
+success_rate_flipped         : 0.7979  (79.8%)
+successes_either             : 445   [regular OR flipped]
+success_rate_either          : 0.9271  (92.7%)
+rescued_by_flip              : 65
+failures_both                : 35   [regular AND flipped both failed]
+failure_rate_both            : 0.0729  (7.3%)
+successes_rerun              : 387  (collision: 84, no_converge: 33)   [CONTROL: same direction, fresh MPPI noise]
+success_rate_rerun           : 0.8063  (80.6%)
+successes_either_rerun       : 408   [regular OR rerun]
+success_rate_either_rerun    : 0.8500  (85.0%)
+rescued_by_rerun             : 28   [compare against rescued_by_flip]
+direction_edge               : +0.0771  (+7.7%)   [success_rate_either - success_rate_either_rerun]
+failure_corr_phi_flip        : +0.1890   [P(both fail)=0.0729, independent=0.0421]
+failure_corr_phi_rerun       : +0.6830   [P(both fail)=0.1500, independent=0.0404]
+relay_warmup_steps           : 20
+successes_relay              : 391  (collision: 78, no_converge: 22, solved_by_warmup: 8)
+success_rate_relay           : 0.8146  (81.5%)
+relay_seg_collisions         : warm_f=25, main=54, warm_b=27   (sole offender: warm_f=14, main=28, warm_b=10)
+relay_main_leg_conv_and_clean: 414   [lost to a spliced warmup: 23]
+successes_any                : 455   [regular OR flipped OR relay]
+success_rate_any             : 0.9479  (94.8%)
+linear_interp_valid          : 111 / 480
+success_rate|lin_interp_valid: 0.9550  (95.5%)  [106/111]
+success_rate|lin_interp_fail : 0.7425  (74.3%)  [274/369]

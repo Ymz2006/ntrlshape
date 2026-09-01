@@ -1,0 +1,1575 @@
+[load_obj] 'datasets/3dshape/Fshape3d.obj': 1 objects/groups
+  [0] 'Body1'  (36 triangles)
+[load_obj] 'datasets/3dshape/env1.obj': 5 objects/groups
+  [0] 'Body2'  (12 triangles)
+  [1] 'Body3'  (12 triangles)
+  [2] 'Body4'  (12 triangles)
+  [3] 'Body5'  (12 triangles)
+  [4] 'wall (2)'  (12 triangles)
+shape       : datasets/3dshape/Fshape3d.obj  (20 verts, 24 tets, radius 0.1669)
+environment : datasets/3dshape/env1.obj  (60 tris, 50000 collision points)
+bounds      : low [-0.475, -0.3329, -0.5]  high [0.475, 0.3329, 0.5]
+test cases  : 1000 from testing_data/3dshape/Fshape3d_env1/sampled_points.npy
+planner     : RRTConnect  (time limit 30.0s per case, resolution 0.005)
+
+[000] PASS  time=  0.243s  status=Exact solution     len=  1.283  endpoints_valid=True  collision=False  over_limit=False
+[001] PASS  time=  1.466s  status=Exact solution     len=  4.156  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[002] FAIL  time=  0.002s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[003] PASS  time=  0.552s  status=Exact solution     len=  3.002  endpoints_valid=True  collision=False  over_limit=False
+[004] PASS  time=  1.153s  status=Exact solution     len=  3.379  endpoints_valid=True  collision=False  over_limit=False
+[005] PASS  time=  4.117s  status=Exact solution     len=  8.180  endpoints_valid=True  collision=False  over_limit=False
+[006] PASS  time=  1.163s  status=Exact solution     len=  3.834  endpoints_valid=True  collision=False  over_limit=False
+[007] PASS  time=  0.428s  status=Exact solution     len=  1.696  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[008] FAIL  time= 30.063s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[009] PASS  time=  0.500s  status=Exact solution     len=  2.274  endpoints_valid=True  collision=False  over_limit=False
+[010] PASS  time=  2.439s  status=Exact solution     len=  4.348  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[011] FAIL  time=  0.002s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[012] PASS  time=  4.171s  status=Exact solution     len=  7.101  endpoints_valid=True  collision=False  over_limit=False
+[013] PASS  time=  0.451s  status=Exact solution     len=  2.598  endpoints_valid=True  collision=False  over_limit=False
+[014] PASS  time=  1.597s  status=Exact solution     len=  3.741  endpoints_valid=True  collision=False  over_limit=False
+[015] PASS  time=  2.094s  status=Exact solution     len=  5.802  endpoints_valid=True  collision=False  over_limit=False
+[016] PASS  time=  3.291s  status=Exact solution     len=  2.544  endpoints_valid=True  collision=False  over_limit=False
+[017] PASS  time=  0.880s  status=Exact solution     len=  2.453  endpoints_valid=True  collision=False  over_limit=False
+[018] PASS  time=  2.098s  status=Exact solution     len=  4.206  endpoints_valid=True  collision=False  over_limit=False
+[019] PASS  time=  1.004s  status=Exact solution     len=  2.959  endpoints_valid=True  collision=False  over_limit=False
+[020] PASS  time=  2.012s  status=Exact solution     len=  4.542  endpoints_valid=True  collision=False  over_limit=False
+[021] PASS  time=  0.366s  status=Exact solution     len=  2.180  endpoints_valid=True  collision=False  over_limit=False
+[022] PASS  time=  0.415s  status=Exact solution     len=  2.013  endpoints_valid=True  collision=False  over_limit=False
+[023] PASS  time=  1.121s  status=Exact solution     len=  3.053  endpoints_valid=True  collision=False  over_limit=False
+[024] PASS  time=  0.157s  status=Exact solution     len=  1.204  endpoints_valid=True  collision=False  over_limit=False
+[025] PASS  time=  3.333s  status=Exact solution     len=  5.985  endpoints_valid=True  collision=False  over_limit=False
+[026] PASS  time=  2.098s  status=Exact solution     len=  5.038  endpoints_valid=True  collision=False  over_limit=False
+[027] PASS  time=  1.210s  status=Exact solution     len=  4.814  endpoints_valid=True  collision=False  over_limit=False
+[028] PASS  time=  1.111s  status=Exact solution     len=  4.824  endpoints_valid=True  collision=False  over_limit=False
+[029] PASS  time=  0.235s  status=Exact solution     len=  1.642  endpoints_valid=True  collision=False  over_limit=False
+[030] PASS  time=  0.503s  status=Exact solution     len=  2.189  endpoints_valid=True  collision=False  over_limit=False
+[031] PASS  time=  1.240s  status=Exact solution     len=  4.178  endpoints_valid=True  collision=False  over_limit=False
+[032] PASS  time=  3.868s  status=Exact solution     len=  6.583  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[033] FAIL  time=  0.001s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[034] PASS  time=  0.722s  status=Exact solution     len=  1.732  endpoints_valid=True  collision=False  over_limit=False
+[035] PASS  time=  0.903s  status=Exact solution     len=  3.537  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[036] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[037] PASS  time=  0.644s  status=Exact solution     len=  2.142  endpoints_valid=True  collision=False  over_limit=False
+[038] PASS  time=  2.089s  status=Exact solution     len=  3.230  endpoints_valid=True  collision=False  over_limit=False
+[039] PASS  time=  0.634s  status=Exact solution     len=  3.490  endpoints_valid=True  collision=False  over_limit=False
+[040] PASS  time=  1.257s  status=Exact solution     len=  4.514  endpoints_valid=True  collision=False  over_limit=False
+[041] PASS  time=  1.107s  status=Exact solution     len=  2.566  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[042] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[043] PASS  time=  0.543s  status=Exact solution     len=  2.258  endpoints_valid=True  collision=False  over_limit=False
+[044] PASS  time=  0.940s  status=Exact solution     len=  3.834  endpoints_valid=True  collision=False  over_limit=False
+[045] PASS  time=  0.238s  status=Exact solution     len=  2.377  endpoints_valid=True  collision=False  over_limit=False
+[046] PASS  time=  0.525s  status=Exact solution     len=  1.854  endpoints_valid=True  collision=False  over_limit=False
+[047] PASS  time=  0.922s  status=Exact solution     len=  4.224  endpoints_valid=True  collision=False  over_limit=False
+[048] PASS  time=  0.180s  status=Exact solution     len=  1.508  endpoints_valid=True  collision=False  over_limit=False
+[049] PASS  time=  2.348s  status=Exact solution     len=  3.823  endpoints_valid=True  collision=False  over_limit=False
+[050] PASS  time=  0.618s  status=Exact solution     len=  2.551  endpoints_valid=True  collision=False  over_limit=False
+[051] PASS  time=  1.479s  status=Exact solution     len=  2.244  endpoints_valid=True  collision=False  over_limit=False
+[052] PASS  time=  0.354s  status=Exact solution     len=  2.177  endpoints_valid=True  collision=False  over_limit=False
+[053] PASS  time=  0.899s  status=Exact solution     len=  3.952  endpoints_valid=True  collision=False  over_limit=False
+[054] PASS  time=  0.090s  status=Exact solution     len=  1.033  endpoints_valid=True  collision=False  over_limit=False
+[055] PASS  time=  0.304s  status=Exact solution     len=  2.695  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[056] FAIL  time= 30.056s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[057] PASS  time=  1.661s  status=Exact solution     len=  4.310  endpoints_valid=True  collision=False  over_limit=False
+[058] PASS  time=  1.735s  status=Exact solution     len=  3.757  endpoints_valid=True  collision=False  over_limit=False
+[059] PASS  time=  0.622s  status=Exact solution     len=  2.761  endpoints_valid=True  collision=False  over_limit=False
+[060] PASS  time=  0.559s  status=Exact solution     len=  2.482  endpoints_valid=True  collision=False  over_limit=False
+[061] PASS  time=  1.922s  status=Exact solution     len=  4.179  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[062] FAIL  time=  0.006s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[063] PASS  time=  1.604s  status=Exact solution     len=  3.732  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[064] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[065] PASS  time=  0.422s  status=Exact solution     len=  1.775  endpoints_valid=True  collision=False  over_limit=False
+[066] PASS  time=  0.900s  status=Exact solution     len=  2.332  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[067] FAIL  time= 30.055s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[068] PASS  time=  0.101s  status=Exact solution     len=  1.952  endpoints_valid=True  collision=False  over_limit=False
+[069] PASS  time=  2.408s  status=Exact solution     len=  5.227  endpoints_valid=True  collision=False  over_limit=False
+[070] PASS  time=  0.356s  status=Exact solution     len=  1.585  endpoints_valid=True  collision=False  over_limit=False
+[071] PASS  time=  0.257s  status=Exact solution     len=  1.763  endpoints_valid=True  collision=False  over_limit=False
+[072] PASS  time=  0.196s  status=Exact solution     len=  1.617  endpoints_valid=True  collision=False  over_limit=False
+[073] PASS  time=  1.066s  status=Exact solution     len=  5.068  endpoints_valid=True  collision=False  over_limit=False
+[074] PASS  time=  0.230s  status=Exact solution     len=  1.954  endpoints_valid=True  collision=False  over_limit=False
+[075] PASS  time=  0.486s  status=Exact solution     len=  2.583  endpoints_valid=True  collision=False  over_limit=False
+[076] PASS  time=  0.503s  status=Exact solution     len=  2.139  endpoints_valid=True  collision=False  over_limit=False
+[077] PASS  time=  0.776s  status=Exact solution     len=  4.144  endpoints_valid=True  collision=False  over_limit=False
+[078] PASS  time=  1.036s  status=Exact solution     len=  2.719  endpoints_valid=True  collision=False  over_limit=False
+[079] PASS  time=  1.285s  status=Exact solution     len=  3.230  endpoints_valid=True  collision=False  over_limit=False
+[080] PASS  time=  2.060s  status=Exact solution     len=  3.760  endpoints_valid=True  collision=False  over_limit=False
+[081] PASS  time=  0.633s  status=Exact solution     len=  3.290  endpoints_valid=True  collision=False  over_limit=False
+[082] PASS  time=  0.584s  status=Exact solution     len=  2.769  endpoints_valid=True  collision=False  over_limit=False
+[083] PASS  time=  0.966s  status=Exact solution     len=  3.149  endpoints_valid=True  collision=False  over_limit=False
+[084] PASS  time= 13.322s  status=Exact solution     len=  4.245  endpoints_valid=True  collision=False  over_limit=False
+[085] PASS  time=  0.261s  status=Exact solution     len=  1.997  endpoints_valid=True  collision=False  over_limit=False
+[086] PASS  time=  0.374s  status=Exact solution     len=  2.147  endpoints_valid=True  collision=False  over_limit=False
+[087] PASS  time=  0.671s  status=Exact solution     len=  3.373  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[088] FAIL  time=  0.004s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[089] FAIL  time= 30.070s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[090] PASS  time=  0.821s  status=Exact solution     len=  2.684  endpoints_valid=True  collision=False  over_limit=False
+[091] PASS  time=  1.592s  status=Exact solution     len=  4.271  endpoints_valid=True  collision=False  over_limit=False
+[092] PASS  time=  0.378s  status=Exact solution     len=  2.573  endpoints_valid=True  collision=False  over_limit=False
+[093] PASS  time=  0.474s  status=Exact solution     len=  2.010  endpoints_valid=True  collision=False  over_limit=False
+[094] PASS  time=  1.042s  status=Exact solution     len=  1.902  endpoints_valid=True  collision=False  over_limit=False
+[095] PASS  time=  0.621s  status=Exact solution     len=  3.541  endpoints_valid=True  collision=False  over_limit=False
+[096] PASS  time=  2.257s  status=Exact solution     len=  3.348  endpoints_valid=True  collision=False  over_limit=False
+[097] PASS  time=  0.913s  status=Exact solution     len=  2.074  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[098] FAIL  time= 30.007s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[099] PASS  time=  0.216s  status=Exact solution     len=  2.270  endpoints_valid=True  collision=False  over_limit=False
+[100] PASS  time=  1.700s  status=Exact solution     len=  5.190  endpoints_valid=True  collision=False  over_limit=False
+[101] PASS  time=  2.492s  status=Exact solution     len=  3.992  endpoints_valid=True  collision=False  over_limit=False
+[102] PASS  time=  1.077s  status=Exact solution     len=  3.796  endpoints_valid=True  collision=False  over_limit=False
+[103] PASS  time=  1.551s  status=Exact solution     len=  6.746  endpoints_valid=True  collision=False  over_limit=False
+[104] PASS  time=  0.153s  status=Exact solution     len=  1.959  endpoints_valid=True  collision=False  over_limit=False
+[105] PASS  time=  1.061s  status=Exact solution     len=  3.630  endpoints_valid=True  collision=False  over_limit=False
+[106] PASS  time=  1.057s  status=Exact solution     len=  2.105  endpoints_valid=True  collision=False  over_limit=False
+[107] PASS  time=  0.141s  status=Exact solution     len=  2.120  endpoints_valid=True  collision=False  over_limit=False
+[108] PASS  time=  1.540s  status=Exact solution     len=  5.183  endpoints_valid=True  collision=False  over_limit=False
+[109] PASS  time=  0.160s  status=Exact solution     len=  2.159  endpoints_valid=True  collision=False  over_limit=False
+[110] PASS  time=  1.286s  status=Exact solution     len=  3.809  endpoints_valid=True  collision=False  over_limit=False
+[111] PASS  time=  2.656s  status=Exact solution     len=  4.218  endpoints_valid=True  collision=False  over_limit=False
+[112] PASS  time=  1.195s  status=Exact solution     len=  3.038  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[113] FAIL  time= 30.046s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[114] PASS  time=  0.785s  status=Exact solution     len=  4.324  endpoints_valid=True  collision=False  over_limit=False
+[115] PASS  time=  1.210s  status=Exact solution     len=  2.318  endpoints_valid=True  collision=False  over_limit=False
+[116] PASS  time=  1.323s  status=Exact solution     len=  5.632  endpoints_valid=True  collision=False  over_limit=False
+[117] PASS  time=  0.422s  status=Exact solution     len=  2.088  endpoints_valid=True  collision=False  over_limit=False
+[118] PASS  time=  2.172s  status=Exact solution     len=  4.909  endpoints_valid=True  collision=False  over_limit=False
+[119] PASS  time=  0.179s  status=Exact solution     len=  1.325  endpoints_valid=True  collision=False  over_limit=False
+[120] PASS  time=  0.534s  status=Exact solution     len=  2.307  endpoints_valid=True  collision=False  over_limit=False
+[121] PASS  time=  0.309s  status=Exact solution     len=  1.827  endpoints_valid=True  collision=False  over_limit=False
+[122] PASS  time=  1.834s  status=Exact solution     len=  4.299  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[123] FAIL  time=  0.002s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[124] PASS  time=  0.397s  status=Exact solution     len=  1.605  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[125] FAIL  time=  0.004s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[126] FAIL  time= 30.063s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[127] PASS  time=  0.545s  status=Exact solution     len=  2.293  endpoints_valid=True  collision=False  over_limit=False
+[128] PASS  time=  0.450s  status=Exact solution     len=  3.143  endpoints_valid=True  collision=False  over_limit=False
+[129] PASS  time=  0.231s  status=Exact solution     len=  1.506  endpoints_valid=True  collision=False  over_limit=False
+[130] PASS  time=  0.747s  status=Exact solution     len=  4.463  endpoints_valid=True  collision=False  over_limit=False
+[131] PASS  time=  0.979s  status=Exact solution     len=  4.565  endpoints_valid=True  collision=False  over_limit=False
+[132] PASS  time=  0.372s  status=Exact solution     len=  1.235  endpoints_valid=True  collision=False  over_limit=False
+[133] PASS  time=  1.002s  status=Exact solution     len=  3.511  endpoints_valid=True  collision=False  over_limit=False
+[134] PASS  time=  1.148s  status=Exact solution     len=  1.937  endpoints_valid=True  collision=False  over_limit=False
+[135] PASS  time=  0.581s  status=Exact solution     len=  4.304  endpoints_valid=True  collision=False  over_limit=False
+[136] PASS  time=  0.888s  status=Exact solution     len=  3.181  endpoints_valid=True  collision=False  over_limit=False
+[137] PASS  time=  0.355s  status=Exact solution     len=  1.180  endpoints_valid=True  collision=False  over_limit=False
+[138] PASS  time=  0.183s  status=Exact solution     len=  1.521  endpoints_valid=True  collision=False  over_limit=False
+[139] PASS  time=  1.084s  status=Exact solution     len=  4.342  endpoints_valid=True  collision=False  over_limit=False
+[140] PASS  time=  1.984s  status=Exact solution     len=  4.365  endpoints_valid=True  collision=False  over_limit=False
+[141] PASS  time=  0.668s  status=Exact solution     len=  3.135  endpoints_valid=True  collision=False  over_limit=False
+[142] PASS  time=  0.427s  status=Exact solution     len=  2.299  endpoints_valid=True  collision=False  over_limit=False
+[143] PASS  time=  0.264s  status=Exact solution     len=  2.202  endpoints_valid=True  collision=False  over_limit=False
+[144] PASS  time=  0.464s  status=Exact solution     len=  2.244  endpoints_valid=True  collision=False  over_limit=False
+[145] PASS  time=  0.720s  status=Exact solution     len=  3.046  endpoints_valid=True  collision=False  over_limit=False
+[146] PASS  time=  0.381s  status=Exact solution     len=  1.948  endpoints_valid=True  collision=False  over_limit=False
+[147] PASS  time=  0.737s  status=Exact solution     len=  2.354  endpoints_valid=True  collision=False  over_limit=False
+[148] PASS  time=  0.294s  status=Exact solution     len=  1.663  endpoints_valid=True  collision=False  over_limit=False
+[149] PASS  time=  0.340s  status=Exact solution     len=  1.324  endpoints_valid=True  collision=False  over_limit=False
+[150] PASS  time=  0.409s  status=Exact solution     len=  1.721  endpoints_valid=True  collision=False  over_limit=False
+[151] PASS  time=  1.220s  status=Exact solution     len=  3.036  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[152] FAIL  time=  0.004s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[153] PASS  time=  2.690s  status=Exact solution     len=  2.332  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[154] FAIL  time= 30.059s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[155] PASS  time=  1.032s  status=Exact solution     len=  3.760  endpoints_valid=True  collision=False  over_limit=False
+[156] PASS  time=  1.393s  status=Exact solution     len=  2.266  endpoints_valid=True  collision=False  over_limit=False
+[157] PASS  time=  0.661s  status=Exact solution     len=  2.840  endpoints_valid=True  collision=False  over_limit=False
+[158] PASS  time=  1.292s  status=Exact solution     len=  3.985  endpoints_valid=True  collision=False  over_limit=False
+[159] PASS  time=  0.308s  status=Exact solution     len=  1.926  endpoints_valid=True  collision=False  over_limit=False
+[160] PASS  time=  0.416s  status=Exact solution     len=  1.927  endpoints_valid=True  collision=False  over_limit=False
+[161] PASS  time=  0.915s  status=Exact solution     len=  2.343  endpoints_valid=True  collision=False  over_limit=False
+[162] PASS  time=  1.877s  status=Exact solution     len=  6.274  endpoints_valid=True  collision=False  over_limit=False
+[163] PASS  time=  0.271s  status=Exact solution     len=  1.220  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[164] FAIL  time=  0.002s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[165] PASS  time=  2.035s  status=Exact solution     len=  5.811  endpoints_valid=True  collision=False  over_limit=False
+[166] PASS  time=  0.325s  status=Exact solution     len=  2.018  endpoints_valid=True  collision=False  over_limit=False
+[167] PASS  time=  0.644s  status=Exact solution     len=  2.327  endpoints_valid=True  collision=False  over_limit=False
+[168] PASS  time=  0.673s  status=Exact solution     len=  4.174  endpoints_valid=True  collision=False  over_limit=False
+[169] PASS  time=  0.204s  status=Exact solution     len=  2.323  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[170] FAIL  time=  0.004s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[171] PASS  time=  1.324s  status=Exact solution     len=  3.554  endpoints_valid=True  collision=False  over_limit=False
+[172] PASS  time=  0.277s  status=Exact solution     len=  2.690  endpoints_valid=True  collision=False  over_limit=False
+[173] PASS  time=  0.441s  status=Exact solution     len=  2.745  endpoints_valid=True  collision=False  over_limit=False
+[174] PASS  time=  0.457s  status=Exact solution     len=  1.722  endpoints_valid=True  collision=False  over_limit=False
+[175] PASS  time=  1.781s  status=Exact solution     len=  3.853  endpoints_valid=True  collision=False  over_limit=False
+[176] PASS  time=  0.437s  status=Exact solution     len=  1.561  endpoints_valid=True  collision=False  over_limit=False
+[177] PASS  time=  0.631s  status=Exact solution     len=  3.021  endpoints_valid=True  collision=False  over_limit=False
+[178] PASS  time=  1.607s  status=Exact solution     len=  6.424  endpoints_valid=True  collision=False  over_limit=False
+[179] PASS  time=  0.868s  status=Exact solution     len=  3.716  endpoints_valid=True  collision=False  over_limit=False
+[180] PASS  time=  0.632s  status=Exact solution     len=  3.150  endpoints_valid=True  collision=False  over_limit=False
+[181] PASS  time=  1.859s  status=Exact solution     len=  5.572  endpoints_valid=True  collision=False  over_limit=False
+[182] PASS  time=  0.374s  status=Exact solution     len=  3.124  endpoints_valid=True  collision=False  over_limit=False
+[183] PASS  time=  0.747s  status=Exact solution     len=  4.888  endpoints_valid=True  collision=False  over_limit=False
+[184] PASS  time=  0.459s  status=Exact solution     len=  2.897  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[185] FAIL  time= 30.101s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[186] PASS  time=  1.835s  status=Exact solution     len=  5.116  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[187] FAIL  time=  0.004s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[188] FAIL  time= 30.060s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[189] PASS  time=  0.288s  status=Exact solution     len=  1.478  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[190] FAIL  time= 30.038s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[191] PASS  time=  0.649s  status=Exact solution     len=  1.270  endpoints_valid=True  collision=False  over_limit=False
+[192] PASS  time=  0.669s  status=Exact solution     len=  1.796  endpoints_valid=True  collision=False  over_limit=False
+[193] PASS  time=  8.141s  status=Exact solution     len=  3.563  endpoints_valid=True  collision=False  over_limit=False
+[194] PASS  time=  0.261s  status=Exact solution     len=  1.272  endpoints_valid=True  collision=False  over_limit=False
+[195] PASS  time=  0.331s  status=Exact solution     len=  2.407  endpoints_valid=True  collision=False  over_limit=False
+[196] PASS  time=  2.676s  status=Exact solution     len=  4.386  endpoints_valid=True  collision=False  over_limit=False
+[197] PASS  time=  1.611s  status=Exact solution     len=  5.688  endpoints_valid=True  collision=False  over_limit=False
+[198] PASS  time=  2.239s  status=Exact solution     len=  4.000  endpoints_valid=True  collision=False  over_limit=False
+[199] PASS  time=  1.443s  status=Exact solution     len=  3.194  endpoints_valid=True  collision=False  over_limit=False
+[200] PASS  time=  0.413s  status=Exact solution     len=  2.488  endpoints_valid=True  collision=False  over_limit=False
+[201] PASS  time=  0.243s  status=Exact solution     len=  1.159  endpoints_valid=True  collision=False  over_limit=False
+[202] PASS  time=  0.595s  status=Exact solution     len=  2.445  endpoints_valid=True  collision=False  over_limit=False
+[203] PASS  time=  0.290s  status=Exact solution     len=  1.829  endpoints_valid=True  collision=False  over_limit=False
+[204] PASS  time=  0.123s  status=Exact solution     len=  1.722  endpoints_valid=True  collision=False  over_limit=False
+[205] PASS  time=  0.104s  status=Exact solution     len=  0.917  endpoints_valid=True  collision=False  over_limit=False
+[206] PASS  time=  0.211s  status=Exact solution     len=  1.451  endpoints_valid=True  collision=False  over_limit=False
+[207] PASS  time=  0.593s  status=Exact solution     len=  2.118  endpoints_valid=True  collision=False  over_limit=False
+[208] PASS  time=  2.156s  status=Exact solution     len=  5.564  endpoints_valid=True  collision=False  over_limit=False
+[209] PASS  time=  1.845s  status=Exact solution     len=  4.922  endpoints_valid=True  collision=False  over_limit=False
+[210] PASS  time=  0.864s  status=Exact solution     len=  2.924  endpoints_valid=True  collision=False  over_limit=False
+[211] PASS  time=  0.294s  status=Exact solution     len=  1.809  endpoints_valid=True  collision=False  over_limit=False
+[212] PASS  time=  0.265s  status=Exact solution     len=  2.455  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[213] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[214] PASS  time=  0.877s  status=Exact solution     len=  1.923  endpoints_valid=True  collision=False  over_limit=False
+[215] PASS  time=  0.633s  status=Exact solution     len=  2.809  endpoints_valid=True  collision=False  over_limit=False
+[216] PASS  time=  0.706s  status=Exact solution     len=  3.715  endpoints_valid=True  collision=False  over_limit=False
+[217] PASS  time=  1.359s  status=Exact solution     len=  4.655  endpoints_valid=True  collision=False  over_limit=False
+[218] PASS  time=  0.721s  status=Exact solution     len=  2.281  endpoints_valid=True  collision=False  over_limit=False
+[219] PASS  time=  0.730s  status=Exact solution     len=  3.619  endpoints_valid=True  collision=False  over_limit=False
+[220] PASS  time=  0.274s  status=Exact solution     len=  1.872  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[221] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[222] PASS  time=  8.713s  status=Exact solution     len=  2.799  endpoints_valid=True  collision=False  over_limit=False
+[223] PASS  time=  1.819s  status=Exact solution     len=  5.511  endpoints_valid=True  collision=False  over_limit=False
+[224] PASS  time=  0.378s  status=Exact solution     len=  1.914  endpoints_valid=True  collision=False  over_limit=False
+[225] PASS  time=  0.462s  status=Exact solution     len=  2.423  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[226] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[227] PASS  time=  1.085s  status=Exact solution     len=  4.858  endpoints_valid=True  collision=False  over_limit=False
+[228] PASS  time=  1.647s  status=Exact solution     len=  5.656  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[229] FAIL  time= 30.049s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[230] PASS  time=  2.163s  status=Exact solution     len=  3.716  endpoints_valid=True  collision=False  over_limit=False
+[231] PASS  time=  0.743s  status=Exact solution     len=  3.290  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[232] FAIL  time= 30.046s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[233] FAIL  time=  0.004s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[234] PASS  time=  2.021s  status=Exact solution     len=  5.251  endpoints_valid=True  collision=False  over_limit=False
+[235] PASS  time=  0.483s  status=Exact solution     len=  2.125  endpoints_valid=True  collision=False  over_limit=False
+[236] PASS  time=  0.162s  status=Exact solution     len=  1.201  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[237] FAIL  time=  0.001s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[238] PASS  time=  1.091s  status=Exact solution     len=  4.705  endpoints_valid=True  collision=False  over_limit=False
+[239] PASS  time=  1.679s  status=Exact solution     len=  4.465  endpoints_valid=True  collision=False  over_limit=False
+[240] PASS  time=  0.712s  status=Exact solution     len=  3.663  endpoints_valid=True  collision=False  over_limit=False
+[241] PASS  time=  0.634s  status=Exact solution     len=  1.961  endpoints_valid=True  collision=False  over_limit=False
+[242] PASS  time=  1.062s  status=Exact solution     len=  3.339  endpoints_valid=True  collision=False  over_limit=False
+[243] PASS  time=  3.952s  status=Exact solution     len=  4.227  endpoints_valid=True  collision=False  over_limit=False
+[244] PASS  time=  1.835s  status=Exact solution     len=  4.988  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[245] FAIL  time= 30.050s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[246] PASS  time=  0.318s  status=Exact solution     len=  2.037  endpoints_valid=True  collision=False  over_limit=False
+[247] PASS  time=  0.795s  status=Exact solution     len=  2.889  endpoints_valid=True  collision=False  over_limit=False
+[248] PASS  time=  0.977s  status=Exact solution     len=  1.240  endpoints_valid=True  collision=False  over_limit=False
+[249] PASS  time=  1.608s  status=Exact solution     len=  5.414  endpoints_valid=True  collision=False  over_limit=False
+[250] PASS  time=  0.589s  status=Exact solution     len=  2.205  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[251] FAIL  time=  0.006s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[252] PASS  time=  1.925s  status=Exact solution     len=  2.853  endpoints_valid=True  collision=False  over_limit=False
+[253] PASS  time=  0.489s  status=Exact solution     len=  2.988  endpoints_valid=True  collision=False  over_limit=False
+[254] PASS  time=  2.323s  status=Exact solution     len=  5.213  endpoints_valid=True  collision=False  over_limit=False
+[255] PASS  time=  0.658s  status=Exact solution     len=  3.156  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[256] FAIL  time=  0.006s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[257] FAIL  time=  0.002s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[258] PASS  time=  0.697s  status=Exact solution     len=  1.701  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[259] FAIL  time=  0.005s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[260] PASS  time=  1.153s  status=Exact solution     len=  3.509  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[261] FAIL  time=  0.001s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[262] PASS  time=  3.097s  status=Exact solution     len=  4.771  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[263] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[264] PASS  time=  2.817s  status=Exact solution     len=  4.965  endpoints_valid=True  collision=False  over_limit=False
+[265] PASS  time=  0.859s  status=Exact solution     len=  3.553  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[266] FAIL  time= 30.043s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[267] PASS  time=  2.585s  status=Exact solution     len=  4.251  endpoints_valid=True  collision=False  over_limit=False
+[268] PASS  time=  0.779s  status=Exact solution     len=  4.774  endpoints_valid=True  collision=False  over_limit=False
+[269] PASS  time=  0.373s  status=Exact solution     len=  2.319  endpoints_valid=True  collision=False  over_limit=False
+[270] PASS  time=  0.204s  status=Exact solution     len=  1.508  endpoints_valid=True  collision=False  over_limit=False
+[271] PASS  time=  0.248s  status=Exact solution     len=  1.881  endpoints_valid=True  collision=False  over_limit=False
+[272] PASS  time=  2.211s  status=Exact solution     len=  4.617  endpoints_valid=True  collision=False  over_limit=False
+[273] PASS  time=  1.185s  status=Exact solution     len=  2.253  endpoints_valid=True  collision=False  over_limit=False
+[274] PASS  time=  1.198s  status=Exact solution     len=  4.983  endpoints_valid=True  collision=False  over_limit=False
+[275] PASS  time=  1.746s  status=Exact solution     len=  2.795  endpoints_valid=True  collision=False  over_limit=False
+[276] PASS  time=  0.372s  status=Exact solution     len=  1.968  endpoints_valid=True  collision=False  over_limit=False
+[277] PASS  time=  0.774s  status=Exact solution     len=  1.713  endpoints_valid=True  collision=False  over_limit=False
+[278] PASS  time=  0.200s  status=Exact solution     len=  1.800  endpoints_valid=True  collision=False  over_limit=False
+[279] PASS  time=  1.898s  status=Exact solution     len=  4.891  endpoints_valid=True  collision=False  over_limit=False
+[280] PASS  time=  1.448s  status=Exact solution     len=  5.209  endpoints_valid=True  collision=False  over_limit=False
+[281] PASS  time=  0.835s  status=Exact solution     len=  2.710  endpoints_valid=True  collision=False  over_limit=False
+[282] PASS  time=  1.859s  status=Exact solution     len=  6.231  endpoints_valid=True  collision=False  over_limit=False
+[283] PASS  time=  0.441s  status=Exact solution     len=  2.061  endpoints_valid=True  collision=False  over_limit=False
+[284] PASS  time=  0.744s  status=Exact solution     len=  3.248  endpoints_valid=True  collision=False  over_limit=False
+[285] PASS  time=  0.642s  status=Exact solution     len=  2.849  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[286] FAIL  time= 30.052s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[287] PASS  time=  0.447s  status=Exact solution     len=  2.872  endpoints_valid=True  collision=False  over_limit=False
+[288] PASS  time=  0.546s  status=Exact solution     len=  2.078  endpoints_valid=True  collision=False  over_limit=False
+[289] PASS  time=  2.474s  status=Exact solution     len=  4.784  endpoints_valid=True  collision=False  over_limit=False
+[290] PASS  time=  0.693s  status=Exact solution     len=  2.261  endpoints_valid=True  collision=False  over_limit=False
+[291] PASS  time=  1.902s  status=Exact solution     len=  3.659  endpoints_valid=True  collision=False  over_limit=False
+[292] PASS  time=  3.011s  status=Exact solution     len=  4.069  endpoints_valid=True  collision=False  over_limit=False
+[293] PASS  time=  1.285s  status=Exact solution     len=  4.752  endpoints_valid=True  collision=False  over_limit=False
+[294] PASS  time=  1.137s  status=Exact solution     len=  3.040  endpoints_valid=True  collision=False  over_limit=False
+[295] PASS  time=  1.416s  status=Exact solution     len=  3.355  endpoints_valid=True  collision=False  over_limit=False
+[296] PASS  time=  0.558s  status=Exact solution     len=  3.503  endpoints_valid=True  collision=False  over_limit=False
+[297] PASS  time=  4.284s  status=Exact solution     len=  3.914  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[298] FAIL  time=  0.002s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[299] PASS  time=  0.925s  status=Exact solution     len=  3.715  endpoints_valid=True  collision=False  over_limit=False
+[300] PASS  time=  0.481s  status=Exact solution     len=  2.515  endpoints_valid=True  collision=False  over_limit=False
+[301] PASS  time=  0.277s  status=Exact solution     len=  1.693  endpoints_valid=True  collision=False  over_limit=False
+[302] PASS  time=  1.931s  status=Exact solution     len=  4.484  endpoints_valid=True  collision=False  over_limit=False
+[303] PASS  time=  2.926s  status=Exact solution     len=  7.751  endpoints_valid=True  collision=False  over_limit=False
+[304] PASS  time=  1.333s  status=Exact solution     len=  2.996  endpoints_valid=True  collision=False  over_limit=False
+[305] PASS  time=  0.773s  status=Exact solution     len=  2.269  endpoints_valid=True  collision=False  over_limit=False
+[306] PASS  time=  1.662s  status=Exact solution     len=  5.021  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[307] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[308] PASS  time=  0.068s  status=Exact solution     len=  1.204  endpoints_valid=True  collision=False  over_limit=False
+[309] PASS  time=  1.071s  status=Exact solution     len=  6.381  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[310] FAIL  time= 30.054s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[311] PASS  time=  1.089s  status=Exact solution     len=  4.489  endpoints_valid=True  collision=False  over_limit=False
+[312] PASS  time=  1.121s  status=Exact solution     len=  3.746  endpoints_valid=True  collision=False  over_limit=False
+[313] PASS  time=  0.639s  status=Exact solution     len=  3.674  endpoints_valid=True  collision=False  over_limit=False
+[314] PASS  time=  1.068s  status=Exact solution     len=  3.540  endpoints_valid=True  collision=False  over_limit=False
+[315] PASS  time=  0.998s  status=Exact solution     len=  1.962  endpoints_valid=True  collision=False  over_limit=False
+[316] PASS  time=  0.694s  status=Exact solution     len=  3.305  endpoints_valid=True  collision=False  over_limit=False
+[317] PASS  time=  0.476s  status=Exact solution     len=  2.173  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[318] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[319] PASS  time=  0.294s  status=Exact solution     len=  1.787  endpoints_valid=True  collision=False  over_limit=False
+[320] PASS  time=  1.691s  status=Exact solution     len=  4.470  endpoints_valid=True  collision=False  over_limit=False
+[321] PASS  time=  1.501s  status=Exact solution     len=  3.618  endpoints_valid=True  collision=False  over_limit=False
+[322] PASS  time=  0.295s  status=Exact solution     len=  1.633  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[323] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[324] PASS  time=  0.233s  status=Exact solution     len=  1.660  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[325] FAIL  time= 30.054s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[326] PASS  time=  2.219s  status=Exact solution     len=  4.229  endpoints_valid=True  collision=False  over_limit=False
+[327] PASS  time=  1.411s  status=Exact solution     len=  2.627  endpoints_valid=True  collision=False  over_limit=False
+[328] PASS  time=  0.810s  status=Exact solution     len=  3.412  endpoints_valid=True  collision=False  over_limit=False
+[329] PASS  time=  1.698s  status=Exact solution     len=  3.757  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[330] FAIL  time= 30.044s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[331] PASS  time=  0.908s  status=Exact solution     len=  3.333  endpoints_valid=True  collision=False  over_limit=False
+[332] PASS  time=  1.080s  status=Exact solution     len=  2.209  endpoints_valid=True  collision=False  over_limit=False
+[333] PASS  time=  1.239s  status=Exact solution     len=  3.486  endpoints_valid=True  collision=False  over_limit=False
+[334] PASS  time=  4.426s  status=Exact solution     len=  6.456  endpoints_valid=True  collision=False  over_limit=False
+[335] PASS  time=  0.536s  status=Exact solution     len=  1.900  endpoints_valid=True  collision=False  over_limit=False
+[336] PASS  time=  2.483s  status=Exact solution     len=  5.416  endpoints_valid=True  collision=False  over_limit=False
+[337] PASS  time=  0.629s  status=Exact solution     len=  2.161  endpoints_valid=True  collision=False  over_limit=False
+[338] PASS  time=  0.665s  status=Exact solution     len=  2.880  endpoints_valid=True  collision=False  over_limit=False
+[339] PASS  time=  0.676s  status=Exact solution     len=  2.645  endpoints_valid=True  collision=False  over_limit=False
+[340] PASS  time=  0.771s  status=Exact solution     len=  3.563  endpoints_valid=True  collision=False  over_limit=False
+[341] PASS  time=  0.393s  status=Exact solution     len=  2.231  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[342] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[343] FAIL  time= 30.052s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[344] PASS  time=  1.744s  status=Exact solution     len=  5.614  endpoints_valid=True  collision=False  over_limit=False
+[345] PASS  time=  0.243s  status=Exact solution     len=  2.032  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[346] FAIL  time= 30.058s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[347] PASS  time=  0.944s  status=Exact solution     len=  2.626  endpoints_valid=True  collision=False  over_limit=False
+[348] PASS  time=  0.650s  status=Exact solution     len=  2.090  endpoints_valid=True  collision=False  over_limit=False
+[349] PASS  time=  2.958s  status=Exact solution     len=  5.478  endpoints_valid=True  collision=False  over_limit=False
+[350] PASS  time=  1.211s  status=Exact solution     len=  4.624  endpoints_valid=True  collision=False  over_limit=False
+[351] PASS  time=  1.994s  status=Exact solution     len=  4.301  endpoints_valid=True  collision=False  over_limit=False
+[352] PASS  time=  0.528s  status=Exact solution     len=  2.426  endpoints_valid=True  collision=False  over_limit=False
+[353] PASS  time=  2.171s  status=Exact solution     len=  4.814  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[354] FAIL  time= 30.035s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[355] PASS  time=  0.837s  status=Exact solution     len=  4.141  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[356] FAIL  time= 30.059s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[357] PASS  time=  0.135s  status=Exact solution     len=  1.707  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[358] FAIL  time=  0.004s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[359] PASS  time=  0.838s  status=Exact solution     len=  2.086  endpoints_valid=True  collision=False  over_limit=False
+[360] PASS  time=  1.551s  status=Exact solution     len=  2.386  endpoints_valid=True  collision=False  over_limit=False
+[361] PASS  time=  1.051s  status=Exact solution     len=  2.897  endpoints_valid=True  collision=False  over_limit=False
+[362] PASS  time=  0.243s  status=Exact solution     len=  1.413  endpoints_valid=True  collision=False  over_limit=False
+[363] PASS  time=  1.326s  status=Exact solution     len=  2.964  endpoints_valid=True  collision=False  over_limit=False
+[364] PASS  time=  3.559s  status=Exact solution     len=  6.355  endpoints_valid=True  collision=False  over_limit=False
+[365] PASS  time=  0.379s  status=Exact solution     len=  2.597  endpoints_valid=True  collision=False  over_limit=False
+[366] PASS  time=  1.211s  status=Exact solution     len=  3.548  endpoints_valid=True  collision=False  over_limit=False
+[367] PASS  time=  1.021s  status=Exact solution     len=  4.891  endpoints_valid=True  collision=False  over_limit=False
+[368] PASS  time=  0.488s  status=Exact solution     len=  1.991  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[369] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[370] PASS  time=  0.363s  status=Exact solution     len=  2.572  endpoints_valid=True  collision=False  over_limit=False
+[371] PASS  time=  1.465s  status=Exact solution     len=  2.237  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[372] FAIL  time= 30.052s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[373] PASS  time=  0.531s  status=Exact solution     len=  1.315  endpoints_valid=True  collision=False  over_limit=False
+[374] PASS  time=  7.775s  status=Exact solution     len=  6.207  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[375] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[376] PASS  time=  1.389s  status=Exact solution     len=  2.174  endpoints_valid=True  collision=False  over_limit=False
+[377] PASS  time=  0.639s  status=Exact solution     len=  2.860  endpoints_valid=True  collision=False  over_limit=False
+[378] PASS  time=  0.560s  status=Exact solution     len=  2.359  endpoints_valid=True  collision=False  over_limit=False
+[379] PASS  time=  0.798s  status=Exact solution     len=  3.956  endpoints_valid=True  collision=False  over_limit=False
+[380] PASS  time=  0.290s  status=Exact solution     len=  1.193  endpoints_valid=True  collision=False  over_limit=False
+[381] PASS  time=  0.283s  status=Exact solution     len=  1.006  endpoints_valid=True  collision=False  over_limit=False
+[382] PASS  time=  3.156s  status=Exact solution     len=  5.224  endpoints_valid=True  collision=False  over_limit=False
+[383] PASS  time=  0.330s  status=Exact solution     len=  1.420  endpoints_valid=True  collision=False  over_limit=False
+[384] PASS  time=  0.193s  status=Exact solution     len=  1.515  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[385] FAIL  time= 30.061s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[386] PASS  time=  2.252s  status=Exact solution     len=  3.579  endpoints_valid=True  collision=False  over_limit=False
+[387] PASS  time=  0.908s  status=Exact solution     len=  3.104  endpoints_valid=True  collision=False  over_limit=False
+[388] PASS  time=  0.718s  status=Exact solution     len=  2.756  endpoints_valid=True  collision=False  over_limit=False
+[389] PASS  time=  0.643s  status=Exact solution     len=  3.110  endpoints_valid=True  collision=False  over_limit=False
+[390] PASS  time=  0.553s  status=Exact solution     len=  4.441  endpoints_valid=True  collision=False  over_limit=False
+[391] PASS  time=  0.291s  status=Exact solution     len=  1.779  endpoints_valid=True  collision=False  over_limit=False
+[392] PASS  time=  2.297s  status=Exact solution     len=  4.693  endpoints_valid=True  collision=False  over_limit=False
+[393] PASS  time=  0.174s  status=Exact solution     len=  1.861  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[394] FAIL  time= 30.052s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[395] PASS  time=  0.867s  status=Exact solution     len=  3.143  endpoints_valid=True  collision=False  over_limit=False
+[396] PASS  time=  0.609s  status=Exact solution     len=  3.294  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[397] FAIL  time= 30.055s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[398] PASS  time=  2.121s  status=Exact solution     len=  4.242  endpoints_valid=True  collision=False  over_limit=False
+[399] PASS  time=  0.049s  status=Exact solution     len=  1.788  endpoints_valid=True  collision=False  over_limit=False
+[400] PASS  time=  1.287s  status=Exact solution     len=  2.913  endpoints_valid=True  collision=False  over_limit=False
+[401] PASS  time=  0.213s  status=Exact solution     len=  2.126  endpoints_valid=True  collision=False  over_limit=False
+[402] PASS  time=  0.820s  status=Exact solution     len=  3.343  endpoints_valid=True  collision=False  over_limit=False
+[403] PASS  time=  0.504s  status=Exact solution     len=  2.138  endpoints_valid=True  collision=False  over_limit=False
+[404] PASS  time=  3.524s  status=Exact solution     len=  5.806  endpoints_valid=True  collision=False  over_limit=False
+[405] PASS  time=  0.716s  status=Exact solution     len=  3.312  endpoints_valid=True  collision=False  over_limit=False
+[406] PASS  time=  0.853s  status=Exact solution     len=  3.214  endpoints_valid=True  collision=False  over_limit=False
+[407] PASS  time=  1.501s  status=Exact solution     len=  3.080  endpoints_valid=True  collision=False  over_limit=False
+[408] PASS  time=  0.162s  status=Exact solution     len=  1.854  endpoints_valid=True  collision=False  over_limit=False
+[409] PASS  time=  2.102s  status=Exact solution     len=  2.402  endpoints_valid=True  collision=False  over_limit=False
+[410] PASS  time=  2.562s  status=Exact solution     len=  4.444  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[411] FAIL  time= 30.038s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[412] PASS  time=  0.489s  status=Exact solution     len=  1.383  endpoints_valid=True  collision=False  over_limit=False
+[413] PASS  time=  2.371s  status=Exact solution     len=  2.921  endpoints_valid=True  collision=False  over_limit=False
+[414] PASS  time=  0.184s  status=Exact solution     len=  1.705  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[415] FAIL  time=  0.004s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[416] PASS  time=  0.809s  status=Exact solution     len=  3.174  endpoints_valid=True  collision=False  over_limit=False
+[417] PASS  time=  0.203s  status=Exact solution     len=  1.512  endpoints_valid=True  collision=False  over_limit=False
+[418] PASS  time=  0.911s  status=Exact solution     len=  4.302  endpoints_valid=True  collision=False  over_limit=False
+[419] PASS  time=  1.070s  status=Exact solution     len=  3.475  endpoints_valid=True  collision=False  over_limit=False
+[420] PASS  time=  4.009s  status=Exact solution     len=  6.317  endpoints_valid=True  collision=False  over_limit=False
+[421] PASS  time=  0.618s  status=Exact solution     len=  1.707  endpoints_valid=True  collision=False  over_limit=False
+[422] PASS  time=  0.417s  status=Exact solution     len=  2.284  endpoints_valid=True  collision=False  over_limit=False
+[423] PASS  time=  0.859s  status=Exact solution     len=  2.982  endpoints_valid=True  collision=False  over_limit=False
+[424] PASS  time=  0.475s  status=Exact solution     len=  1.906  endpoints_valid=True  collision=False  over_limit=False
+[425] PASS  time=  0.862s  status=Exact solution     len=  2.216  endpoints_valid=True  collision=False  over_limit=False
+[426] PASS  time=  0.282s  status=Exact solution     len=  1.419  endpoints_valid=True  collision=False  over_limit=False
+[427] PASS  time=  0.331s  status=Exact solution     len=  1.236  endpoints_valid=True  collision=False  over_limit=False
+[428] PASS  time=  0.586s  status=Exact solution     len=  1.424  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[429] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[430] PASS  time=  1.842s  status=Exact solution     len=  4.592  endpoints_valid=True  collision=False  over_limit=False
+[431] PASS  time=  1.539s  status=Exact solution     len=  3.627  endpoints_valid=True  collision=False  over_limit=False
+[432] PASS  time=  3.013s  status=Exact solution     len=  4.279  endpoints_valid=True  collision=False  over_limit=False
+[433] PASS  time=  1.809s  status=Exact solution     len=  2.895  endpoints_valid=True  collision=False  over_limit=False
+[434] PASS  time=  5.004s  status=Exact solution     len=  4.733  endpoints_valid=True  collision=False  over_limit=False
+[435] PASS  time=  0.799s  status=Exact solution     len=  1.880  endpoints_valid=True  collision=False  over_limit=False
+[436] PASS  time=  0.448s  status=Exact solution     len=  1.760  endpoints_valid=True  collision=False  over_limit=False
+[437] PASS  time=  1.571s  status=Exact solution     len=  3.752  endpoints_valid=True  collision=False  over_limit=False
+[438] PASS  time=  0.440s  status=Exact solution     len=  2.228  endpoints_valid=True  collision=False  over_limit=False
+[439] PASS  time=  0.687s  status=Exact solution     len=  2.055  endpoints_valid=True  collision=False  over_limit=False
+[440] PASS  time=  3.352s  status=Exact solution     len=  3.554  endpoints_valid=True  collision=False  over_limit=False
+[441] PASS  time=  1.086s  status=Exact solution     len=  2.544  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[442] FAIL  time= 30.103s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[443] PASS  time=  0.747s  status=Exact solution     len=  2.572  endpoints_valid=True  collision=False  over_limit=False
+[444] PASS  time=  0.780s  status=Exact solution     len=  2.845  endpoints_valid=True  collision=False  over_limit=False
+[445] PASS  time=  0.321s  status=Exact solution     len=  1.403  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[446] FAIL  time=  0.009s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[447] PASS  time=  1.419s  status=Exact solution     len=  3.884  endpoints_valid=True  collision=False  over_limit=False
+[448] PASS  time=  0.839s  status=Exact solution     len=  2.740  endpoints_valid=True  collision=False  over_limit=False
+[449] PASS  time=  1.842s  status=Exact solution     len=  5.534  endpoints_valid=True  collision=False  over_limit=False
+[450] PASS  time=  0.519s  status=Exact solution     len=  2.572  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[451] FAIL  time=  0.008s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[452] FAIL  time= 30.052s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[453] PASS  time=  1.076s  status=Exact solution     len=  1.979  endpoints_valid=True  collision=False  over_limit=False
+[454] PASS  time=  0.445s  status=Exact solution     len=  1.658  endpoints_valid=True  collision=False  over_limit=False
+[455] PASS  time=  0.488s  status=Exact solution     len=  2.078  endpoints_valid=True  collision=False  over_limit=False
+[456] PASS  time=  0.432s  status=Exact solution     len=  2.076  endpoints_valid=True  collision=False  over_limit=False
+[457] PASS  time=  1.450s  status=Exact solution     len=  2.980  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[458] FAIL  time= 30.074s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[459] PASS  time=  4.250s  status=Exact solution     len=  6.449  endpoints_valid=True  collision=False  over_limit=False
+[460] PASS  time=  1.335s  status=Exact solution     len=  3.443  endpoints_valid=True  collision=False  over_limit=False
+[461] PASS  time=  0.328s  status=Exact solution     len=  1.279  endpoints_valid=True  collision=False  over_limit=False
+[462] PASS  time=  1.184s  status=Exact solution     len=  2.604  endpoints_valid=True  collision=False  over_limit=False
+[463] PASS  time=  5.674s  status=Exact solution     len=  5.132  endpoints_valid=True  collision=False  over_limit=False
+[464] PASS  time=  0.406s  status=Exact solution     len=  1.751  endpoints_valid=True  collision=False  over_limit=False
+[465] PASS  time=  4.025s  status=Exact solution     len=  5.592  endpoints_valid=True  collision=False  over_limit=False
+[466] PASS  time=  0.468s  status=Exact solution     len=  1.823  endpoints_valid=True  collision=False  over_limit=False
+[467] PASS  time=  1.095s  status=Exact solution     len=  1.755  endpoints_valid=True  collision=False  over_limit=False
+[468] PASS  time=  0.643s  status=Exact solution     len=  2.371  endpoints_valid=True  collision=False  over_limit=False
+[469] PASS  time=  7.086s  status=Exact solution     len=  7.767  endpoints_valid=True  collision=False  over_limit=False
+[470] PASS  time=  1.428s  status=Exact solution     len=  3.348  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[471] FAIL  time=  0.008s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[472] PASS  time=  1.699s  status=Exact solution     len=  4.551  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[473] FAIL  time=  0.004s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[474] PASS  time=  0.887s  status=Exact solution     len=  2.122  endpoints_valid=True  collision=False  over_limit=False
+[475] PASS  time=  0.333s  status=Exact solution     len=  1.696  endpoints_valid=True  collision=False  over_limit=False
+[476] PASS  time=  1.924s  status=Exact solution     len=  3.885  endpoints_valid=True  collision=False  over_limit=False
+[477] PASS  time=  1.532s  status=Exact solution     len=  2.430  endpoints_valid=True  collision=False  over_limit=False
+[478] PASS  time=  1.887s  status=Exact solution     len=  3.479  endpoints_valid=True  collision=False  over_limit=False
+[479] PASS  time=  3.763s  status=Exact solution     len=  7.031  endpoints_valid=True  collision=False  over_limit=False
+[480] PASS  time=  2.704s  status=Exact solution     len=  5.445  endpoints_valid=True  collision=False  over_limit=False
+[481] PASS  time=  0.620s  status=Exact solution     len=  1.260  endpoints_valid=True  collision=False  over_limit=False
+[482] PASS  time=  0.963s  status=Exact solution     len=  3.421  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[483] FAIL  time=  0.002s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[484] PASS  time=  0.278s  status=Exact solution     len=  1.492  endpoints_valid=True  collision=False  over_limit=False
+[485] PASS  time=  0.708s  status=Exact solution     len=  1.726  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[486] FAIL  time= 30.015s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[487] PASS  time=  2.661s  status=Exact solution     len=  5.777  endpoints_valid=True  collision=False  over_limit=False
+[488] PASS  time=  3.346s  status=Exact solution     len=  4.982  endpoints_valid=True  collision=False  over_limit=False
+[489] PASS  time=  0.176s  status=Exact solution     len=  0.919  endpoints_valid=True  collision=False  over_limit=False
+[490] PASS  time=  0.886s  status=Exact solution     len=  2.296  endpoints_valid=True  collision=False  over_limit=False
+[491] PASS  time=  1.546s  status=Exact solution     len=  4.230  endpoints_valid=True  collision=False  over_limit=False
+[492] PASS  time=  1.122s  status=Exact solution     len=  2.430  endpoints_valid=True  collision=False  over_limit=False
+[493] PASS  time=  1.044s  status=Exact solution     len=  3.351  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[494] FAIL  time= 30.046s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[495] PASS  time=  0.856s  status=Exact solution     len=  1.529  endpoints_valid=True  collision=False  over_limit=False
+[496] PASS  time=  0.608s  status=Exact solution     len=  1.904  endpoints_valid=True  collision=False  over_limit=False
+[497] PASS  time=  1.460s  status=Exact solution     len=  2.475  endpoints_valid=True  collision=False  over_limit=False
+[498] PASS  time=  0.230s  status=Exact solution     len=  1.249  endpoints_valid=True  collision=False  over_limit=False
+[499] PASS  time=  0.658s  status=Exact solution     len=  2.980  endpoints_valid=True  collision=False  over_limit=False
+[500] PASS  time=  0.994s  status=Exact solution     len=  2.863  endpoints_valid=True  collision=False  over_limit=False
+[501] PASS  time=  0.879s  status=Exact solution     len=  3.284  endpoints_valid=True  collision=False  over_limit=False
+[502] PASS  time=  0.483s  status=Exact solution     len=  1.869  endpoints_valid=True  collision=False  over_limit=False
+[503] PASS  time=  0.738s  status=Exact solution     len=  3.146  endpoints_valid=True  collision=False  over_limit=False
+[504] PASS  time=  0.982s  status=Exact solution     len=  3.337  endpoints_valid=True  collision=False  over_limit=False
+[505] PASS  time=  0.496s  status=Exact solution     len=  2.250  endpoints_valid=True  collision=False  over_limit=False
+[506] PASS  time=  0.929s  status=Exact solution     len=  2.229  endpoints_valid=True  collision=False  over_limit=False
+[507] PASS  time=  2.087s  status=Exact solution     len=  3.891  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[508] FAIL  time= 30.106s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[509] FAIL  time= 30.075s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[510] PASS  time=  4.390s  status=Exact solution     len=  5.662  endpoints_valid=True  collision=False  over_limit=False
+[511] PASS  time=  1.722s  status=Exact solution     len=  4.876  endpoints_valid=True  collision=False  over_limit=False
+[512] PASS  time=  0.974s  status=Exact solution     len=  2.171  endpoints_valid=True  collision=False  over_limit=False
+[513] PASS  time=  0.656s  status=Exact solution     len=  3.174  endpoints_valid=True  collision=False  over_limit=False
+[514] PASS  time=  2.338s  status=Exact solution     len=  4.444  endpoints_valid=True  collision=False  over_limit=False
+[515] PASS  time=  0.373s  status=Exact solution     len=  1.900  endpoints_valid=True  collision=False  over_limit=False
+[516] PASS  time=  0.410s  status=Exact solution     len=  1.837  endpoints_valid=True  collision=False  over_limit=False
+[517] PASS  time=  0.272s  status=Exact solution     len=  1.263  endpoints_valid=True  collision=False  over_limit=False
+[518] PASS  time=  0.472s  status=Exact solution     len=  2.029  endpoints_valid=True  collision=False  over_limit=False
+[519] PASS  time=  1.569s  status=Exact solution     len=  3.459  endpoints_valid=True  collision=False  over_limit=False
+[520] PASS  time=  0.889s  status=Exact solution     len=  2.214  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[521] FAIL  time=  0.005s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[522] PASS  time=  2.816s  status=Exact solution     len=  3.663  endpoints_valid=True  collision=False  over_limit=False
+[523] PASS  time=  3.502s  status=Exact solution     len=  4.503  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[524] FAIL  time=  0.006s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[525] FAIL  time=  0.008s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[526] PASS  time=  2.067s  status=Exact solution     len=  5.058  endpoints_valid=True  collision=False  over_limit=False
+[527] PASS  time=  3.734s  status=Exact solution     len=  5.334  endpoints_valid=True  collision=False  over_limit=False
+[528] PASS  time=  0.860s  status=Exact solution     len=  2.185  endpoints_valid=True  collision=False  over_limit=False
+[529] PASS  time=  0.810s  status=Exact solution     len=  2.439  endpoints_valid=True  collision=False  over_limit=False
+[530] PASS  time=  2.203s  status=Exact solution     len=  4.468  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[531] FAIL  time= 30.109s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[532] PASS  time=  2.617s  status=Exact solution     len=  4.048  endpoints_valid=True  collision=False  over_limit=False
+[533] PASS  time=  0.615s  status=Exact solution     len=  2.696  endpoints_valid=True  collision=False  over_limit=False
+[534] PASS  time=  0.832s  status=Exact solution     len=  2.872  endpoints_valid=True  collision=False  over_limit=False
+[535] PASS  time=  0.249s  status=Exact solution     len=  1.523  endpoints_valid=True  collision=False  over_limit=False
+[536] PASS  time=  2.721s  status=Exact solution     len=  3.995  endpoints_valid=True  collision=False  over_limit=False
+[537] PASS  time=  3.234s  status=Exact solution     len=  5.631  endpoints_valid=True  collision=False  over_limit=False
+[538] PASS  time=  2.310s  status=Exact solution     len=  4.099  endpoints_valid=True  collision=False  over_limit=False
+[539] PASS  time=  0.984s  status=Exact solution     len=  2.069  endpoints_valid=True  collision=False  over_limit=False
+[540] PASS  time=  0.723s  status=Exact solution     len=  2.913  endpoints_valid=True  collision=False  over_limit=False
+[541] PASS  time=  0.469s  status=Exact solution     len=  1.721  endpoints_valid=True  collision=False  over_limit=False
+[542] PASS  time=  0.267s  status=Exact solution     len=  2.263  endpoints_valid=True  collision=False  over_limit=False
+[543] PASS  time=  3.408s  status=Exact solution     len=  5.047  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[544] FAIL  time=  0.006s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[545] FAIL  time=  0.011s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[546] PASS  time=  2.670s  status=Exact solution     len=  3.547  endpoints_valid=True  collision=False  over_limit=False
+[547] PASS  time=  1.483s  status=Exact solution     len=  1.890  endpoints_valid=True  collision=False  over_limit=False
+[548] PASS  time=  1.398s  status=Exact solution     len=  1.592  endpoints_valid=True  collision=False  over_limit=False
+[549] PASS  time=  3.617s  status=Exact solution     len=  4.562  endpoints_valid=True  collision=False  over_limit=False
+[550] PASS  time=  2.632s  status=Exact solution     len=  5.972  endpoints_valid=True  collision=False  over_limit=False
+[551] PASS  time=  3.191s  status=Exact solution     len=  5.003  endpoints_valid=True  collision=False  over_limit=False
+[552] PASS  time=  3.073s  status=Exact solution     len=  3.534  endpoints_valid=True  collision=False  over_limit=False
+[553] PASS  time=  1.577s  status=Exact solution     len=  4.602  endpoints_valid=True  collision=False  over_limit=False
+[554] PASS  time=  2.263s  status=Exact solution     len=  5.708  endpoints_valid=True  collision=False  over_limit=False
+[555] PASS  time= 18.056s  status=Exact solution     len=  8.243  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[556] FAIL  time=  0.004s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[557] PASS  time=  0.761s  status=Exact solution     len=  2.090  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[558] FAIL  time=  0.007s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[559] PASS  time=  1.197s  status=Exact solution     len=  2.282  endpoints_valid=True  collision=False  over_limit=False
+[560] PASS  time=  1.745s  status=Exact solution     len=  3.361  endpoints_valid=True  collision=False  over_limit=False
+[561] PASS  time=  2.192s  status=Exact solution     len=  4.516  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[562] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[563] PASS  time=  0.497s  status=Exact solution     len=  1.920  endpoints_valid=True  collision=False  over_limit=False
+[564] PASS  time=  1.609s  status=Exact solution     len=  2.865  endpoints_valid=True  collision=False  over_limit=False
+[565] PASS  time=  0.881s  status=Exact solution     len=  2.116  endpoints_valid=True  collision=False  over_limit=False
+[566] PASS  time=  5.267s  status=Exact solution     len=  6.495  endpoints_valid=True  collision=False  over_limit=False
+[567] PASS  time=  1.011s  status=Exact solution     len=  2.772  endpoints_valid=True  collision=False  over_limit=False
+[568] PASS  time=  3.277s  status=Exact solution     len=  2.897  endpoints_valid=True  collision=False  over_limit=False
+[569] PASS  time=  1.064s  status=Exact solution     len=  2.337  endpoints_valid=True  collision=False  over_limit=False
+[570] PASS  time=  1.063s  status=Exact solution     len=  2.634  endpoints_valid=True  collision=False  over_limit=False
+[571] PASS  time=  0.407s  status=Exact solution     len=  2.942  endpoints_valid=True  collision=False  over_limit=False
+[572] PASS  time=  0.736s  status=Exact solution     len=  2.205  endpoints_valid=True  collision=False  over_limit=False
+[573] PASS  time=  0.677s  status=Exact solution     len=  2.713  endpoints_valid=True  collision=False  over_limit=False
+[574] PASS  time=  0.370s  status=Exact solution     len=  1.261  endpoints_valid=True  collision=False  over_limit=False
+[575] PASS  time=  1.170s  status=Exact solution     len=  3.528  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[576] FAIL  time=  0.001s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[577] PASS  time=  0.847s  status=Exact solution     len=  1.882  endpoints_valid=True  collision=False  over_limit=False
+[578] PASS  time=  0.831s  status=Exact solution     len=  1.790  endpoints_valid=True  collision=False  over_limit=False
+[579] PASS  time=  0.954s  status=Exact solution     len=  4.585  endpoints_valid=True  collision=False  over_limit=False
+[580] PASS  time=  3.079s  status=Exact solution     len=  4.484  endpoints_valid=True  collision=False  over_limit=False
+[581] PASS  time=  1.904s  status=Exact solution     len=  4.459  endpoints_valid=True  collision=False  over_limit=False
+[582] PASS  time=  1.110s  status=Exact solution     len=  1.807  endpoints_valid=True  collision=False  over_limit=False
+[583] PASS  time=  0.313s  status=Exact solution     len=  1.656  endpoints_valid=True  collision=False  over_limit=False
+[584] PASS  time=  8.723s  status=Exact solution     len=  4.787  endpoints_valid=True  collision=False  over_limit=False
+[585] PASS  time=  0.767s  status=Exact solution     len=  2.077  endpoints_valid=True  collision=False  over_limit=False
+[586] PASS  time=  0.634s  status=Exact solution     len=  2.494  endpoints_valid=True  collision=False  over_limit=False
+[587] PASS  time=  2.439s  status=Exact solution     len=  5.528  endpoints_valid=True  collision=False  over_limit=False
+[588] PASS  time=  0.760s  status=Exact solution     len=  2.296  endpoints_valid=True  collision=False  over_limit=False
+[589] PASS  time=  0.349s  status=Exact solution     len=  2.272  endpoints_valid=True  collision=False  over_limit=False
+[590] PASS  time=  1.882s  status=Exact solution     len=  3.746  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[591] FAIL  time= 30.162s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[592] PASS  time=  0.632s  status=Exact solution     len=  1.928  endpoints_valid=True  collision=False  over_limit=False
+[593] PASS  time=  0.381s  status=Exact solution     len=  1.868  endpoints_valid=True  collision=False  over_limit=False
+[594] PASS  time=  1.189s  status=Exact solution     len=  3.581  endpoints_valid=True  collision=False  over_limit=False
+[595] PASS  time=  2.194s  status=Exact solution     len=  4.359  endpoints_valid=True  collision=False  over_limit=False
+[596] PASS  time=  1.582s  status=Exact solution     len=  4.878  endpoints_valid=True  collision=False  over_limit=False
+[597] PASS  time=  1.388s  status=Exact solution     len=  2.574  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[598] FAIL  time=  0.002s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[599] PASS  time=  3.980s  status=Exact solution     len=  5.650  endpoints_valid=True  collision=False  over_limit=False
+[600] PASS  time=  0.582s  status=Exact solution     len=  2.957  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[601] FAIL  time= 30.105s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[602] FAIL  time=  0.006s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[603] PASS  time=  3.267s  status=Exact solution     len=  3.036  endpoints_valid=True  collision=False  over_limit=False
+[604] PASS  time=  2.625s  status=Exact solution     len=  4.012  endpoints_valid=True  collision=False  over_limit=False
+[605] PASS  time=  0.673s  status=Exact solution     len=  3.241  endpoints_valid=True  collision=False  over_limit=False
+[606] PASS  time=  0.749s  status=Exact solution     len=  2.182  endpoints_valid=True  collision=False  over_limit=False
+[607] PASS  time=  0.386s  status=Exact solution     len=  1.711  endpoints_valid=True  collision=False  over_limit=False
+[608] PASS  time=  0.166s  status=Exact solution     len=  1.320  endpoints_valid=True  collision=False  over_limit=False
+[609] PASS  time=  3.008s  status=Exact solution     len=  5.007  endpoints_valid=True  collision=False  over_limit=False
+[610] PASS  time=  0.359s  status=Exact solution     len=  1.700  endpoints_valid=True  collision=False  over_limit=False
+[611] PASS  time=  0.348s  status=Exact solution     len=  2.014  endpoints_valid=True  collision=False  over_limit=False
+[612] PASS  time=  1.580s  status=Exact solution     len=  3.590  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[613] FAIL  time=  0.002s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[614] FAIL  time= 30.094s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[615] PASS  time=  1.109s  status=Exact solution     len=  1.930  endpoints_valid=True  collision=False  over_limit=False
+[616] PASS  time=  1.027s  status=Exact solution     len=  2.283  endpoints_valid=True  collision=False  over_limit=False
+[617] PASS  time=  0.514s  status=Exact solution     len=  1.578  endpoints_valid=True  collision=False  over_limit=False
+[618] PASS  time=  7.527s  status=Exact solution     len=  3.340  endpoints_valid=True  collision=False  over_limit=False
+[619] PASS  time=  0.725s  status=Exact solution     len=  1.779  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[620] FAIL  time=  0.006s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[621] PASS  time=  0.458s  status=Exact solution     len=  2.278  endpoints_valid=True  collision=False  over_limit=False
+[622] PASS  time=  2.141s  status=Exact solution     len=  5.329  endpoints_valid=True  collision=False  over_limit=False
+[623] PASS  time=  2.064s  status=Exact solution     len=  6.421  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[624] FAIL  time= 30.060s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[625] PASS  time=  1.862s  status=Exact solution     len=  5.048  endpoints_valid=True  collision=False  over_limit=False
+[626] PASS  time=  0.724s  status=Exact solution     len=  2.959  endpoints_valid=True  collision=False  over_limit=False
+[627] PASS  time=  1.155s  status=Exact solution     len=  2.229  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[628] FAIL  time= 30.046s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[629] PASS  time=  0.652s  status=Exact solution     len=  2.571  endpoints_valid=True  collision=False  over_limit=False
+[630] PASS  time=  4.068s  status=Exact solution     len=  6.901  endpoints_valid=True  collision=False  over_limit=False
+[631] PASS  time=  2.207s  status=Exact solution     len=  4.621  endpoints_valid=True  collision=False  over_limit=False
+[632] PASS  time=  1.246s  status=Exact solution     len=  4.152  endpoints_valid=True  collision=False  over_limit=False
+[633] PASS  time=  1.136s  status=Exact solution     len=  1.610  endpoints_valid=True  collision=False  over_limit=False
+[634] PASS  time=  1.471s  status=Exact solution     len=  2.409  endpoints_valid=True  collision=False  over_limit=False
+[635] PASS  time=  0.809s  status=Exact solution     len=  2.888  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[636] FAIL  time=  0.005s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[637] PASS  time=  0.684s  status=Exact solution     len=  1.683  endpoints_valid=True  collision=False  over_limit=False
+[638] PASS  time=  4.323s  status=Exact solution     len=  6.336  endpoints_valid=True  collision=False  over_limit=False
+[639] PASS  time=  1.552s  status=Exact solution     len=  4.173  endpoints_valid=True  collision=False  over_limit=False
+[640] PASS  time=  1.767s  status=Exact solution     len=  2.008  endpoints_valid=True  collision=False  over_limit=False
+[641] PASS  time=  1.267s  status=Exact solution     len=  1.597  endpoints_valid=True  collision=False  over_limit=False
+[642] PASS  time=  4.001s  status=Exact solution     len=  4.732  endpoints_valid=True  collision=False  over_limit=False
+[643] PASS  time=  0.695s  status=Exact solution     len=  2.306  endpoints_valid=True  collision=False  over_limit=False
+[644] PASS  time=  0.332s  status=Exact solution     len=  2.902  endpoints_valid=True  collision=False  over_limit=False
+[645] PASS  time=  0.678s  status=Exact solution     len=  2.034  endpoints_valid=True  collision=False  over_limit=False
+[646] PASS  time=  1.066s  status=Exact solution     len=  2.313  endpoints_valid=True  collision=False  over_limit=False
+[647] PASS  time=  0.859s  status=Exact solution     len=  2.166  endpoints_valid=True  collision=False  over_limit=False
+[648] PASS  time=  0.695s  status=Exact solution     len=  3.027  endpoints_valid=True  collision=False  over_limit=False
+[649] PASS  time=  3.259s  status=Exact solution     len=  3.548  endpoints_valid=True  collision=False  over_limit=False
+[650] PASS  time=  0.823s  status=Exact solution     len=  2.767  endpoints_valid=True  collision=False  over_limit=False
+[651] PASS  time=  0.718s  status=Exact solution     len=  1.996  endpoints_valid=True  collision=False  over_limit=False
+[652] PASS  time=  3.691s  status=Exact solution     len=  6.481  endpoints_valid=True  collision=False  over_limit=False
+[653] PASS  time=  0.322s  status=Exact solution     len=  1.559  endpoints_valid=True  collision=False  over_limit=False
+[654] PASS  time=  0.366s  status=Exact solution     len=  1.490  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[655] FAIL  time= 30.020s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[656] PASS  time=  0.864s  status=Exact solution     len=  1.654  endpoints_valid=True  collision=False  over_limit=False
+[657] PASS  time=  0.517s  status=Exact solution     len=  1.655  endpoints_valid=True  collision=False  over_limit=False
+[658] PASS  time=  0.757s  status=Exact solution     len=  1.402  endpoints_valid=True  collision=False  over_limit=False
+[659] PASS  time=  1.114s  status=Exact solution     len=  2.094  endpoints_valid=True  collision=False  over_limit=False
+[660] PASS  time=  5.087s  status=Exact solution     len=  5.100  endpoints_valid=True  collision=False  over_limit=False
+[661] PASS  time=  1.709s  status=Exact solution     len=  3.424  endpoints_valid=True  collision=False  over_limit=False
+[662] PASS  time=  0.578s  status=Exact solution     len=  1.655  endpoints_valid=True  collision=False  over_limit=False
+[663] PASS  time=  7.827s  status=Exact solution     len=  3.800  endpoints_valid=True  collision=False  over_limit=False
+[664] PASS  time=  0.905s  status=Exact solution     len=  2.137  endpoints_valid=True  collision=False  over_limit=False
+[665] PASS  time=  0.532s  status=Exact solution     len=  1.800  endpoints_valid=True  collision=False  over_limit=False
+[666] PASS  time=  0.931s  status=Exact solution     len=  2.519  endpoints_valid=True  collision=False  over_limit=False
+[667] PASS  time=  0.630s  status=Exact solution     len=  2.409  endpoints_valid=True  collision=False  over_limit=False
+[668] PASS  time=  2.889s  status=Exact solution     len=  5.471  endpoints_valid=True  collision=False  over_limit=False
+[669] PASS  time=  1.345s  status=Exact solution     len=  2.249  endpoints_valid=True  collision=False  over_limit=False
+[670] PASS  time=  1.529s  status=Exact solution     len=  4.439  endpoints_valid=True  collision=False  over_limit=False
+[671] PASS  time=  1.797s  status=Exact solution     len=  3.569  endpoints_valid=True  collision=False  over_limit=False
+[672] PASS  time=  0.603s  status=Exact solution     len=  1.712  endpoints_valid=True  collision=False  over_limit=False
+[673] PASS  time=  0.198s  status=Exact solution     len=  1.733  endpoints_valid=True  collision=False  over_limit=False
+[674] PASS  time=  2.027s  status=Exact solution     len=  2.907  endpoints_valid=True  collision=False  over_limit=False
+[675] PASS  time=  1.952s  status=Exact solution     len=  2.955  endpoints_valid=True  collision=False  over_limit=False
+[676] PASS  time=  0.233s  status=Exact solution     len=  1.547  endpoints_valid=True  collision=False  over_limit=False
+[677] PASS  time=  1.261s  status=Exact solution     len=  3.541  endpoints_valid=True  collision=False  over_limit=False
+[678] PASS  time=  3.115s  status=Exact solution     len=  4.050  endpoints_valid=True  collision=False  over_limit=False
+[679] PASS  time=  0.534s  status=Exact solution     len=  1.729  endpoints_valid=True  collision=False  over_limit=False
+[680] PASS  time=  3.299s  status=Exact solution     len=  3.883  endpoints_valid=True  collision=False  over_limit=False
+[681] PASS  time=  0.922s  status=Exact solution     len=  2.736  endpoints_valid=True  collision=False  over_limit=False
+[682] PASS  time=  2.692s  status=Exact solution     len=  3.836  endpoints_valid=True  collision=False  over_limit=False
+[683] PASS  time=  5.692s  status=Exact solution     len=  4.090  endpoints_valid=True  collision=False  over_limit=False
+[684] PASS  time=  1.061s  status=Exact solution     len=  2.060  endpoints_valid=True  collision=False  over_limit=False
+[685] PASS  time=  4.725s  status=Exact solution     len=  6.475  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[686] FAIL  time=  0.002s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[687] PASS  time=  5.236s  status=Exact solution     len=  6.389  endpoints_valid=True  collision=False  over_limit=False
+[688] PASS  time=  0.653s  status=Exact solution     len=  2.038  endpoints_valid=True  collision=False  over_limit=False
+[689] PASS  time=  1.999s  status=Exact solution     len=  2.798  endpoints_valid=True  collision=False  over_limit=False
+[690] PASS  time=  0.511s  status=Exact solution     len=  1.300  endpoints_valid=True  collision=False  over_limit=False
+[691] PASS  time=  1.343s  status=Exact solution     len=  2.178  endpoints_valid=True  collision=False  over_limit=False
+[692] PASS  time=  1.831s  status=Exact solution     len=  4.640  endpoints_valid=True  collision=False  over_limit=False
+[693] PASS  time=  0.395s  status=Exact solution     len=  2.814  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[694] FAIL  time= 30.103s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[695] PASS  time=  1.962s  status=Exact solution     len=  3.486  endpoints_valid=True  collision=False  over_limit=False
+[696] PASS  time=  0.256s  status=Exact solution     len=  1.790  endpoints_valid=True  collision=False  over_limit=False
+[697] PASS  time=  2.175s  status=Exact solution     len=  5.132  endpoints_valid=True  collision=False  over_limit=False
+[698] PASS  time=  1.801s  status=Exact solution     len=  4.526  endpoints_valid=True  collision=False  over_limit=False
+[699] PASS  time=  2.991s  status=Exact solution     len=  6.163  endpoints_valid=True  collision=False  over_limit=False
+[700] PASS  time=  2.112s  status=Exact solution     len=  5.299  endpoints_valid=True  collision=False  over_limit=False
+[701] PASS  time=  0.324s  status=Exact solution     len=  2.005  endpoints_valid=True  collision=False  over_limit=False
+[702] PASS  time=  2.166s  status=Exact solution     len=  2.629  endpoints_valid=True  collision=False  over_limit=False
+[703] PASS  time=  0.690s  status=Exact solution     len=  2.489  endpoints_valid=True  collision=False  over_limit=False
+[704] PASS  time=  6.775s  status=Exact solution     len=  6.565  endpoints_valid=True  collision=False  over_limit=False
+[705] PASS  time=  2.213s  status=Exact solution     len=  4.491  endpoints_valid=True  collision=False  over_limit=False
+[706] PASS  time=  3.281s  status=Exact solution     len=  4.078  endpoints_valid=True  collision=False  over_limit=False
+[707] PASS  time=  1.841s  status=Exact solution     len=  2.214  endpoints_valid=True  collision=False  over_limit=False
+[708] PASS  time=  0.713s  status=Exact solution     len=  3.915  endpoints_valid=True  collision=False  over_limit=False
+[709] PASS  time=  0.694s  status=Exact solution     len=  1.564  endpoints_valid=True  collision=False  over_limit=False
+[710] PASS  time=  1.281s  status=Exact solution     len=  5.218  endpoints_valid=True  collision=False  over_limit=False
+[711] PASS  time=  2.306s  status=Exact solution     len=  6.122  endpoints_valid=True  collision=False  over_limit=False
+[712] PASS  time=  3.205s  status=Exact solution     len=  4.077  endpoints_valid=True  collision=False  over_limit=False
+[713] PASS  time=  2.132s  status=Exact solution     len=  3.246  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[714] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[715] PASS  time=  2.144s  status=Exact solution     len=  4.434  endpoints_valid=True  collision=False  over_limit=False
+[716] PASS  time=  0.528s  status=Exact solution     len=  1.191  endpoints_valid=True  collision=False  over_limit=False
+[717] PASS  time=  2.062s  status=Exact solution     len=  1.585  endpoints_valid=True  collision=False  over_limit=False
+[718] PASS  time=  2.675s  status=Exact solution     len=  5.152  endpoints_valid=True  collision=False  over_limit=False
+[719] PASS  time=  1.122s  status=Exact solution     len=  4.257  endpoints_valid=True  collision=False  over_limit=False
+[720] PASS  time=  0.414s  status=Exact solution     len=  1.666  endpoints_valid=True  collision=False  over_limit=False
+[721] PASS  time=  1.046s  status=Exact solution     len=  1.689  endpoints_valid=True  collision=False  over_limit=False
+[722] PASS  time=  1.627s  status=Exact solution     len=  1.742  endpoints_valid=True  collision=False  over_limit=False
+[723] PASS  time=  0.452s  status=Exact solution     len=  1.632  endpoints_valid=True  collision=False  over_limit=False
+[724] PASS  time=  0.519s  status=Exact solution     len=  2.655  endpoints_valid=True  collision=False  over_limit=False
+[725] PASS  time=  4.660s  status=Exact solution     len=  6.233  endpoints_valid=True  collision=False  over_limit=False
+[726] PASS  time=  0.487s  status=Exact solution     len=  1.689  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[727] FAIL  time= 30.097s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[728] PASS  time=  1.137s  status=Exact solution     len=  1.980  endpoints_valid=True  collision=False  over_limit=False
+[729] PASS  time=  2.617s  status=Exact solution     len=  4.582  endpoints_valid=True  collision=False  over_limit=False
+[730] PASS  time=  0.783s  status=Exact solution     len=  2.202  endpoints_valid=True  collision=False  over_limit=False
+[731] PASS  time=  1.820s  status=Exact solution     len=  3.053  endpoints_valid=True  collision=False  over_limit=False
+[732] PASS  time=  2.311s  status=Exact solution     len=  4.429  endpoints_valid=True  collision=False  over_limit=False
+[733] PASS  time=  5.444s  status=Exact solution     len=  5.263  endpoints_valid=True  collision=False  over_limit=False
+[734] PASS  time=  2.325s  status=Exact solution     len=  4.648  endpoints_valid=True  collision=False  over_limit=False
+[735] PASS  time=  0.337s  status=Exact solution     len=  2.993  endpoints_valid=True  collision=False  over_limit=False
+[736] PASS  time=  0.954s  status=Exact solution     len=  3.082  endpoints_valid=True  collision=False  over_limit=False
+[737] PASS  time=  3.770s  status=Exact solution     len=  4.835  endpoints_valid=True  collision=False  over_limit=False
+[738] PASS  time=  0.510s  status=Exact solution     len=  2.351  endpoints_valid=True  collision=False  over_limit=False
+[739] PASS  time=  0.222s  status=Exact solution     len=  2.139  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[740] FAIL  time= 30.074s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[741] PASS  time=  0.429s  status=Exact solution     len=  1.909  endpoints_valid=True  collision=False  over_limit=False
+[742] PASS  time=  0.746s  status=Exact solution     len=  2.569  endpoints_valid=True  collision=False  over_limit=False
+[743] PASS  time=  2.888s  status=Exact solution     len=  3.461  endpoints_valid=True  collision=False  over_limit=False
+[744] PASS  time=  0.329s  status=Exact solution     len=  1.762  endpoints_valid=True  collision=False  over_limit=False
+[745] PASS  time=  5.190s  status=Exact solution     len=  5.082  endpoints_valid=True  collision=False  over_limit=False
+[746] PASS  time=  1.363s  status=Exact solution     len=  1.394  endpoints_valid=True  collision=False  over_limit=False
+[747] PASS  time=  0.723s  status=Exact solution     len=  2.467  endpoints_valid=True  collision=False  over_limit=False
+[748] PASS  time=  0.354s  status=Exact solution     len=  1.347  endpoints_valid=True  collision=False  over_limit=False
+[749] PASS  time=  0.593s  status=Exact solution     len=  2.686  endpoints_valid=True  collision=False  over_limit=False
+[750] PASS  time=  2.186s  status=Exact solution     len=  5.919  endpoints_valid=True  collision=False  over_limit=False
+[751] PASS  time=  1.065s  status=Exact solution     len=  2.898  endpoints_valid=True  collision=False  over_limit=False
+[752] PASS  time=  0.492s  status=Exact solution     len=  1.256  endpoints_valid=True  collision=False  over_limit=False
+[753] PASS  time=  2.590s  status=Exact solution     len=  5.124  endpoints_valid=True  collision=False  over_limit=False
+[754] PASS  time=  6.078s  status=Exact solution     len=  5.450  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[755] FAIL  time= 30.046s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[756] FAIL  time= 30.035s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[757] FAIL  time=  0.019s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[758] PASS  time=  0.563s  status=Exact solution     len=  1.933  endpoints_valid=True  collision=False  over_limit=False
+[759] PASS  time=  1.653s  status=Exact solution     len=  5.450  endpoints_valid=True  collision=False  over_limit=False
+[760] PASS  time=  0.405s  status=Exact solution     len=  1.901  endpoints_valid=True  collision=False  over_limit=False
+[761] PASS  time=  1.497s  status=Exact solution     len=  2.518  endpoints_valid=True  collision=False  over_limit=False
+[762] PASS  time=  1.168s  status=Exact solution     len=  3.354  endpoints_valid=True  collision=False  over_limit=False
+[763] PASS  time=  2.434s  status=Exact solution     len=  3.173  endpoints_valid=True  collision=False  over_limit=False
+[764] PASS  time=  0.160s  status=Exact solution     len=  1.917  endpoints_valid=True  collision=False  over_limit=False
+[765] PASS  time=  1.729s  status=Exact solution     len=  3.616  endpoints_valid=True  collision=False  over_limit=False
+[766] PASS  time=  1.467s  status=Exact solution     len=  4.821  endpoints_valid=True  collision=False  over_limit=False
+[767] PASS  time=  0.586s  status=Exact solution     len=  2.918  endpoints_valid=True  collision=False  over_limit=False
+[768] PASS  time=  2.208s  status=Exact solution     len=  2.664  endpoints_valid=True  collision=False  over_limit=False
+[769] PASS  time=  0.538s  status=Exact solution     len=  2.273  endpoints_valid=True  collision=False  over_limit=False
+[770] PASS  time=  0.780s  status=Exact solution     len=  3.170  endpoints_valid=True  collision=False  over_limit=False
+[771] PASS  time=  2.877s  status=Exact solution     len=  4.657  endpoints_valid=True  collision=False  over_limit=False
+[772] PASS  time=  1.953s  status=Exact solution     len=  2.996  endpoints_valid=True  collision=False  over_limit=False
+[773] PASS  time=  1.547s  status=Exact solution     len=  4.154  endpoints_valid=True  collision=False  over_limit=False
+[774] PASS  time=  0.806s  status=Exact solution     len=  3.357  endpoints_valid=True  collision=False  over_limit=False
+[775] PASS  time=  4.866s  status=Exact solution     len=  5.978  endpoints_valid=True  collision=False  over_limit=False
+[776] PASS  time=  1.238s  status=Exact solution     len=  2.385  endpoints_valid=True  collision=False  over_limit=False
+[777] PASS  time=  2.280s  status=Exact solution     len=  2.753  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[778] FAIL  time= 30.080s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[779] PASS  time=  0.556s  status=Exact solution     len=  1.452  endpoints_valid=True  collision=False  over_limit=False
+[780] PASS  time=  0.830s  status=Exact solution     len=  3.926  endpoints_valid=True  collision=False  over_limit=False
+[781] PASS  time=  2.344s  status=Exact solution     len=  2.988  endpoints_valid=True  collision=False  over_limit=False
+[782] PASS  time=  3.269s  status=Exact solution     len=  4.994  endpoints_valid=True  collision=False  over_limit=False
+[783] PASS  time=  0.638s  status=Exact solution     len=  1.385  endpoints_valid=True  collision=False  over_limit=False
+[784] PASS  time=  0.518s  status=Exact solution     len=  1.883  endpoints_valid=True  collision=False  over_limit=False
+[785] PASS  time=  1.116s  status=Exact solution     len=  3.767  endpoints_valid=True  collision=False  over_limit=False
+[786] PASS  time=  0.636s  status=Exact solution     len=  1.767  endpoints_valid=True  collision=False  over_limit=False
+[787] PASS  time= 17.993s  status=Exact solution     len=  6.351  endpoints_valid=True  collision=False  over_limit=False
+[788] PASS  time=  0.285s  status=Exact solution     len=  2.107  endpoints_valid=True  collision=False  over_limit=False
+[789] PASS  time=  0.335s  status=Exact solution     len=  2.407  endpoints_valid=True  collision=False  over_limit=False
+[790] PASS  time=  0.438s  status=Exact solution     len=  2.197  endpoints_valid=True  collision=False  over_limit=False
+[791] PASS  time=  1.112s  status=Exact solution     len=  1.945  endpoints_valid=True  collision=False  over_limit=False
+[792] PASS  time=  1.134s  status=Exact solution     len=  4.009  endpoints_valid=True  collision=False  over_limit=False
+[793] PASS  time=  1.857s  status=Exact solution     len=  2.993  endpoints_valid=True  collision=False  over_limit=False
+[794] PASS  time=  2.378s  status=Exact solution     len=  4.044  endpoints_valid=True  collision=False  over_limit=False
+[795] PASS  time=  4.591s  status=Exact solution     len=  5.368  endpoints_valid=True  collision=False  over_limit=False
+[796] PASS  time=  2.416s  status=Exact solution     len=  3.638  endpoints_valid=True  collision=False  over_limit=False
+[797] PASS  time=  0.381s  status=Exact solution     len=  2.132  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[798] FAIL  time= 30.080s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[799] PASS  time=  1.795s  status=Exact solution     len=  1.873  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[800] FAIL  time= 30.126s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[801] PASS  time=  0.505s  status=Exact solution     len=  1.676  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[802] FAIL  time=  0.004s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[803] PASS  time=  1.337s  status=Exact solution     len=  2.075  endpoints_valid=True  collision=False  over_limit=False
+[804] PASS  time=  1.373s  status=Exact solution     len=  2.421  endpoints_valid=True  collision=False  over_limit=False
+[805] PASS  time=  1.113s  status=Exact solution     len=  2.887  endpoints_valid=True  collision=False  over_limit=False
+[806] PASS  time=  0.332s  status=Exact solution     len=  1.606  endpoints_valid=True  collision=False  over_limit=False
+[807] PASS  time=  2.035s  status=Exact solution     len=  3.509  endpoints_valid=True  collision=False  over_limit=False
+[808] PASS  time=  2.274s  status=Exact solution     len=  3.675  endpoints_valid=True  collision=False  over_limit=False
+[809] PASS  time=  2.286s  status=Exact solution     len=  2.409  endpoints_valid=True  collision=False  over_limit=False
+[810] PASS  time=  0.339s  status=Exact solution     len=  2.457  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[811] FAIL  time= 30.061s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[812] PASS  time=  2.219s  status=Exact solution     len=  5.475  endpoints_valid=True  collision=False  over_limit=False
+[813] PASS  time=  0.382s  status=Exact solution     len=  2.268  endpoints_valid=True  collision=False  over_limit=False
+[814] PASS  time=  0.747s  status=Exact solution     len=  3.076  endpoints_valid=True  collision=False  over_limit=False
+[815] PASS  time=  0.373s  status=Exact solution     len=  1.530  endpoints_valid=True  collision=False  over_limit=False
+[816] PASS  time=  0.612s  status=Exact solution     len=  2.254  endpoints_valid=True  collision=False  over_limit=False
+[817] PASS  time=  1.348s  status=Exact solution     len=  2.883  endpoints_valid=True  collision=False  over_limit=False
+[818] PASS  time=  1.073s  status=Exact solution     len=  3.349  endpoints_valid=True  collision=False  over_limit=False
+[819] PASS  time=  0.647s  status=Exact solution     len=  1.988  endpoints_valid=True  collision=False  over_limit=False
+[820] PASS  time=  1.645s  status=Exact solution     len=  3.156  endpoints_valid=True  collision=False  over_limit=False
+[821] PASS  time=  2.495s  status=Exact solution     len=  6.181  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[822] FAIL  time= 30.093s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[823] PASS  time=  0.401s  status=Exact solution     len=  1.520  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[824] FAIL  time=  0.006s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[825] PASS  time=  1.244s  status=Exact solution     len=  4.051  endpoints_valid=True  collision=False  over_limit=False
+[826] PASS  time=  3.303s  status=Exact solution     len=  7.100  endpoints_valid=True  collision=False  over_limit=False
+[827] PASS  time=  0.505s  status=Exact solution     len=  1.530  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[828] FAIL  time= 30.179s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[829] PASS  time=  0.703s  status=Exact solution     len=  1.476  endpoints_valid=True  collision=False  over_limit=False
+[830] PASS  time=  1.994s  status=Exact solution     len=  3.461  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[831] FAIL  time= 30.045s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[832] FAIL  time= 30.087s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[833] PASS  time=  0.331s  status=Exact solution     len=  2.064  endpoints_valid=True  collision=False  over_limit=False
+[834] PASS  time=  0.644s  status=Exact solution     len=  1.713  endpoints_valid=True  collision=False  over_limit=False
+[835] FAIL  time= 30.057s  status=Approximate solution len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[836] PASS  time=  1.290s  status=Exact solution     len=  1.937  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[837] FAIL  time=  0.005s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[838] PASS  time=  1.243s  status=Exact solution     len=  3.875  endpoints_valid=True  collision=False  over_limit=False
+[839] PASS  time=  1.686s  status=Exact solution     len=  2.350  endpoints_valid=True  collision=False  over_limit=False
+[840] PASS  time=  1.031s  status=Exact solution     len=  2.268  endpoints_valid=True  collision=False  over_limit=False
+[841] PASS  time=  0.488s  status=Exact solution     len=  1.754  endpoints_valid=True  collision=False  over_limit=False
+[842] PASS  time=  2.091s  status=Exact solution     len=  4.094  endpoints_valid=True  collision=False  over_limit=False
+[843] PASS  time=  1.553s  status=Exact solution     len=  3.248  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[844] FAIL  time= 30.105s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[845] PASS  time=  2.821s  status=Exact solution     len=  5.816  endpoints_valid=True  collision=False  over_limit=False
+[846] PASS  time=  1.716s  status=Exact solution     len=  2.325  endpoints_valid=True  collision=False  over_limit=False
+[847] PASS  time=  3.425s  status=Exact solution     len=  5.213  endpoints_valid=True  collision=False  over_limit=False
+[848] PASS  time=  0.735s  status=Exact solution     len=  2.900  endpoints_valid=True  collision=False  over_limit=False
+[849] PASS  time=  0.829s  status=Exact solution     len=  3.360  endpoints_valid=True  collision=False  over_limit=False
+[850] PASS  time=  1.559s  status=Exact solution     len=  2.965  endpoints_valid=True  collision=False  over_limit=False
+[851] PASS  time=  0.262s  status=Exact solution     len=  1.495  endpoints_valid=True  collision=False  over_limit=False
+[852] PASS  time=  2.988s  status=Exact solution     len=  4.684  endpoints_valid=True  collision=False  over_limit=False
+[853] PASS  time=  1.773s  status=Exact solution     len=  3.638  endpoints_valid=True  collision=False  over_limit=False
+[854] PASS  time=  6.292s  status=Exact solution     len=  7.180  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[855] FAIL  time=  0.013s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[856] PASS  time=  3.891s  status=Exact solution     len=  6.561  endpoints_valid=True  collision=False  over_limit=False
+[857] PASS  time=  2.440s  status=Exact solution     len=  3.903  endpoints_valid=True  collision=False  over_limit=False
+[858] PASS  time=  4.740s  status=Exact solution     len=  5.658  endpoints_valid=True  collision=False  over_limit=False
+[859] PASS  time=  1.153s  status=Exact solution     len=  2.373  endpoints_valid=True  collision=False  over_limit=False
+[860] PASS  time=  1.311s  status=Exact solution     len=  3.582  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[861] FAIL  time=  0.005s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[862] PASS  time=  2.873s  status=Exact solution     len=  4.436  endpoints_valid=True  collision=False  over_limit=False
+[863] PASS  time=  1.504s  status=Exact solution     len=  4.074  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[864] FAIL  time=  0.022s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[865] PASS  time=  1.220s  status=Exact solution     len=  2.340  endpoints_valid=True  collision=False  over_limit=False
+[866] PASS  time=  1.173s  status=Exact solution     len=  4.093  endpoints_valid=True  collision=False  over_limit=False
+[867] PASS  time=  3.254s  status=Exact solution     len=  4.601  endpoints_valid=True  collision=False  over_limit=False
+[868] PASS  time=  0.546s  status=Exact solution     len=  1.738  endpoints_valid=True  collision=False  over_limit=False
+[869] PASS  time=  2.952s  status=Exact solution     len=  4.332  endpoints_valid=True  collision=False  over_limit=False
+[870] PASS  time=  2.067s  status=Exact solution     len=  2.451  endpoints_valid=True  collision=False  over_limit=False
+[871] PASS  time=  1.177s  status=Exact solution     len=  2.999  endpoints_valid=True  collision=False  over_limit=False
+[872] PASS  time=  0.602s  status=Exact solution     len=  2.853  endpoints_valid=True  collision=False  over_limit=False
+[873] PASS  time=  0.328s  status=Exact solution     len=  1.390  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[874] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[875] PASS  time=  0.897s  status=Exact solution     len=  2.567  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[876] FAIL  time= 30.068s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[877] PASS  time=  0.223s  status=Exact solution     len=  1.966  endpoints_valid=True  collision=False  over_limit=False
+[878] PASS  time=  0.809s  status=Exact solution     len=  2.138  endpoints_valid=True  collision=False  over_limit=False
+[879] PASS  time=  0.632s  status=Exact solution     len=  2.057  endpoints_valid=True  collision=False  over_limit=False
+[880] PASS  time=  1.469s  status=Exact solution     len=  3.382  endpoints_valid=True  collision=False  over_limit=False
+[881] PASS  time=  0.284s  status=Exact solution     len=  1.120  endpoints_valid=True  collision=False  over_limit=False
+[882] PASS  time=  1.254s  status=Exact solution     len=  2.603  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[883] FAIL  time=  0.007s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[884] FAIL  time= 30.091s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[885] PASS  time=  0.654s  status=Exact solution     len=  1.392  endpoints_valid=True  collision=False  over_limit=False
+[886] PASS  time=  3.695s  status=Exact solution     len=  3.364  endpoints_valid=True  collision=False  over_limit=False
+[887] PASS  time=  0.703s  status=Exact solution     len=  1.885  endpoints_valid=True  collision=False  over_limit=False
+[888] PASS  time=  2.565s  status=Exact solution     len=  5.099  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[889] FAIL  time= 30.042s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[890] PASS  time=  0.734s  status=Exact solution     len=  2.248  endpoints_valid=True  collision=False  over_limit=False
+[891] PASS  time= 25.628s  status=Exact solution     len=  5.604  endpoints_valid=True  collision=False  over_limit=False
+[892] PASS  time=  1.547s  status=Exact solution     len=  2.840  endpoints_valid=True  collision=False  over_limit=False
+[893] FAIL  time= 30.097s  status=Approximate solution len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[894] PASS  time=  0.210s  status=Exact solution     len=  1.977  endpoints_valid=True  collision=False  over_limit=False
+[895] PASS  time=  1.044s  status=Exact solution     len=  4.049  endpoints_valid=True  collision=False  over_limit=False
+[896] PASS  time=  1.368s  status=Exact solution     len=  3.448  endpoints_valid=True  collision=False  over_limit=False
+[897] PASS  time=  1.676s  status=Exact solution     len=  2.942  endpoints_valid=True  collision=False  over_limit=False
+[898] PASS  time=  0.848s  status=Exact solution     len=  2.115  endpoints_valid=True  collision=False  over_limit=False
+[899] PASS  time=  0.973s  status=Exact solution     len=  2.759  endpoints_valid=True  collision=False  over_limit=False
+[900] PASS  time=  0.466s  status=Exact solution     len=  1.934  endpoints_valid=True  collision=False  over_limit=False
+[901] PASS  time=  2.969s  status=Exact solution     len=  5.038  endpoints_valid=True  collision=False  over_limit=False
+[902] PASS  time=  0.378s  status=Exact solution     len=  1.624  endpoints_valid=True  collision=False  over_limit=False
+[903] PASS  time=  0.941s  status=Exact solution     len=  2.414  endpoints_valid=True  collision=False  over_limit=False
+[904] PASS  time=  3.627s  status=Exact solution     len=  8.778  endpoints_valid=True  collision=False  over_limit=False
+[905] PASS  time=  1.784s  status=Exact solution     len=  3.643  endpoints_valid=True  collision=False  over_limit=False
+[906] PASS  time=  0.880s  status=Exact solution     len=  4.602  endpoints_valid=True  collision=False  over_limit=False
+[907] PASS  time=  2.890s  status=Exact solution     len=  3.958  endpoints_valid=True  collision=False  over_limit=False
+[908] PASS  time=  4.510s  status=Exact solution     len=  3.755  endpoints_valid=True  collision=False  over_limit=False
+[909] PASS  time=  1.294s  status=Exact solution     len=  3.628  endpoints_valid=True  collision=False  over_limit=False
+[910] PASS  time=  0.586s  status=Exact solution     len=  2.480  endpoints_valid=True  collision=False  over_limit=False
+[911] PASS  time=  0.914s  status=Exact solution     len=  2.628  endpoints_valid=True  collision=False  over_limit=False
+[912] PASS  time=  2.255s  status=Exact solution     len=  3.540  endpoints_valid=True  collision=False  over_limit=False
+[913] PASS  time=  1.498s  status=Exact solution     len=  2.982  endpoints_valid=True  collision=False  over_limit=False
+[914] PASS  time=  1.519s  status=Exact solution     len=  3.168  endpoints_valid=True  collision=False  over_limit=False
+[915] PASS  time=  0.455s  status=Exact solution     len=  1.970  endpoints_valid=True  collision=False  over_limit=False
+[916] PASS  time=  1.229s  status=Exact solution     len=  2.954  endpoints_valid=True  collision=False  over_limit=False
+[917] PASS  time=  0.789s  status=Exact solution     len=  2.932  endpoints_valid=True  collision=False  over_limit=False
+[918] PASS  time=  1.415s  status=Exact solution     len=  2.170  endpoints_valid=True  collision=False  over_limit=False
+[919] PASS  time=  1.880s  status=Exact solution     len=  2.091  endpoints_valid=True  collision=False  over_limit=False
+[920] PASS  time=  3.473s  status=Exact solution     len=  5.584  endpoints_valid=True  collision=False  over_limit=False
+[921] PASS  time=  1.742s  status=Exact solution     len=  3.980  endpoints_valid=True  collision=False  over_limit=False
+[922] PASS  time=  0.786s  status=Exact solution     len=  3.299  endpoints_valid=True  collision=False  over_limit=False
+[923] PASS  time=  2.998s  status=Exact solution     len=  5.554  endpoints_valid=True  collision=False  over_limit=False
+[924] PASS  time=  0.676s  status=Exact solution     len=  1.706  endpoints_valid=True  collision=False  over_limit=False
+[925] PASS  time=  0.589s  status=Exact solution     len=  1.192  endpoints_valid=True  collision=False  over_limit=False
+[926] PASS  time=  1.311s  status=Exact solution     len=  3.509  endpoints_valid=True  collision=False  over_limit=False
+[927] PASS  time=  1.161s  status=Exact solution     len=  3.211  endpoints_valid=True  collision=False  over_limit=False
+[928] PASS  time=  1.892s  status=Exact solution     len=  4.682  endpoints_valid=True  collision=False  over_limit=False
+[929] PASS  time=  1.506s  status=Exact solution     len=  2.690  endpoints_valid=True  collision=False  over_limit=False
+[930] PASS  time=  2.107s  status=Exact solution     len=  5.160  endpoints_valid=True  collision=False  over_limit=False
+[931] PASS  time=  1.424s  status=Exact solution     len=  3.425  endpoints_valid=True  collision=False  over_limit=False
+[932] PASS  time=  1.194s  status=Exact solution     len=  4.580  endpoints_valid=True  collision=False  over_limit=False
+[933] FAIL  time= 30.290s  status=Approximate solution len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[934] PASS  time=  0.679s  status=Exact solution     len=  1.779  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[935] FAIL  time=  0.005s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[936] PASS  time=  1.766s  status=Exact solution     len=  3.306  endpoints_valid=True  collision=False  over_limit=False
+[937] PASS  time=  1.187s  status=Exact solution     len=  2.592  endpoints_valid=True  collision=False  over_limit=False
+[938] PASS  time=  3.577s  status=Exact solution     len=  3.857  endpoints_valid=True  collision=False  over_limit=False
+[939] PASS  time=  2.521s  status=Exact solution     len=  4.275  endpoints_valid=True  collision=False  over_limit=False
+[940] PASS  time=  0.857s  status=Exact solution     len=  3.668  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[941] FAIL  time=  0.004s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[942] PASS  time=  2.920s  status=Exact solution     len=  6.125  endpoints_valid=True  collision=False  over_limit=False
+[943] PASS  time=  4.478s  status=Exact solution     len=  4.960  endpoints_valid=True  collision=False  over_limit=False
+[944] PASS  time=  1.120s  status=Exact solution     len=  1.914  endpoints_valid=True  collision=False  over_limit=False
+[945] PASS  time=  1.334s  status=Exact solution     len=  2.921  endpoints_valid=True  collision=False  over_limit=False
+[946] PASS  time=  0.223s  status=Exact solution     len=  1.331  endpoints_valid=True  collision=False  over_limit=False
+[947] PASS  time=  2.202s  status=Exact solution     len=  3.581  endpoints_valid=True  collision=False  over_limit=False
+[948] PASS  time=  1.914s  status=Exact solution     len=  3.684  endpoints_valid=True  collision=False  over_limit=False
+[949] PASS  time=  0.745s  status=Exact solution     len=  2.640  endpoints_valid=True  collision=False  over_limit=False
+[950] PASS  time=  1.073s  status=Exact solution     len=  2.210  endpoints_valid=True  collision=False  over_limit=False
+[951] PASS  time=  2.874s  status=Exact solution     len=  4.818  endpoints_valid=True  collision=False  over_limit=False
+[952] PASS  time=  3.815s  status=Exact solution     len=  6.625  endpoints_valid=True  collision=False  over_limit=False
+[953] PASS  time=  0.689s  status=Exact solution     len=  2.946  endpoints_valid=True  collision=False  over_limit=False
+[954] PASS  time=  2.633s  status=Exact solution     len=  4.925  endpoints_valid=True  collision=False  over_limit=False
+[955] PASS  time=  0.966s  status=Exact solution     len=  3.106  endpoints_valid=True  collision=False  over_limit=False
+[956] PASS  time=  2.176s  status=Exact solution     len=  4.246  endpoints_valid=True  collision=False  over_limit=False
+[957] PASS  time=  1.050s  status=Exact solution     len=  2.560  endpoints_valid=True  collision=False  over_limit=False
+[958] PASS  time=  1.512s  status=Exact solution     len=  2.853  endpoints_valid=True  collision=False  over_limit=False
+[959] PASS  time=  3.706s  status=Exact solution     len=  4.836  endpoints_valid=True  collision=False  over_limit=False
+[960] PASS  time=  0.841s  status=Exact solution     len=  2.351  endpoints_valid=True  collision=False  over_limit=False
+[961] PASS  time=  1.145s  status=Exact solution     len=  3.371  endpoints_valid=True  collision=False  over_limit=False
+[962] PASS  time=  2.374s  status=Exact solution     len=  3.276  endpoints_valid=True  collision=False  over_limit=False
+[963] PASS  time=  0.309s  status=Exact solution     len=  1.404  endpoints_valid=True  collision=False  over_limit=False
+[964] PASS  time=  0.334s  status=Exact solution     len=  1.869  endpoints_valid=True  collision=False  over_limit=False
+[965] PASS  time=  0.880s  status=Exact solution     len=  3.294  endpoints_valid=True  collision=False  over_limit=False
+[966] PASS  time=  2.575s  status=Exact solution     len=  5.727  endpoints_valid=True  collision=False  over_limit=False
+[967] PASS  time=  3.808s  status=Exact solution     len=  4.051  endpoints_valid=True  collision=False  over_limit=False
+[968] PASS  time=  3.776s  status=Exact solution     len=  5.216  endpoints_valid=True  collision=False  over_limit=False
+[969] PASS  time=  1.024s  status=Exact solution     len=  3.326  endpoints_valid=True  collision=False  over_limit=False
+[970] PASS  time=  2.451s  status=Exact solution     len=  5.803  endpoints_valid=True  collision=False  over_limit=False
+[971] PASS  time=  2.247s  status=Exact solution     len=  3.020  endpoints_valid=True  collision=False  over_limit=False
+[972] PASS  time=  1.140s  status=Exact solution     len=  1.880  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[973] FAIL  time=  0.008s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[974] PASS  time=  3.157s  status=Exact solution     len=  4.300  endpoints_valid=True  collision=False  over_limit=False
+[975] PASS  time=  0.823s  status=Exact solution     len=  1.880  endpoints_valid=True  collision=False  over_limit=False
+[976] PASS  time=  0.597s  status=Exact solution     len=  2.177  endpoints_valid=True  collision=False  over_limit=False
+[977] PASS  time=  1.018s  status=Exact solution     len=  1.901  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[978] FAIL  time=  0.003s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[979] PASS  time=  3.341s  status=Exact solution     len=  4.449  endpoints_valid=True  collision=False  over_limit=False
+[980] PASS  time=  0.519s  status=Exact solution     len=  2.023  endpoints_valid=True  collision=False  over_limit=False
+[981] PASS  time=  0.534s  status=Exact solution     len=  2.154  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[982] FAIL  time= 30.048s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[983] FAIL  time=  0.005s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[984] PASS  time=  2.189s  status=Exact solution     len=  3.224  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid goal state (invalid state)
+         at line 311 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Unable to sample any valid states for goal tree
+         at line 265 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[985] FAIL  time= 30.096s  status=Invalid goal       len=    nan  endpoints_valid=False  collision=False  over_limit=True
+[986] PASS  time=  1.640s  status=Exact solution     len=  3.096  endpoints_valid=True  collision=False  over_limit=False
+[987] PASS  time=  0.768s  status=Exact solution     len=  2.951  endpoints_valid=True  collision=False  over_limit=False
+[988] PASS  time=  1.348s  status=Exact solution     len=  3.479  endpoints_valid=True  collision=False  over_limit=False
+[989] PASS  time=  1.623s  status=Exact solution     len=  3.236  endpoints_valid=True  collision=False  over_limit=False
+[990] PASS  time=  0.655s  status=Exact solution     len=  1.820  endpoints_valid=True  collision=False  over_limit=False
+[991] PASS  time=  0.306s  status=Exact solution     len=  1.888  endpoints_valid=True  collision=False  over_limit=False
+[992] PASS  time=  0.433s  status=Exact solution     len=  1.613  endpoints_valid=True  collision=False  over_limit=False
+Warning: RRTConnect: Skipping invalid start state (invalid state)
+         at line 248 in /project/src/ompl/base/src/Planner.cpp
+Error:   RRTConnect: Motion planning start tree could not be initialized!
+         at line 219 in /project/src/ompl/geometric/planners/rrt/src/RRTConnect.cpp
+[993] FAIL  time=  0.006s  status=Invalid start      len=    nan  endpoints_valid=False  collision=False  over_limit=False
+[994] PASS  time=  0.351s  status=Exact solution     len=  1.712  endpoints_valid=True  collision=False  over_limit=False
+[995] PASS  time=  0.547s  status=Exact solution     len=  1.608  endpoints_valid=True  collision=False  over_limit=False
+[996] PASS  time=  0.919s  status=Exact solution     len=  2.442  endpoints_valid=True  collision=False  over_limit=False
+[997] PASS  time= 23.007s  status=Exact solution     len=  4.561  endpoints_valid=True  collision=False  over_limit=False
+[998] PASS  time=  0.324s  status=Exact solution     len=  1.621  endpoints_valid=True  collision=False  over_limit=False
+[999] PASS  time=  1.760s  status=Exact solution     len=  3.558  endpoints_valid=True  collision=False  over_limit=False
+
+shape                     : datasets/3dshape/Fshape3d.obj
+environment               : datasets/3dshape/env1.obj
+data_path                 : testing_data/3dshape/Fshape3d_env1
+planner                   : RRTConnect (OMPL, SE(3))
+time_limit_per_case       : 30.000 s  (a case over this = fail)
+path_simplification       : off
+
+test_cases_total          : 1000
+invalid_start_or_goal     : 132  (excluded, unplannable)
+test_cases_scored         : 868  [valid start+goal only]
+successes                 : 865
+failures                  : 3
+  no_solution_in_time     : 3
+  over_time_limit         : 0
+  path_in_collision       : 0
+success_rate              : 0.9965  (99.7%)  [865/868]
+
+time_mean                 : 1.6002 s   [all 868 scored cases]
+time_std                  : 2.5246 s
+time_mean_successful      : 1.5012 s   [865 successful cases]
+time_std_successful       : 1.8857 s
+time_median               : 1.0314 s
+
+path_length_mean          : 3.1850   [865 successful cases]
+path_length_std           : 1.4058
+path_length_total         : 2755.0352
+
+total_time                : 1388.99 s
+collision_checks          : 832504
+
+Wrote results/ompl_rrtconnect/Fshape3d_env1/rrt_connect_success_rate.txt
+Wrote results/ompl_rrtconnect/Fshape3d_env1/rrt_connect_cases.csv

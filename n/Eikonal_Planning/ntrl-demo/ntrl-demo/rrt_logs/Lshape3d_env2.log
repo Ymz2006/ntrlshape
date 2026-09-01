@@ -1,0 +1,48 @@
+[load_obj] 'datasets/3dshape/Lshape3d.obj': 1 objects/groups
+  [0] 'Body1'  (20 triangles)
+[load_obj] 'datasets/3dshape/env2.obj': 4 objects/groups
+  [0] 'Body2'  (12 triangles)
+  [1] 'Body3'  (12 triangles)
+  [2] 'Body4'  (12 triangles)
+  [3] 'Body5'  (12 triangles)
+shape       : datasets/3dshape/Lshape3d.obj  (12 verts, 12 tets, radius 0.3305)
+environment : datasets/3dshape/env2.obj  (48 tris, 50000 collision points)
+bounds      : low [-0.4206, -0.3404, -0.5]  high [0.4206, 0.3404, 0.5]
+test cases  : 1000 from testing_data/3dshape/Lshape3d_env2/sampled_points.npy
+planner     : RRTConnect  (time limit 30.0s per case, resolution 0.005)
+
+[000] FAIL  time= 30.078s  status=Approximate solution len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[001] PASS  time= 13.769s  status=Exact solution     len=  5.251  endpoints_valid=True  collision=False  over_limit=False
+[002] PASS  time=  3.268s  status=Exact solution     len=  3.626  endpoints_valid=True  collision=False  over_limit=False
+[003] PASS  time=  6.289s  status=Exact solution     len=  4.590  endpoints_valid=True  collision=False  over_limit=False
+[004] PASS  time=  6.120s  status=Exact solution     len=  5.213  endpoints_valid=True  collision=False  over_limit=False
+[005] PASS  time=  3.007s  status=Exact solution     len=  3.619  endpoints_valid=True  collision=False  over_limit=False
+[006] PASS  time=  1.576s  status=Exact solution     len=  1.871  endpoints_valid=True  collision=False  over_limit=False
+[007] PASS  time=  2.501s  status=Exact solution     len=  2.478  endpoints_valid=True  collision=False  over_limit=False
+[008] PASS  time=  3.979s  status=Exact solution     len=  3.284  endpoints_valid=True  collision=False  over_limit=False
+[009] PASS  time=  3.495s  status=Exact solution     len=  3.152  endpoints_valid=True  collision=False  over_limit=False
+[010] PASS  time=  0.901s  status=Exact solution     len=  1.380  endpoints_valid=True  collision=False  over_limit=False
+[011] PASS  time=  1.023s  status=Exact solution     len=  1.325  endpoints_valid=True  collision=False  over_limit=False
+[012] PASS  time=  0.395s  status=Exact solution     len=  1.589  endpoints_valid=True  collision=False  over_limit=False
+[013] PASS  time=  4.505s  status=Exact solution     len=  4.488  endpoints_valid=True  collision=False  over_limit=False
+[014] FAIL  time= 30.242s  status=Approximate solution len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[015] PASS  time=  3.287s  status=Exact solution     len=  3.067  endpoints_valid=True  collision=False  over_limit=False
+[016] PASS  time=  1.012s  status=Exact solution     len=  1.445  endpoints_valid=True  collision=False  over_limit=False
+[017] PASS  time=  1.675s  status=Exact solution     len=  1.907  endpoints_valid=True  collision=False  over_limit=False
+[018] PASS  time=  1.807s  status=Exact solution     len=  2.548  endpoints_valid=True  collision=False  over_limit=False
+[019] PASS  time=  3.660s  status=Exact solution     len=  3.182  endpoints_valid=True  collision=False  over_limit=False
+[020] PASS  time=  7.951s  status=Exact solution     len=  2.598  endpoints_valid=True  collision=False  over_limit=False
+[021] PASS  time=  3.795s  status=Exact solution     len=  5.094  endpoints_valid=True  collision=False  over_limit=False
+[022] PASS  time=  1.095s  status=Exact solution     len=  1.352  endpoints_valid=True  collision=False  over_limit=False
+[023] PASS  time=  9.159s  status=Exact solution     len=  3.946  endpoints_valid=True  collision=False  over_limit=False
+[024] PASS  time= 12.702s  status=Exact solution     len=  6.836  endpoints_valid=True  collision=False  over_limit=False
+[025] PASS  time=  6.368s  status=Exact solution     len=  3.160  endpoints_valid=True  collision=False  over_limit=False
+[026] PASS  time=  3.808s  status=Exact solution     len=  2.610  endpoints_valid=True  collision=False  over_limit=False
+[027] PASS  time=  5.729s  status=Exact solution     len=  3.542  endpoints_valid=True  collision=False  over_limit=False
+[028] PASS  time=  3.753s  status=Exact solution     len=  3.926  endpoints_valid=True  collision=False  over_limit=False
+[029] PASS  time=  0.900s  status=Exact solution     len=  1.760  endpoints_valid=True  collision=False  over_limit=False
+[030] PASS  time=  2.461s  status=Exact solution     len=  2.522  endpoints_valid=True  collision=False  over_limit=False
+[031] PASS  time=  0.361s  status=Exact solution     len=  1.418  endpoints_valid=True  collision=False  over_limit=False
+[032] PASS  time=  2.280s  status=Exact solution     len=  1.763  endpoints_valid=True  collision=False  over_limit=False
+[033] PASS  time=  3.417s  status=Exact solution     len=  2.008  endpoints_valid=True  collision=False  over_limit=False
+[034] FAIL  time= 30.084s  status=Approximate solution len=    nan  endpoints_valid=True  collision=False  over_limit=True

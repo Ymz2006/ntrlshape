@@ -1,19 +1,29 @@
-data_path                    : ./testing_data/3dshape/rectangle_env1
+data_path                    : testing_data/3dshape/Lshape3d_env2
 model_path                   : ./Experiments/3dshape
-checkpoint                   : ./Experiments/3dshape/3dshape_08_06_17_06/latest.pt
+checkpoint                   : ./Experiments/3dshape/3dshape_08_26_16_28/latest.pt
 test_cases                   : 1000
-discarded_invalid_endpoints  : 35  (start: 18, goal: 17)
-episodes                     : 965   [evaluated = test_cases - discarded]
-successes                    : 867
-failures                     : 98
-  collision                  : 74
-  no_converge                : 45
-success_rate                 : 0.8984  (89.8%)
-successes_flipped            : 864  (collision: 81, no_converge: 48)
-success_rate_flipped         : 0.8953  (89.5%)
-successes_either             : 951   [regular OR flipped]
-success_rate_either          : 0.9855  (98.5%)
-rescued_by_flip              : 84
-linear_interp_valid          : 290 / 965
-success_rate|lin_interp_valid: 0.9241  (92.4%)  [268/290]
-success_rate|lin_interp_fail : 0.8874  (88.7%)  [599/675]
+mppi_momentum                : 2.0
+mppi_step                    : 0.015   [convergence ball is 0.01]
+mppi_taper                   : 0.0
+mppi_planar (--2d)           : False
+no_conv_min_dis_median       : 0.6202
+no_conv_min_dis_within_2ball : 2 / 126   [overshoot: got inside 0.02 but never inside 0.01]
+discarded_invalid_endpoints  : 4  (start: 2, goal: 2)
+episodes                     : 996   [evaluated = test_cases - discarded]
+successes                    : 629
+failures                     : 367
+  collision                  : 305
+  no_converge                : 126
+success_rate                 : 0.6315  (63.2%)
+successes_flipped            : 638  (collision: 286, no_converge: 138)
+success_rate_flipped         : 0.6406  (64.1%)
+successes_either             : 774   [regular OR flipped]
+success_rate_either          : 0.7771  (77.7%)
+rescued_by_flip              : 145
+lost_by_flip                 : 136   [regular passed but flipped failed; symmetric with rescued_by_flip iff the flip carries no directional signal]
+failures_both                : 222   [regular AND flipped both failed]
+failure_rate_both            : 0.2229  (22.3%)
+failure_corr_phi_flip        : +0.3908   [P(both fail)=0.2229, independent=0.1324]
+linear_interp_valid          : 264 / 996
+success_rate|lin_interp_valid: 0.9318  (93.2%)  [246/264]
+success_rate|lin_interp_fail : 0.5232  (52.3%)  [383/732]

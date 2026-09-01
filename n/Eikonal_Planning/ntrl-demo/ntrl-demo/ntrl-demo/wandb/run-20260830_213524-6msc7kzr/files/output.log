@@ -1,0 +1,32 @@
+wandb run: 3dshape_08_30_16_35 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/6msc7kzr)
+Files copied successfully!
+train
+(800000, 12)
+(800000, 2)
+(800000, 12)
+(800000, 12) (800000, 2)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+only trans rot
+0.0
+only trans rot
+0.0
+only trans rot
+0.0
+only trans rot
+0.0
+only trans rot
+0.0
+Epoch = 1 -- Loss = 7.2229e-01 -- Alpha = 1.0000e+00
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 52, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 260, in train
+    current_optimizer = pickle.loads(pickle.dumps(self.optimizer.state_dict()))
+  File "/opt/conda/lib/python3.10/site-packages/torch/storage.py", line 371, in _load_from_bytes
+    return torch.load(io.BytesIO(b))
+  File "/opt/conda/lib/python3.10/site-packages/torch/serialization.py", line 1040, in load
+    return _legacy_load(opened_file, map_location, pickle_module, **pickle_load_args)
+  File "/opt/conda/lib/python3.10/site-packages/torch/serialization.py", line 1276, in _legacy_load
+    typed_storage._untyped_storage._set_from_file(
+KeyboardInterrupt

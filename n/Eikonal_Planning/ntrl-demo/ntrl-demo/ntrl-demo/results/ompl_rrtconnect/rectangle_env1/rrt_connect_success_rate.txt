@@ -2,17 +2,28 @@ shape                     : datasets/3dshape/rectangle.obj
 environment               : datasets/3dshape/env1.obj
 data_path                 : testing_data/3dshape/rectangle_env1
 planner                   : RRTConnect (OMPL, SE(3))
-time_limit_per_case       : 5.000 s
-test_cases                : 100
-successes                 : 94
-failures                  : 6
+time_limit_per_case       : 30.000 s  (a case over this = fail)
+path_simplification       : off
+
+test_cases_total          : 1000
+invalid_start_or_goal     : 35  (excluded, unplannable)
+test_cases_scored         : 965  [valid start+goal only]
+successes                 : 965
+failures                  : 0
   no_solution_in_time     : 0
+  over_time_limit         : 0
   path_in_collision       : 0
-  invalid_start_or_goal   : 6
-success_rate              : 0.9400  (94.0%)
-success_rate|valid_endpts : 1.0000  (100.0%)  [94/94]
-avg_time_per_case         : 0.3904 s
-avg_time_successful_cases : 0.3083 s
-median_time_per_case      : 0.2261 s
-total_time                : 39.04 s
-collision_checks          : 64489
+success_rate              : 1.0000  (100.0%)  [965/965]
+
+time_mean                 : 0.3171 s   [all 965 scored cases]
+time_std                  : 0.4914 s
+time_mean_successful      : 0.3171 s   [965 successful cases]
+time_std_successful       : 0.4914 s
+time_median               : 0.2203 s
+
+path_length_mean          : 2.9571   [965 successful cases]
+path_length_std           : 1.2666
+path_length_total         : 2853.5593
+
+total_time                : 306.01 s
+collision_checks          : 760129

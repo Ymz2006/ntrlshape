@@ -229,6 +229,24 @@ def path_in_collision(path, checker):
 # ──────────────────────────────────────────────────────────────────────────────
 # Main
 # ──────────────────────────────────────────────────────────────────────────────
+def std(a):
+    """Sample standard deviation (ddof=1); nan for fewer than two samples."""
+    a = np.asarray(a, dtype=np.float64)
+    return float(a.std(ddof=1)) if a.size > 1 else float('nan')
+
+
+def mean(a):
+    """Mean; nan for an empty sample."""
+    a = np.asarray(a, dtype=np.float64)
+    return float(a.mean()) if a.size else float('nan')
+
+
+def median(a):
+    """Median; nan for an empty sample."""
+    a = np.asarray(a, dtype=np.float64)
+    return float(np.median(a)) if a.size else float('nan')
+
+
 def main():
     parser = argparse.ArgumentParser(
         description='RRT-Connect (OMPL) baseline on the SE(3) shape test sets.')
@@ -240,8 +258,9 @@ def main():
                         help='Test-data dir holding sampled_points.npy + meta.json')
     parser.add_argument('--n', type=int, default=100,
                         help='Number of start/goal pairs to plan (0 = all)')
-    parser.add_argument('--time', type=float, default=5.0,
-                        help='Planning time limit per test case, seconds')
+    parser.add_argument('--time', type=float, default=30.0,
+                        help='Planning time limit per test case, seconds; a case '
+                             'that takes longer than this counts as a failure')
     parser.add_argument('--range', type=float, default=0.0,
                         help='RRTConnect extension range (0 = OMPL default)')
     parser.add_argument('--resolution', type=float, default=0.005,
@@ -271,6 +290,7 @@ def main():
     n_success = 0
     n_invalid_endpoint = 0
     n_timeout = 0
+    n_over_limit = 0
     n_collision = 0
     for i, (start_cfg, goal_cfg) in enumerate(pairs):
         start = cfg_to_state(space, start_cfg)
@@ -298,58 +318,82 @@ def main():
             length = path.length()
             collision = path_in_collision(path, checker)
 
-        ok = endpoints_ok and exact and not collision
-        if ok:
-            n_success += 1
-        else:
-            if not endpoints_ok:
-                n_invalid_endpoint += 1
-            elif not exact:
-                n_timeout += 1
-            elif collision:
-                n_collision += 1
+        # Anything that ran past the budget is a failure even if the planner
+        # did hand back an exact path on its way out.
+        over_limit = elapsed > args.time
 
-        rows.append((i, ok, elapsed, length, endpoints_ok, exact, collision))
+        ok = endpoints_ok and exact and not collision and not over_limit
+        if not endpoints_ok:
+            n_invalid_endpoint += 1
+        elif ok:
+            n_success += 1
+        elif not exact:
+            n_timeout += 1
+        elif over_limit:
+            n_over_limit += 1
+        else:
+            n_collision += 1
+
+        rows.append((i, ok, elapsed, length, endpoints_ok, exact, collision,
+                     over_limit))
         print(f'[{i:03d}] {"PASS" if ok else "FAIL"}  '
               f'time={elapsed:7.3f}s  '
               f'status={solved.asString():<18} '
               f'len={length:7.3f}  '
-              f'endpoints_valid={endpoints_ok}  collision={collision}',
+              f'endpoints_valid={endpoints_ok}  collision={collision}  '
+              f'over_limit={over_limit}',
               flush=True)
 
     # ── summary ──────────────────────────────────────────────────────────────
-    n_total = len(rows)
-    times = np.array([r[2] for r in rows], dtype=np.float64)
-    succ_times = np.array([r[2] for r in rows if r[1]], dtype=np.float64)
-    success_rate = n_success / n_total if n_total else 0.0
-    # Secondary rate over the pairs the planner could actually attempt.  A few
+    # Only pairs whose start *and* goal are collision-free are scored.  A few
     # dataset poses graze an obstacle just enough for this collision model to
-    # call the start or goal invalid; those are not planner failures.
-    n_plannable = n_total - n_invalid_endpoint
-    plannable_rate = n_success / n_plannable if n_plannable else 0.0
+    # call an endpoint invalid; those pairs are unplannable by construction, so
+    # they are excluded rather than counted against the planner.
+    n_total = len(rows)
+    valid = [r for r in rows if r[4]]
+    n_valid = len(valid)
+    times = np.array([r[2] for r in valid], dtype=np.float64)
+    succ_times = np.array([r[2] for r in valid if r[1]], dtype=np.float64)
+    lengths = np.array([r[3] for r in valid if r[1]], dtype=np.float64)
+    success_rate = n_success / n_valid if n_valid else 0.0
 
     lines = [
         f'shape                     : {resolve(args.obj)}',
         f'environment               : {resolve(args.env)}',
         f'data_path                 : {resolve(args.dataPath)}',
         f'planner                   : RRTConnect (OMPL, SE(3))',
-        f'time_limit_per_case       : {args.time:.3f} s',
-        f'test_cases                : {n_total}',
+        f'time_limit_per_case       : {args.time:.3f} s  (a case over this = fail)',
+        f'path_simplification       : {"on" if args.simplify else "off"}',
+        '',
+        f'test_cases_total          : {n_total}',
+        f'invalid_start_or_goal     : {n_invalid_endpoint}  (excluded, unplannable)',
+        f'test_cases_scored         : {n_valid}  [valid start+goal only]',
         f'successes                 : {n_success}',
-        f'failures                  : {n_total - n_success}',
+        f'failures                  : {n_valid - n_success}',
         f'  no_solution_in_time     : {n_timeout}',
+        f'  over_time_limit         : {n_over_limit}',
         f'  path_in_collision       : {n_collision}',
-        f'  invalid_start_or_goal   : {n_invalid_endpoint}',
-        f'success_rate              : {success_rate:.4f}  ({success_rate:.1%})',
-        f'success_rate|valid_endpts : {plannable_rate:.4f}  ({plannable_rate:.1%})  '
-        f'[{n_success}/{n_plannable}]',
-        f'avg_time_per_case         : {times.mean():.4f} s',
-        f'avg_time_successful_cases : '
-        f'{(succ_times.mean() if succ_times.size else float("nan")):.4f} s',
-        f'median_time_per_case      : {np.median(times):.4f} s',
+        f'success_rate              : {success_rate:.4f}  ({success_rate:.1%})  '
+        f'[{n_success}/{n_valid}]',
+        '',
+        f'time_mean                 : {mean(times):.4f} s   [all {n_valid} scored cases]',
+        f'time_std                  : {std(times):.4f} s',
+        f'time_mean_successful      : {mean(succ_times):.4f} s   '
+        f'[{succ_times.size} successful cases]',
+        f'time_std_successful       : {std(succ_times):.4f} s',
+        f'time_median               : {median(times):.4f} s',
+        '',
+        f'path_length_mean          : {mean(lengths):.4f}   '
+        f'[{lengths.size} successful cases]',
+        f'path_length_std           : {std(lengths):.4f}',
+        f'path_length_total         : {lengths.sum():.4f}',
+        '',
         f'total_time                : {times.sum():.2f} s',
         f'collision_checks          : {checker.n_checks}',
     ]
+    # Path length is OMPL's SE(3) metric (weighted translation + rotation) in
+    # the normalized frame, measured on the raw planner output unless
+    # --simplify is given.
     print()
     print('\n'.join(lines))
 
@@ -360,9 +404,11 @@ def main():
             f.write('\n'.join(lines) + '\n')
         csv = os.path.join(args.out, 'rrt_connect_cases.csv')
         with open(csv, 'w') as f:
-            f.write('idx,success,time_s,path_length,endpoints_valid,exact,collision\n')
-            for i, ok, el, ln, ep, ex, col in rows:
-                f.write(f'{i},{int(ok)},{el:.6f},{ln:.6f},{int(ep)},{int(ex)},{int(col)}\n')
+            f.write('idx,success,time_s,path_length,endpoints_valid,exact,'
+                    'collision,over_limit\n')
+            for i, ok, el, ln, ep, ex, col, ovr in rows:
+                f.write(f'{i},{int(ok)},{el:.6f},{ln:.6f},{int(ep)},{int(ex)},'
+                        f'{int(col)},{int(ovr)}\n')
         print(f'\nWrote {summary}\nWrote {csv}')
 
 

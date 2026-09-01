@@ -1,0 +1,21 @@
+wandb run: 3dshape_08_16_11_34 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/z0vzqfvs)
+Files copied successfully!
+train
+(800000, 12)
+(800000, 2)
+(800000, 12)
+(800000, 12) (800000, 2)
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 52, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 332, in train
+    loss_value, loss_n, wv = self.function.Loss(points, speed, normal, beta, gamma, epoch, speed_dist, speed_angle,  trans_n, rot_n)
+  File "/workspace/ntrl-demo/./models/metric/model_function_metric.py", line 338, in Loss
+    dtau_rot = self.gradient(tau_rot, Xp_rot)         # (B, 2*dim)
+  File "/workspace/ntrl-demo/./models/metric/model_function_metric.py", line 143, in gradient
+    grad_x = torch.autograd.grad(y, x, grad_y, only_inputs=True, retain_graph=True, create_graph=create_graph)[0]
+  File "/opt/conda/lib/python3.10/site-packages/torch/autograd/__init__.py", line 411, in grad
+    result = Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 20.00 MiB. GPU 0 has a total capacity of 23.69 GiB of which 224.75 MiB is free. Process 2629445 has 1.27 GiB memory in use. Process 3179995 has 292.00 MiB memory in use. Process 3524375 has 292.00 MiB memory in use. Process 275004 has 292.00 MiB memory in use. Process 1230825 has 292.00 MiB memory in use. Process 2391782 has 260.00 MiB memory in use. Process 414161 has 1.86 GiB memory in use. Process 551436 has 5.53 GiB memory in use. Process 618405 has 1.47 GiB memory in use. Process 1474075 has 452.00 MiB memory in use. Process 3147420 has 3.09 GiB memory in use. Process 2946000 has 4.98 GiB memory in use. Process 671524 has 292.32 MiB memory in use. Process 1072191 has 761.52 MiB memory in use. Process 1076140 has 2.30 GiB memory in use. Of the allocated memory 1.98 GiB is allocated by PyTorch, and 5.44 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

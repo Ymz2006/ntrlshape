@@ -1,21 +1,42 @@
 data_path                    : testing_data/3dshape/Lshape3d_env1
 model_path                   : ./Experiments/3dshape
-checkpoint                   : ./Experiments/3dshape/3dshape_08_08_22_26/latest.pt
-test_cases                   : 500
-discarded_invalid_endpoints  : 21  (start: 13, goal: 10)
-episodes                     : 479   [evaluated = test_cases - discarded]
-successes                    : 397
-failures                     : 82
-  collision                  : 73
-  no_converge                : 32
-success_rate                 : 0.8288  (82.9%)
-successes_flipped            : 386  (collision: 83, no_converge: 32)
-success_rate_flipped         : 0.8058  (80.6%)
-successes_either             : 449   [regular OR flipped]
-success_rate_either          : 0.9374  (93.7%)
-rescued_by_flip              : 52
-failures_both                : 30   [regular AND flipped both failed]
-failure_rate_both            : 0.0626  (6.3%)
-linear_interp_valid          : 111 / 479
-success_rate|lin_interp_valid: 0.9279  (92.8%)  [103/111]
-success_rate|lin_interp_fail : 0.7989  (79.9%)  [294/368]
+checkpoint                   : ./Experiments/3dshape/3dshape_08_15_20_19/latest.pt
+test_cases                   : 1000
+mppi_momentum                : 2.0
+mppi_step                    : 0.015   [convergence ball is 0.01]
+mppi_taper                   : 0.0
+no_conv_min_dis_median       : 0.4187
+no_conv_min_dis_within_2ball : 0 / 67   [overshoot: got inside 0.02 but never inside 0.01]
+discarded_invalid_endpoints  : 37  (start: 25, goal: 14)
+episodes                     : 963   [evaluated = test_cases - discarded]
+successes                    : 757
+failures                     : 206
+  collision                  : 187
+  no_converge                : 67
+success_rate                 : 0.7861  (78.6%)
+successes_flipped            : 757  (collision: 186, no_converge: 63)
+success_rate_flipped         : 0.7861  (78.6%)
+successes_either             : 884   [regular OR flipped]
+success_rate_either          : 0.9180  (91.8%)
+rescued_by_flip              : 127
+lost_by_flip                 : 127   [regular passed but flipped failed; symmetric with rescued_by_flip iff the flip carries no directional signal]
+failures_both                : 79   [regular AND flipped both failed]
+failure_rate_both            : 0.0820  (8.2%)
+successes_rerun              : 768  (collision: 181, no_converge: 67)   [CONTROL: same direction, fresh MPPI noise]
+success_rate_rerun           : 0.7975  (79.8%)
+successes_either_rerun       : 800   [regular OR rerun]
+success_rate_either_rerun    : 0.8307  (83.1%)
+rescued_by_rerun             : 43   [compare against rescued_by_flip]
+direction_edge               : +0.0872  (+8.7%)   [success_rate_either - success_rate_either_rerun]
+failure_corr_phi_flip        : +0.2157   [P(both fail)=0.0820, independent=0.0458]
+failure_corr_phi_rerun       : +0.7643   [P(both fail)=0.1693, independent=0.0433]
+relay_warmup_steps           : 20
+successes_relay              : 787  (collision: 159, no_converge: 41, solved_by_warmup: 14)
+success_rate_relay           : 0.8172  (81.7%)
+relay_seg_collisions         : warm_f=55, main=103, warm_b=53   (sole offender: warm_f=35, main=61, warm_b=18)
+relay_main_leg_conv_and_clean: 840   [lost to a spliced warmup: 53]
+successes_any                : 912   [regular OR flipped OR relay]
+success_rate_any             : 0.9470  (94.7%)
+linear_interp_valid          : 213 / 963
+success_rate|lin_interp_valid: 0.9671  (96.7%)  [206/213]
+success_rate|lin_interp_fail : 0.7347  (73.5%)  [551/750]

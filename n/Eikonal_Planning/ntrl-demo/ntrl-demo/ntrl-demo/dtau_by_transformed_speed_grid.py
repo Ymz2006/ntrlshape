@@ -85,7 +85,7 @@ def load_model(model_path, data_path, ckpt=None, device='cuda'):
     #pt = './Experiments/3dshape/3dshape_07_01_12_45/latest.pt'
     #pt = './Experiments/3dshape/3dshape_07_17_15_47/Model_Epoch_03000_ValLoss_2.554522e-02.pt'
     #pt = './Experiments/3dshape/3dshape_07_25_12_40/latest.pt'
-    pt = './Experiments/3dshape/3dshape_08_08_22_26/latest.pt'
+    pt = './Experiments/3dshape/3dshape_08_06_17_06/latest.pt'
     model.load(pt)
     model.network.eval()
     return model
