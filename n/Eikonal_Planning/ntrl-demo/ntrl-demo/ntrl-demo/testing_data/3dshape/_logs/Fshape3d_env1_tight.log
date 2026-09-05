@@ -1,0 +1,80 @@
+[load_obj] 'datasets/3dshape/env1.obj': 5 objects/groups
+  [0] 'Body2'  (12 triangles)
+  [1] 'Body3'  (12 triangles)
+  [2] 'Body4'  (12 triangles)
+  [3] 'Body5'  (12 triangles)
+  [4] 'wall (2)'  (12 triangles)
+[load_obj] 'datasets/3dshape/Fshape3d.obj': 1 objects/groups
+  [0] 'Body1'  (36 triangles)
+Delaunizing vertices...
+Delaunay seconds:  0.002239
+Creating surface mesh ...
+Surface mesh seconds:  0.000283
+Recovering boundaries...
+Boundary recovery seconds:  0.00015
+Removing exterior tetrahedra ...
+Exterior tets removal seconds:  0.000167
+Recovering Delaunayness...
+Delaunay recovery seconds:  0.000362
+Refining mesh...
+Refinement seconds:  8.5e-05
+Improving mesh...
+Mesh improvement seconds:  1.8e-05
+
+Writing nodes.
+Writing elements.
+Writing faces.
+Writing edges.
+
+Output seconds:  0.000233
+Total running seconds:  0.004046
+
+Statistics:
+
+  Input points: 20
+  Input facets: 36
+  Input segments: 54
+  Input holes: 0
+  Input regions: 0
+
+  Mesh points: 20
+  Mesh tetrahedra: 24
+  Mesh faces: 66
+  Mesh faces on exterior boundary: 36
+  Mesh faces on input facets: 36
+  Mesh edges on input segments: 54
+
+Tetrahedralized shape: 24 tets, 36 boundary triangles, 20 verts
+Sampling 1000 (x0, x1) pairs [TESTING (independent collision-free pairs)]   margin=0.05  offset=0.005  ...
+generated: 54 / 1000
+generated: 122 / 1000
+generated: 176 / 1000
+generated: 244 / 1000
+generated: 306 / 1000
+generated: 360 / 1000
+generated: 429 / 1000
+generated: 493 / 1000
+generated: 552 / 1000
+generated: 616 / 1000
+generated: 678 / 1000
+generated: 737 / 1000
+generated: 804 / 1000
+generated: 875 / 1000
+generated: 937 / 1000
+generated: 993 / 1000
+generated: 1000 / 1000
+Sampling done in 9.1s
+Saved sample visualization: testing_data/3dshape/Fshape3d_env1_tight/sampled_placements.html
+Saved speed distribution: testing_data/3dshape/Fshape3d_env1_tight/speed_distribution.html
+Saved speed_angles distribution: testing_data/3dshape/Fshape3d_env1_tight/speed_angles_distribution.html
+Saved speed_dists distribution: testing_data/3dshape/Fshape3d_env1_tight/speed_dists_distribution.html
+x0 pos    : x=[-0.419,0.424]  y=[-0.287,0.279]  z=[-0.455,0.438]
+speed x0  : [0.055, 0.681]   (band [0.100, 1.0])
+speed x1  : [0.052, 1.000]
+Wrote 1000 training pairs to testing_data/3dshape/Fshape3d_env1_tight
+  sampled_points.npy (1000, 12)
+  speed.npy          (1000, 2)
+  normal.npy         (1000, 12)
+  trans_n.npy        (1000, 12)
+  rot_n.npy          (1000, 12)
+  env.npy            (10000, 3)

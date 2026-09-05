@@ -1,0 +1,30 @@
+shape                     : datasets/3dshape/Fshape3d.obj
+environment               : datasets/3dshape/env2.obj
+data_path                 : testing_data/3dshape/Fshape3d_env2
+planner                   : LazyPRM (OMPL, SE(3))
+roadmap                   : cleared per case
+time_limit_per_case       : 30.000 s  (a case over this = fail)
+path_simplification       : off
+
+test_cases_total          : 1000
+invalid_start_or_goal     : 0  (excluded, unplannable)
+test_cases_scored         : 1000  [valid start+goal only]
+successes                 : 771
+failures                  : 229
+  no_solution_in_time     : 215
+  over_time_limit         : 14
+  path_in_collision       : 0
+success_rate              : 0.7710  (77.1%)  [771/1000]
+
+time_mean                 : 17.3615 s   [all 1000 scored cases]
+time_std                  : 9.9939 s
+time_mean_successful      : 13.4935 s   [771 successful cases]
+time_std_successful       : 8.0075 s
+time_median               : 17.0446 s
+
+path_length_mean          : 7.2807   [771 successful cases]
+path_length_std           : 4.2330
+path_length_total         : 5613.4127
+
+total_time                : 17361.47 s
+collision_checks          : 4511363

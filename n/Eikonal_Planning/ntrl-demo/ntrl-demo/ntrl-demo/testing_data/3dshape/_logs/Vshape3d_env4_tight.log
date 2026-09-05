@@ -1,0 +1,100 @@
+[load_obj] 'datasets/3dshape/env4.obj': 7 objects/groups
+  [0] 'wall (1)'  (88 triangles)
+  [1] 'Body14'  (12 triangles)
+  [2] 'Body15'  (12 triangles)
+  [3] 'Body16'  (12 triangles)
+  [4] 'Body17'  (12 triangles)
+  [5] 'Body18'  (12 triangles)
+  [6] 'Body19'  (12 triangles)
+[load_obj] 'datasets/3dshape/Vshape3d.obj': 1 objects/groups
+  [0] 'Body2'  (20 triangles)
+Delaunizing vertices...
+Delaunay seconds:  0.000242
+Creating surface mesh ...
+Surface mesh seconds:  5.6e-05
+Recovering boundaries...
+Boundary recovery seconds:  0.003085
+Removing exterior tetrahedra ...
+Exterior tets removal seconds:  4.4e-05
+Suppressing Steiner points ...
+Steiner suppression seconds:  7e-06
+Recovering Delaunayness...
+Delaunay recovery seconds:  0.000117
+Refining mesh...
+  17 insertions, added 0 points, 1 tetrahedra in queue.
+  5 insertions, added 0 points, 0 tetrahedra in queue.
+  7 insertions, added 0 points, 0 tetrahedra in queue.
+Refinement seconds:  0.000118
+Smoothing vertices...
+Mesh smoothing seconds:  0.115074
+Improving mesh...
+Mesh improvement seconds:  3.4e-05
+
+Writing nodes.
+Writing elements.
+Writing faces.
+Writing edges.
+
+Output seconds:  4.9e-05
+Total running seconds:  0.119031
+
+Statistics:
+
+  Input points: 12
+  Input facets: 20
+  Input segments: 30
+  Input holes: 0
+  Input regions: 0
+
+  Mesh points: 13
+  Mesh tetrahedra: 18
+  Mesh faces: 46
+  Mesh faces on exterior boundary: 20
+  Mesh faces on input facets: 20
+  Mesh edges on input segments: 30
+  Steiner points inside domain: 1
+
+Tetrahedralized shape: 18 tets, 20 boundary triangles, 13 verts
+Sampling 1000 (x0, x1) pairs [TESTING (independent collision-free pairs)]   margin=0.05  offset=0.005  ...
+generated: 29 / 1000
+generated: 68 / 1000
+generated: 107 / 1000
+generated: 140 / 1000
+generated: 162 / 1000
+generated: 207 / 1000
+generated: 271 / 1000
+generated: 299 / 1000
+generated: 341 / 1000
+generated: 381 / 1000
+generated: 422 / 1000
+generated: 456 / 1000
+generated: 502 / 1000
+generated: 523 / 1000
+generated: 569 / 1000
+generated: 601 / 1000
+generated: 639 / 1000
+generated: 675 / 1000
+generated: 709 / 1000
+generated: 752 / 1000
+generated: 792 / 1000
+generated: 825 / 1000
+generated: 862 / 1000
+generated: 897 / 1000
+generated: 937 / 1000
+generated: 975 / 1000
+generated: 1000 / 1000
+Sampling done in 13.5s
+Saved sample visualization: testing_data/3dshape/Vshape3d_env4_tight/sampled_placements.html
+Saved speed distribution: testing_data/3dshape/Vshape3d_env4_tight/speed_distribution.html
+Saved speed_angles distribution: testing_data/3dshape/Vshape3d_env4_tight/speed_angles_distribution.html
+Saved speed_dists distribution: testing_data/3dshape/Vshape3d_env4_tight/speed_dists_distribution.html
+x0 pos    : x=[-0.378,0.355]  y=[-0.277,0.283]  z=[-0.447,0.431]
+speed x0  : [0.054, 1.000]   (band [0.100, 1.0])
+speed x1  : [0.053, 1.000]
+Wrote 1000 training pairs to testing_data/3dshape/Vshape3d_env4_tight
+  sampled_points.npy (1000, 12)
+  speed.npy          (1000, 2)
+  normal.npy         (1000, 12)
+  trans_n.npy        (1000, 12)
+  rot_n.npy          (1000, 12)
+  env.npy            (10000, 3)

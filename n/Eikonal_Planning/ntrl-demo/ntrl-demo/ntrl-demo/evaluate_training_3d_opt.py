@@ -94,7 +94,7 @@ parser.add_argument('--episodes', type=int, default=100,
 parser.add_argument('--warmup', type=int, default=5,
                     help='Episodes planned but excluded from the timing stats '
                          '(absorbs CUDA context / kernel-autotune startup cost).')
-parser.add_argument('--steps', type=int, default=200, help='Max MPPI iterations.')
+parser.add_argument('--steps', type=int, default=120, help='Max MPPI iterations.')
 parser.add_argument('--samples', type=int, default=50, help='MPPI rollout samples.')
 parser.add_argument('--horizon', type=int, default=5, help='MPPI horizon.')
 parser.add_argument('--check-every', type=int, default=1, dest='check_every',
@@ -402,6 +402,8 @@ else:
                 f'No latest.pt and no checkpoints under {modelPath}/*/Model_Epoch_*.pt')
         pt = ckpts[-1]
 
+# NOTE: a hardcoded override of `pt` used to sit here, silently ignoring
+# --checkpoint and loading the rectangle_env1 model for every run.  Removed.
 womodel = md.Model(modelPath, dataPath, DIM, [0.0] * DIM, device=args.device)
 womodel.load(pt)
 womodel.network.eval()

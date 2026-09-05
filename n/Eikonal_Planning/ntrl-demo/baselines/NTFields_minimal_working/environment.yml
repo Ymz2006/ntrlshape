@@ -1,0 +1,17 @@
+name: ntfields-minimal
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.9
+  - numpy=1.22
+  - scipy
+  - matplotlib
+  - pytorch=1.10
+  - cudatoolkit=11.3
+  - libigl
+  - h5py
+  - pip
+  - pip:
+      - pykonal

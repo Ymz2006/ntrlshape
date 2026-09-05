@@ -1,29 +1,53 @@
+=== success rate by planner ===
+regular/forward                 : 0.9880  (98.8%)  [988/1000]
+flipped/reverse                 : 0.9840  (98.4%)  [984/1000]
+either/or                       : 0.9960  (99.6%)  [996/1000]
+alt/alternate                   : 0.9910  (99.1%)  [991/1000]
+locB/Alternative Bellman        : 0.9910  (99.1%)  [991/1000]
+hlB/Alternative Bellman Horizon : 0.9940  (99.4%)  [994/1000]
+
 data_path                    : testing_data/3dshape/Tshape3d_env4
 model_path                   : ./Experiments/3dshape
 checkpoint                   : ./Experiments/3dshape/3dshape_08_19_12_31/latest.pt
-test_cases                   : 100
+test_cases                   : 1000
 mppi_momentum                : 2.0
 mppi_step                    : 0.015   [convergence ball is 0.01]
 mppi_taper                   : 0.0
 mppi_planar (--2d)           : True   [free dims (0, 1, 5) = x, y, rz]
-no_conv_min_dis_median       : 0.7908
-no_conv_min_dis_within_2ball : 0 / 1   [overshoot: got inside 0.02 but never inside 0.01]
+no_conv_min_dis_median       : 0.2698
+no_conv_min_dis_within_2ball : 0 / 5   [overshoot: got inside 0.02 but never inside 0.01]
 discarded_invalid_endpoints  : 0  (start: 0, goal: 0)
-episodes                     : 100   [evaluated = test_cases - discarded]
-successes                    : 99
-failures                     : 1
-  collision                  : 1
-  no_converge                : 1
-success_rate                 : 0.9900  (99.0%)
-successes_flipped            : 98  (collision: 2, no_converge: 1)
-success_rate_flipped         : 0.9800  (98.0%)
-successes_either             : 100   [regular OR flipped]
-success_rate_either          : 1.0000  (100.0%)
-rescued_by_flip              : 1
-lost_by_flip                 : 2   [regular passed but flipped failed; symmetric with rescued_by_flip iff the flip carries no directional signal]
-failures_both                : 0   [regular AND flipped both failed]
-failure_rate_both            : 0.0000  (0.0%)
-failure_corr_phi_flip        : -0.0144   [P(both fail)=0.0000, independent=0.0002]
-linear_interp_valid          : 27 / 100
-success_rate|lin_interp_valid: 1.0000  (100.0%)  [27/27]
-success_rate|lin_interp_fail : 0.9863  (98.6%)  [72/73]
+episodes                     : 1000   [evaluated = test_cases - discarded]
+successes                    : 988
+failures                     : 12
+  collision                  : 9
+  no_converge                : 5
+success_rate                 : 0.9880  (98.8%)
+successes_flipped            : 984  (collision: 14, no_converge: 7)
+success_rate_flipped         : 0.9840  (98.4%)
+successes_either             : 996   [regular OR flipped]
+success_rate_either          : 0.9960  (99.6%)
+success_rate_alternating     : 0.9910  (99.1%)  [991/1000]
+alternating_rescued          : 7   [regular failed, alternating passed]
+alternating_lost             : 4   [regular passed, alternating failed]
+alternating_collision        : 9 / 1000
+alternating_no_convergence   : 1 / 1000
+local_step_weight            : 0.03
+success_rate_local_bidir     : 0.9910  (99.1%)  [991/1000]
+local_bidir_rescued          : 8   [regular failed, local-bidir passed]
+local_bidir_lost             : 5   [regular passed, local-bidir failed]
+local_bidir_collision        : 9 / 1000
+local_bidir_no_convergence   : 3 / 1000
+success_rate_hor_local_bidir : 0.9940  (99.4%)  [994/1000]
+hor_local_bidir_rescued      : 8   [regular failed, hor+local-bidir passed]
+hor_local_bidir_lost         : 2   [regular passed, hor+local-bidir failed]
+hor_local_bidir_collision    : 6 / 1000
+hor_local_bidir_no_convergence: 2 / 1000
+rescued_by_flip              : 8
+lost_by_flip                 : 12   [regular passed but flipped failed; symmetric with rescued_by_flip iff the flip carries no directional signal]
+failures_both                : 4   [regular AND flipped both failed]
+failure_rate_both            : 0.0040  (0.4%)
+failure_corr_phi_flip        : +0.2787   [P(both fail)=0.0040, independent=0.0002]
+linear_interp_valid          : 360 / 1000
+success_rate|lin_interp_valid: 0.9972  (99.7%)  [359/360]
+success_rate|lin_interp_fail : 0.9828  (98.3%)  [629/640]

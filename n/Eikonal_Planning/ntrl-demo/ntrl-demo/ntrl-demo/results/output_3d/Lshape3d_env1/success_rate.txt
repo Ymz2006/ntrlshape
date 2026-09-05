@@ -1,3 +1,11 @@
+=== success rate by planner ===
+regular/forward                 : 0.8890  (88.9%)  [889/1000]
+flipped/reverse                 : 0.8980  (89.8%)  [898/1000]
+either/or                       : 0.9750  (97.5%)  [975/1000]
+alt/alternate                   : 0.8980  (89.8%)  [898/1000]
+locB/Alternative Bellman        : 0.9470  (94.7%)  [947/1000]
+hlB/Alternative Bellman Horizon : 0.9520  (95.2%)  [952/1000]
+
 data_path                    : testing_data/3dshape/Lshape3d_env1
 model_path                   : ./Experiments/3dshape
 checkpoint                   : ./Experiments/3dshape/3dshape_08_15_20_19/latest.pt
@@ -5,38 +13,41 @@ test_cases                   : 1000
 mppi_momentum                : 2.0
 mppi_step                    : 0.015   [convergence ball is 0.01]
 mppi_taper                   : 0.0
-no_conv_min_dis_median       : 0.4187
-no_conv_min_dis_within_2ball : 0 / 67   [overshoot: got inside 0.02 but never inside 0.01]
-discarded_invalid_endpoints  : 37  (start: 25, goal: 14)
-episodes                     : 963   [evaluated = test_cases - discarded]
-successes                    : 757
-failures                     : 206
-  collision                  : 187
-  no_converge                : 67
-success_rate                 : 0.7861  (78.6%)
-successes_flipped            : 757  (collision: 186, no_converge: 63)
-success_rate_flipped         : 0.7861  (78.6%)
-successes_either             : 884   [regular OR flipped]
-success_rate_either          : 0.9180  (91.8%)
-rescued_by_flip              : 127
-lost_by_flip                 : 127   [regular passed but flipped failed; symmetric with rescued_by_flip iff the flip carries no directional signal]
-failures_both                : 79   [regular AND flipped both failed]
-failure_rate_both            : 0.0820  (8.2%)
-successes_rerun              : 768  (collision: 181, no_converge: 67)   [CONTROL: same direction, fresh MPPI noise]
-success_rate_rerun           : 0.7975  (79.8%)
-successes_either_rerun       : 800   [regular OR rerun]
-success_rate_either_rerun    : 0.8307  (83.1%)
-rescued_by_rerun             : 43   [compare against rescued_by_flip]
-direction_edge               : +0.0872  (+8.7%)   [success_rate_either - success_rate_either_rerun]
-failure_corr_phi_flip        : +0.2157   [P(both fail)=0.0820, independent=0.0458]
-failure_corr_phi_rerun       : +0.7643   [P(both fail)=0.1693, independent=0.0433]
-relay_warmup_steps           : 20
-successes_relay              : 787  (collision: 159, no_converge: 41, solved_by_warmup: 14)
-success_rate_relay           : 0.8172  (81.7%)
-relay_seg_collisions         : warm_f=55, main=103, warm_b=53   (sole offender: warm_f=35, main=61, warm_b=18)
-relay_main_leg_conv_and_clean: 840   [lost to a spliced warmup: 53]
-successes_any                : 912   [regular OR flipped OR relay]
-success_rate_any             : 0.9470  (94.7%)
-linear_interp_valid          : 213 / 963
-success_rate|lin_interp_valid: 0.9671  (96.7%)  [206/213]
-success_rate|lin_interp_fail : 0.7347  (73.5%)  [551/750]
+mppi_planar (--2d)           : False
+no_conv_min_dis_median       : 0.6346
+no_conv_min_dis_within_2ball : 0 / 28   [overshoot: got inside 0.02 but never inside 0.01]
+discarded_invalid_endpoints  : 0  (start: 0, goal: 0)
+episodes                     : 1000   [evaluated = test_cases - discarded]
+successes                    : 889
+failures                     : 111
+  collision                  : 102
+  no_converge                : 28
+success_rate                 : 0.8890  (88.9%)
+successes_flipped            : 898  (collision: 93, no_converge: 21)
+success_rate_flipped         : 0.8980  (89.8%)
+successes_either             : 975   [regular OR flipped]
+success_rate_either          : 0.9750  (97.5%)
+success_rate_alternating     : 0.8980  (89.8%)  [898/1000]
+alternating_rescued          : 70   [regular failed, alternating passed]
+alternating_lost             : 61   [regular passed, alternating failed]
+alternating_collision        : 100 / 1000
+alternating_no_convergence   : 7 / 1000
+local_step_weight            : 0.03
+success_rate_local_bidir     : 0.9470  (94.7%)  [947/1000]
+local_bidir_rescued          : 83   [regular failed, local-bidir passed]
+local_bidir_lost             : 25   [regular passed, local-bidir failed]
+local_bidir_collision        : 50 / 1000
+local_bidir_no_convergence   : 7 / 1000
+success_rate_hor_local_bidir : 0.9520  (95.2%)  [952/1000]
+hor_local_bidir_rescued      : 88   [regular failed, hor+local-bidir passed]
+hor_local_bidir_lost         : 25   [regular passed, hor+local-bidir failed]
+hor_local_bidir_collision    : 45 / 1000
+hor_local_bidir_no_convergence: 8 / 1000
+rescued_by_flip              : 86
+lost_by_flip                 : 77   [regular passed but flipped failed; symmetric with rescued_by_flip iff the flip carries no directional signal]
+failures_both                : 25   [regular AND flipped both failed]
+failure_rate_both            : 0.0250  (2.5%)
+failure_corr_phi_flip        : +0.1439   [P(both fail)=0.0250, independent=0.0113]
+linear_interp_valid          : 278 / 1000
+success_rate|lin_interp_valid: 0.9892  (98.9%)  [275/278]
+success_rate|lin_interp_fail : 0.8504  (85.0%)  [614/722]

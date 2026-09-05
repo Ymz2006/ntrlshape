@@ -1,0 +1,87 @@
+[load_obj] 'datasets/3dshape/Corozal.obj': 1 objects/groups
+  [0] 'mesh'  (85428 triangles)
+[load_obj] 'datasets/3dshape/Lcouch.obj': 1 objects/groups
+  [0] 'Body1'  (20 triangles)
+Delaunizing vertices...
+Delaunay seconds:  0.000297
+Creating surface mesh ...
+Surface mesh seconds:  4.1e-05
+Recovering boundaries...
+Boundary recovery seconds:  0.00063
+Removing exterior tetrahedra ...
+Exterior tets removal seconds:  2.6e-05
+Suppressing Steiner points ...
+Steiner suppression seconds:  6e-06
+Recovering Delaunayness...
+Delaunay recovery seconds:  0.000107
+Refining mesh...
+Refinement seconds:  3.1e-05
+Smoothing vertices...
+Mesh smoothing seconds:  0.000319
+Improving mesh...
+Mesh improvement seconds:  1.8e-05
+
+Writing nodes.
+Writing elements.
+Writing faces.
+Writing edges.
+
+Output seconds:  2.4e-05
+Total running seconds:  0.001673
+
+Statistics:
+
+  Input points: 12
+  Input facets: 20
+  Input segments: 30
+  Input holes: 0
+  Input regions: 0
+
+  Mesh points: 13
+  Mesh tetrahedra: 18
+  Mesh faces: 46
+  Mesh faces on exterior boundary: 20
+  Mesh faces on input facets: 20
+  Mesh edges on input segments: 30
+  Steiner points inside domain: 1
+
+Tetrahedralized shape: 18 tets, 20 boundary triangles, 13 verts
+Sampling 1000 (x0, x1) pairs [TESTING (independent collision-free pairs)]   margin=0.05  offset=0.005  ...
+generated: 43 / 1000
+generated: 88 / 1000
+generated: 124 / 1000
+generated: 170 / 1000
+generated: 214 / 1000
+generated: 255 / 1000
+generated: 311 / 1000
+generated: 364 / 1000
+generated: 409 / 1000
+generated: 460 / 1000
+generated: 515 / 1000
+generated: 571 / 1000
+generated: 609 / 1000
+generated: 649 / 1000
+generated: 692 / 1000
+generated: 739 / 1000
+generated: 776 / 1000
+generated: 825 / 1000
+generated: 875 / 1000
+generated: 917 / 1000
+generated: 963 / 1000
+generated: 998 / 1000
+generated: 1000 / 1000
+Sampling done in 5.6s
+Saved sample visualization: testing_data/3dshape/Lcouch_Corozal_tight/sampled_placements.html
+Saved speed distribution: testing_data/3dshape/Lcouch_Corozal_tight/speed_distribution.html
+Saved speed_angles distribution: testing_data/3dshape/Lcouch_Corozal_tight/speed_angles_distribution.html
+Saved speed_dists distribution: testing_data/3dshape/Lcouch_Corozal_tight/speed_dists_distribution.html
+x0 pos    : x=[-0.278,0.278]  y=[-0.489,0.489]  z=[-0.154,0.154]
+speed x0  : [0.069, 1.000]   (band [0.100, 1.0])
+speed x1  : [0.070, 1.000]
+Wrote 1000 training pairs to testing_data/3dshape/Lcouch_Corozal_tight
+  sampled_points.npy (1000, 12)
+  speed.npy          (1000, 2)
+  normal.npy         (1000, 12)
+  trans_n.npy        (1000, 12)
+  rot_n.npy          (1000, 12)
+  env.npy            (39844, 3)

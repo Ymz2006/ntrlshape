@@ -1,0 +1,1048 @@
+[load_obj] 'datasets/3dshape/Ashape3d.obj': 1 objects/groups
+  [0] 'Body2'  (40 triangles)
+[load_obj] 'datasets/3dshape/env1.obj': 5 objects/groups
+  [0] 'Body2'  (12 triangles)
+  [1] 'Body3'  (12 triangles)
+  [2] 'Body4'  (12 triangles)
+  [3] 'Body5'  (12 triangles)
+  [4] 'wall (2)'  (12 triangles)
+shape       : datasets/3dshape/Ashape3d.obj  (20 verts, 30 tets, radius 0.1933)
+environment : datasets/3dshape/env1.obj  (60 tris, 50000 collision points)
+bounds      : low [-0.475, -0.3329, -0.5]  high [0.475, 0.3329, 0.5]
+test cases  : 1000 from testing_data/3dshape/Ashape3d_env1/sampled_points.npy
+planner     : LazyPRM  (time limit 30.0s per case, resolution 0.005, roadmap cleared per case)
+
+[000] PASS  time= 11.863s  status=Exact solution     len=  7.045  endpoints_valid=True  collision=False  over_limit=False
+[001] PASS  time= 16.736s  status=Exact solution     len=  8.156  endpoints_valid=True  collision=False  over_limit=False
+[002] FAIL  time= 30.325s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[003] PASS  time= 11.108s  status=Exact solution     len=  7.211  endpoints_valid=True  collision=False  over_limit=False
+[004] PASS  time=  0.250s  status=Exact solution     len=  0.620  endpoints_valid=True  collision=False  over_limit=False
+[005] PASS  time=  0.130s  status=Exact solution     len=  0.287  endpoints_valid=True  collision=False  over_limit=False
+[006] PASS  time= 19.524s  status=Exact solution     len=  7.016  endpoints_valid=True  collision=False  over_limit=False
+[007] PASS  time= 16.573s  status=Exact solution     len= 14.342  endpoints_valid=True  collision=False  over_limit=False
+[008] FAIL  time= 30.047s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[009] FAIL  time= 30.236s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[010] PASS  time= 16.356s  status=Exact solution     len=  3.614  endpoints_valid=True  collision=False  over_limit=False
+[011] PASS  time= 24.491s  status=Exact solution     len=  5.105  endpoints_valid=True  collision=False  over_limit=False
+[012] PASS  time=  4.740s  status=Exact solution     len=  3.168  endpoints_valid=True  collision=False  over_limit=False
+[013] FAIL  time= 30.063s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[014] PASS  time= 11.038s  status=Exact solution     len=  8.352  endpoints_valid=True  collision=False  over_limit=False
+[015] PASS  time= 13.377s  status=Exact solution     len= 10.061  endpoints_valid=True  collision=False  over_limit=False
+[016] PASS  time=  7.125s  status=Exact solution     len=  5.224  endpoints_valid=True  collision=False  over_limit=False
+[017] FAIL  time= 30.971s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[018] FAIL  time= 31.087s  status=Exact solution     len=  6.947  endpoints_valid=True  collision=False  over_limit=True
+[019] PASS  time= 12.602s  status=Exact solution     len=  6.628  endpoints_valid=True  collision=False  over_limit=False
+[020] PASS  time=  8.846s  status=Exact solution     len=  8.059  endpoints_valid=True  collision=False  over_limit=False
+[021] PASS  time=  3.030s  status=Exact solution     len=  5.423  endpoints_valid=True  collision=False  over_limit=False
+[022] PASS  time=  8.455s  status=Exact solution     len=  4.202  endpoints_valid=True  collision=False  over_limit=False
+[023] PASS  time=  1.103s  status=Exact solution     len=  1.538  endpoints_valid=True  collision=False  over_limit=False
+[024] FAIL  time= 30.065s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[025] PASS  time= 28.517s  status=Exact solution     len= 16.801  endpoints_valid=True  collision=False  over_limit=False
+[026] PASS  time= 26.640s  status=Exact solution     len=  9.089  endpoints_valid=True  collision=False  over_limit=False
+[027] PASS  time= 19.633s  status=Exact solution     len= 13.758  endpoints_valid=True  collision=False  over_limit=False
+[028] PASS  time=  6.453s  status=Exact solution     len=  5.939  endpoints_valid=True  collision=False  over_limit=False
+[029] PASS  time= 20.421s  status=Exact solution     len= 12.154  endpoints_valid=True  collision=False  over_limit=False
+[030] PASS  time=  0.848s  status=Exact solution     len=  1.112  endpoints_valid=True  collision=False  over_limit=False
+[031] PASS  time=  0.198s  status=Exact solution     len=  0.409  endpoints_valid=True  collision=False  over_limit=False
+[032] PASS  time=  2.094s  status=Exact solution     len=  1.050  endpoints_valid=True  collision=False  over_limit=False
+[033] PASS  time= 12.673s  status=Exact solution     len=  6.472  endpoints_valid=True  collision=False  over_limit=False
+[034] PASS  time= 17.299s  status=Exact solution     len=  7.808  endpoints_valid=True  collision=False  over_limit=False
+[035] PASS  time=  9.678s  status=Exact solution     len=  2.020  endpoints_valid=True  collision=False  over_limit=False
+[036] FAIL  time= 30.234s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[037] PASS  time=  8.800s  status=Exact solution     len=  7.137  endpoints_valid=True  collision=False  over_limit=False
+[038] PASS  time= 11.106s  status=Exact solution     len=  1.560  endpoints_valid=True  collision=False  over_limit=False
+[039] FAIL  time= 30.364s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[040] FAIL  time= 30.308s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[041] PASS  time=  2.121s  status=Exact solution     len=  4.486  endpoints_valid=True  collision=False  over_limit=False
+[042] PASS  time= 14.161s  status=Exact solution     len=  9.502  endpoints_valid=True  collision=False  over_limit=False
+[043] FAIL  time= 30.116s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[044] FAIL  time= 30.386s  status=Exact solution     len= 15.760  endpoints_valid=True  collision=False  over_limit=True
+[045] PASS  time=  3.382s  status=Exact solution     len=  2.929  endpoints_valid=True  collision=False  over_limit=False
+[046] FAIL  time= 30.383s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[047] PASS  time= 27.056s  status=Exact solution     len= 14.198  endpoints_valid=True  collision=False  over_limit=False
+[048] PASS  time=  0.073s  status=Exact solution     len=  0.516  endpoints_valid=True  collision=False  over_limit=False
+[049] FAIL  time= 30.084s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[050] PASS  time= 16.623s  status=Exact solution     len=  3.984  endpoints_valid=True  collision=False  over_limit=False
+[051] PASS  time=  6.064s  status=Exact solution     len=  5.852  endpoints_valid=True  collision=False  over_limit=False
+[052] PASS  time= 21.707s  status=Exact solution     len=  4.811  endpoints_valid=True  collision=False  over_limit=False
+[053] FAIL  time= 30.191s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[054] PASS  time=  8.083s  status=Exact solution     len=  8.482  endpoints_valid=True  collision=False  over_limit=False
+[055] FAIL  time= 30.429s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[056] FAIL  time= 30.121s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[057] PASS  time= 12.942s  status=Exact solution     len=  4.896  endpoints_valid=True  collision=False  over_limit=False
+[058] PASS  time= 13.936s  status=Exact solution     len= 11.985  endpoints_valid=True  collision=False  over_limit=False
+[059] PASS  time= 28.369s  status=Exact solution     len= 14.140  endpoints_valid=True  collision=False  over_limit=False
+[060] FAIL  time= 31.108s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[061] PASS  time= 21.628s  status=Exact solution     len=  6.634  endpoints_valid=True  collision=False  over_limit=False
+[062] FAIL  time= 30.284s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[063] FAIL  time= 30.726s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[064] PASS  time=  6.546s  status=Exact solution     len=  3.775  endpoints_valid=True  collision=False  over_limit=False
+[065] PASS  time= 11.961s  status=Exact solution     len=  8.674  endpoints_valid=True  collision=False  over_limit=False
+[066] FAIL  time= 30.580s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[067] FAIL  time= 30.069s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[068] PASS  time= 12.501s  status=Exact solution     len=  8.031  endpoints_valid=True  collision=False  over_limit=False
+[069] FAIL  time= 31.464s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[070] PASS  time=  3.069s  status=Exact solution     len=  4.093  endpoints_valid=True  collision=False  over_limit=False
+[071] PASS  time=  5.636s  status=Exact solution     len=  7.624  endpoints_valid=True  collision=False  over_limit=False
+[072] PASS  time=  0.141s  status=Exact solution     len=  0.302  endpoints_valid=True  collision=False  over_limit=False
+[073] FAIL  time= 30.509s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[074] FAIL  time= 30.120s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[075] PASS  time=  8.002s  status=Exact solution     len=  3.119  endpoints_valid=True  collision=False  over_limit=False
+[076] PASS  time=  4.928s  status=Exact solution     len=  5.159  endpoints_valid=True  collision=False  over_limit=False
+[077] PASS  time= 27.704s  status=Exact solution     len= 15.052  endpoints_valid=True  collision=False  over_limit=False
+[078] PASS  time= 20.425s  status=Exact solution     len= 11.698  endpoints_valid=True  collision=False  over_limit=False
+[079] FAIL  time= 30.043s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[080] PASS  time=  0.071s  status=Exact solution     len=  0.311  endpoints_valid=True  collision=False  over_limit=False
+[081] FAIL  time= 30.110s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[082] PASS  time= 18.770s  status=Exact solution     len=  9.657  endpoints_valid=True  collision=False  over_limit=False
+[083] PASS  time=  9.247s  status=Exact solution     len=  6.333  endpoints_valid=True  collision=False  over_limit=False
+[084] PASS  time=  2.847s  status=Exact solution     len=  3.571  endpoints_valid=True  collision=False  over_limit=False
+[085] PASS  time= 18.062s  status=Exact solution     len=  6.990  endpoints_valid=True  collision=False  over_limit=False
+[086] FAIL  time= 30.623s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[087] PASS  time= 18.580s  status=Exact solution     len=  4.053  endpoints_valid=True  collision=False  over_limit=False
+[088] FAIL  time= 30.129s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[089] PASS  time=  0.187s  status=Exact solution     len=  0.397  endpoints_valid=True  collision=False  over_limit=False
+[090] PASS  time=  3.620s  status=Exact solution     len=  3.897  endpoints_valid=True  collision=False  over_limit=False
+[091] PASS  time=  4.015s  status=Exact solution     len=  4.760  endpoints_valid=True  collision=False  over_limit=False
+[092] PASS  time= 16.873s  status=Exact solution     len=  7.139  endpoints_valid=True  collision=False  over_limit=False
+[093] FAIL  time= 30.087s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[094] PASS  time= 12.115s  status=Exact solution     len=  6.472  endpoints_valid=True  collision=False  over_limit=False
+[095] FAIL  time= 30.431s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[096] PASS  time= 12.806s  status=Exact solution     len=  4.067  endpoints_valid=True  collision=False  over_limit=False
+[097] PASS  time= 16.284s  status=Exact solution     len= 11.247  endpoints_valid=True  collision=False  over_limit=False
+[098] PASS  time= 15.637s  status=Exact solution     len= 11.066  endpoints_valid=True  collision=False  over_limit=False
+[099] PASS  time= 27.234s  status=Exact solution     len=  4.607  endpoints_valid=True  collision=False  over_limit=False
+[100] FAIL  time= 30.086s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[101] FAIL  time= 30.183s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[102] FAIL  time= 30.105s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[103] PASS  time=  0.645s  status=Exact solution     len=  0.796  endpoints_valid=True  collision=False  over_limit=False
+[104] FAIL  time= 30.437s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[105] PASS  time= 28.206s  status=Exact solution     len=  9.552  endpoints_valid=True  collision=False  over_limit=False
+[106] FAIL  time= 30.666s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[107] PASS  time= 18.467s  status=Exact solution     len= 11.032  endpoints_valid=True  collision=False  over_limit=False
+[108] PASS  time= 11.027s  status=Exact solution     len=  7.210  endpoints_valid=True  collision=False  over_limit=False
+[109] PASS  time= 28.333s  status=Exact solution     len=  6.790  endpoints_valid=True  collision=False  over_limit=False
+[110] PASS  time= 16.120s  status=Exact solution     len=  9.430  endpoints_valid=True  collision=False  over_limit=False
+[111] PASS  time=  3.008s  status=Exact solution     len=  6.848  endpoints_valid=True  collision=False  over_limit=False
+[112] FAIL  time= 30.278s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[113] PASS  time= 14.988s  status=Exact solution     len=  1.844  endpoints_valid=True  collision=False  over_limit=False
+[114] PASS  time=  9.192s  status=Exact solution     len=  5.775  endpoints_valid=True  collision=False  over_limit=False
+[115] PASS  time=  0.261s  status=Exact solution     len=  0.473  endpoints_valid=True  collision=False  over_limit=False
+[116] PASS  time=  8.279s  status=Exact solution     len=  6.198  endpoints_valid=True  collision=False  over_limit=False
+[117] FAIL  time= 30.204s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[118] FAIL  time= 30.076s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[119] PASS  time= 11.622s  status=Exact solution     len=  7.911  endpoints_valid=True  collision=False  over_limit=False
+[120] PASS  time= 20.910s  status=Exact solution     len= 13.009  endpoints_valid=True  collision=False  over_limit=False
+[121] FAIL  time= 30.022s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[122] PASS  time= 10.391s  status=Exact solution     len=  4.150  endpoints_valid=True  collision=False  over_limit=False
+[123] PASS  time= 15.103s  status=Exact solution     len=  5.933  endpoints_valid=True  collision=False  over_limit=False
+[124] PASS  time= 15.011s  status=Exact solution     len= 10.277  endpoints_valid=True  collision=False  over_limit=False
+[125] PASS  time= 12.136s  status=Exact solution     len=  4.430  endpoints_valid=True  collision=False  over_limit=False
+[126] PASS  time=  3.515s  status=Exact solution     len=  3.916  endpoints_valid=True  collision=False  over_limit=False
+[127] PASS  time=  5.729s  status=Exact solution     len=  1.083  endpoints_valid=True  collision=False  over_limit=False
+[128] PASS  time=  7.901s  status=Exact solution     len=  5.755  endpoints_valid=True  collision=False  over_limit=False
+[129] PASS  time=  7.574s  status=Exact solution     len=  1.932  endpoints_valid=True  collision=False  over_limit=False
+[130] PASS  time= 19.538s  status=Exact solution     len=  6.026  endpoints_valid=True  collision=False  over_limit=False
+[131] PASS  time= 28.926s  status=Exact solution     len= 19.504  endpoints_valid=True  collision=False  over_limit=False
+[132] PASS  time= 10.834s  status=Exact solution     len=  9.334  endpoints_valid=True  collision=False  over_limit=False
+[133] FAIL  time= 30.554s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[134] PASS  time=  4.556s  status=Exact solution     len=  4.147  endpoints_valid=True  collision=False  over_limit=False
+[135] PASS  time=  8.090s  status=Exact solution     len=  6.889  endpoints_valid=True  collision=False  over_limit=False
+[136] FAIL  time= 30.069s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[137] PASS  time=  8.825s  status=Exact solution     len=  3.975  endpoints_valid=True  collision=False  over_limit=False
+[138] FAIL  time= 30.114s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[139] FAIL  time= 30.086s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[140] PASS  time=  0.383s  status=Exact solution     len=  1.058  endpoints_valid=True  collision=False  over_limit=False
+[141] PASS  time= 11.758s  status=Exact solution     len=  2.963  endpoints_valid=True  collision=False  over_limit=False
+[142] PASS  time= 14.886s  status=Exact solution     len= 10.626  endpoints_valid=True  collision=False  over_limit=False
+[143] PASS  time=  4.756s  status=Exact solution     len=  5.883  endpoints_valid=True  collision=False  over_limit=False
+[144] FAIL  time= 30.353s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[145] FAIL  time= 30.433s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[146] FAIL  time= 30.108s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[147] PASS  time= 24.019s  status=Exact solution     len= 10.025  endpoints_valid=True  collision=False  over_limit=False
+[148] PASS  time= 15.025s  status=Exact solution     len=  5.806  endpoints_valid=True  collision=False  over_limit=False
+[149] FAIL  time= 30.083s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[150] PASS  time= 10.319s  status=Exact solution     len=  6.261  endpoints_valid=True  collision=False  over_limit=False
+[151] PASS  time= 11.996s  status=Exact solution     len=  8.147  endpoints_valid=True  collision=False  over_limit=False
+[152] FAIL  time= 30.106s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[153] PASS  time= 28.176s  status=Exact solution     len=  9.399  endpoints_valid=True  collision=False  over_limit=False
+[154] FAIL  time= 31.975s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[155] FAIL  time= 30.103s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[156] FAIL  time= 30.082s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[157] PASS  time= 21.663s  status=Exact solution     len=  6.233  endpoints_valid=True  collision=False  over_limit=False
+[158] PASS  time=  3.749s  status=Exact solution     len=  4.741  endpoints_valid=True  collision=False  over_limit=False
+[159] FAIL  time= 31.569s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[160] PASS  time=  8.871s  status=Exact solution     len=  5.763  endpoints_valid=True  collision=False  over_limit=False
+[161] PASS  time= 12.861s  status=Exact solution     len=  4.825  endpoints_valid=True  collision=False  over_limit=False
+[162] PASS  time= 19.944s  status=Exact solution     len=  2.947  endpoints_valid=True  collision=False  over_limit=False
+[163] FAIL  time= 30.096s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[164] PASS  time= 21.750s  status=Exact solution     len= 12.789  endpoints_valid=True  collision=False  over_limit=False
+[165] PASS  time= 22.740s  status=Exact solution     len=  8.324  endpoints_valid=True  collision=False  over_limit=False
+[166] PASS  time= 17.186s  status=Exact solution     len=  5.804  endpoints_valid=True  collision=False  over_limit=False
+[167] PASS  time=  8.363s  status=Exact solution     len=  4.862  endpoints_valid=True  collision=False  over_limit=False
+[168] PASS  time=  9.513s  status=Exact solution     len=  6.060  endpoints_valid=True  collision=False  over_limit=False
+[169] PASS  time= 15.097s  status=Exact solution     len= 12.452  endpoints_valid=True  collision=False  over_limit=False
+[170] PASS  time= 17.591s  status=Exact solution     len=  8.362  endpoints_valid=True  collision=False  over_limit=False
+[171] PASS  time= 11.680s  status=Exact solution     len=  9.236  endpoints_valid=True  collision=False  over_limit=False
+[172] PASS  time=  2.135s  status=Exact solution     len=  4.274  endpoints_valid=True  collision=False  over_limit=False
+[173] PASS  time= 14.012s  status=Exact solution     len= 11.501  endpoints_valid=True  collision=False  over_limit=False
+[174] PASS  time=  7.856s  status=Exact solution     len=  5.365  endpoints_valid=True  collision=False  over_limit=False
+[175] PASS  time=  2.957s  status=Exact solution     len=  3.672  endpoints_valid=True  collision=False  over_limit=False
+[176] PASS  time= 23.417s  status=Exact solution     len= 14.016  endpoints_valid=True  collision=False  over_limit=False
+[177] FAIL  time= 30.099s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[178] FAIL  time= 30.075s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[179] PASS  time= 25.095s  status=Exact solution     len=  8.664  endpoints_valid=True  collision=False  over_limit=False
+[180] PASS  time= 16.180s  status=Exact solution     len=  4.874  endpoints_valid=True  collision=False  over_limit=False
+[181] PASS  time= 10.612s  status=Exact solution     len=  4.575  endpoints_valid=True  collision=False  over_limit=False
+[182] PASS  time=  8.669s  status=Exact solution     len=  6.606  endpoints_valid=True  collision=False  over_limit=False
+[183] FAIL  time= 30.674s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[184] PASS  time=  0.950s  status=Exact solution     len=  0.946  endpoints_valid=True  collision=False  over_limit=False
+[185] FAIL  time= 30.103s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[186] PASS  time= 27.899s  status=Exact solution     len=  7.977  endpoints_valid=True  collision=False  over_limit=False
+[187] FAIL  time= 30.108s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[188] PASS  time=  0.138s  status=Exact solution     len=  0.471  endpoints_valid=True  collision=False  over_limit=False
+[189] PASS  time=  9.679s  status=Exact solution     len=  4.757  endpoints_valid=True  collision=False  over_limit=False
+[190] PASS  time= 16.481s  status=Exact solution     len=  2.249  endpoints_valid=True  collision=False  over_limit=False
+[191] FAIL  time= 31.150s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[192] PASS  time=  7.415s  status=Exact solution     len=  4.148  endpoints_valid=True  collision=False  over_limit=False
+[193] PASS  time= 14.986s  status=Exact solution     len=  8.731  endpoints_valid=True  collision=False  over_limit=False
+[194] PASS  time= 18.252s  status=Exact solution     len=  7.089  endpoints_valid=True  collision=False  over_limit=False
+[195] PASS  time= 28.766s  status=Exact solution     len=  4.555  endpoints_valid=True  collision=False  over_limit=False
+[196] PASS  time= 24.902s  status=Exact solution     len= 14.164  endpoints_valid=True  collision=False  over_limit=False
+[197] FAIL  time= 30.082s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[198] PASS  time=  4.486s  status=Exact solution     len=  3.836  endpoints_valid=True  collision=False  over_limit=False
+[199] PASS  time= 19.032s  status=Exact solution     len= 10.004  endpoints_valid=True  collision=False  over_limit=False
+[200] PASS  time=  7.820s  status=Exact solution     len=  8.416  endpoints_valid=True  collision=False  over_limit=False
+[201] FAIL  time= 30.820s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[202] PASS  time=  8.719s  status=Exact solution     len=  6.917  endpoints_valid=True  collision=False  over_limit=False
+[203] PASS  time=  8.567s  status=Exact solution     len=  7.289  endpoints_valid=True  collision=False  over_limit=False
+[204] FAIL  time= 30.151s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[205] PASS  time= 22.128s  status=Exact solution     len=  8.958  endpoints_valid=True  collision=False  over_limit=False
+[206] PASS  time= 12.759s  status=Exact solution     len=  8.311  endpoints_valid=True  collision=False  over_limit=False
+[207] PASS  time= 26.711s  status=Exact solution     len=  6.763  endpoints_valid=True  collision=False  over_limit=False
+[208] PASS  time= 18.410s  status=Exact solution     len=  4.105  endpoints_valid=True  collision=False  over_limit=False
+[209] PASS  time= 22.104s  status=Exact solution     len=  3.731  endpoints_valid=True  collision=False  over_limit=False
+[210] FAIL  time= 30.070s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[211] FAIL  time= 31.345s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[212] PASS  time=  6.367s  status=Exact solution     len=  3.984  endpoints_valid=True  collision=False  over_limit=False
+[213] FAIL  time= 30.046s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[214] PASS  time= 10.058s  status=Exact solution     len=  5.185  endpoints_valid=True  collision=False  over_limit=False
+[215] PASS  time= 13.000s  status=Exact solution     len=  8.335  endpoints_valid=True  collision=False  over_limit=False
+[216] PASS  time= 21.068s  status=Exact solution     len=  4.369  endpoints_valid=True  collision=False  over_limit=False
+[217] PASS  time= 17.950s  status=Exact solution     len=  7.615  endpoints_valid=True  collision=False  over_limit=False
+[218] PASS  time= 13.404s  status=Exact solution     len=  7.724  endpoints_valid=True  collision=False  over_limit=False
+[219] PASS  time= 14.999s  status=Exact solution     len= 12.397  endpoints_valid=True  collision=False  over_limit=False
+[220] PASS  time= 13.032s  status=Exact solution     len= 10.052  endpoints_valid=True  collision=False  over_limit=False
+[221] FAIL  time= 30.466s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[222] PASS  time=  2.911s  status=Exact solution     len=  2.414  endpoints_valid=True  collision=False  over_limit=False
+[223] PASS  time=  7.856s  status=Exact solution     len=  3.467  endpoints_valid=True  collision=False  over_limit=False
+[224] PASS  time= 22.463s  status=Exact solution     len=  3.305  endpoints_valid=True  collision=False  over_limit=False
+[225] PASS  time= 16.981s  status=Exact solution     len= 10.973  endpoints_valid=True  collision=False  over_limit=False
+[226] PASS  time= 20.164s  status=Exact solution     len=  4.224  endpoints_valid=True  collision=False  over_limit=False
+[227] PASS  time=  5.171s  status=Exact solution     len=  4.781  endpoints_valid=True  collision=False  over_limit=False
+[228] PASS  time=  9.277s  status=Exact solution     len=  1.990  endpoints_valid=True  collision=False  over_limit=False
+[229] FAIL  time= 30.365s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[230] FAIL  time= 30.186s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[231] PASS  time= 12.837s  status=Exact solution     len=  4.678  endpoints_valid=True  collision=False  over_limit=False
+[232] PASS  time=  0.080s  status=Exact solution     len=  0.252  endpoints_valid=True  collision=False  over_limit=False
+[233] FAIL  time= 30.204s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[234] FAIL  time= 30.053s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[235] FAIL  time= 30.989s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[236] PASS  time=  0.406s  status=Exact solution     len=  0.808  endpoints_valid=True  collision=False  over_limit=False
+[237] PASS  time=  0.736s  status=Exact solution     len=  1.550  endpoints_valid=True  collision=False  over_limit=False
+[238] PASS  time= 16.398s  status=Exact solution     len=  9.591  endpoints_valid=True  collision=False  over_limit=False
+[239] PASS  time=  3.525s  status=Exact solution     len=  3.424  endpoints_valid=True  collision=False  over_limit=False
+[240] PASS  time=  5.871s  status=Exact solution     len=  6.749  endpoints_valid=True  collision=False  over_limit=False
+[241] PASS  time= 19.571s  status=Exact solution     len= 14.742  endpoints_valid=True  collision=False  over_limit=False
+[242] FAIL  time= 30.597s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[243] FAIL  time= 30.044s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[244] PASS  time= 29.086s  status=Exact solution     len= 17.969  endpoints_valid=True  collision=False  over_limit=False
+[245] PASS  time=  7.367s  status=Exact solution     len=  4.799  endpoints_valid=True  collision=False  over_limit=False
+[246] PASS  time= 28.688s  status=Exact solution     len= 16.538  endpoints_valid=True  collision=False  over_limit=False
+[247] PASS  time= 14.790s  status=Exact solution     len=  7.454  endpoints_valid=True  collision=False  over_limit=False
+[248] FAIL  time= 30.092s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[249] PASS  time= 12.461s  status=Exact solution     len=  7.518  endpoints_valid=True  collision=False  over_limit=False
+[250] FAIL  time= 30.141s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[251] PASS  time=  6.774s  status=Exact solution     len=  3.591  endpoints_valid=True  collision=False  over_limit=False
+[252] PASS  time=  6.511s  status=Exact solution     len=  6.885  endpoints_valid=True  collision=False  over_limit=False
+[253] FAIL  time= 30.476s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[254] PASS  time=  9.030s  status=Exact solution     len=  4.432  endpoints_valid=True  collision=False  over_limit=False
+[255] FAIL  time= 30.780s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[256] FAIL  time= 30.038s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[257] PASS  time=  8.830s  status=Exact solution     len=  7.828  endpoints_valid=True  collision=False  over_limit=False
+[258] FAIL  time= 30.075s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[259] PASS  time= 13.229s  status=Exact solution     len=  2.955  endpoints_valid=True  collision=False  over_limit=False
+[260] PASS  time=  0.368s  status=Exact solution     len=  1.107  endpoints_valid=True  collision=False  over_limit=False
+[261] FAIL  time= 30.081s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[262] FAIL  time= 30.110s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[263] PASS  time= 14.654s  status=Exact solution     len= 10.099  endpoints_valid=True  collision=False  over_limit=False
+[264] PASS  time= 27.240s  status=Exact solution     len= 13.889  endpoints_valid=True  collision=False  over_limit=False
+[265] PASS  time= 20.023s  status=Exact solution     len=  4.519  endpoints_valid=True  collision=False  over_limit=False
+[266] PASS  time=  4.608s  status=Exact solution     len=  5.521  endpoints_valid=True  collision=False  over_limit=False
+[267] PASS  time= 23.006s  status=Exact solution     len=  8.808  endpoints_valid=True  collision=False  over_limit=False
+[268] FAIL  time= 30.207s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[269] PASS  time= 18.458s  status=Exact solution     len=  7.528  endpoints_valid=True  collision=False  over_limit=False
+[270] PASS  time=  9.760s  status=Exact solution     len=  4.410  endpoints_valid=True  collision=False  over_limit=False
+[271] PASS  time= 13.129s  status=Exact solution     len=  8.404  endpoints_valid=True  collision=False  over_limit=False
+[272] FAIL  time= 30.048s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[273] PASS  time=  0.144s  status=Exact solution     len=  0.510  endpoints_valid=True  collision=False  over_limit=False
+[274] PASS  time=  9.000s  status=Exact solution     len=  4.755  endpoints_valid=True  collision=False  over_limit=False
+[275] FAIL  time= 31.149s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[276] PASS  time=  2.985s  status=Exact solution     len=  4.983  endpoints_valid=True  collision=False  over_limit=False
+[277] PASS  time= 10.741s  status=Exact solution     len=  1.377  endpoints_valid=True  collision=False  over_limit=False
+[278] FAIL  time= 30.347s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[279] FAIL  time= 30.135s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[280] PASS  time= 27.481s  status=Exact solution     len=  8.257  endpoints_valid=True  collision=False  over_limit=False
+[281] PASS  time= 27.482s  status=Exact solution     len=  9.376  endpoints_valid=True  collision=False  over_limit=False
+[282] PASS  time= 15.485s  status=Exact solution     len= 11.734  endpoints_valid=True  collision=False  over_limit=False
+[283] PASS  time= 14.047s  status=Exact solution     len=  5.022  endpoints_valid=True  collision=False  over_limit=False
+[284] PASS  time= 28.176s  status=Exact solution     len= 10.493  endpoints_valid=True  collision=False  over_limit=False
+[285] PASS  time= 17.351s  status=Exact solution     len=  5.819  endpoints_valid=True  collision=False  over_limit=False
+[286] PASS  time= 18.216s  status=Exact solution     len=  7.675  endpoints_valid=True  collision=False  over_limit=False
+[287] FAIL  time= 30.301s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[288] FAIL  time= 30.474s  status=Exact solution     len= 16.578  endpoints_valid=True  collision=False  over_limit=True
+[289] PASS  time=  8.493s  status=Exact solution     len=  7.008  endpoints_valid=True  collision=False  over_limit=False
+[290] PASS  time= 17.697s  status=Exact solution     len=  5.887  endpoints_valid=True  collision=False  over_limit=False
+[291] PASS  time= 10.322s  status=Exact solution     len=  5.324  endpoints_valid=True  collision=False  over_limit=False
+[292] FAIL  time= 30.935s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[293] PASS  time=  1.247s  status=Exact solution     len=  1.605  endpoints_valid=True  collision=False  over_limit=False
+[294] FAIL  time= 30.172s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[295] PASS  time= 12.799s  status=Exact solution     len=  8.800  endpoints_valid=True  collision=False  over_limit=False
+[296] FAIL  time= 30.044s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[297] FAIL  time= 30.004s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[298] FAIL  time= 30.007s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[299] PASS  time=  0.907s  status=Exact solution     len=  2.521  endpoints_valid=True  collision=False  over_limit=False
+[300] FAIL  time= 30.052s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[301] PASS  time= 15.247s  status=Exact solution     len=  7.787  endpoints_valid=True  collision=False  over_limit=False
+[302] PASS  time=  8.290s  status=Exact solution     len=  2.991  endpoints_valid=True  collision=False  over_limit=False
+[303] PASS  time= 25.112s  status=Exact solution     len= 11.308  endpoints_valid=True  collision=False  over_limit=False
+[304] PASS  time= 10.247s  status=Exact solution     len= 10.480  endpoints_valid=True  collision=False  over_limit=False
+[305] PASS  time= 14.322s  status=Exact solution     len=  7.322  endpoints_valid=True  collision=False  over_limit=False
+[306] PASS  time=  0.115s  status=Exact solution     len=  0.587  endpoints_valid=True  collision=False  over_limit=False
+[307] PASS  time=  0.701s  status=Exact solution     len=  1.064  endpoints_valid=True  collision=False  over_limit=False
+[308] PASS  time=  0.858s  status=Exact solution     len=  2.088  endpoints_valid=True  collision=False  over_limit=False
+[309] FAIL  time= 30.161s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[310] PASS  time= 23.463s  status=Exact solution     len=  5.245  endpoints_valid=True  collision=False  over_limit=False
+[311] PASS  time=  2.430s  status=Exact solution     len=  3.110  endpoints_valid=True  collision=False  over_limit=False
+[312] PASS  time=  8.793s  status=Exact solution     len=  3.302  endpoints_valid=True  collision=False  over_limit=False
+[313] PASS  time= 15.458s  status=Exact solution     len=  3.999  endpoints_valid=True  collision=False  over_limit=False
+[314] PASS  time= 23.649s  status=Exact solution     len=  6.367  endpoints_valid=True  collision=False  over_limit=False
+[315] PASS  time=  6.565s  status=Exact solution     len=  3.184  endpoints_valid=True  collision=False  over_limit=False
+[316] PASS  time=  5.608s  status=Exact solution     len=  9.726  endpoints_valid=True  collision=False  over_limit=False
+[317] PASS  time= 20.638s  status=Exact solution     len= 19.179  endpoints_valid=True  collision=False  over_limit=False
+[318] PASS  time=  8.192s  status=Exact solution     len=  3.959  endpoints_valid=True  collision=False  over_limit=False
+[319] FAIL  time= 30.573s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[320] FAIL  time= 30.050s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[321] PASS  time= 11.588s  status=Exact solution     len=  8.032  endpoints_valid=True  collision=False  over_limit=False
+[322] PASS  time=  6.791s  status=Exact solution     len=  4.733  endpoints_valid=True  collision=False  over_limit=False
+[323] PASS  time=  8.804s  status=Exact solution     len=  2.546  endpoints_valid=True  collision=False  over_limit=False
+[324] PASS  time= 23.985s  status=Exact solution     len=  3.819  endpoints_valid=True  collision=False  over_limit=False
+[325] FAIL  time= 30.323s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[326] FAIL  time= 30.349s  status=Exact solution     len= 13.709  endpoints_valid=True  collision=False  over_limit=True
+[327] PASS  time=  3.775s  status=Exact solution     len=  5.528  endpoints_valid=True  collision=False  over_limit=False
+[328] PASS  time=  8.677s  status=Exact solution     len=  7.224  endpoints_valid=True  collision=False  over_limit=False
+[329] PASS  time=  3.111s  status=Exact solution     len=  1.900  endpoints_valid=True  collision=False  over_limit=False
+[330] PASS  time=  8.628s  status=Exact solution     len=  3.251  endpoints_valid=True  collision=False  over_limit=False
+[331] FAIL  time= 30.180s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[332] PASS  time= 15.460s  status=Exact solution     len= 11.175  endpoints_valid=True  collision=False  over_limit=False
+[333] PASS  time= 16.626s  status=Exact solution     len=  1.033  endpoints_valid=True  collision=False  over_limit=False
+[334] PASS  time= 28.313s  status=Exact solution     len=  4.728  endpoints_valid=True  collision=False  over_limit=False
+[335] PASS  time=  5.102s  status=Exact solution     len=  3.156  endpoints_valid=True  collision=False  over_limit=False
+[336] PASS  time=  1.653s  status=Exact solution     len=  2.299  endpoints_valid=True  collision=False  over_limit=False
+[337] PASS  time=  4.200s  status=Exact solution     len=  6.859  endpoints_valid=True  collision=False  over_limit=False
+[338] FAIL  time= 30.418s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[339] PASS  time= 26.993s  status=Exact solution     len= 12.220  endpoints_valid=True  collision=False  over_limit=False
+[340] PASS  time= 14.665s  status=Exact solution     len=  4.891  endpoints_valid=True  collision=False  over_limit=False
+[341] PASS  time= 26.751s  status=Exact solution     len=  8.291  endpoints_valid=True  collision=False  over_limit=False
+[342] PASS  time=  6.052s  status=Exact solution     len=  4.902  endpoints_valid=True  collision=False  over_limit=False
+[343] PASS  time= 26.435s  status=Exact solution     len=  9.178  endpoints_valid=True  collision=False  over_limit=False
+[344] FAIL  time= 30.039s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[345] PASS  time=  0.738s  status=Exact solution     len=  0.985  endpoints_valid=True  collision=False  over_limit=False
+[346] PASS  time= 24.899s  status=Exact solution     len= 11.160  endpoints_valid=True  collision=False  over_limit=False
+[347] FAIL  time= 30.057s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[348] PASS  time=  5.012s  status=Exact solution     len=  4.545  endpoints_valid=True  collision=False  over_limit=False
+[349] PASS  time= 21.478s  status=Exact solution     len= 20.001  endpoints_valid=True  collision=False  over_limit=False
+[350] PASS  time= 11.470s  status=Exact solution     len=  9.647  endpoints_valid=True  collision=False  over_limit=False
+[351] PASS  time=  7.014s  status=Exact solution     len=  8.057  endpoints_valid=True  collision=False  over_limit=False
+[352] PASS  time=  7.774s  status=Exact solution     len=  5.016  endpoints_valid=True  collision=False  over_limit=False
+[353] PASS  time= 20.539s  status=Exact solution     len=  3.679  endpoints_valid=True  collision=False  over_limit=False
+[354] PASS  time= 10.470s  status=Exact solution     len= 10.582  endpoints_valid=True  collision=False  over_limit=False
+[355] PASS  time= 26.535s  status=Exact solution     len=  3.698  endpoints_valid=True  collision=False  over_limit=False
+[356] FAIL  time= 30.364s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[357] PASS  time= 10.353s  status=Exact solution     len=  5.567  endpoints_valid=True  collision=False  over_limit=False
+[358] PASS  time= 22.641s  status=Exact solution     len=  9.774  endpoints_valid=True  collision=False  over_limit=False
+[359] PASS  time= 19.645s  status=Exact solution     len= 11.728  endpoints_valid=True  collision=False  over_limit=False
+[360] PASS  time= 15.657s  status=Exact solution     len=  4.111  endpoints_valid=True  collision=False  over_limit=False
+[361] PASS  time= 18.296s  status=Exact solution     len=  7.565  endpoints_valid=True  collision=False  over_limit=False
+[362] PASS  time= 24.355s  status=Exact solution     len=  5.139  endpoints_valid=True  collision=False  over_limit=False
+[363] FAIL  time= 30.808s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[364] PASS  time= 12.691s  status=Exact solution     len=  9.119  endpoints_valid=True  collision=False  over_limit=False
+[365] PASS  time= 19.507s  status=Exact solution     len=  9.286  endpoints_valid=True  collision=False  over_limit=False
+[366] FAIL  time= 30.045s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[367] PASS  time=  9.119s  status=Exact solution     len=  4.472  endpoints_valid=True  collision=False  over_limit=False
+[368] FAIL  time= 30.296s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[369] PASS  time=  4.914s  status=Exact solution     len=  1.457  endpoints_valid=True  collision=False  over_limit=False
+[370] FAIL  time= 30.130s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[371] PASS  time= 10.851s  status=Exact solution     len=  4.756  endpoints_valid=True  collision=False  over_limit=False
+[372] PASS  time=  1.763s  status=Exact solution     len=  2.727  endpoints_valid=True  collision=False  over_limit=False
+[373] PASS  time= 18.619s  status=Exact solution     len=  9.114  endpoints_valid=True  collision=False  over_limit=False
+[374] PASS  time= 10.026s  status=Exact solution     len=  8.868  endpoints_valid=True  collision=False  over_limit=False
+[375] PASS  time=  9.741s  status=Exact solution     len=  7.088  endpoints_valid=True  collision=False  over_limit=False
+[376] PASS  time= 16.498s  status=Exact solution     len= 13.335  endpoints_valid=True  collision=False  over_limit=False
+[377] PASS  time=  4.186s  status=Exact solution     len=  3.998  endpoints_valid=True  collision=False  over_limit=False
+[378] FAIL  time= 30.732s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[379] PASS  time= 16.827s  status=Exact solution     len=  3.393  endpoints_valid=True  collision=False  over_limit=False
+[380] PASS  time= 14.226s  status=Exact solution     len=  7.849  endpoints_valid=True  collision=False  over_limit=False
+[381] PASS  time=  0.118s  status=Exact solution     len=  0.383  endpoints_valid=True  collision=False  over_limit=False
+[382] PASS  time=  0.246s  status=Exact solution     len=  1.442  endpoints_valid=True  collision=False  over_limit=False
+[383] FAIL  time= 30.035s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[384] PASS  time= 19.637s  status=Exact solution     len=  8.628  endpoints_valid=True  collision=False  over_limit=False
+[385] FAIL  time= 30.044s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[386] PASS  time=  8.762s  status=Exact solution     len=  3.607  endpoints_valid=True  collision=False  over_limit=False
+[387] PASS  time= 13.862s  status=Exact solution     len=  4.059  endpoints_valid=True  collision=False  over_limit=False
+[388] PASS  time= 20.528s  status=Exact solution     len=  5.843  endpoints_valid=True  collision=False  over_limit=False
+[389] PASS  time= 13.951s  status=Exact solution     len=  6.299  endpoints_valid=True  collision=False  over_limit=False
+[390] PASS  time= 16.636s  status=Exact solution     len=  8.954  endpoints_valid=True  collision=False  over_limit=False
+[391] PASS  time=  0.171s  status=Exact solution     len=  0.465  endpoints_valid=True  collision=False  over_limit=False
+[392] PASS  time=  1.290s  status=Exact solution     len=  2.797  endpoints_valid=True  collision=False  over_limit=False
+[393] PASS  time= 24.926s  status=Exact solution     len= 12.988  endpoints_valid=True  collision=False  over_limit=False
+[394] PASS  time= 20.543s  status=Exact solution     len= 12.797  endpoints_valid=True  collision=False  over_limit=False
+[395] PASS  time= 13.565s  status=Exact solution     len=  6.939  endpoints_valid=True  collision=False  over_limit=False
+[396] PASS  time= 18.131s  status=Exact solution     len= 10.279  endpoints_valid=True  collision=False  over_limit=False
+[397] PASS  time=  7.778s  status=Exact solution     len=  3.557  endpoints_valid=True  collision=False  over_limit=False
+[398] PASS  time= 26.291s  status=Exact solution     len= 13.175  endpoints_valid=True  collision=False  over_limit=False
+[399] PASS  time= 15.776s  status=Exact solution     len=  9.609  endpoints_valid=True  collision=False  over_limit=False
+[400] FAIL  time= 30.618s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[401] PASS  time= 13.557s  status=Exact solution     len=  8.272  endpoints_valid=True  collision=False  over_limit=False
+[402] PASS  time=  0.073s  status=Exact solution     len=  0.369  endpoints_valid=True  collision=False  over_limit=False
+[403] PASS  time= 26.896s  status=Exact solution     len=  7.892  endpoints_valid=True  collision=False  over_limit=False
+[404] FAIL  time= 30.054s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[405] FAIL  time= 30.994s  status=Exact solution     len= 14.881  endpoints_valid=True  collision=False  over_limit=True
+[406] PASS  time=  2.192s  status=Exact solution     len=  1.758  endpoints_valid=True  collision=False  over_limit=False
+[407] PASS  time=  3.200s  status=Exact solution     len=  6.254  endpoints_valid=True  collision=False  over_limit=False
+[408] PASS  time= 23.778s  status=Exact solution     len= 12.875  endpoints_valid=True  collision=False  over_limit=False
+[409] PASS  time= 25.108s  status=Exact solution     len= 10.329  endpoints_valid=True  collision=False  over_limit=False
+[410] PASS  time= 29.113s  status=Exact solution     len= 13.704  endpoints_valid=True  collision=False  over_limit=False
+[411] FAIL  time= 30.303s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[412] PASS  time= 27.265s  status=Exact solution     len=  9.191  endpoints_valid=True  collision=False  over_limit=False
+[413] PASS  time= 22.150s  status=Exact solution     len=  7.394  endpoints_valid=True  collision=False  over_limit=False
+[414] PASS  time=  1.997s  status=Exact solution     len=  3.689  endpoints_valid=True  collision=False  over_limit=False
+[415] PASS  time=  9.310s  status=Exact solution     len=  6.779  endpoints_valid=True  collision=False  over_limit=False
+[416] PASS  time= 28.106s  status=Exact solution     len=  6.813  endpoints_valid=True  collision=False  over_limit=False
+[417] PASS  time= 10.092s  status=Exact solution     len=  8.055  endpoints_valid=True  collision=False  over_limit=False
+[418] PASS  time= 26.842s  status=Exact solution     len=  6.310  endpoints_valid=True  collision=False  over_limit=False
+[419] FAIL  time= 30.428s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[420] FAIL  time= 30.456s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[421] FAIL  time= 30.341s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[422] PASS  time=  7.379s  status=Exact solution     len=  2.271  endpoints_valid=True  collision=False  over_limit=False
+[423] PASS  time= 29.806s  status=Exact solution     len=  6.861  endpoints_valid=True  collision=False  over_limit=False
+[424] FAIL  time= 30.122s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[425] PASS  time=  0.320s  status=Exact solution     len=  1.062  endpoints_valid=True  collision=False  over_limit=False
+[426] PASS  time= 13.614s  status=Exact solution     len=  7.292  endpoints_valid=True  collision=False  over_limit=False
+[427] PASS  time= 20.654s  status=Exact solution     len=  9.839  endpoints_valid=True  collision=False  over_limit=False
+[428] PASS  time= 10.096s  status=Exact solution     len=  4.390  endpoints_valid=True  collision=False  over_limit=False
+[429] FAIL  time= 30.061s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[430] PASS  time= 15.061s  status=Exact solution     len= 11.210  endpoints_valid=True  collision=False  over_limit=False
+[431] FAIL  time= 30.069s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[432] FAIL  time= 30.115s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[433] PASS  time= 20.020s  status=Exact solution     len= 10.533  endpoints_valid=True  collision=False  over_limit=False
+[434] PASS  time=  1.626s  status=Exact solution     len=  2.165  endpoints_valid=True  collision=False  over_limit=False
+[435] PASS  time= 22.787s  status=Exact solution     len=  8.538  endpoints_valid=True  collision=False  over_limit=False
+[436] PASS  time= 11.043s  status=Exact solution     len=  2.967  endpoints_valid=True  collision=False  over_limit=False
+[437] PASS  time=  8.914s  status=Exact solution     len=  7.170  endpoints_valid=True  collision=False  over_limit=False
+[438] PASS  time= 13.523s  status=Exact solution     len=  5.577  endpoints_valid=True  collision=False  over_limit=False
+[439] FAIL  time= 30.466s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[440] PASS  time= 20.617s  status=Exact solution     len= 12.249  endpoints_valid=True  collision=False  over_limit=False
+[441] PASS  time=  1.670s  status=Exact solution     len=  1.200  endpoints_valid=True  collision=False  over_limit=False
+[442] PASS  time=  7.773s  status=Exact solution     len=  9.240  endpoints_valid=True  collision=False  over_limit=False
+[443] FAIL  time= 30.030s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[444] PASS  time=  6.161s  status=Exact solution     len=  4.300  endpoints_valid=True  collision=False  over_limit=False
+[445] PASS  time=  6.942s  status=Exact solution     len=  4.529  endpoints_valid=True  collision=False  over_limit=False
+[446] PASS  time= 13.579s  status=Exact solution     len=  7.833  endpoints_valid=True  collision=False  over_limit=False
+[447] FAIL  time= 30.120s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[448] PASS  time= 27.052s  status=Exact solution     len= 10.744  endpoints_valid=True  collision=False  over_limit=False
+[449] PASS  time=  0.149s  status=Exact solution     len=  0.522  endpoints_valid=True  collision=False  over_limit=False
+[450] FAIL  time= 30.040s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[451] FAIL  time= 30.052s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[452] PASS  time= 15.128s  status=Exact solution     len=  7.890  endpoints_valid=True  collision=False  over_limit=False
+[453] PASS  time=  6.841s  status=Exact solution     len=  6.910  endpoints_valid=True  collision=False  over_limit=False
+[454] FAIL  time= 30.139s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[455] PASS  time= 11.996s  status=Exact solution     len=  8.018  endpoints_valid=True  collision=False  over_limit=False
+[456] PASS  time=  3.498s  status=Exact solution     len=  2.987  endpoints_valid=True  collision=False  over_limit=False
+[457] PASS  time=  0.165s  status=Exact solution     len=  0.319  endpoints_valid=True  collision=False  over_limit=False
+[458] FAIL  time= 31.294s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[459] PASS  time=  9.103s  status=Exact solution     len=  8.981  endpoints_valid=True  collision=False  over_limit=False
+[460] FAIL  time= 30.386s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[461] PASS  time= 27.825s  status=Exact solution     len=  5.418  endpoints_valid=True  collision=False  over_limit=False
+[462] PASS  time= 29.592s  status=Exact solution     len= 16.072  endpoints_valid=True  collision=False  over_limit=False
+[463] PASS  time= 17.722s  status=Exact solution     len=  4.828  endpoints_valid=True  collision=False  over_limit=False
+[464] PASS  time= 27.212s  status=Exact solution     len=  6.843  endpoints_valid=True  collision=False  over_limit=False
+[465] FAIL  time= 30.891s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[466] PASS  time= 27.089s  status=Exact solution     len=  7.970  endpoints_valid=True  collision=False  over_limit=False
+[467] PASS  time= 17.979s  status=Exact solution     len=  7.421  endpoints_valid=True  collision=False  over_limit=False
+[468] FAIL  time= 30.219s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[469] PASS  time= 19.036s  status=Exact solution     len=  3.768  endpoints_valid=True  collision=False  over_limit=False
+[470] PASS  time=  5.044s  status=Exact solution     len=  1.598  endpoints_valid=True  collision=False  over_limit=False
+[471] PASS  time= 27.012s  status=Exact solution     len= 16.357  endpoints_valid=True  collision=False  over_limit=False
+[472] PASS  time=  8.442s  status=Exact solution     len=  2.569  endpoints_valid=True  collision=False  over_limit=False
+[473] FAIL  time= 30.252s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[474] FAIL  time= 30.579s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[475] FAIL  time= 30.124s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[476] FAIL  time= 30.234s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[477] PASS  time= 19.659s  status=Exact solution     len= 12.884  endpoints_valid=True  collision=False  over_limit=False
+[478] PASS  time=  0.467s  status=Exact solution     len=  0.877  endpoints_valid=True  collision=False  over_limit=False
+[479] PASS  time= 13.303s  status=Exact solution     len=  3.074  endpoints_valid=True  collision=False  over_limit=False
+[480] FAIL  time= 30.621s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[481] PASS  time= 23.994s  status=Exact solution     len=  4.132  endpoints_valid=True  collision=False  over_limit=False
+[482] PASS  time=  9.469s  status=Exact solution     len=  6.886  endpoints_valid=True  collision=False  over_limit=False
+[483] PASS  time= 19.645s  status=Exact solution     len= 12.922  endpoints_valid=True  collision=False  over_limit=False
+[484] PASS  time= 10.929s  status=Exact solution     len=  7.181  endpoints_valid=True  collision=False  over_limit=False
+[485] PASS  time= 24.746s  status=Exact solution     len= 15.457  endpoints_valid=True  collision=False  over_limit=False
+[486] PASS  time= 14.895s  status=Exact solution     len= 14.582  endpoints_valid=True  collision=False  over_limit=False
+[487] FAIL  time= 31.004s  status=Exact solution     len=  7.966  endpoints_valid=True  collision=False  over_limit=True
+[488] PASS  time=  6.026s  status=Exact solution     len=  3.776  endpoints_valid=True  collision=False  over_limit=False
+[489] PASS  time= 20.298s  status=Exact solution     len=  6.856  endpoints_valid=True  collision=False  over_limit=False
+[490] PASS  time= 27.469s  status=Exact solution     len=  9.534  endpoints_valid=True  collision=False  over_limit=False
+[491] PASS  time= 25.855s  status=Exact solution     len=  6.547  endpoints_valid=True  collision=False  over_limit=False
+[492] PASS  time= 26.984s  status=Exact solution     len=  5.145  endpoints_valid=True  collision=False  over_limit=False
+[493] PASS  time= 19.405s  status=Exact solution     len=  3.799  endpoints_valid=True  collision=False  over_limit=False
+[494] PASS  time= 13.448s  status=Exact solution     len=  9.630  endpoints_valid=True  collision=False  over_limit=False
+[495] PASS  time= 15.744s  status=Exact solution     len=  5.485  endpoints_valid=True  collision=False  over_limit=False
+[496] PASS  time= 19.007s  status=Exact solution     len=  5.520  endpoints_valid=True  collision=False  over_limit=False
+[497] PASS  time=  3.722s  status=Exact solution     len=  5.712  endpoints_valid=True  collision=False  over_limit=False
+[498] FAIL  time= 30.042s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[499] FAIL  time= 30.257s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[500] FAIL  time= 30.099s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[501] PASS  time= 13.290s  status=Exact solution     len= 10.528  endpoints_valid=True  collision=False  over_limit=False
+[502] PASS  time=  8.678s  status=Exact solution     len=  3.533  endpoints_valid=True  collision=False  over_limit=False
+[503] PASS  time=  9.509s  status=Exact solution     len=  6.906  endpoints_valid=True  collision=False  over_limit=False
+[504] PASS  time= 10.874s  status=Exact solution     len=  6.072  endpoints_valid=True  collision=False  over_limit=False
+[505] PASS  time=  8.370s  status=Exact solution     len=  9.163  endpoints_valid=True  collision=False  over_limit=False
+[506] FAIL  time= 30.301s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[507] PASS  time=  4.189s  status=Exact solution     len=  3.264  endpoints_valid=True  collision=False  over_limit=False
+[508] FAIL  time= 30.060s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[509] FAIL  time= 30.101s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[510] PASS  time= 10.282s  status=Exact solution     len=  3.762  endpoints_valid=True  collision=False  over_limit=False
+[511] FAIL  time= 30.332s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[512] PASS  time= 12.113s  status=Exact solution     len=  4.856  endpoints_valid=True  collision=False  over_limit=False
+[513] PASS  time=  3.446s  status=Exact solution     len=  4.736  endpoints_valid=True  collision=False  over_limit=False
+[514] PASS  time=  6.553s  status=Exact solution     len=  2.512  endpoints_valid=True  collision=False  over_limit=False
+[515] PASS  time= 15.055s  status=Exact solution     len=  6.125  endpoints_valid=True  collision=False  over_limit=False
+[516] PASS  time=  7.602s  status=Exact solution     len=  8.401  endpoints_valid=True  collision=False  over_limit=False
+[517] PASS  time= 19.170s  status=Exact solution     len=  6.646  endpoints_valid=True  collision=False  over_limit=False
+[518] PASS  time=  9.905s  status=Exact solution     len=  8.481  endpoints_valid=True  collision=False  over_limit=False
+[519] PASS  time= 17.318s  status=Exact solution     len=  5.176  endpoints_valid=True  collision=False  over_limit=False
+[520] PASS  time=  0.584s  status=Exact solution     len=  0.793  endpoints_valid=True  collision=False  over_limit=False
+[521] FAIL  time= 30.042s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[522] PASS  time= 10.428s  status=Exact solution     len=  5.893  endpoints_valid=True  collision=False  over_limit=False
+[523] PASS  time= 19.078s  status=Exact solution     len= 11.320  endpoints_valid=True  collision=False  over_limit=False
+[524] FAIL  time= 30.103s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[525] PASS  time= 28.855s  status=Exact solution     len= 12.918  endpoints_valid=True  collision=False  over_limit=False
+[526] PASS  time=  0.151s  status=Exact solution     len=  0.326  endpoints_valid=True  collision=False  over_limit=False
+[527] FAIL  time= 30.866s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[528] PASS  time= 18.094s  status=Exact solution     len= 10.701  endpoints_valid=True  collision=False  over_limit=False
+[529] FAIL  time= 30.646s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[530] FAIL  time= 30.324s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[531] FAIL  time= 30.061s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[532] PASS  time= 23.782s  status=Exact solution     len= 16.035  endpoints_valid=True  collision=False  over_limit=False
+[533] PASS  time=  1.929s  status=Exact solution     len=  1.570  endpoints_valid=True  collision=False  over_limit=False
+[534] PASS  time= 12.493s  status=Exact solution     len=  4.171  endpoints_valid=True  collision=False  over_limit=False
+[535] PASS  time= 10.862s  status=Exact solution     len=  9.125  endpoints_valid=True  collision=False  over_limit=False
+[536] PASS  time=  5.482s  status=Exact solution     len=  3.133  endpoints_valid=True  collision=False  over_limit=False
+[537] PASS  time=  7.037s  status=Exact solution     len=  7.808  endpoints_valid=True  collision=False  over_limit=False
+[538] FAIL  time= 30.215s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[539] FAIL  time= 30.669s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[540] PASS  time= 22.909s  status=Exact solution     len=  8.008  endpoints_valid=True  collision=False  over_limit=False
+[541] PASS  time=  4.562s  status=Exact solution     len=  3.960  endpoints_valid=True  collision=False  over_limit=False
+[542] PASS  time=  5.808s  status=Exact solution     len=  3.063  endpoints_valid=True  collision=False  over_limit=False
+[543] FAIL  time= 30.056s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[544] PASS  time= 13.135s  status=Exact solution     len= 11.090  endpoints_valid=True  collision=False  over_limit=False
+[545] PASS  time= 14.168s  status=Exact solution     len=  8.479  endpoints_valid=True  collision=False  over_limit=False
+[546] PASS  time=  5.084s  status=Exact solution     len=  1.988  endpoints_valid=True  collision=False  over_limit=False
+[547] PASS  time= 22.796s  status=Exact solution     len=  8.637  endpoints_valid=True  collision=False  over_limit=False
+[548] PASS  time=  6.961s  status=Exact solution     len=  1.408  endpoints_valid=True  collision=False  over_limit=False
+[549] PASS  time= 12.145s  status=Exact solution     len=  2.842  endpoints_valid=True  collision=False  over_limit=False
+[550] PASS  time=  6.578s  status=Exact solution     len=  4.933  endpoints_valid=True  collision=False  over_limit=False
+[551] PASS  time= 18.977s  status=Exact solution     len=  5.719  endpoints_valid=True  collision=False  over_limit=False
+[552] PASS  time=  5.716s  status=Exact solution     len=  5.123  endpoints_valid=True  collision=False  over_limit=False
+[553] PASS  time= 25.131s  status=Exact solution     len=  5.994  endpoints_valid=True  collision=False  over_limit=False
+[554] PASS  time= 21.658s  status=Exact solution     len= 14.695  endpoints_valid=True  collision=False  over_limit=False
+[555] PASS  time= 19.857s  status=Exact solution     len= 16.203  endpoints_valid=True  collision=False  over_limit=False
+[556] PASS  time= 14.633s  status=Exact solution     len=  6.402  endpoints_valid=True  collision=False  over_limit=False
+[557] PASS  time= 28.237s  status=Exact solution     len= 10.363  endpoints_valid=True  collision=False  over_limit=False
+[558] PASS  time=  1.567s  status=Exact solution     len=  1.050  endpoints_valid=True  collision=False  over_limit=False
+[559] PASS  time= 15.548s  status=Exact solution     len= 12.042  endpoints_valid=True  collision=False  over_limit=False
+[560] PASS  time= 15.813s  status=Exact solution     len=  4.620  endpoints_valid=True  collision=False  over_limit=False
+[561] PASS  time= 19.174s  status=Exact solution     len=  5.005  endpoints_valid=True  collision=False  over_limit=False
+[562] PASS  time= 15.400s  status=Exact solution     len=  9.079  endpoints_valid=True  collision=False  over_limit=False
+[563] PASS  time=  4.001s  status=Exact solution     len=  4.529  endpoints_valid=True  collision=False  over_limit=False
+[564] FAIL  time= 30.129s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[565] PASS  time= 19.096s  status=Exact solution     len=  4.420  endpoints_valid=True  collision=False  over_limit=False
+[566] FAIL  time= 31.071s  status=Exact solution     len= 10.557  endpoints_valid=True  collision=False  over_limit=True
+[567] PASS  time= 28.184s  status=Exact solution     len= 12.021  endpoints_valid=True  collision=False  over_limit=False
+[568] PASS  time= 25.704s  status=Exact solution     len= 10.678  endpoints_valid=True  collision=False  over_limit=False
+[569] FAIL  time= 30.143s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[570] PASS  time=  0.176s  status=Exact solution     len=  0.473  endpoints_valid=True  collision=False  over_limit=False
+[571] FAIL  time= 30.427s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[572] PASS  time= 25.419s  status=Exact solution     len=  5.651  endpoints_valid=True  collision=False  over_limit=False
+[573] PASS  time=  1.479s  status=Exact solution     len=  1.969  endpoints_valid=True  collision=False  over_limit=False
+[574] PASS  time=  6.651s  status=Exact solution     len=  1.991  endpoints_valid=True  collision=False  over_limit=False
+[575] FAIL  time= 30.053s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[576] PASS  time=  9.754s  status=Exact solution     len=  2.972  endpoints_valid=True  collision=False  over_limit=False
+[577] FAIL  time= 30.061s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[578] PASS  time= 13.860s  status=Exact solution     len=  9.970  endpoints_valid=True  collision=False  over_limit=False
+[579] PASS  time=  4.406s  status=Exact solution     len=  5.460  endpoints_valid=True  collision=False  over_limit=False
+[580] PASS  time=  0.377s  status=Exact solution     len=  0.443  endpoints_valid=True  collision=False  over_limit=False
+[581] PASS  time= 16.823s  status=Exact solution     len=  9.655  endpoints_valid=True  collision=False  over_limit=False
+[582] PASS  time= 11.386s  status=Exact solution     len=  7.388  endpoints_valid=True  collision=False  over_limit=False
+[583] FAIL  time= 30.882s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[584] PASS  time= 29.051s  status=Exact solution     len=  4.469  endpoints_valid=True  collision=False  over_limit=False
+[585] PASS  time=  3.443s  status=Exact solution     len=  6.727  endpoints_valid=True  collision=False  over_limit=False
+[586] FAIL  time= 30.633s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[587] PASS  time= 24.980s  status=Exact solution     len= 13.672  endpoints_valid=True  collision=False  over_limit=False
+[588] FAIL  time= 30.724s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[589] PASS  time=  0.862s  status=Exact solution     len=  1.239  endpoints_valid=True  collision=False  over_limit=False
+[590] FAIL  time= 30.110s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[591] PASS  time=  7.448s  status=Exact solution     len=  6.860  endpoints_valid=True  collision=False  over_limit=False
+[592] FAIL  time= 30.216s  status=Exact solution     len= 13.003  endpoints_valid=True  collision=False  over_limit=True
+[593] FAIL  time= 30.060s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[594] FAIL  time= 30.091s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[595] FAIL  time= 30.174s  status=Exact solution     len=  5.239  endpoints_valid=True  collision=False  over_limit=True
+[596] PASS  time= 26.875s  status=Exact solution     len=  5.588  endpoints_valid=True  collision=False  over_limit=False
+[597] PASS  time=  5.512s  status=Exact solution     len=  7.095  endpoints_valid=True  collision=False  over_limit=False
+[598] PASS  time= 22.827s  status=Exact solution     len= 13.764  endpoints_valid=True  collision=False  over_limit=False
+[599] FAIL  time= 30.556s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[600] FAIL  time= 30.068s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[601] PASS  time= 10.022s  status=Exact solution     len=  7.965  endpoints_valid=True  collision=False  over_limit=False
+[602] PASS  time= 18.392s  status=Exact solution     len=  1.081  endpoints_valid=True  collision=False  over_limit=False
+[603] PASS  time= 19.065s  status=Exact solution     len=  8.610  endpoints_valid=True  collision=False  over_limit=False
+[604] FAIL  time= 30.320s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[605] PASS  time=  4.205s  status=Exact solution     len=  1.474  endpoints_valid=True  collision=False  over_limit=False
+[606] PASS  time= 17.389s  status=Exact solution     len=  1.283  endpoints_valid=True  collision=False  over_limit=False
+[607] PASS  time=  4.824s  status=Exact solution     len=  3.744  endpoints_valid=True  collision=False  over_limit=False
+[608] PASS  time= 24.749s  status=Exact solution     len= 15.292  endpoints_valid=True  collision=False  over_limit=False
+[609] PASS  time= 20.863s  status=Exact solution     len=  7.615  endpoints_valid=True  collision=False  over_limit=False
+[610] PASS  time=  2.898s  status=Exact solution     len=  3.256  endpoints_valid=True  collision=False  over_limit=False
+[611] FAIL  time= 30.935s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[612] PASS  time= 22.926s  status=Exact solution     len=  6.614  endpoints_valid=True  collision=False  over_limit=False
+[613] FAIL  time= 30.503s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[614] FAIL  time= 30.297s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[615] PASS  time=  0.378s  status=Exact solution     len=  1.060  endpoints_valid=True  collision=False  over_limit=False
+[616] FAIL  time= 31.276s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[617] FAIL  time= 30.142s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[618] PASS  time= 12.073s  status=Exact solution     len=  4.004  endpoints_valid=True  collision=False  over_limit=False
+[619] PASS  time= 10.315s  status=Exact solution     len=  7.754  endpoints_valid=True  collision=False  over_limit=False
+[620] PASS  time= 18.715s  status=Exact solution     len=  7.557  endpoints_valid=True  collision=False  over_limit=False
+[621] PASS  time= 16.570s  status=Exact solution     len= 11.410  endpoints_valid=True  collision=False  over_limit=False
+[622] PASS  time=  8.173s  status=Exact solution     len=  4.275  endpoints_valid=True  collision=False  over_limit=False
+[623] FAIL  time= 30.982s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[624] PASS  time= 19.140s  status=Exact solution     len=  8.451  endpoints_valid=True  collision=False  over_limit=False
+[625] FAIL  time= 30.054s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[626] PASS  time= 20.346s  status=Exact solution     len=  9.282  endpoints_valid=True  collision=False  over_limit=False
+[627] FAIL  time= 30.497s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[628] FAIL  time= 30.146s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[629] PASS  time=  7.232s  status=Exact solution     len=  2.890  endpoints_valid=True  collision=False  over_limit=False
+[630] PASS  time=  5.217s  status=Exact solution     len=  2.063  endpoints_valid=True  collision=False  over_limit=False
+[631] FAIL  time= 30.789s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[632] PASS  time=  7.203s  status=Exact solution     len=  6.001  endpoints_valid=True  collision=False  over_limit=False
+[633] FAIL  time= 30.108s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[634] PASS  time= 28.026s  status=Exact solution     len=  4.734  endpoints_valid=True  collision=False  over_limit=False
+[635] FAIL  time= 30.651s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[636] PASS  time= 23.846s  status=Exact solution     len= 11.246  endpoints_valid=True  collision=False  over_limit=False
+[637] PASS  time= 10.983s  status=Exact solution     len=  3.381  endpoints_valid=True  collision=False  over_limit=False
+[638] PASS  time=  9.625s  status=Exact solution     len=  1.401  endpoints_valid=True  collision=False  over_limit=False
+[639] FAIL  time= 30.364s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[640] FAIL  time= 31.619s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[641] PASS  time=  2.120s  status=Exact solution     len=  4.968  endpoints_valid=True  collision=False  over_limit=False
+[642] PASS  time= 12.884s  status=Exact solution     len=  5.552  endpoints_valid=True  collision=False  over_limit=False
+[643] FAIL  time= 30.046s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[644] PASS  time=  3.973s  status=Exact solution     len=  2.347  endpoints_valid=True  collision=False  over_limit=False
+[645] FAIL  time= 30.344s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[646] PASS  time= 21.133s  status=Exact solution     len=  3.576  endpoints_valid=True  collision=False  over_limit=False
+[647] PASS  time=  2.771s  status=Exact solution     len=  4.030  endpoints_valid=True  collision=False  over_limit=False
+[648] PASS  time=  0.985s  status=Exact solution     len=  1.102  endpoints_valid=True  collision=False  over_limit=False
+[649] FAIL  time= 30.081s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[650] FAIL  time= 30.435s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[651] FAIL  time= 30.054s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[652] FAIL  time= 30.066s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[653] PASS  time= 12.226s  status=Exact solution     len=  9.307  endpoints_valid=True  collision=False  over_limit=False
+[654] PASS  time= 14.622s  status=Exact solution     len=  9.021  endpoints_valid=True  collision=False  over_limit=False
+[655] PASS  time= 22.505s  status=Exact solution     len=  9.778  endpoints_valid=True  collision=False  over_limit=False
+[656] FAIL  time= 30.397s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[657] PASS  time= 17.669s  status=Exact solution     len=  7.228  endpoints_valid=True  collision=False  over_limit=False
+[658] FAIL  time= 30.917s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[659] PASS  time= 26.651s  status=Exact solution     len=  4.624  endpoints_valid=True  collision=False  over_limit=False
+[660] FAIL  time= 30.131s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[661] FAIL  time= 31.223s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[662] FAIL  time= 30.904s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[663] PASS  time= 26.119s  status=Exact solution     len=  8.374  endpoints_valid=True  collision=False  over_limit=False
+[664] PASS  time= 20.144s  status=Exact solution     len=  8.121  endpoints_valid=True  collision=False  over_limit=False
+[665] FAIL  time= 30.119s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[666] PASS  time=  0.994s  status=Exact solution     len=  0.999  endpoints_valid=True  collision=False  over_limit=False
+[667] FAIL  time= 30.075s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[668] FAIL  time= 31.772s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[669] PASS  time= 21.941s  status=Exact solution     len=  5.077  endpoints_valid=True  collision=False  over_limit=False
+[670] PASS  time= 23.741s  status=Exact solution     len= 10.511  endpoints_valid=True  collision=False  over_limit=False
+[671] PASS  time= 21.908s  status=Exact solution     len=  7.555  endpoints_valid=True  collision=False  over_limit=False
+[672] FAIL  time= 30.060s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[673] PASS  time= 18.409s  status=Exact solution     len=  3.793  endpoints_valid=True  collision=False  over_limit=False
+[674] FAIL  time= 30.440s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[675] PASS  time= 10.826s  status=Exact solution     len=  3.511  endpoints_valid=True  collision=False  over_limit=False
+[676] FAIL  time= 30.640s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[677] FAIL  time= 30.224s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[678] PASS  time= 21.520s  status=Exact solution     len=  8.314  endpoints_valid=True  collision=False  over_limit=False
+[679] FAIL  time= 30.171s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[680] PASS  time= 27.749s  status=Exact solution     len= 13.363  endpoints_valid=True  collision=False  over_limit=False
+[681] FAIL  time= 30.103s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[682] PASS  time=  2.637s  status=Exact solution     len=  3.228  endpoints_valid=True  collision=False  over_limit=False
+[683] PASS  time=  0.161s  status=Exact solution     len=  0.182  endpoints_valid=True  collision=False  over_limit=False
+[684] FAIL  time= 30.196s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[685] FAIL  time= 30.789s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[686] PASS  time= 19.196s  status=Exact solution     len=  5.791  endpoints_valid=True  collision=False  over_limit=False
+[687] PASS  time=  0.127s  status=Exact solution     len=  0.447  endpoints_valid=True  collision=False  over_limit=False
+[688] PASS  time=  6.458s  status=Exact solution     len=  3.861  endpoints_valid=True  collision=False  over_limit=False
+[689] PASS  time=  8.352s  status=Exact solution     len=  2.369  endpoints_valid=True  collision=False  over_limit=False
+[690] PASS  time= 15.240s  status=Exact solution     len=  7.506  endpoints_valid=True  collision=False  over_limit=False
+[691] FAIL  time= 30.976s  status=Exact solution     len= 15.770  endpoints_valid=True  collision=False  over_limit=True
+[692] FAIL  time= 30.118s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[693] FAIL  time= 31.064s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[694] FAIL  time= 30.126s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[695] FAIL  time= 30.287s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[696] PASS  time= 11.168s  status=Exact solution     len=  5.546  endpoints_valid=True  collision=False  over_limit=False
+[697] FAIL  time= 30.974s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[698] PASS  time= 11.820s  status=Exact solution     len=  3.635  endpoints_valid=True  collision=False  over_limit=False
+[699] FAIL  time= 30.025s  status=Exact solution     len=  8.775  endpoints_valid=True  collision=False  over_limit=True
+[700] FAIL  time= 30.018s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[701] PASS  time= 18.109s  status=Exact solution     len=  7.840  endpoints_valid=True  collision=False  over_limit=False
+[702] PASS  time=  7.796s  status=Exact solution     len=  3.440  endpoints_valid=True  collision=False  over_limit=False
+[703] FAIL  time= 30.968s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[704] PASS  time=  4.678s  status=Exact solution     len=  2.822  endpoints_valid=True  collision=False  over_limit=False
+[705] FAIL  time= 32.019s  status=Exact solution     len= 12.915  endpoints_valid=True  collision=False  over_limit=True
+[706] FAIL  time= 30.108s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[707] FAIL  time= 30.108s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[708] FAIL  time= 30.077s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[709] FAIL  time= 30.837s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[710] PASS  time=  9.749s  status=Exact solution     len=  5.539  endpoints_valid=True  collision=False  over_limit=False
+[711] FAIL  time= 30.079s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[712] PASS  time= 19.725s  status=Exact solution     len=  7.404  endpoints_valid=True  collision=False  over_limit=False
+[713] PASS  time= 18.552s  status=Exact solution     len=  5.606  endpoints_valid=True  collision=False  over_limit=False
+[714] FAIL  time= 30.118s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[715] FAIL  time= 30.157s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[716] FAIL  time= 30.032s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[717] PASS  time=  3.706s  status=Exact solution     len=  2.619  endpoints_valid=True  collision=False  over_limit=False
+[718] PASS  time= 24.023s  status=Exact solution     len=  5.391  endpoints_valid=True  collision=False  over_limit=False
+[719] FAIL  time= 30.457s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[720] FAIL  time= 31.555s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[721] FAIL  time= 30.543s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[722] FAIL  time= 30.081s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[723] FAIL  time= 30.409s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[724] FAIL  time= 30.078s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[725] PASS  time= 19.731s  status=Exact solution     len=  8.681  endpoints_valid=True  collision=False  over_limit=False
+[726] PASS  time=  9.464s  status=Exact solution     len=  4.239  endpoints_valid=True  collision=False  over_limit=False
+[727] FAIL  time= 30.125s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[728] PASS  time= 28.812s  status=Exact solution     len= 11.670  endpoints_valid=True  collision=False  over_limit=False
+[729] FAIL  time= 30.154s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[730] PASS  time= 19.382s  status=Exact solution     len=  3.182  endpoints_valid=True  collision=False  over_limit=False
+[731] PASS  time= 27.873s  status=Exact solution     len= 10.156  endpoints_valid=True  collision=False  over_limit=False
+[732] PASS  time= 21.666s  status=Exact solution     len=  5.656  endpoints_valid=True  collision=False  over_limit=False
+[733] PASS  time= 24.643s  status=Exact solution     len= 10.592  endpoints_valid=True  collision=False  over_limit=False
+[734] PASS  time= 12.118s  status=Exact solution     len=  2.650  endpoints_valid=True  collision=False  over_limit=False
+[735] FAIL  time= 30.076s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[736] PASS  time= 17.687s  status=Exact solution     len=  1.431  endpoints_valid=True  collision=False  over_limit=False
+[737] FAIL  time= 30.561s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[738] PASS  time= 14.301s  status=Exact solution     len=  4.070  endpoints_valid=True  collision=False  over_limit=False
+[739] PASS  time= 16.633s  status=Exact solution     len=  9.312  endpoints_valid=True  collision=False  over_limit=False
+[740] PASS  time= 18.510s  status=Exact solution     len=  5.979  endpoints_valid=True  collision=False  over_limit=False
+[741] PASS  time=  8.066s  status=Exact solution     len=  3.485  endpoints_valid=True  collision=False  over_limit=False
+[742] FAIL  time= 30.108s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[743] FAIL  time= 30.853s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[744] FAIL  time= 30.107s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[745] FAIL  time= 31.048s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[746] FAIL  time= 30.746s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[747] FAIL  time= 30.423s  status=Exact solution     len= 13.538  endpoints_valid=True  collision=False  over_limit=True
+[748] PASS  time= 18.173s  status=Exact solution     len=  5.871  endpoints_valid=True  collision=False  over_limit=False
+[749] FAIL  time= 31.134s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[750] FAIL  time= 30.631s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[751] FAIL  time= 30.194s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[752] PASS  time= 25.851s  status=Exact solution     len=  5.642  endpoints_valid=True  collision=False  over_limit=False
+[753] PASS  time=  9.312s  status=Exact solution     len=  1.199  endpoints_valid=True  collision=False  over_limit=False
+[754] PASS  time= 12.706s  status=Exact solution     len=  6.623  endpoints_valid=True  collision=False  over_limit=False
+[755] PASS  time= 16.867s  status=Exact solution     len=  5.109  endpoints_valid=True  collision=False  over_limit=False
+[756] PASS  time= 29.075s  status=Exact solution     len=  6.558  endpoints_valid=True  collision=False  over_limit=False
+[757] PASS  time= 25.376s  status=Exact solution     len=  4.482  endpoints_valid=True  collision=False  over_limit=False
+[758] FAIL  time= 31.207s  status=Exact solution     len=  5.555  endpoints_valid=True  collision=False  over_limit=True
+[759] FAIL  time= 30.113s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[760] PASS  time= 26.229s  status=Exact solution     len=  9.544  endpoints_valid=True  collision=False  over_limit=False
+[761] FAIL  time= 30.080s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[762] PASS  time=  9.809s  status=Exact solution     len=  1.389  endpoints_valid=True  collision=False  over_limit=False
+[763] PASS  time=  9.043s  status=Exact solution     len=  3.351  endpoints_valid=True  collision=False  over_limit=False
+[764] FAIL  time= 30.820s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[765] FAIL  time= 30.056s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[766] FAIL  time= 30.663s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[767] FAIL  time= 30.113s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[768] FAIL  time= 30.412s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[769] PASS  time=  0.240s  status=Exact solution     len=  0.508  endpoints_valid=True  collision=False  over_limit=False
+[770] PASS  time= 20.044s  status=Exact solution     len=  1.441  endpoints_valid=True  collision=False  over_limit=False
+[771] FAIL  time= 30.039s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[772] FAIL  time= 30.200s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[773] PASS  time= 12.678s  status=Exact solution     len=  1.478  endpoints_valid=True  collision=False  over_limit=False
+[774] FAIL  time= 30.057s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[775] FAIL  time= 31.048s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[776] FAIL  time= 30.461s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[777] PASS  time=  2.569s  status=Exact solution     len=  2.971  endpoints_valid=True  collision=False  over_limit=False
+[778] FAIL  time= 30.056s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[779] FAIL  time= 30.343s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[780] FAIL  time= 30.343s  status=Exact solution     len=  4.278  endpoints_valid=True  collision=False  over_limit=True
+[781] PASS  time= 25.636s  status=Exact solution     len= 10.452  endpoints_valid=True  collision=False  over_limit=False
+[782] PASS  time=  0.406s  status=Exact solution     len=  0.603  endpoints_valid=True  collision=False  over_limit=False
+[783] PASS  time= 22.004s  status=Exact solution     len= 11.067  endpoints_valid=True  collision=False  over_limit=False
+[784] FAIL  time= 30.255s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[785] FAIL  time= 30.471s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[786] FAIL  time= 32.049s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[787] PASS  time= 18.618s  status=Exact solution     len=  7.975  endpoints_valid=True  collision=False  over_limit=False
+[788] FAIL  time= 30.280s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[789] PASS  time= 19.222s  status=Exact solution     len=  5.251  endpoints_valid=True  collision=False  over_limit=False
+[790] PASS  time= 25.655s  status=Exact solution     len=  5.573  endpoints_valid=True  collision=False  over_limit=False
+[791] PASS  time= 17.849s  status=Exact solution     len=  8.571  endpoints_valid=True  collision=False  over_limit=False
+[792] FAIL  time= 30.865s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[793] PASS  time= 25.202s  status=Exact solution     len=  4.540  endpoints_valid=True  collision=False  over_limit=False
+[794] PASS  time= 29.107s  status=Exact solution     len=  4.233  endpoints_valid=True  collision=False  over_limit=False
+[795] FAIL  time= 31.167s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[796] FAIL  time= 31.332s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[797] FAIL  time= 30.110s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[798] PASS  time=  3.463s  status=Exact solution     len=  4.033  endpoints_valid=True  collision=False  over_limit=False
+[799] PASS  time=  0.453s  status=Exact solution     len=  0.429  endpoints_valid=True  collision=False  over_limit=False
+[800] PASS  time=  2.009s  status=Exact solution     len=  1.061  endpoints_valid=True  collision=False  over_limit=False
+[801] PASS  time= 21.049s  status=Exact solution     len=  5.621  endpoints_valid=True  collision=False  over_limit=False
+[802] PASS  time= 11.926s  status=Exact solution     len=  2.152  endpoints_valid=True  collision=False  over_limit=False
+[803] PASS  time= 22.896s  status=Exact solution     len=  4.663  endpoints_valid=True  collision=False  over_limit=False
+[804] FAIL  time= 30.073s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[805] PASS  time= 21.988s  status=Exact solution     len=  5.407  endpoints_valid=True  collision=False  over_limit=False
+[806] PASS  time=  0.998s  status=Exact solution     len=  1.081  endpoints_valid=True  collision=False  over_limit=False
+[807] FAIL  time= 30.638s  status=Exact solution     len=  8.776  endpoints_valid=True  collision=False  over_limit=True
+[808] FAIL  time= 30.145s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[809] FAIL  time= 30.659s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[810] PASS  time=  7.513s  status=Exact solution     len=  3.247  endpoints_valid=True  collision=False  over_limit=False
+[811] PASS  time= 27.174s  status=Exact solution     len=  7.765  endpoints_valid=True  collision=False  over_limit=False
+[812] PASS  time=  0.412s  status=Exact solution     len=  0.508  endpoints_valid=True  collision=False  over_limit=False
+[813] FAIL  time= 30.061s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[814] FAIL  time= 30.689s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[815] PASS  time=  1.613s  status=Exact solution     len=  1.712  endpoints_valid=True  collision=False  over_limit=False
+[816] FAIL  time= 30.644s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[817] FAIL  time= 30.103s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[818] FAIL  time= 30.068s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[819] PASS  time= 26.444s  status=Exact solution     len=  3.326  endpoints_valid=True  collision=False  over_limit=False
+[820] FAIL  time= 30.206s  status=Exact solution     len= 18.149  endpoints_valid=True  collision=False  over_limit=True
+[821] FAIL  time= 30.083s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[822] FAIL  time= 31.163s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[823] FAIL  time= 30.058s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[824] FAIL  time= 30.944s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[825] PASS  time= 18.121s  status=Exact solution     len=  4.607  endpoints_valid=True  collision=False  over_limit=False
+[826] FAIL  time= 30.226s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[827] PASS  time= 13.608s  status=Exact solution     len=  2.045  endpoints_valid=True  collision=False  over_limit=False
+[828] FAIL  time= 30.170s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[829] PASS  time=  4.908s  status=Exact solution     len=  3.206  endpoints_valid=True  collision=False  over_limit=False
+[830] FAIL  time= 30.080s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[831] FAIL  time= 30.263s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[832] FAIL  time= 30.286s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[833] FAIL  time= 30.139s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[834] FAIL  time= 30.663s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[835] PASS  time= 27.162s  status=Exact solution     len=  3.147  endpoints_valid=True  collision=False  over_limit=False
+[836] PASS  time= 27.890s  status=Exact solution     len=  9.461  endpoints_valid=True  collision=False  over_limit=False
+[837] FAIL  time= 30.108s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[838] PASS  time= 20.797s  status=Exact solution     len= 10.514  endpoints_valid=True  collision=False  over_limit=False
+[839] FAIL  time= 30.127s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[840] PASS  time=  2.990s  status=Exact solution     len=  2.833  endpoints_valid=True  collision=False  over_limit=False
+[841] FAIL  time= 30.038s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[842] PASS  time= 27.858s  status=Exact solution     len=  3.055  endpoints_valid=True  collision=False  over_limit=False
+[843] PASS  time=  7.291s  status=Exact solution     len=  6.191  endpoints_valid=True  collision=False  over_limit=False
+[844] PASS  time= 13.912s  status=Exact solution     len= 10.978  endpoints_valid=True  collision=False  over_limit=False
+[845] FAIL  time= 30.117s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[846] PASS  time= 11.895s  status=Exact solution     len=  3.381  endpoints_valid=True  collision=False  over_limit=False
+[847] FAIL  time= 30.117s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[848] FAIL  time= 30.703s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[849] FAIL  time= 30.070s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[850] PASS  time= 15.801s  status=Exact solution     len=  3.051  endpoints_valid=True  collision=False  over_limit=False
+[851] FAIL  time= 31.434s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[852] PASS  time= 18.505s  status=Exact solution     len=  6.015  endpoints_valid=True  collision=False  over_limit=False
+[853] PASS  time= 28.004s  status=Exact solution     len=  6.178  endpoints_valid=True  collision=False  over_limit=False
+[854] FAIL  time= 30.916s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[855] FAIL  time= 30.140s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[856] FAIL  time= 30.102s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[857] FAIL  time= 30.069s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[858] FAIL  time= 30.057s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[859] PASS  time= 15.129s  status=Exact solution     len=  2.890  endpoints_valid=True  collision=False  over_limit=False
+[860] PASS  time= 13.937s  status=Exact solution     len=  3.740  endpoints_valid=True  collision=False  over_limit=False
+[861] FAIL  time= 30.193s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[862] PASS  time= 14.249s  status=Exact solution     len=  1.946  endpoints_valid=True  collision=False  over_limit=False
+[863] FAIL  time= 32.022s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[864] FAIL  time= 30.310s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[865] PASS  time= 27.913s  status=Exact solution     len=  6.788  endpoints_valid=True  collision=False  over_limit=False
+[866] PASS  time= 29.468s  status=Exact solution     len=  7.422  endpoints_valid=True  collision=False  over_limit=False
+[867] FAIL  time= 30.227s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[868] FAIL  time= 30.077s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[869] PASS  time=  8.965s  status=Exact solution     len=  6.353  endpoints_valid=True  collision=False  over_limit=False
+[870] FAIL  time= 30.404s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[871] PASS  time= 21.735s  status=Exact solution     len= 10.288  endpoints_valid=True  collision=False  over_limit=False
+[872] FAIL  time= 30.167s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[873] PASS  time=  6.707s  status=Exact solution     len=  2.730  endpoints_valid=True  collision=False  over_limit=False
+[874] PASS  time=  0.619s  status=Exact solution     len=  1.390  endpoints_valid=True  collision=False  over_limit=False
+[875] PASS  time=  4.221s  status=Exact solution     len=  6.260  endpoints_valid=True  collision=False  over_limit=False
+[876] FAIL  time= 30.426s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[877] FAIL  time= 30.019s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[878] FAIL  time= 32.153s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[879] FAIL  time= 30.063s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[880] FAIL  time= 30.370s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[881] FAIL  time= 30.148s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[882] FAIL  time= 30.152s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[883] FAIL  time= 30.727s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[884] PASS  time=  0.186s  status=Exact solution     len=  0.374  endpoints_valid=True  collision=False  over_limit=False
+[885] FAIL  time= 30.189s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[886] FAIL  time= 30.062s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[887] PASS  time=  8.304s  status=Exact solution     len=  3.015  endpoints_valid=True  collision=False  over_limit=False
+[888] PASS  time=  2.345s  status=Exact solution     len=  1.956  endpoints_valid=True  collision=False  over_limit=False
+[889] FAIL  time= 30.085s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[890] FAIL  time= 30.094s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[891] FAIL  time= 30.113s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[892] FAIL  time= 30.197s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[893] FAIL  time= 30.772s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[894] PASS  time= 16.249s  status=Exact solution     len=  3.373  endpoints_valid=True  collision=False  over_limit=False
+[895] FAIL  time= 30.055s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[896] FAIL  time= 30.063s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[897] FAIL  time= 32.769s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[898] FAIL  time= 32.299s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[899] PASS  time= 22.244s  status=Exact solution     len=  7.246  endpoints_valid=True  collision=False  over_limit=False
+[900] FAIL  time= 30.162s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[901] FAIL  time= 30.018s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[902] PASS  time= 25.814s  status=Exact solution     len=  6.628  endpoints_valid=True  collision=False  over_limit=False
+[903] FAIL  time= 30.054s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[904] FAIL  time= 30.098s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[905] PASS  time=  1.920s  status=Exact solution     len=  3.159  endpoints_valid=True  collision=False  over_limit=False
+[906] PASS  time= 13.905s  status=Exact solution     len=  5.589  endpoints_valid=True  collision=False  over_limit=False
+[907] FAIL  time= 30.782s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[908] PASS  time= 16.419s  status=Exact solution     len=  1.611  endpoints_valid=True  collision=False  over_limit=False
+[909] PASS  time=  8.768s  status=Exact solution     len=  3.719  endpoints_valid=True  collision=False  over_limit=False
+[910] FAIL  time= 30.231s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[911] PASS  time= 13.080s  status=Exact solution     len=  3.786  endpoints_valid=True  collision=False  over_limit=False
+[912] PASS  time= 11.312s  status=Exact solution     len=  2.493  endpoints_valid=True  collision=False  over_limit=False
+[913] FAIL  time= 30.165s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[914] PASS  time= 12.579s  status=Exact solution     len=  2.660  endpoints_valid=True  collision=False  over_limit=False
+[915] FAIL  time= 30.047s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[916] PASS  time= 22.715s  status=Exact solution     len=  5.738  endpoints_valid=True  collision=False  over_limit=False
+[917] PASS  time=  3.321s  status=Exact solution     len=  0.822  endpoints_valid=True  collision=False  over_limit=False
+[918] FAIL  time= 31.515s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[919] FAIL  time= 30.977s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[920] PASS  time= 15.288s  status=Exact solution     len=  5.614  endpoints_valid=True  collision=False  over_limit=False
+[921] FAIL  time= 30.173s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[922] FAIL  time= 30.092s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[923] PASS  time= 24.446s  status=Exact solution     len=  9.540  endpoints_valid=True  collision=False  over_limit=False
+[924] PASS  time= 23.683s  status=Exact solution     len= 10.612  endpoints_valid=True  collision=False  over_limit=False
+[925] FAIL  time= 30.132s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[926] FAIL  time= 30.248s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[927] FAIL  time= 30.195s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[928] FAIL  time= 30.090s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[929] FAIL  time= 31.558s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[930] FAIL  time= 30.109s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[931] PASS  time= 23.446s  status=Exact solution     len= 10.535  endpoints_valid=True  collision=False  over_limit=False
+[932] PASS  time= 16.745s  status=Exact solution     len=  6.001  endpoints_valid=True  collision=False  over_limit=False
+[933] PASS  time= 15.817s  status=Exact solution     len=  8.570  endpoints_valid=True  collision=False  over_limit=False
+[934] PASS  time= 13.182s  status=Exact solution     len=  6.272  endpoints_valid=True  collision=False  over_limit=False
+[935] FAIL  time= 30.150s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[936] PASS  time= 28.156s  status=Exact solution     len=  8.513  endpoints_valid=True  collision=False  over_limit=False
+[937] PASS  time=  0.808s  status=Exact solution     len=  0.821  endpoints_valid=True  collision=False  over_limit=False
+[938] FAIL  time= 30.045s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[939] FAIL  time= 30.119s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[940] PASS  time=  0.350s  status=Exact solution     len=  0.519  endpoints_valid=True  collision=False  over_limit=False
+[941] FAIL  time= 30.058s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[942] PASS  time= 21.455s  status=Exact solution     len=  3.563  endpoints_valid=True  collision=False  over_limit=False
+[943] PASS  time= 12.136s  status=Exact solution     len=  3.831  endpoints_valid=True  collision=False  over_limit=False
+[944] FAIL  time= 32.604s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[945] FAIL  time= 30.284s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[946] FAIL  time= 30.265s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[947] PASS  time=  5.147s  status=Exact solution     len=  4.006  endpoints_valid=True  collision=False  over_limit=False
+[948] FAIL  time= 30.032s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[949] FAIL  time= 32.313s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[950] FAIL  time= 30.136s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[951] FAIL  time= 30.012s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[952] PASS  time=  4.513s  status=Exact solution     len=  5.289  endpoints_valid=True  collision=False  over_limit=False
+[953] FAIL  time= 30.992s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[954] PASS  time= 15.201s  status=Exact solution     len=  4.854  endpoints_valid=True  collision=False  over_limit=False
+[955] PASS  time= 21.874s  status=Exact solution     len= 10.072  endpoints_valid=True  collision=False  over_limit=False
+[956] PASS  time=  1.803s  status=Exact solution     len=  1.525  endpoints_valid=True  collision=False  over_limit=False
+[957] FAIL  time= 31.159s  status=Exact solution     len=  8.619  endpoints_valid=True  collision=False  over_limit=True
+[958] PASS  time=  8.565s  status=Exact solution     len=  3.602  endpoints_valid=True  collision=False  over_limit=False
+[959] FAIL  time= 30.091s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[960] PASS  time= 15.405s  status=Exact solution     len=  5.096  endpoints_valid=True  collision=False  over_limit=False
+[961] FAIL  time= 30.062s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[962] PASS  time= 10.559s  status=Exact solution     len=  6.532  endpoints_valid=True  collision=False  over_limit=False
+[963] FAIL  time= 31.427s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[964] FAIL  time= 31.642s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[965] PASS  time= 15.961s  status=Exact solution     len=  6.192  endpoints_valid=True  collision=False  over_limit=False
+[966] PASS  time=  6.954s  status=Exact solution     len=  1.669  endpoints_valid=True  collision=False  over_limit=False
+[967] FAIL  time= 30.339s  status=Exact solution     len=  9.742  endpoints_valid=True  collision=False  over_limit=True
+[968] FAIL  time= 30.144s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[969] PASS  time= 20.768s  status=Exact solution     len= 12.331  endpoints_valid=True  collision=False  over_limit=False
+[970] PASS  time=  1.096s  status=Exact solution     len=  1.607  endpoints_valid=True  collision=False  over_limit=False
+[971] FAIL  time= 30.043s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[972] PASS  time= 16.369s  status=Exact solution     len=  4.302  endpoints_valid=True  collision=False  over_limit=False
+[973] PASS  time= 11.502s  status=Exact solution     len=  5.142  endpoints_valid=True  collision=False  over_limit=False
+[974] PASS  time= 25.420s  status=Exact solution     len=  5.185  endpoints_valid=True  collision=False  over_limit=False
+[975] PASS  time=  5.970s  status=Exact solution     len=  1.542  endpoints_valid=True  collision=False  over_limit=False
+[976] PASS  time=  0.982s  status=Exact solution     len=  1.001  endpoints_valid=True  collision=False  over_limit=False
+[977] FAIL  time= 30.037s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[978] FAIL  time= 30.052s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[979] FAIL  time= 30.033s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[980] PASS  time=  2.877s  status=Exact solution     len=  3.513  endpoints_valid=True  collision=False  over_limit=False
+[981] PASS  time= 21.867s  status=Exact solution     len=  8.553  endpoints_valid=True  collision=False  over_limit=False
+[982] PASS  time= 19.408s  status=Exact solution     len= 10.499  endpoints_valid=True  collision=False  over_limit=False
+[983] PASS  time= 21.299s  status=Exact solution     len=  4.456  endpoints_valid=True  collision=False  over_limit=False
+[984] PASS  time=  0.266s  status=Exact solution     len=  0.510  endpoints_valid=True  collision=False  over_limit=False
+[985] PASS  time= 22.141s  status=Exact solution     len= 12.584  endpoints_valid=True  collision=False  over_limit=False
+[986] PASS  time= 17.039s  status=Exact solution     len= 10.761  endpoints_valid=True  collision=False  over_limit=False
+[987] PASS  time= 11.766s  status=Exact solution     len=  9.179  endpoints_valid=True  collision=False  over_limit=False
+[988] PASS  time=  5.183s  status=Exact solution     len=  6.231  endpoints_valid=True  collision=False  over_limit=False
+[989] PASS  time=  4.467s  status=Exact solution     len=  3.310  endpoints_valid=True  collision=False  over_limit=False
+[990] PASS  time= 22.676s  status=Exact solution     len= 10.516  endpoints_valid=True  collision=False  over_limit=False
+[991] PASS  time= 10.316s  status=Exact solution     len=  2.079  endpoints_valid=True  collision=False  over_limit=False
+[992] PASS  time= 11.392s  status=Exact solution     len=  6.024  endpoints_valid=True  collision=False  over_limit=False
+[993] PASS  time= 16.203s  status=Exact solution     len=  6.453  endpoints_valid=True  collision=False  over_limit=False
+[994] PASS  time=  7.628s  status=Exact solution     len=  6.273  endpoints_valid=True  collision=False  over_limit=False
+[995] PASS  time= 25.966s  status=Exact solution     len= 15.286  endpoints_valid=True  collision=False  over_limit=False
+[996] FAIL  time= 30.023s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[997] PASS  time=  0.952s  status=Exact solution     len=  1.524  endpoints_valid=True  collision=False  over_limit=False
+[998] FAIL  time= 30.190s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+[999] FAIL  time= 30.108s  status=Timeout            len=    nan  endpoints_valid=True  collision=False  over_limit=True
+
+shape                     : datasets/3dshape/Ashape3d.obj
+environment               : datasets/3dshape/env1.obj
+data_path                 : testing_data/3dshape/Ashape3d_env1
+planner                   : LazyPRM (OMPL, SE(3))
+roadmap                   : cleared per case
+time_limit_per_case       : 30.000 s  (a case over this = fail)
+path_simplification       : off
+
+test_cases_total          : 1000
+invalid_start_or_goal     : 0  (excluded, unplannable)
+test_cases_scored         : 1000  [valid start+goal only]
+successes                 : 627
+failures                  : 373
+  no_solution_in_time     : 354
+  over_time_limit         : 19
+  path_in_collision       : 0
+success_rate              : 0.6270  (62.7%)  [627/1000]
+
+time_mean                 : 19.7836 s   [all 1000 scored cases]
+time_std                  : 10.5780 s
+time_mean_successful      : 13.4678 s   [627 successful cases]
+time_std_successful       : 8.4451 s
+time_median               : 21.6865 s
+
+path_length_mean          : 6.1173   [627 successful cases]
+path_length_std           : 3.7411
+path_length_total         : 3835.5213
+
+total_time                : 19783.57 s
+collision_checks          : 3740652
+
+Wrote results/ompl_lazyprm_rerun/Ashape3d_env1/lazy_prm_success_rate.txt
+Wrote results/ompl_lazyprm_rerun/Ashape3d_env1/lazy_prm_cases.csv

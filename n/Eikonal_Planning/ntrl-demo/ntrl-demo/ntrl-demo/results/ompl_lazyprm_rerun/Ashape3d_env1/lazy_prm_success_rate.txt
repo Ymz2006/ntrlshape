@@ -1,0 +1,30 @@
+shape                     : datasets/3dshape/Ashape3d.obj
+environment               : datasets/3dshape/env1.obj
+data_path                 : testing_data/3dshape/Ashape3d_env1
+planner                   : LazyPRM (OMPL, SE(3))
+roadmap                   : cleared per case
+time_limit_per_case       : 30.000 s  (a case over this = fail)
+path_simplification       : off
+
+test_cases_total          : 1000
+invalid_start_or_goal     : 0  (excluded, unplannable)
+test_cases_scored         : 1000  [valid start+goal only]
+successes                 : 627
+failures                  : 373
+  no_solution_in_time     : 354
+  over_time_limit         : 19
+  path_in_collision       : 0
+success_rate              : 0.6270  (62.7%)  [627/1000]
+
+time_mean                 : 19.7836 s   [all 1000 scored cases]
+time_std                  : 10.5780 s
+time_mean_successful      : 13.4678 s   [627 successful cases]
+time_std_successful       : 8.4451 s
+time_median               : 21.6865 s
+
+path_length_mean          : 6.1173   [627 successful cases]
+path_length_std           : 3.7411
+path_length_total         : 3835.5213
+
+total_time                : 19783.57 s
+collision_checks          : 3740652

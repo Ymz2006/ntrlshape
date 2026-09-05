@@ -1,0 +1,338 @@
+Delaunizing vertices...
+Delaunay seconds:  7.8e-05
+Creating surface mesh ...
+Surface mesh seconds:  2.9e-05
+Recovering boundaries...
+Boundary recovery seconds:  0.000391
+Removing exterior tetrahedra ...
+Exterior tets removal seconds:  5e-06
+Suppressing Steiner points ...
+Steiner suppression seconds:  1e-06
+Recovering Delaunayness...
+Delaunay recovery seconds:  0.001588
+Refining mesh...
+  11 insertions, added 0 points, 0 tetrahedra in queue.
+  3 insertions, added 0 points, 0 tetrahedra in queue.
+  4 insertions, added 0 points, 0 tetrahedra in queue.
+Refinement seconds:  4.3e-05
+Smoothing vertices...
+Mesh smoothing seconds:  0.000325
+Improving mesh...
+Mesh improvement seconds:  8e-06
+
+Writing nodes.
+Writing elements.
+Writing faces.
+Writing edges.
+
+Output seconds:  6e-06
+Total running seconds:  0.002618
+
+Statistics:
+
+  Input points: 8
+  Input facets: 12
+  Input segments: 18
+  Input holes: 0
+  Input regions: 0
+
+  Mesh points: 9
+  Mesh tetrahedra: 12
+  Mesh faces: 30
+  Mesh faces on exterior boundary: 12
+  Mesh faces on input facets: 12
+  Mesh edges on input segments: 18
+  Steiner points inside domain: 1
+
+[load_obj] 'datasets/3dshape/env4.obj': 7 objects/groups
+  [0] 'wall (1)'  (88 triangles)
+  [1] 'Body14'  (12 triangles)
+  [2] 'Body15'  (12 triangles)
+  [3] 'Body16'  (12 triangles)
+  [4] 'Body17'  (12 triangles)
+  [5] 'Body18'  (12 triangles)
+  [6] 'Body19'  (12 triangles)
+[load_obj] 'datasets/3dshape/rectangle.obj': 1 objects/groups
+  [0] 'Body1'  (12 triangles)
+Tetrahedralized shape: 12 tets, 12 boundary triangles, 9 verts
+Sampling 1000 (x0, x1) pairs [TESTING (independent collision-free pairs)]   margin=0.05  offset=0.02  ...
+generated: 2 / 1000
+generated: 5 / 1000
+generated: 7 / 1000
+generated: 14 / 1000
+generated: 18 / 1000
+generated: 23 / 1000
+generated: 28 / 1000
+generated: 31 / 1000
+generated: 36 / 1000
+generated: 41 / 1000
+generated: 46 / 1000
+generated: 48 / 1000
+generated: 51 / 1000
+generated: 55 / 1000
+generated: 58 / 1000
+generated: 63 / 1000
+generated: 70 / 1000
+generated: 73 / 1000
+generated: 79 / 1000
+generated: 83 / 1000
+generated: 87 / 1000
+generated: 89 / 1000
+generated: 94 / 1000
+generated: 98 / 1000
+generated: 100 / 1000
+generated: 103 / 1000
+generated: 110 / 1000
+generated: 113 / 1000
+generated: 120 / 1000
+generated: 123 / 1000
+generated: 127 / 1000
+generated: 135 / 1000
+generated: 140 / 1000
+generated: 144 / 1000
+generated: 148 / 1000
+generated: 150 / 1000
+generated: 158 / 1000
+generated: 161 / 1000
+generated: 162 / 1000
+generated: 165 / 1000
+generated: 168 / 1000
+generated: 175 / 1000
+generated: 183 / 1000
+generated: 186 / 1000
+generated: 188 / 1000
+generated: 192 / 1000
+generated: 196 / 1000
+generated: 201 / 1000
+generated: 204 / 1000
+generated: 207 / 1000
+generated: 210 / 1000
+generated: 214 / 1000
+generated: 217 / 1000
+generated: 221 / 1000
+generated: 227 / 1000
+generated: 232 / 1000
+generated: 238 / 1000
+generated: 243 / 1000
+generated: 246 / 1000
+generated: 248 / 1000
+generated: 251 / 1000
+generated: 256 / 1000
+generated: 258 / 1000
+generated: 262 / 1000
+generated: 264 / 1000
+generated: 266 / 1000
+generated: 269 / 1000
+generated: 271 / 1000
+generated: 276 / 1000
+generated: 284 / 1000
+generated: 288 / 1000
+generated: 293 / 1000
+generated: 297 / 1000
+generated: 300 / 1000
+generated: 305 / 1000
+generated: 306 / 1000
+generated: 310 / 1000
+generated: 311 / 1000
+generated: 313 / 1000
+generated: 316 / 1000
+generated: 318 / 1000
+generated: 320 / 1000
+generated: 325 / 1000
+generated: 326 / 1000
+generated: 329 / 1000
+generated: 331 / 1000
+generated: 336 / 1000
+generated: 338 / 1000
+generated: 342 / 1000
+generated: 346 / 1000
+generated: 350 / 1000
+generated: 351 / 1000
+generated: 352 / 1000
+generated: 355 / 1000
+generated: 357 / 1000
+generated: 360 / 1000
+generated: 363 / 1000
+generated: 367 / 1000
+generated: 371 / 1000
+generated: 378 / 1000
+generated: 381 / 1000
+generated: 384 / 1000
+generated: 392 / 1000
+generated: 395 / 1000
+generated: 400 / 1000
+generated: 403 / 1000
+generated: 406 / 1000
+generated: 408 / 1000
+generated: 410 / 1000
+generated: 413 / 1000
+generated: 416 / 1000
+generated: 423 / 1000
+generated: 424 / 1000
+generated: 430 / 1000
+generated: 432 / 1000
+generated: 436 / 1000
+generated: 439 / 1000
+generated: 442 / 1000
+generated: 445 / 1000
+generated: 449 / 1000
+generated: 454 / 1000
+generated: 459 / 1000
+generated: 465 / 1000
+generated: 471 / 1000
+generated: 474 / 1000
+generated: 477 / 1000
+generated: 480 / 1000
+generated: 484 / 1000
+generated: 489 / 1000
+generated: 492 / 1000
+generated: 494 / 1000
+generated: 496 / 1000
+generated: 499 / 1000
+generated: 505 / 1000
+generated: 512 / 1000
+generated: 519 / 1000
+generated: 521 / 1000
+generated: 526 / 1000
+generated: 530 / 1000
+generated: 536 / 1000
+generated: 540 / 1000
+generated: 543 / 1000
+generated: 547 / 1000
+generated: 548 / 1000
+generated: 556 / 1000
+generated: 560 / 1000
+generated: 568 / 1000
+generated: 571 / 1000
+generated: 573 / 1000
+generated: 577 / 1000
+generated: 583 / 1000
+generated: 588 / 1000
+generated: 592 / 1000
+generated: 597 / 1000
+generated: 601 / 1000
+generated: 604 / 1000
+generated: 606 / 1000
+generated: 611 / 1000
+generated: 616 / 1000
+generated: 619 / 1000
+generated: 623 / 1000
+generated: 625 / 1000
+generated: 628 / 1000
+generated: 629 / 1000
+generated: 633 / 1000
+generated: 635 / 1000
+generated: 639 / 1000
+generated: 643 / 1000
+generated: 648 / 1000
+generated: 651 / 1000
+generated: 655 / 1000
+generated: 660 / 1000
+generated: 664 / 1000
+generated: 666 / 1000
+generated: 675 / 1000
+generated: 677 / 1000
+generated: 680 / 1000
+generated: 683 / 1000
+generated: 687 / 1000
+generated: 692 / 1000
+generated: 696 / 1000
+generated: 699 / 1000
+generated: 704 / 1000
+generated: 707 / 1000
+generated: 709 / 1000
+generated: 714 / 1000
+generated: 716 / 1000
+generated: 720 / 1000
+generated: 726 / 1000
+generated: 733 / 1000
+generated: 735 / 1000
+generated: 739 / 1000
+generated: 741 / 1000
+generated: 745 / 1000
+generated: 749 / 1000
+generated: 753 / 1000
+generated: 756 / 1000
+generated: 758 / 1000
+generated: 761 / 1000
+generated: 762 / 1000
+generated: 764 / 1000
+generated: 769 / 1000
+generated: 770 / 1000
+generated: 774 / 1000
+generated: 779 / 1000
+generated: 786 / 1000
+generated: 793 / 1000
+generated: 799 / 1000
+generated: 802 / 1000
+generated: 805 / 1000
+generated: 810 / 1000
+generated: 811 / 1000
+generated: 820 / 1000
+generated: 824 / 1000
+generated: 830 / 1000
+generated: 833 / 1000
+generated: 836 / 1000
+generated: 842 / 1000
+generated: 845 / 1000
+generated: 850 / 1000
+generated: 852 / 1000
+generated: 854 / 1000
+generated: 858 / 1000
+generated: 862 / 1000
+generated: 864 / 1000
+generated: 866 / 1000
+generated: 869 / 1000
+generated: 872 / 1000
+generated: 874 / 1000
+generated: 877 / 1000
+generated: 879 / 1000
+generated: 882 / 1000
+generated: 885 / 1000
+generated: 888 / 1000
+generated: 892 / 1000
+generated: 894 / 1000
+generated: 898 / 1000
+generated: 903 / 1000
+generated: 906 / 1000
+generated: 908 / 1000
+generated: 909 / 1000
+generated: 911 / 1000
+generated: 919 / 1000
+generated: 922 / 1000
+generated: 925 / 1000
+generated: 931 / 1000
+generated: 934 / 1000
+generated: 939 / 1000
+generated: 942 / 1000
+generated: 944 / 1000
+generated: 947 / 1000
+generated: 951 / 1000
+generated: 955 / 1000
+generated: 960 / 1000
+generated: 962 / 1000
+generated: 964 / 1000
+generated: 966 / 1000
+generated: 969 / 1000
+generated: 970 / 1000
+generated: 972 / 1000
+generated: 974 / 1000
+generated: 975 / 1000
+generated: 979 / 1000
+generated: 982 / 1000
+generated: 986 / 1000
+generated: 988 / 1000
+generated: 993 / 1000
+generated: 999 / 1000
+generated: 1000 / 1000
+Sampling done in 6.8s
+x0 pos    : x=[-0.392,0.384]  y=[-0.261,0.264]  z=[-0.432,0.429]
+speed x0  : [0.228, 1.000]   (band [0.400, 1.0])
+speed x1  : [0.229, 1.000]
+Wrote 1000 training pairs to testing_data/3dshape/rectangle_env4
+  sampled_points.npy (1000, 12)
+  speed.npy          (1000, 2)
+  normal.npy         (1000, 12)
+  trans_n.npy        (1000, 12)
+  rot_n.npy          (1000, 12)
+  env.npy            (10000, 3)

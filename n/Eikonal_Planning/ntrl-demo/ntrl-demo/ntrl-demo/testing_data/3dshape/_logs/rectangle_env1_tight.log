@@ -1,0 +1,81 @@
+[load_obj] 'datasets/3dshape/env1.obj': 5 objects/groups
+  [0] 'Body2'  (12 triangles)
+  [1] 'Body3'  (12 triangles)
+  [2] 'Body4'  (12 triangles)
+  [3] 'Body5'  (12 triangles)
+  [4] 'wall (2)'  (12 triangles)
+[load_obj] 'datasets/3dshape/rectangle.obj': 1 objects/groups
+  [0] 'Body1'  (12 triangles)
+Delaunizing vertices...
+Delaunay seconds:  0.054478
+Creating surface mesh ...
+Surface mesh seconds:  4.4e-05
+Recovering boundaries...
+Boundary recovery seconds:  0.001833
+Removing exterior tetrahedra ...
+Exterior tets removal seconds:  2e-05
+Suppressing Steiner points ...
+Steiner suppression seconds:  0.00066
+Recovering Delaunayness...
+Delaunay recovery seconds:  0.000123
+Refining mesh...
+  11 insertions, added 0 points, 0 tetrahedra in queue.
+  3 insertions, added 0 points, 0 tetrahedra in queue.
+  4 insertions, added 0 points, 0 tetrahedra in queue.
+Refinement seconds:  6.7e-05
+Smoothing vertices...
+Mesh smoothing seconds:  0.000451
+Improving mesh...
+Mesh improvement seconds:  2.3e-05
+
+Writing nodes.
+Writing elements.
+Writing faces.
+Writing edges.
+
+Output seconds:  4.2e-05
+Total running seconds:  0.057901
+
+Statistics:
+
+  Input points: 8
+  Input facets: 12
+  Input segments: 18
+  Input holes: 0
+  Input regions: 0
+
+  Mesh points: 9
+  Mesh tetrahedra: 12
+  Mesh faces: 30
+  Mesh faces on exterior boundary: 12
+  Mesh faces on input facets: 12
+  Mesh edges on input segments: 18
+  Steiner points inside domain: 1
+
+Tetrahedralized shape: 12 tets, 12 boundary triangles, 9 verts
+Sampling 1000 (x0, x1) pairs [TESTING (independent collision-free pairs)]   margin=0.05  offset=0.005  ...
+generated: 96 / 1000
+generated: 202 / 1000
+generated: 324 / 1000
+generated: 428 / 1000
+generated: 529 / 1000
+generated: 632 / 1000
+generated: 723 / 1000
+generated: 833 / 1000
+generated: 922 / 1000
+generated: 1000 / 1000
+Sampling done in 3.2s
+Saved sample visualization: testing_data/3dshape/rectangle_env1_tight/sampled_placements.html
+Saved speed distribution: testing_data/3dshape/rectangle_env1_tight/speed_distribution.html
+Saved speed_angles distribution: testing_data/3dshape/rectangle_env1_tight/speed_angles_distribution.html
+Saved speed_dists distribution: testing_data/3dshape/rectangle_env1_tight/speed_dists_distribution.html
+x0 pos    : x=[-0.425,0.425]  y=[-0.293,0.301]  z=[-0.458,0.445]
+speed x0  : [0.058, 1.000]   (band [0.100, 1.0])
+speed x1  : [0.056, 1.000]
+Wrote 1000 training pairs to testing_data/3dshape/rectangle_env1_tight
+  sampled_points.npy (1000, 12)
+  speed.npy          (1000, 2)
+  normal.npy         (1000, 12)
+  trans_n.npy        (1000, 12)
+  rot_n.npy          (1000, 12)
+  env.npy            (10000, 3)

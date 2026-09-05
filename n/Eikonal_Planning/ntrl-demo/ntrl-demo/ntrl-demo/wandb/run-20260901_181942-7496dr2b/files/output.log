@@ -1,0 +1,13 @@
+wandb run: 3dshape_09_01_13_19 (https://wandb.ai/jeffreyzhou123-purdue-university/ntrl-demo/runs/7496dr2b)
+Files copied successfully!
+train
+Traceback (most recent call last):
+  File "/workspace/ntrl-demo/train/train_3dshape.py", line 52, in <module>
+    model.train()
+  File "/workspace/ntrl-demo/./models/metric/model_train_metric.py", line 187, in train
+    self.dataset = db.Database(self.Params['DataPath'])
+  File "/workspace/ntrl-demo/./models/data_mlp.py", line 38, in Database
+    points = np.load('{}/sampled_points.npy'.format(PATH))#[:100000,:]
+  File "/opt/conda/lib/python3.10/site-packages/numpy/lib/npyio.py", line 427, in load
+    fid = stack.enter_context(open(os_fspath(file), "rb"))
+FileNotFoundError: [Errno 2] No such file or directory: 'datasets/3dshape/Ashape3d_env4/sampled_points.npy'

@@ -1,0 +1,252 @@
+Delaunizing vertices...
+Delaunay seconds:  0.000264
+Creating surface mesh ...
+Surface mesh seconds:  3.1e-05
+Recovering boundaries...
+Boundary recovery seconds:  0.000612
+Removing exterior tetrahedra ...
+Exterior tets removal seconds:  1.5e-05
+Suppressing Steiner points ...
+Steiner suppression seconds:  2e-06
+Recovering Delaunayness...
+Delaunay recovery seconds:  0.002308
+Refining mesh...
+Refinement seconds:  2.4e-05
+Smoothing vertices...
+Mesh smoothing seconds:  0.000308
+Improving mesh...
+Mesh improvement seconds:  1.3e-05
+
+Writing nodes.
+Writing elements.
+Writing faces.
+Writing edges.
+
+Output seconds:  6e-06
+Total running seconds:  0.128308
+
+Statistics:
+
+  Input points: 12
+  Input facets: 20
+  Input segments: 30
+  Input holes: 0
+  Input regions: 0
+
+  Mesh points: 13
+  Mesh tetrahedra: 18
+  Mesh faces: 46
+  Mesh faces on exterior boundary: 20
+  Mesh faces on input facets: 20
+  Mesh edges on input segments: 30
+  Steiner points inside domain: 1
+
+[load_obj] 'datasets/3dshape/Corozal.obj': 1 objects/groups
+  [0] 'mesh'  (85428 triangles)
+[load_obj] 'datasets/3dshape/Lcouch.obj': 1 objects/groups
+  [0] 'Body1'  (20 triangles)
+Tetrahedralized shape: 18 tets, 20 boundary triangles, 13 verts
+Sampling 1000 (x0, x1) pairs [TESTING (independent collision-free pairs)]   margin=0.05  offset=0.02  ...
+generated: 4 / 1000
+generated: 10 / 1000
+generated: 14 / 1000
+generated: 20 / 1000
+generated: 24 / 1000
+generated: 26 / 1000
+generated: 34 / 1000
+generated: 43 / 1000
+generated: 47 / 1000
+generated: 53 / 1000
+generated: 59 / 1000
+generated: 65 / 1000
+generated: 77 / 1000
+generated: 78 / 1000
+generated: 87 / 1000
+generated: 90 / 1000
+generated: 94 / 1000
+generated: 100 / 1000
+generated: 106 / 1000
+generated: 111 / 1000
+generated: 113 / 1000
+generated: 118 / 1000
+generated: 123 / 1000
+generated: 125 / 1000
+generated: 130 / 1000
+generated: 136 / 1000
+generated: 138 / 1000
+generated: 142 / 1000
+generated: 145 / 1000
+generated: 148 / 1000
+generated: 153 / 1000
+generated: 162 / 1000
+generated: 164 / 1000
+generated: 170 / 1000
+generated: 175 / 1000
+generated: 181 / 1000
+generated: 190 / 1000
+generated: 198 / 1000
+generated: 206 / 1000
+generated: 209 / 1000
+generated: 213 / 1000
+generated: 218 / 1000
+generated: 223 / 1000
+generated: 227 / 1000
+generated: 235 / 1000
+generated: 238 / 1000
+generated: 248 / 1000
+generated: 253 / 1000
+generated: 262 / 1000
+generated: 265 / 1000
+generated: 272 / 1000
+generated: 282 / 1000
+generated: 288 / 1000
+generated: 294 / 1000
+generated: 296 / 1000
+generated: 304 / 1000
+generated: 308 / 1000
+generated: 314 / 1000
+generated: 320 / 1000
+generated: 324 / 1000
+generated: 331 / 1000
+generated: 334 / 1000
+generated: 340 / 1000
+generated: 347 / 1000
+generated: 353 / 1000
+generated: 357 / 1000
+generated: 364 / 1000
+generated: 369 / 1000
+generated: 373 / 1000
+generated: 379 / 1000
+generated: 388 / 1000
+generated: 393 / 1000
+generated: 396 / 1000
+generated: 398 / 1000
+generated: 400 / 1000
+generated: 403 / 1000
+generated: 409 / 1000
+generated: 411 / 1000
+generated: 419 / 1000
+generated: 424 / 1000
+generated: 432 / 1000
+generated: 437 / 1000
+generated: 441 / 1000
+generated: 443 / 1000
+generated: 451 / 1000
+generated: 455 / 1000
+generated: 464 / 1000
+generated: 470 / 1000
+generated: 477 / 1000
+generated: 481 / 1000
+generated: 487 / 1000
+generated: 495 / 1000
+generated: 500 / 1000
+generated: 510 / 1000
+generated: 517 / 1000
+generated: 520 / 1000
+generated: 522 / 1000
+generated: 531 / 1000
+generated: 534 / 1000
+generated: 542 / 1000
+generated: 549 / 1000
+generated: 553 / 1000
+generated: 559 / 1000
+generated: 563 / 1000
+generated: 566 / 1000
+generated: 573 / 1000
+generated: 579 / 1000
+generated: 585 / 1000
+generated: 587 / 1000
+generated: 591 / 1000
+generated: 599 / 1000
+generated: 601 / 1000
+generated: 603 / 1000
+generated: 607 / 1000
+generated: 613 / 1000
+generated: 618 / 1000
+generated: 621 / 1000
+generated: 625 / 1000
+generated: 630 / 1000
+generated: 633 / 1000
+generated: 636 / 1000
+generated: 642 / 1000
+generated: 648 / 1000
+generated: 653 / 1000
+generated: 659 / 1000
+generated: 672 / 1000
+generated: 676 / 1000
+generated: 678 / 1000
+generated: 683 / 1000
+generated: 686 / 1000
+generated: 693 / 1000
+generated: 697 / 1000
+generated: 702 / 1000
+generated: 708 / 1000
+generated: 712 / 1000
+generated: 719 / 1000
+generated: 726 / 1000
+generated: 731 / 1000
+generated: 733 / 1000
+generated: 735 / 1000
+generated: 747 / 1000
+generated: 753 / 1000
+generated: 760 / 1000
+generated: 767 / 1000
+generated: 775 / 1000
+generated: 778 / 1000
+generated: 784 / 1000
+generated: 785 / 1000
+generated: 794 / 1000
+generated: 799 / 1000
+generated: 803 / 1000
+generated: 808 / 1000
+generated: 811 / 1000
+generated: 817 / 1000
+generated: 824 / 1000
+generated: 830 / 1000
+generated: 833 / 1000
+generated: 838 / 1000
+generated: 841 / 1000
+generated: 847 / 1000
+generated: 853 / 1000
+generated: 857 / 1000
+generated: 860 / 1000
+generated: 870 / 1000
+generated: 875 / 1000
+generated: 877 / 1000
+generated: 879 / 1000
+generated: 880 / 1000
+generated: 883 / 1000
+generated: 888 / 1000
+generated: 892 / 1000
+generated: 894 / 1000
+generated: 902 / 1000
+generated: 906 / 1000
+generated: 909 / 1000
+generated: 917 / 1000
+generated: 920 / 1000
+generated: 922 / 1000
+generated: 928 / 1000
+generated: 933 / 1000
+generated: 939 / 1000
+generated: 944 / 1000
+generated: 951 / 1000
+generated: 957 / 1000
+generated: 961 / 1000
+generated: 970 / 1000
+generated: 977 / 1000
+generated: 983 / 1000
+generated: 987 / 1000
+generated: 994 / 1000
+generated: 996 / 1000
+generated: 1000 / 1000
+Sampling done in 14.0s
+x0 pos    : x=[-0.278,0.278]  y=[-0.490,0.490]  z=[-0.154,0.154]
+speed x0  : [0.293, 1.000]   (band [0.400, 1.0])
+speed x1  : [0.309, 1.000]
+Wrote 1000 training pairs to testing_data/3dshape/Lcouch_Corozal
+  sampled_points.npy (1000, 12)
+  speed.npy          (1000, 2)
+  normal.npy         (1000, 12)
+  trans_n.npy        (1000, 12)
+  rot_n.npy          (1000, 12)
+  env.npy            (39844, 3)

@@ -1,0 +1,30 @@
+shape                     : datasets/3dshape/rectangle.obj
+environment               : datasets/3dshape/env2.obj
+data_path                 : testing_data/3dshape/rectangle_env2
+planner                   : LazyPRM (OMPL, SE(3))
+roadmap                   : cleared per case
+time_limit_per_case       : 30.000 s  (a case over this = fail)
+path_simplification       : off
+
+test_cases_total          : 1000
+invalid_start_or_goal     : 0  (excluded, unplannable)
+test_cases_scored         : 1000  [valid start+goal only]
+successes                 : 997
+failures                  : 3
+  no_solution_in_time     : 3
+  over_time_limit         : 0
+  path_in_collision       : 0
+success_rate              : 0.9970  (99.7%)  [997/1000]
+
+time_mean                 : 6.2569 s   [all 1000 scored cases]
+time_std                  : 4.9211 s
+time_mean_successful      : 6.1852 s   [997 successful cases]
+time_std_successful       : 4.7511 s
+time_median               : 5.0857 s
+
+path_length_mean          : 7.1803   [997 successful cases]
+path_length_std           : 4.0421
+path_length_total         : 7158.7824
+
+total_time                : 6256.87 s
+collision_checks          : 3872551

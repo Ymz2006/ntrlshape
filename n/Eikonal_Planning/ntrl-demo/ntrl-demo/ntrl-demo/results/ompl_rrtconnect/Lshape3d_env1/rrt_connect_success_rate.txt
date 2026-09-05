@@ -6,24 +6,24 @@ time_limit_per_case       : 30.000 s  (a case over this = fail)
 path_simplification       : off
 
 test_cases_total          : 1000
-invalid_start_or_goal     : 33  (excluded, unplannable)
-test_cases_scored         : 967  [valid start+goal only]
-successes                 : 960
-failures                  : 7
-  no_solution_in_time     : 7
+invalid_start_or_goal     : 0  (excluded, unplannable)
+test_cases_scored         : 1000  [valid start+goal only]
+successes                 : 1000
+failures                  : 0
+  no_solution_in_time     : 0
   over_time_limit         : 0
   path_in_collision       : 0
-success_rate              : 0.9928  (99.3%)  [960/967]
+success_rate              : 1.0000  (100.0%)  [1000/1000]
 
-time_mean                 : 0.8310 s   [all 967 scored cases]
-time_std                  : 2.5845 s
-time_mean_successful      : 0.6177 s   [960 successful cases]
-time_std_successful       : 0.6645 s
-time_median               : 0.4509 s
+time_mean                 : 0.9385 s   [all 1000 scored cases]
+time_std                  : 0.7586 s
+time_mean_successful      : 0.9385 s   [1000 successful cases]
+time_std_successful       : 0.7586 s
+time_median               : 0.7101 s
 
-path_length_mean          : 3.1169   [960 successful cases]
-path_length_std           : 1.3200
-path_length_total         : 2992.2244
+path_length_mean          : 3.0473   [1000 successful cases]
+path_length_std           : 1.2974
+path_length_total         : 3047.3437
 
-total_time                : 803.53 s
-collision_checks          : 1033968
+total_time                : 938.49 s
+collision_checks          : 837468

@@ -1,0 +1,175 @@
+[load_obj] 'datasets/3dshape/env4.obj': 7 objects/groups
+  [0] 'wall (1)'  (88 triangles)
+  [1] 'Body14'  (12 triangles)
+  [2] 'Body15'  (12 triangles)
+  [3] 'Body16'  (12 triangles)
+  [4] 'Body17'  (12 triangles)
+  [5] 'Body18'  (12 triangles)
+  [6] 'Body19'  (12 triangles)
+[load_obj] 'datasets/3dshape/Ashape3d.obj': 1 objects/groups
+  [0] 'Body2'  (40 triangles)
+Delaunizing vertices...
+Delaunay seconds:  0.121908
+Creating surface mesh ...
+Surface mesh seconds:  6.8e-05
+Recovering boundaries...
+Boundary recovery seconds:  0.001509
+Removing exterior tetrahedra ...
+Exterior tets removal seconds:  4.6e-05
+Suppressing Steiner points ...
+Steiner suppression seconds:  7e-06
+Recovering Delaunayness...
+Delaunay recovery seconds:  0.003066
+Refining mesh...
+  27 insertions, added 0 points, 2 tetrahedra in queue.
+  8 insertions, added 0 points, 0 tetrahedra in queue.
+Refinement seconds:  0.000136
+Improving mesh...
+Mesh improvement seconds:  2e-05
+Jettisoning redundant points.
+
+Writing nodes.
+Writing elements.
+Writing faces.
+Writing edges.
+
+Output seconds:  5.7e-05
+Total running seconds:  0.126893
+
+Statistics:
+
+  Input points: 20
+  Input facets: 40
+  Input segments: 60
+  Input holes: 0
+  Input regions: 0
+
+  Mesh points: 20
+  Mesh tetrahedra: 30
+  Mesh faces: 80
+  Mesh faces on exterior boundary: 40
+  Mesh faces on input facets: 40
+  Mesh edges on input segments: 60
+
+Tetrahedralized shape: 30 tets, 40 boundary triangles, 20 verts
+Sampling 1000 (x0, x1) pairs [TESTING (independent collision-free pairs)]   margin=0.05  offset=0.005  ...
+generated: 12 / 1000
+generated: 21 / 1000
+generated: 29 / 1000
+generated: 41 / 1000
+generated: 51 / 1000
+generated: 60 / 1000
+generated: 73 / 1000
+generated: 81 / 1000
+generated: 89 / 1000
+generated: 100 / 1000
+generated: 109 / 1000
+generated: 126 / 1000
+generated: 132 / 1000
+generated: 146 / 1000
+generated: 154 / 1000
+generated: 168 / 1000
+generated: 184 / 1000
+generated: 199 / 1000
+generated: 216 / 1000
+generated: 230 / 1000
+generated: 243 / 1000
+generated: 254 / 1000
+generated: 268 / 1000
+generated: 277 / 1000
+generated: 288 / 1000
+generated: 296 / 1000
+generated: 300 / 1000
+generated: 309 / 1000
+generated: 320 / 1000
+generated: 335 / 1000
+generated: 348 / 1000
+generated: 358 / 1000
+generated: 368 / 1000
+generated: 375 / 1000
+generated: 385 / 1000
+generated: 391 / 1000
+generated: 401 / 1000
+generated: 409 / 1000
+generated: 415 / 1000
+generated: 419 / 1000
+generated: 422 / 1000
+generated: 431 / 1000
+generated: 443 / 1000
+generated: 455 / 1000
+generated: 468 / 1000
+generated: 477 / 1000
+generated: 481 / 1000
+generated: 491 / 1000
+generated: 500 / 1000
+generated: 505 / 1000
+generated: 515 / 1000
+generated: 526 / 1000
+generated: 532 / 1000
+generated: 543 / 1000
+generated: 552 / 1000
+generated: 563 / 1000
+generated: 571 / 1000
+generated: 581 / 1000
+generated: 588 / 1000
+generated: 593 / 1000
+generated: 596 / 1000
+generated: 607 / 1000
+generated: 619 / 1000
+generated: 621 / 1000
+generated: 635 / 1000
+generated: 640 / 1000
+generated: 653 / 1000
+generated: 660 / 1000
+generated: 671 / 1000
+generated: 680 / 1000
+generated: 690 / 1000
+generated: 702 / 1000
+generated: 714 / 1000
+generated: 720 / 1000
+generated: 736 / 1000
+generated: 748 / 1000
+generated: 755 / 1000
+generated: 765 / 1000
+generated: 776 / 1000
+generated: 780 / 1000
+generated: 789 / 1000
+generated: 793 / 1000
+generated: 802 / 1000
+generated: 806 / 1000
+generated: 813 / 1000
+generated: 826 / 1000
+generated: 831 / 1000
+generated: 837 / 1000
+generated: 847 / 1000
+generated: 854 / 1000
+generated: 864 / 1000
+generated: 872 / 1000
+generated: 882 / 1000
+generated: 889 / 1000
+generated: 899 / 1000
+generated: 912 / 1000
+generated: 920 / 1000
+generated: 936 / 1000
+generated: 945 / 1000
+generated: 953 / 1000
+generated: 964 / 1000
+generated: 976 / 1000
+generated: 988 / 1000
+generated: 995 / 1000
+generated: 1000 / 1000
+Sampling done in 23.8s
+Saved sample visualization: testing_data/3dshape/Ashape3d_env4_tight/sampled_placements.html
+Saved speed distribution: testing_data/3dshape/Ashape3d_env4_tight/speed_distribution.html
+Saved speed_angles distribution: testing_data/3dshape/Ashape3d_env4_tight/speed_angles_distribution.html
+Saved speed_dists distribution: testing_data/3dshape/Ashape3d_env4_tight/speed_dists_distribution.html
+x0 pos    : x=[-0.383,0.381]  y=[-0.271,0.282]  z=[-0.427,0.444]
+speed x0  : [0.052, 1.000]   (band [0.100, 1.0])
+speed x1  : [0.053, 1.000]
+Wrote 1000 training pairs to testing_data/3dshape/Ashape3d_env4_tight
+  sampled_points.npy (1000, 12)
+  speed.npy          (1000, 2)
+  normal.npy         (1000, 12)
+  trans_n.npy        (1000, 12)
+  rot_n.npy          (1000, 12)
+  env.npy            (10000, 3)

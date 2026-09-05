@@ -1,0 +1,35 @@
+==============================================================================
+slowness spread vs clearance   env=env2.obj  shape=Lshape3d.obj
+model=./Experiments/3dshape/3dshape_08_30_11_04/latest.pt
+2000 base configs x 250 candidates   step=0.015  6-D
+==============================================================================
+
+slowness = tau(x0, x0+d) / ||d||     [0.811, 80.511]  mean 4.153
+clearance                            [0.0010, 0.1201]  mean 0.0260
+
+--- correlations -------------------------------------------------------
+                                      Pearson r Spearman rho
+1. range(slowness)   vs clearance       -0.6118      -0.7206
+2. p90-p10           vs clearance       -0.5743      -0.8235
+3. p70-p30           vs mean slowness       0.9561       0.9642
+
+--- same spreads against the other axis, for completeness --------------
+3b. p70-p30          vs clearance       -0.5083      -0.8276
+4.  mean slowness    vs clearance       -0.5995      -0.8320
+5.  median slowness  vs clearance       -0.5395      -0.8207
+6.  range(slowness)  vs mean slowness       0.8437       0.8984
+7.  p90-p10          vs mean slowness       0.9568       0.9720
+
+--- spread by clearance decile -----------------------------------------
+ clearance        n      range    p90-p10    p70-p30  mean slow
+    0.0026      200    31.4380    12.6114     3.8684     8.3027
+    0.0059      200    28.9379    10.5359     2.9979     6.8439
+    0.0099      200    25.2074     8.5056     2.2606     5.7924
+    0.0145      200    20.9039     6.0029     1.4708     4.5527
+    0.0190      200    18.4070     4.6216     1.0627     3.8457
+    0.0243      200    16.4516     3.4626     0.8020     3.3235
+    0.0305      200    11.9880     1.8967     0.4401     2.6889
+    0.0377      200     8.5755     1.0971     0.3052     2.3038
+    0.0477      200     4.8326     0.7301     0.2444     2.0550
+    0.0674      199     1.9998     0.4899     0.1943     1.8244
+

@@ -1,0 +1,170 @@
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+
+[progress] 50/1000 cases  (138s elapsed, ~2626s remaining)
+  regular/forward                 : 0.5200  (52.0%)  [26/50]
+  flipped/reverse                 : 0.6400  (64.0%)  [32/50]
+  either/or                       : 0.7600  (76.0%)  [38/50]
+  alt/alternate                   : 0.6400  (64.0%)  [32/50]
+  locB/Alternative Bellman        : 0.5600  (56.0%)  [28/50]
+  hlB/Alternative Bellman Horizon : 0.6000  (60.0%)  [30/50]
+
+[progress] 100/1000 cases  (163s elapsed, ~1465s remaining)
+  regular/forward                 : 0.5400  (54.0%)  [54/100]
+  flipped/reverse                 : 0.6200  (62.0%)  [62/100]
+  either/or                       : 0.7600  (76.0%)  [76/100]
+  alt/alternate                   : 0.6600  (66.0%)  [66/100]
+  locB/Alternative Bellman        : 0.5600  (56.0%)  [56/100]
+  hlB/Alternative Bellman Horizon : 0.6000  (60.0%)  [60/100]
+
+[progress] 150/1000 cases  (187s elapsed, ~1057s remaining)
+  regular/forward                 : 0.5667  (56.7%)  [85/150]
+  flipped/reverse                 : 0.6000  (60.0%)  [90/150]
+  either/or                       : 0.7667  (76.7%)  [115/150]
+  alt/alternate                   : 0.6733  (67.3%)  [101/150]
+  locB/Alternative Bellman        : 0.5733  (57.3%)  [86/150]
+  hlB/Alternative Bellman Horizon : 0.6000  (60.0%)  [90/150]
+
+[progress] 200/1000 cases  (211s elapsed, ~845s remaining)
+  regular/forward                 : 0.5750  (57.5%)  [115/200]
+  flipped/reverse                 : 0.6200  (62.0%)  [124/200]
+  either/or                       : 0.7650  (76.5%)  [153/200]
+  alt/alternate                   : 0.7000  (70.0%)  [140/200]
+  locB/Alternative Bellman        : 0.6200  (62.0%)  [124/200]
+  hlB/Alternative Bellman Horizon : 0.6200  (62.0%)  [124/200]
+
+[progress] 250/1000 cases  (234s elapsed, ~702s remaining)
+  regular/forward                 : 0.5640  (56.4%)  [141/250]
+  flipped/reverse                 : 0.5760  (57.6%)  [144/250]
+  either/or                       : 0.7320  (73.2%)  [183/250]
+  alt/alternate                   : 0.6560  (65.6%)  [164/250]
+  locB/Alternative Bellman        : 0.6080  (60.8%)  [152/250]
+  hlB/Alternative Bellman Horizon : 0.6160  (61.6%)  [154/250]
+
+[progress] 300/1000 cases  (318s elapsed, ~743s remaining)
+  regular/forward                 : 0.5567  (55.7%)  [167/300]
+  flipped/reverse                 : 0.5633  (56.3%)  [169/300]
+  either/or                       : 0.7267  (72.7%)  [218/300]
+  alt/alternate                   : 0.6467  (64.7%)  [194/300]
+  locB/Alternative Bellman        : 0.6000  (60.0%)  [180/300]
+  hlB/Alternative Bellman Horizon : 0.6167  (61.7%)  [185/300]
+
+[progress] 350/1000 cases  (342s elapsed, ~635s remaining)
+  regular/forward                 : 0.5514  (55.1%)  [193/350]
+  flipped/reverse                 : 0.5571  (55.7%)  [195/350]
+  either/or                       : 0.7257  (72.6%)  [254/350]
+  alt/alternate                   : 0.6314  (63.1%)  [221/350]
+  locB/Alternative Bellman        : 0.5857  (58.6%)  [205/350]
+  hlB/Alternative Bellman Horizon : 0.6000  (60.0%)  [210/350]
+
+[progress] 400/1000 cases  (367s elapsed, ~551s remaining)
+  regular/forward                 : 0.5600  (56.0%)  [224/400]
+  flipped/reverse                 : 0.5675  (56.8%)  [227/400]
+  either/or                       : 0.7350  (73.5%)  [294/400]
+  alt/alternate                   : 0.6400  (64.0%)  [256/400]
+  locB/Alternative Bellman        : 0.5975  (59.8%)  [239/400]
+  hlB/Alternative Bellman Horizon : 0.6100  (61.0%)  [244/400]
+
+[progress] 450/1000 cases  (391s elapsed, ~477s remaining)
+  regular/forward                 : 0.5556  (55.6%)  [250/450]
+  flipped/reverse                 : 0.5667  (56.7%)  [255/450]
+  either/or                       : 0.7333  (73.3%)  [330/450]
+  alt/alternate                   : 0.6267  (62.7%)  [282/450]
+  locB/Alternative Bellman        : 0.5933  (59.3%)  [267/450]
+  hlB/Alternative Bellman Horizon : 0.6089  (60.9%)  [274/450]
+
+[progress] 500/1000 cases  (415s elapsed, ~415s remaining)
+  regular/forward                 : 0.5540  (55.4%)  [277/500]
+  flipped/reverse                 : 0.5580  (55.8%)  [279/500]
+  either/or                       : 0.7260  (72.6%)  [363/500]
+  alt/alternate                   : 0.6280  (62.8%)  [314/500]
+  locB/Alternative Bellman        : 0.5940  (59.4%)  [297/500]
+  hlB/Alternative Bellman Horizon : 0.6060  (60.6%)  [303/500]
+
+[progress] 550/1000 cases  (491s elapsed, ~402s remaining)
+  regular/forward                 : 0.5636  (56.4%)  [310/550]
+  flipped/reverse                 : 0.5655  (56.5%)  [311/550]
+  either/or                       : 0.7291  (72.9%)  [401/550]
+  alt/alternate                   : 0.6364  (63.6%)  [350/550]
+  locB/Alternative Bellman        : 0.5982  (59.8%)  [329/550]
+  hlB/Alternative Bellman Horizon : 0.6127  (61.3%)  [337/550]
+
+[progress] 600/1000 cases  (512s elapsed, ~341s remaining)
+  regular/forward                 : 0.5617  (56.2%)  [337/600]
+  flipped/reverse                 : 0.5633  (56.3%)  [338/600]
+  either/or                       : 0.7267  (72.7%)  [436/600]
+  alt/alternate                   : 0.6333  (63.3%)  [380/600]
+  locB/Alternative Bellman        : 0.6050  (60.5%)  [363/600]
+  hlB/Alternative Bellman Horizon : 0.6133  (61.3%)  [368/600]
+
+[progress] 650/1000 cases  (535s elapsed, ~288s remaining)
+  regular/forward                 : 0.5662  (56.6%)  [368/650]
+  flipped/reverse                 : 0.5569  (55.7%)  [362/650]
+  either/or                       : 0.7262  (72.6%)  [472/650]
+  alt/alternate                   : 0.6292  (62.9%)  [409/650]
+  locB/Alternative Bellman        : 0.6046  (60.5%)  [393/650]
+  hlB/Alternative Bellman Horizon : 0.6154  (61.5%)  [400/650]
+
+[progress] 700/1000 cases  (557s elapsed, ~239s remaining)
+  regular/forward                 : 0.5671  (56.7%)  [397/700]
+  flipped/reverse                 : 0.5543  (55.4%)  [388/700]
+  either/or                       : 0.7229  (72.3%)  [506/700]
+  alt/alternate                   : 0.6243  (62.4%)  [437/700]
+  locB/Alternative Bellman        : 0.6057  (60.6%)  [424/700]
+  hlB/Alternative Bellman Horizon : 0.6143  (61.4%)  [430/700]
+
+[progress] 750/1000 cases  (581s elapsed, ~194s remaining)
+  regular/forward                 : 0.5747  (57.5%)  [431/750]
+  flipped/reverse                 : 0.5520  (55.2%)  [414/750]
+  either/or                       : 0.7253  (72.5%)  [544/750]
+  alt/alternate                   : 0.6240  (62.4%)  [468/750]
+  locB/Alternative Bellman        : 0.6093  (60.9%)  [457/750]
+  hlB/Alternative Bellman Horizon : 0.6173  (61.7%)  [463/750]
+
+[progress] 800/1000 cases  (656s elapsed, ~164s remaining)
+  regular/forward                 : 0.5725  (57.2%)  [458/800]
+  flipped/reverse                 : 0.5500  (55.0%)  [440/800]
+  either/or                       : 0.7212  (72.1%)  [577/800]
+  alt/alternate                   : 0.6212  (62.1%)  [497/800]
+  locB/Alternative Bellman        : 0.6088  (60.9%)  [487/800]
+  hlB/Alternative Bellman Horizon : 0.6162  (61.6%)  [493/800]
+
+[progress] 850/1000 cases  (678s elapsed, ~120s remaining)
+  regular/forward                 : 0.5729  (57.3%)  [487/850]
+  flipped/reverse                 : 0.5529  (55.3%)  [470/850]
+  either/or                       : 0.7224  (72.2%)  [614/850]
+  alt/alternate                   : 0.6200  (62.0%)  [527/850]
+  locB/Alternative Bellman        : 0.6094  (60.9%)  [518/850]
+  hlB/Alternative Bellman Horizon : 0.6129  (61.3%)  [521/850]
+
+[progress] 900/1000 cases  (699s elapsed, ~78s remaining)
+  regular/forward                 : 0.5678  (56.8%)  [511/900]
+  flipped/reverse                 : 0.5522  (55.2%)  [497/900]
+  either/or                       : 0.7167  (71.7%)  [645/900]
+  alt/alternate                   : 0.6167  (61.7%)  [555/900]
+  locB/Alternative Bellman        : 0.6067  (60.7%)  [546/900]
+  hlB/Alternative Bellman Horizon : 0.6133  (61.3%)  [552/900]
+
+[progress] 950/1000 cases  (722s elapsed, ~38s remaining)
+  regular/forward                 : 0.5663  (56.6%)  [538/950]
+  flipped/reverse                 : 0.5495  (54.9%)  [522/950]
+  either/or                       : 0.7168  (71.7%)  [681/950]
+  alt/alternate                   : 0.6200  (62.0%)  [589/950]
+  locB/Alternative Bellman        : 0.6095  (60.9%)  [579/950]
+  hlB/Alternative Bellman Horizon : 0.6158  (61.6%)  [585/950]
+
+[progress] 1000/1000 cases  (745s elapsed, ~0s remaining)
+  regular/forward                 : 0.5710  (57.1%)  [571/1000]
+  flipped/reverse                 : 0.5500  (55.0%)  [550/1000]
+  either/or                       : 0.7180  (71.8%)  [718/1000]
+  alt/alternate                   : 0.6250  (62.5%)  [625/1000]
+  locB/Alternative Bellman        : 0.6090  (60.9%)  [609/1000]
+  hlB/Alternative Bellman Horizon : 0.6180  (61.8%)  [618/1000]
+
+=== success rate over 1000 episodes ===
+regular/forward                 : 0.5710  (57.1%)  [571/1000]
+flipped/reverse                 : 0.5500  (55.0%)  [550/1000]
+either/or                       : 0.7180  (71.8%)  [718/1000]
+alt/alternate                   : 0.6250  (62.5%)  [625/1000]
+locB/Alternative Bellman        : 0.6090  (60.9%)  [609/1000]
+hlB/Alternative Bellman Horizon : 0.6180  (61.8%)  [618/1000]

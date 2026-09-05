@@ -1,0 +1,24 @@
+2026-09-04 14:09:52,481 INFO    MainThread:30314 [wandb_setup.py:_flush():81] Current SDK version is 0.27.1
+2026-09-04 14:09:52,481 INFO    MainThread:30314 [wandb_setup.py:_flush():81] Configure stats pid to 30314
+2026-09-04 14:09:52,481 INFO    MainThread:30314 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-09-04 14:09:52,481 INFO    MainThread:30314 [wandb_init.py:setup_run_log_directory():723] Logging user logs to /workspace/ntrl-demo/wandb/run-20260904_140952-p0ie8g7d/logs/debug.log
+2026-09-04 14:09:52,481 INFO    MainThread:30314 [wandb_init.py:setup_run_log_directory():724] Logging internal logs to /workspace/ntrl-demo/wandb/run-20260904_140952-p0ie8g7d/logs/debug-internal.log
+2026-09-04 14:09:52,481 INFO    MainThread:30314 [wandb_init.py:init():766] calling init triggers
+2026-09-04 14:09:52,481 INFO    MainThread:30314 [wandb_init.py:init():771] wandb.init called with sweep_config: {}
+config: {'task': '3dshape', 'dim': 6, 'data_path': 'datasets/3dshape/Ashape3d_env2', 'model_path': './Experiments/3dshape', 'device': 'cuda:0', 'experiment_folder': './Experiments/3dshape/3dshape_09_04_09_09', 'train/Number of sample points': 200000.0, 'train/Batch Size': 2000, 'train/Validation Percentage': 10, 'train/Number of Epochs': 10000, 'train/Resampling Bounds': [0.1, 0.9], 'train/Print Every * Epoch': 1, 'train/Save Every * Epoch': 500, 'train/Learning Rate': 5e-05, 'train/Random Distance Sampling': True, 'train/Use Scheduler (bool)': False, '_wandb': {}}
+2026-09-04 14:09:52,482 INFO    MainThread:30314 [wandb_init.py:init():814] starting backend
+2026-09-04 14:09:52,482 INFO    MainThread:30314 [wandb_init.py:init():829] sending inform_init request
+2026-09-04 14:09:52,854 INFO    MainThread:30314 [wandb_init.py:init():834] backend started and connected
+2026-09-04 14:09:52,937 INFO    MainThread:30314 [wandb_init.py:init():904] updated telemetry
+2026-09-04 14:09:52,959 INFO    MainThread:30314 [wandb_init.py:init():927] communicating run to backend with 90.0 second timeout
+2026-09-04 14:09:53,215 INFO    MainThread:30314 [wandb_init.py:init():972] starting run threads in backend
+2026-09-04 14:09:53,454 INFO    MainThread:30314 [wandb_run.py:_console_start():2509] atexit reg
+2026-09-04 14:09:53,454 INFO    MainThread:30314 [wandb_run.py:_redirect():2359] redirect: wrap_raw
+2026-09-04 14:09:53,454 INFO    MainThread:30314 [wandb_run.py:_redirect():2428] Wrapping output streams.
+2026-09-04 14:09:53,454 INFO    MainThread:30314 [wandb_run.py:_redirect():2451] Redirects installed.
+2026-09-04 14:09:53,458 INFO    MainThread:30314 [wandb_init.py:init():1010] run started, returning control to user process
+2026-09-04 22:27:39,205 INFO    MainThread:30314 [wandb_run.py:_finish():2271] finishing run jeffreyzhou123-purdue-university/ntrl-demo/p0ie8g7d
+2026-09-04 22:27:39,206 INFO    MainThread:30314 [wandb_run.py:_atexit_cleanup():2476] got exitcode: 0
+2026-09-04 22:27:39,207 INFO    MainThread:30314 [wandb_run.py:_restore():2458] restore
+2026-09-04 22:27:39,207 INFO    MainThread:30314 [wandb_run.py:_restore():2464] restore done
+2026-09-04 22:27:39,954 INFO    MainThread:30314 [wandb_run.py:_footer_sync_info():3877] logging synced files

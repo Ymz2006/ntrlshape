@@ -1,0 +1,78 @@
+[load_obj] 'datasets/3dshape/env3.obj': 4 objects/groups
+  [0] 'wall (1)'  (88 triangles)
+  [1] 'Body14'  (12 triangles)
+  [2] 'Body16'  (12 triangles)
+  [3] 'Body17'  (12 triangles)
+[load_obj] 'datasets/3dshape/Lshape3d.obj': 1 objects/groups
+  [0] 'Body1'  (20 triangles)
+Delaunizing vertices...
+Delaunay seconds:  0.060064
+Creating surface mesh ...
+Surface mesh seconds:  4.9e-05
+Recovering boundaries...
+Boundary recovery seconds:  7.6e-05
+Removing exterior tetrahedra ...
+Exterior tets removal seconds:  3.6e-05
+Recovering Delaunayness...
+Delaunay recovery seconds:  4e-05
+Refining mesh...
+Refinement seconds:  7.6e-05
+Improving mesh...
+Mesh improvement seconds:  2e-05
+
+Writing nodes.
+Writing elements.
+Writing faces.
+Writing edges.
+
+Output seconds:  5.2e-05
+Total running seconds:  0.061475
+
+Statistics:
+
+  Input points: 12
+  Input facets: 20
+  Input segments: 30
+  Input holes: 0
+  Input regions: 0
+
+  Mesh points: 12
+  Mesh tetrahedra: 12
+  Mesh faces: 34
+  Mesh faces on exterior boundary: 20
+  Mesh faces on input facets: 20
+  Mesh edges on input segments: 30
+
+Tetrahedralized shape: 12 tets, 20 boundary triangles, 12 verts
+Sampling 1000 (x0, x1) pairs [TESTING (independent collision-free pairs)]   margin=0.05  offset=0.005  ...
+generated: 57 / 1000
+generated: 110 / 1000
+generated: 163 / 1000
+generated: 230 / 1000
+generated: 292 / 1000
+generated: 352 / 1000
+generated: 426 / 1000
+generated: 501 / 1000
+generated: 577 / 1000
+generated: 652 / 1000
+generated: 717 / 1000
+generated: 776 / 1000
+generated: 832 / 1000
+generated: 903 / 1000
+generated: 956 / 1000
+generated: 1000 / 1000
+Sampling done in 6.7s
+Saved sample visualization: testing_data/3dshape/Lshape3d_env3_tight/sampled_placements.html
+Saved speed distribution: testing_data/3dshape/Lshape3d_env3_tight/speed_distribution.html
+Saved speed_angles distribution: testing_data/3dshape/Lshape3d_env3_tight/speed_angles_distribution.html
+Saved speed_dists distribution: testing_data/3dshape/Lshape3d_env3_tight/speed_dists_distribution.html
+x0 pos    : x=[-0.433,0.402]  y=[-0.279,0.295]  z=[-0.465,0.451]
+speed x0  : [0.055, 1.000]   (band [0.100, 1.0])
+speed x1  : [0.055, 1.000]
+Wrote 1000 training pairs to testing_data/3dshape/Lshape3d_env3_tight
+  sampled_points.npy (1000, 12)
+  speed.npy          (1000, 2)
+  normal.npy         (1000, 12)
+  trans_n.npy        (1000, 12)
+  rot_n.npy          (1000, 12)
+  env.npy            (10000, 3)

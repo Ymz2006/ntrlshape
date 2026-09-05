@@ -1,0 +1,130 @@
+[load_obj] 'datasets/3dshape/env3.obj': 4 objects/groups
+  [0] 'wall (1)'  (88 triangles)
+  [1] 'Body14'  (12 triangles)
+  [2] 'Body16'  (12 triangles)
+  [3] 'Body17'  (12 triangles)
+[load_obj] 'datasets/3dshape/Fshape3d.obj': 1 objects/groups
+  [0] 'Body1'  (36 triangles)
+Delaunizing vertices...
+Delaunay seconds:  0.003551
+Creating surface mesh ...
+Surface mesh seconds:  0.001561
+Recovering boundaries...
+Boundary recovery seconds:  0.000193
+Removing exterior tetrahedra ...
+Exterior tets removal seconds:  0.000247
+Recovering Delaunayness...
+Delaunay recovery seconds:  0.000301
+Refining mesh...
+Refinement seconds:  0.000116
+Improving mesh...
+Mesh improvement seconds:  5.6e-05
+
+Writing nodes.
+Writing elements.
+Writing faces.
+Writing edges.
+
+Output seconds:  0.000214
+Total running seconds:  0.006767
+
+Statistics:
+
+  Input points: 20
+  Input facets: 36
+  Input segments: 54
+  Input holes: 0
+  Input regions: 0
+
+  Mesh points: 20
+  Mesh tetrahedra: 24
+  Mesh faces: 66
+  Mesh faces on exterior boundary: 36
+  Mesh faces on input facets: 36
+  Mesh edges on input segments: 54
+
+Tetrahedralized shape: 24 tets, 36 boundary triangles, 20 verts
+Sampling 1000 (x0, x1) pairs [TESTING (independent collision-free pairs)]   margin=0.05  offset=0.005  ...
+generated: 18 / 1000
+generated: 27 / 1000
+generated: 39 / 1000
+generated: 60 / 1000
+generated: 72 / 1000
+generated: 90 / 1000
+generated: 108 / 1000
+generated: 131 / 1000
+generated: 145 / 1000
+generated: 167 / 1000
+generated: 187 / 1000
+generated: 201 / 1000
+generated: 209 / 1000
+generated: 224 / 1000
+generated: 237 / 1000
+generated: 250 / 1000
+generated: 263 / 1000
+generated: 278 / 1000
+generated: 297 / 1000
+generated: 319 / 1000
+generated: 339 / 1000
+generated: 352 / 1000
+generated: 365 / 1000
+generated: 381 / 1000
+generated: 393 / 1000
+generated: 404 / 1000
+generated: 418 / 1000
+generated: 429 / 1000
+generated: 438 / 1000
+generated: 453 / 1000
+generated: 471 / 1000
+generated: 485 / 1000
+generated: 494 / 1000
+generated: 505 / 1000
+generated: 517 / 1000
+generated: 525 / 1000
+generated: 534 / 1000
+generated: 547 / 1000
+generated: 569 / 1000
+generated: 586 / 1000
+generated: 611 / 1000
+generated: 628 / 1000
+generated: 640 / 1000
+generated: 657 / 1000
+generated: 672 / 1000
+generated: 687 / 1000
+generated: 701 / 1000
+generated: 714 / 1000
+generated: 728 / 1000
+generated: 738 / 1000
+generated: 751 / 1000
+generated: 759 / 1000
+generated: 774 / 1000
+generated: 785 / 1000
+generated: 800 / 1000
+generated: 812 / 1000
+generated: 833 / 1000
+generated: 845 / 1000
+generated: 865 / 1000
+generated: 881 / 1000
+generated: 899 / 1000
+generated: 913 / 1000
+generated: 922 / 1000
+generated: 942 / 1000
+generated: 954 / 1000
+generated: 968 / 1000
+generated: 981 / 1000
+generated: 1000 / 1000
+Sampling done in 10.4s
+Saved sample visualization: testing_data/3dshape/Fshape3d_env3_tight/sampled_placements.html
+Saved speed distribution: testing_data/3dshape/Fshape3d_env3_tight/speed_distribution.html
+Saved speed_angles distribution: testing_data/3dshape/Fshape3d_env3_tight/speed_angles_distribution.html
+Saved speed_dists distribution: testing_data/3dshape/Fshape3d_env3_tight/speed_dists_distribution.html
+x0 pos    : x=[-0.373,0.390]  y=[-0.271,0.281]  z=[-0.461,0.433]
+speed x0  : [0.053, 1.000]   (band [0.100, 1.0])
+speed x1  : [0.052, 1.000]
+Wrote 1000 training pairs to testing_data/3dshape/Fshape3d_env3_tight
+  sampled_points.npy (1000, 12)
+  speed.npy          (1000, 2)
+  normal.npy         (1000, 12)
+  trans_n.npy        (1000, 12)
+  rot_n.npy          (1000, 12)
+  env.npy            (10000, 3)

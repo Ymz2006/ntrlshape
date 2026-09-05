@@ -19,6 +19,13 @@ the environment is unsolvable by construction, so it is discarded outright and
 excluded from the denominator -- the reported success rate is therefore the
 actual rate over solvable cases, not diluted by degenerate test data.
 
+By default the console shows only the per-planner success rates
+(``regular/forward``, ``flipped/reverse``, ``either/or``, ``alt/alternate``,
+``locB/Alternative Bellman``, ``hlB/Alternative Bellman Horizon``).  Pass
+``--verbose`` for the full diagnostic log -- per-case PASS/FAIL lines, the
+failure breakdowns and the clearance frequency tables.  The file artifacts
+(success_rate.txt, the summary HTML plots) are written either way.
+
 Run from the nested ntrl-demo root:
 
     python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/rectangle_env1 --out ./results/output_3d/rectangle_env1 --batch 250
@@ -30,10 +37,12 @@ sys.path.append('.')
 
 
 import os
+import io
 import json
 import math
 import time
 import argparse
+import contextlib
 from glob import glob
 from timeit import default_timer as timer
 
@@ -57,8 +66,19 @@ from dataprocessing.preprocess_obj import (
 _SDF_SIGN = igl.SignedDistanceType.SIGNED_DISTANCE_TYPE_FAST_WINDING_NUMBER
 # Number of surface points sampled over the full environment mesh for collision.
 ENV_COLLISION_POINTS = 50000
-HTTP_PORT = 8080
+LOCAL_W = 0.03                # set from --local-weight; scales the step cost.
+# 0.03 from a sweep on Ashape3d_env1 (200 cases): A+B 85.5% vs 76.6% at w=0.
+# The usable window is narrow -- 0.15 collapses the planner to ~19% because the
+# normalized slowness term then outweighs cost-to-go (its spread across samples
+# is ~14x larger). Do not raise this much above 0.07.
+HTTP_PORT = 8081
 DIM = 6
+# Largest number of config PAIRS handed to a single TravelTimes call inside
+# cost_to_go_indep.  The split evaluates 4 legs per candidate, so at --batch 250
+# with all_horizon it would otherwise push 250k pairs (= 500k rows, since the net
+# stacks both endpoints) through the network at once.  Chunking bounds the
+# transient activation memory without changing any result.
+CTG_PAIR_CHUNK = 200000
 
 
 parser = argparse.ArgumentParser(
@@ -100,18 +120,57 @@ parser.add_argument('--2d', dest='two_d', action='store_true',
                          'rotation about z only, with z / rx / ry held at their '
                          'start values (0 in --2d data).  Must match how the test '
                          'set was generated.')
-parser.add_argument('--cases', type=int, default=0,
+parser.add_argument('--cases', type=int, default=1000,
                     help='How many start/goal pairs from sampled_points.npy to '
                          'evaluate. 0 (the default) means ALL of them, which is '
                          'what the reported success rate should normally be over; '
                          'set a small number only for a quick smoke test.')
+parser.add_argument('--local-weight', dest='local_weight', type=float, default=0.03,
+                    help='Weight on the tau(current -> candidate) step cost used '
+                         'by the local-step and horizon+local planners.')
+parser.add_argument('--modelPath', default='./Experiments/3dshape',
+                    help='Experiment root searched for latest.pt (or the newest '
+                         '*/Model_Epoch_*.pt) when --checkpoint is not given.')
+parser.add_argument('--checkpoint', default=None,
+                    help='Explicit .pt to evaluate.  Without this the script '
+                         'silently takes whatever latest.pt happens to be in '
+                         '--modelPath, which is usually the last model TRAINED, '
+                         'not the one matching --dataPath.')
 parser.add_argument('--no-viser', action='store_true',
                     help='Skip launching the interactive viser viewer (still '
                          'writes success_rate.txt and the summary HTML plots).')
+parser.add_argument('--verbose', '-v', action='store_true',
+                    help='Print the full diagnostic log: per-case PASS/FAIL lines, '
+                         'endpoint-filter and timing lines, the failure breakdowns '
+                         '(rescued / lost / collision / no-convergence, phi, closest '
+                         'approach) and the clearance frequency tables.  Without it '
+                         'only the per-planner success rates are printed; every file '
+                         'artifact (success_rate.txt, the summary HTML plots) is '
+                         'written either way.')
 args = parser.parse_args()
 
 
+VERBOSE = args.verbose
+
+
+def _quiet():
+    """Swallow stdout of an imported helper (load_obj's mesh listing) unless --verbose."""
+    return (contextlib.nullcontext() if VERBOSE
+            else contextlib.redirect_stdout(io.StringIO()))
+
+
+def vprint(*a, **kw):
+    """print() that is silenced unless --verbose was passed.
+
+    Everything diagnostic goes through this; only the success-rate report and
+    genuine warnings use bare print().
+    """
+    if VERBOSE:
+        print(*a, **kw)
+
+
 OUTPUT_DIR = args.out
+LOCAL_W = args.local_weight
 EPISODE_BATCH = args.batch
 DEVICE = args.device
 # MPPI sampler tunables, read as defaults inside MPPI_batched.
@@ -379,6 +438,276 @@ def MPPI_batched(womodel, XP, dim, steps=200,
     return points_list, iters, success.tolist(), min_dis.detach().cpu().numpy()
 
 
+def cost_to_go_indep(womodel, pairs, dim):
+    """Cost-to-go that times translation and rotation with their OWN speeds.
+
+    ``pairs`` is (..., 2*dim) -- any leading shape, each row [a | b].  Returns the
+    travel time with that leading shape.
+
+    The plain cost-to-go is ``tau(a -> b)``: one scalar for a motion that mixes
+    translating and rotating.  But the loss constrains the two blocks of the
+    gradient SEPARATELY (``model_function_metric.Loss``):
+
+        |grad_trans tau| * s_dist = 1        |grad_rot tau| * s_ang = 1
+
+    so where both hold, |grad tau| = sqrt(s_dist^-2 + s_ang^-2) -- tau charges every
+    direction of the 6-D config space the same ISOTROPIC slowness, the L2 sum of the
+    two.  A candidate whose remaining motion is pure translation is therefore billed
+    for rotational slowness it never incurs, and one that only has to rotate in place
+    next to a wall is billed for the translational slowness of that wall.
+
+    This splits the move into a pure-translation leg and a pure-rotation leg and
+    reads tau on each:
+
+        tau_t = tau( (p_a, r_a) -> (p_b, r_a) )     rotation held fixed
+        tau_r = tau( (p_b, r_a) -> (p_b, r_b) )     translation held fixed
+
+    A displacement inside one leg has no component in the other block, so that leg's
+    travel time integrates only its own block of the gradient: tau_t is timed by
+    s_dist alone and tau_r by s_ang alone, which is the whole point.  The legs are
+    summed (translate, then rotate) and averaged over both L-corners, since neither
+    ordering is privileged.
+
+    tau is a metric by construction -- ``NN.out`` returns a logsumexp-aggregated
+    distance between the two endpoint embeddings -- so the triangle inequality makes
+    this cost >= the plain tau(a -> b) on every pair.  The gap is exactly the detour
+    penalty of a move whose translation and rotation cannot be spent along one
+    straight line in the learned metric, i.e. the signal the isotropic tau averages
+    away.  No gradients are needed (the rollouts run under ``torch.no_grad``): all
+    four legs go into ONE ``TravelTimes`` call, so this costs 4 forward pair
+    evaluations instead of 1.
+    """
+    half = dim // 2
+    lead = pairs.shape[:-1]
+    flat = pairs.reshape(-1, 2 * dim)
+
+    p_a, r_a = flat[:, :half], flat[:, half:dim]
+    p_b, r_b = flat[:, dim:dim + half], flat[:, dim + half:]
+
+    a = flat[:, :dim]
+    b = flat[:, dim:]
+    corner_tr = torch.cat([p_b, r_a], dim=1)     # translate first, then rotate
+    corner_rt = torch.cat([p_a, r_b], dim=1)     # rotate first, then translate
+
+    legs = torch.stack([
+        torch.cat([a, corner_tr], dim=1),        # translation leg  (rot = r_a)
+        torch.cat([corner_tr, b], dim=1),        # rotation leg     (pos = p_b)
+        torch.cat([a, corner_rt], dim=1),        # rotation leg     (pos = p_a)
+        torch.cat([corner_rt, b], dim=1),        # translation leg  (rot = r_b)
+    ], dim=0)                                    # (4, N, 2*dim)
+
+    legs = legs.reshape(-1, 2 * dim)
+    if legs.shape[0] <= CTG_PAIR_CHUNK:
+        t = womodel.function.TravelTimes(legs)
+    else:
+        t = torch.cat([womodel.function.TravelTimes(legs[i:i + CTG_PAIR_CHUNK])
+                       for i in range(0, legs.shape[0], CTG_PAIR_CHUNK)], dim=0)
+    t = t.reshape(4, -1)
+    cost = 0.5 * (t[0] + t[1] + t[2] + t[3])     # mean of the two orderings
+    return cost.reshape(lead)
+
+
+def _candidate_cost(womodel, XP_tmp, cur, dim, local_step, all_horizon, local_w,
+                    indep=False):
+    """Score MPPI candidates, with the two optional cost repairs.
+
+    ``XP_tmp`` is (B, S, H, 2*dim) -- every sample's rolled-out horizon, each row
+    [candidate | target].  ``cur`` is (B, dim), the mover's current config.
+
+    Baseline (both flags off) is the original objective, pure cost-to-go scored
+    at horizon steps 0 and -1 only:
+
+        cost = 10 * tau(cand_0 -> target) + tau(cand_last -> target)
+
+    ``local_step`` (A) adds cost-so-far to each scored step, NORMALIZED by the
+    length of that step: tau(cur -> cand) / ||cand - cur||.  Raw travel time
+    mixes two things -- how long the step is and how slow the region is -- because
+    the sampler only CAPS ||dP|| at the step radius rather than fixing it, and
+    under all_horizon cand_k sits k steps out so the length term grows with k.
+    Dividing it out leaves an estimate of local SLOWNESS (~1/speed) along the
+    step, which is the part that tracks collision: on failing paths the learned
+    speed is ~0.14 at the waypoints that collide against ~0.37 at the free ones.
+    ``all_horizon`` (B) scores every horizon step instead of just the first and
+    last, so a sample that sweeps through an obstacle mid-horizon is no longer
+    invisible; the extra steps are averaged to keep the term on the original
+    scale (the softmax temperature -50 is calibrated to it).
+
+    ``indep`` (C) swaps the cost-to-go for ``cost_to_go_indep``, which times the
+    translation and the rotation of the remaining move with their own speeds instead
+    of charging both the same isotropic slowness.  It deliberately touches ONLY the
+    cost-to-go: the local step term keeps its original form so that locB_indep vs
+    locB (and hlB_indep vs hlB) isolates the cost-to-go change and nothing else.
+
+    Shared by the one-way and the bidirectional planners so the two directions
+    cannot drift apart.
+    """
+    B, S, H, _ = XP_tmp.shape
+    idx = list(range(H)) if all_horizon else [0, -1]
+    sel = XP_tmp[:, :, idx, :]
+    K = sel.shape[2]
+
+    if indep:
+        f = cost_to_go_indep(womodel, sel, dim)                  # (B, S, K)
+    else:
+        f = womodel.function.TravelTimes(sel.reshape(-1, dim * 2)).reshape(B, S, K)
+
+    if local_step:
+        cand = sel[..., 0:dim]
+        src = cur[:, None, None, :].expand_as(cand)
+        local = womodel.function.TravelTimes(
+            torch.cat([src, cand], dim=3).reshape(-1, dim * 2)).reshape(B, S, K)
+        # Per-unit-length slowness, not raw travel time -- see the docstring.
+        seg = torch.norm(cand - src, dim=3).clamp(min=1e-6)          # (B, S, K)
+        f = f + local_w * (local / seg)
+
+    if all_horizon:
+        return 10 * f[:, :, 0] + f[:, :, 1:].mean(dim=2)
+    return 10 * f[:, :, 0] + f[:, :, 1]
+
+
+def MPPI_alternating_batched(womodel, XP, dim, steps=200, local_step=False,
+                             all_horizon=False, local_w=None, indep=False,
+                             momentum=None, step=None, taper=None, planar=None):
+    """Alternating bidirectional MPPI: both ends march toward each other.
+
+    ``MPPI_batched`` drives the start toward a goal that never moves.  Here the
+    roles alternate every iteration:
+
+        (s , e )  -- one MPPI step from s toward e  -->  (s1, e )
+        swap      -->  (e , s1)
+        (e , s1)  -- one MPPI step from e toward s1 -->  (e1, s1)
+        swap      -->  (s1, e1)
+        ...
+
+    so each end advances one step toward the OTHER end's current position, and
+    the two chains converge on a meeting point somewhere between them instead of
+    one chain having to travel the whole way.  Convergence is the same rule as
+    everywhere else in this file: the two live ends within 0.01 of each other.
+
+    The sampler is byte-for-byte the one in ``MPPI_batched`` -- same 50 samples,
+    same horizon 5, same STEP/TAPER/PLANAR handling, same 10*t0 + t1 cost, same
+    softmax(-50 * cost) weighting -- so any difference in success rate is due to
+    the alternation alone and not to a different integrator.  Converged episodes
+    are frozen exactly as they are there.
+
+    The delivered path is chain A (from the start) followed by chain B reversed,
+    so it reads start -> ... -> meeting point -> ... -> goal and can be handed to
+    ``check_trajectory_collision`` unchanged.  Like ``MPPI_batched`` the final
+    config in the list is the original goal.
+
+    ``indep`` is forwarded to ``_candidate_cost``: it replaces the cost-to-go with
+    ``cost_to_go_indep`` (translation and rotation timed by their own speeds).
+
+    Returns the same 4-tuple as ``MPPI_batched``.
+    """
+    B = XP.shape[0]
+    sample_num = 50
+    horizon = 5
+    dev = XP.device
+    local_w = LOCAL_W if local_w is None else local_w
+    momentum = MOMENTUM if momentum is None else momentum
+    momentum = 0
+    step = STEP if step is None else step
+    taper = TAPER if taper is None else taper
+    planar = PLANAR if planar is None else planar
+    if planar and dim != 6:
+        raise ValueError('planar (--2d) mode assumes the SE(3) layout '
+                         '(x,y,z,rx,ry,rz); got dim={}'.format(dim))
+    free_mask = None
+    if planar:
+        free_mask = torch.zeros(dim, device=dev)
+        free_mask[list(PLANAR_FREE_DIMS)] = 1.0
+
+    XP = XP.clone()
+    dP_prior = torch.zeros((B, dim), device=dev)
+    done = torch.zeros(B, dtype=torch.bool, device=dev)
+    conv_step = torch.full((B,), steps - 1, dtype=torch.long, device=dev)
+    min_dis = torch.norm(XP[:, dim:dim * 2] - XP[:, 0:dim], dim=1)   # (B,)
+
+    # chain_a grows from the original start, chain_b from the original goal.
+    # n_a / n_b count how many entries of each are real for each episode (a
+    # frozen episode keeps appending its unchanged config, which is dropped).
+    chain_a = [XP[:, 0:dim].clone()]
+    chain_b = [XP[:, dim:dim * 2].clone()]
+    n_a = torch.ones(B, dtype=torch.long)
+    n_b = torch.ones(B, dtype=torch.long)
+    moving_a = True          # which chain currently occupies XP[:, 0:dim]
+
+    for it in range(steps):
+        XP_tmp = XP.clone()
+        XP_tmp = XP_tmp[:, None, None, :].repeat(1, sample_num, horizon, 1)
+
+        if taper > 0:
+            dis_cur = torch.norm(XP[:, dim:dim * 2] - XP[:, 0:dim], dim=1)
+            radius = torch.clamp(dis_cur * taper, max=step, min=step * 0.1)
+        else:
+            radius = torch.full((B,), step, device=dev)
+        r = radius[:, None, None, None]
+
+        dP = step * torch.normal(0, 1, size=(B, sample_num, 1, dim),
+                                 dtype=torch.float32, device=dev)             + step * torch.normal(0, 1, size=(B, sample_num, horizon, dim),
+                                  dtype=torch.float32, device=dev)
+        if momentum:
+            dP = dP + momentum * dP_prior[:, None, None, :]
+        if free_mask is not None:
+            dP = dP * free_mask
+        dP_norm = torch.norm(dP, dim=3, keepdim=True)
+        dP = dP / (torch.clamp(dP_norm, min=r) / r)
+        dP_cumsum = torch.cumsum(dP, dim=2)
+        XP_tmp[..., 0:dim] = XP_tmp[..., 0:dim] + dP_cumsum
+
+        # The mover is always XP[:, 0:dim] -- after a swap that is the other end,
+        # so the local step cost is measured from whichever end is stepping.
+        cost = _candidate_cost(womodel, XP_tmp, XP[:, 0:dim], dim,
+                               local_step, all_horizon, local_w, indep)
+
+        weight = torch.softmax(-50 * cost, dim=1)
+        step_prior = torch.bmm(weight.unsqueeze(1), dP[:, :, 0, :]).squeeze(1)
+        dP_prior = step_prior
+
+        live = (~done)
+        XP[:, 0:dim] = XP[:, 0:dim] + step_prior * live.unsqueeze(1)
+
+        dis = torch.norm(XP[:, dim:dim * 2] - XP[:, 0:dim], dim=1)
+        min_dis = torch.minimum(min_dis, dis)
+
+        live_cpu = live.detach().cpu().long()
+        if moving_a:
+            chain_a.append(XP[:, 0:dim].clone())
+            n_a = n_a + live_cpu
+        else:
+            chain_b.append(XP[:, 0:dim].clone())
+            n_b = n_b + live_cpu
+
+        newly = (dis < 0.01) & (~done)
+        conv_step[newly] = it
+        done = done | (dis < 0.01)
+        if bool(done.all()):
+            break
+
+        # Hand the step to the other end: swap the halves so the mover becomes
+        # the target and vice versa.  The prior belongs to the end that was
+        # moving, so it does not carry over.
+        XP = torch.cat([XP[:, dim:dim * 2], XP[:, 0:dim]], dim=1)
+        moving_a = not moving_a
+        dP_prior = torch.zeros((B, dim), device=dev)
+
+    success = done.detach().cpu().numpy()
+    conv_step_cpu = conv_step.detach().cpu().numpy()
+
+    points_list = []
+    iters = []
+    for b in range(B):
+        a_len = int(n_a[b])
+        b_len = int(n_b[b])
+        cfgs = [chain_a[k][b:b + 1, :] for k in range(a_len)]
+        cfgs += [chain_b[k][b:b + 1, :] for k in reversed(range(b_len))]
+        points_list.append(cfgs)
+        iters.append(int(conv_step_cpu[b]))
+
+    return points_list, iters, success.tolist(), min_dis.detach().cpu().numpy()
+
+
 
 
 def _placed_mesh(shape_V, cfg):
@@ -611,7 +940,7 @@ def launch_viser(episodes, shape_V, shape_F, env_V, obst_F, wall_F):
 # ──────────────────────────────────────────────────────────────────────────────
 # Model & data setup
 # ──────────────────────────────────────────────────────────────────────────────
-modelPath = './Experiments/3dshape'
+modelPath = args.modelPath
 dataPath = args.dataPath
 
 
@@ -620,22 +949,24 @@ womodel = md.Model(modelPath, dataPath, DIM, [0.0] * DIM, device=DEVICE)
 
 # Prefer the always-current latest.pt written every epoch by training; fall back
 # to the most recent timestamped Model_Epoch_*.pt checkpoint.
-latest = os.path.join(modelPath, 'latest.pt')
-if os.path.exists(latest):
-    pt = latest
+if args.checkpoint is not None:
+    pt = args.checkpoint
+    if not os.path.exists(pt):
+        raise FileNotFoundError(pt)
 else:
-    ckpts = sorted(glob(os.path.join(modelPath, '*', 'Model_Epoch_*.pt')))
-    if not ckpts:
-        raise FileNotFoundError(
-            f'No latest.pt and no checkpoints under {modelPath}/*/Model_Epoch_*.pt')
-    pt = ckpts[-1]
+    latest = os.path.join(modelPath, 'latest.pt')
+    if os.path.exists(latest):
+        pt = latest
+    else:
+        ckpts = sorted(glob(os.path.join(modelPath, '*', 'Model_Epoch_*.pt')))
+        if not ckpts:
+            raise FileNotFoundError(
+                f'No latest.pt and no checkpoints under {modelPath}/*/Model_Epoch_*.pt')
+        pt = ckpts[-1]
 
+vprint(f'Loading checkpoint: {pt}')
 
-#pt = './Experiments/3dshape/3dshape_08_30_11_05/latest.pt'
-
-print(f'Loading checkpoint: {pt}')
-
-
+#pt = './Experiments/3dshape/3dshape_08_15_20_19/latest.pt'
 womodel.load(pt)
 womodel.network.eval()
 
@@ -677,7 +1008,22 @@ env_center = np.asarray(meta['env_center'], dtype=np.float64)
 shape_scale = float(meta['shape_scale'])
 
 
-V_sh, F_sh, _ = load_obj(meta['shape_obj'])
+def _resolve_mesh(path):
+    """meta.json stores absolute paths from the container that generated the
+    data (e.g. /workspace/ntrl-demo/datasets/...).  A container that mounts the
+    repo at a different depth cannot resolve those, so fall back to the local
+    datasets dir by basename."""
+    if os.path.exists(path):
+        return path
+    alt = os.path.join('./datasets/3dshape', os.path.basename(path))
+    if os.path.exists(alt):
+        vprint(f'[meta] {path} not found; using {alt}')
+        return alt
+    raise FileNotFoundError(f'{path} (and {alt})')
+
+
+with _quiet():
+    V_sh, F_sh, _ = load_obj(_resolve_mesh(meta['shape_obj']))
 shape_center = 0.5 * (V_sh.min(axis=0) + V_sh.max(axis=0))
 shape_V = np.ascontiguousarray((V_sh - shape_center) / env_scale * shape_scale,
                                dtype=np.float64)
@@ -686,7 +1032,8 @@ shape_F = np.ascontiguousarray(F_sh, dtype=np.int64)
 shape_radius = float(np.linalg.norm(shape_V, axis=1).max())
 
 
-V_env, F_env, names_env = load_obj(meta['env_obj'])
+with _quiet():
+    V_env, F_env, names_env = load_obj(_resolve_mesh(meta['env_obj']))
 V_env_n = (V_env - env_center) / env_scale
 wall_mask = np.array(['wall' in str(n).lower() for n in names_env])
 wall_F = F_env[wall_mask]
@@ -706,7 +1053,7 @@ n_requested = len(arr) if args.cases <= 0 else min(args.cases, len(arr))
 if args.cases > len(arr):
     print(f'WARNING: --cases {args.cases} exceeds the {len(arr)} pairs in '
           f'{os.path.join(dataPath, "sampled_points.npy")}; using all {len(arr)}.')
-print(f'[cases] evaluating {n_requested} of {len(arr)} start/goal pairs'
+vprint(f'[cases] evaluating {n_requested} of {len(arr)} start/goal pairs'
       f'{" (ALL)" if n_requested == len(arr) else ""}')
 
 test_list = []
@@ -723,7 +1070,7 @@ if PLANAR:
     frozen = [d for d in range(DIM) if d not in PLANAR_FREE_DIMS]
     _pts = np.stack([c.detach().cpu().numpy() for c in test_list], axis=0)
     _off = np.abs(_pts[:, [DIM + d for d in frozen]] - _pts[:, frozen]).max()
-    print(f'[--2d] free dims {PLANAR_FREE_DIMS} (x, y, rz); '
+    vprint(f'[--2d] free dims {PLANAR_FREE_DIMS} (x, y, rz); '
           f'frozen dims {tuple(frozen)} (z, rx, ry) held at their start values.  '
           f'Max |goal - start| over the frozen dims across {len(test_list)} '
           f'cases: {_off:.3e}')
@@ -759,12 +1106,12 @@ for i, curr in enumerate(test_list):
         n_invalid_endpoints += 1
         n_invalid_start += int(start_bad)
         n_invalid_goal += int(goal_bad)
-        print(f"[{i:03d}] SKIP  start_collision={start_bad}  goal_collision={goal_bad}")
+        vprint(f"[{i:03d}] SKIP  start_collision={start_bad}  goal_collision={goal_bad}")
         continue
     eval_list.append(curr)
     eval_idx.append(i)
 
-print(f"\nEndpoint check took {timer() - filter_start:.1f}s: "
+vprint(f"\nEndpoint check took {timer() - filter_start:.1f}s: "
       f"{n_invalid_endpoints} / {n_cases} cases discarded "
       f"(start in collision: {n_invalid_start}, goal in collision: {n_invalid_goal}); "
       f"{len(eval_list)} remain.\n")
@@ -782,6 +1129,38 @@ n_collision = 0
 n_no_conv = 0
 n_collision_flip = 0
 n_no_conv_flip = 0
+total_lb = 0           # local step, bidirectional (A + alternating)
+n_collision_lb = 0
+n_no_conv_lb = 0
+n_lb_rescued = 0
+n_lb_only = 0
+total_hb = 0           # horizon + local, bidirectional (A + B + alternating)
+n_collision_hb = 0
+n_no_conv_hb = 0
+n_hb_rescued = 0
+n_hb_only = 0
+# # Same two planners again, but scoring candidates with cost_to_go_indep (the
+# # translation / rotation split cost-to-go) instead of the plain isotropic tau.
+# total_lbi = 0          # locB_indep
+# n_collision_lbi = 0
+# n_no_conv_lbi = 0
+# n_lbi_rescued = 0      # vs regular
+# n_lbi_only = 0
+# n_lbi_over_lb = 0      # locB failed, locB_indep passed  -- the split's own gain
+# n_lb_over_lbi = 0      # locB passed, locB_indep failed
+# total_hbi = 0          # hlB_indep
+# n_collision_hbi = 0
+# n_no_conv_hbi = 0
+# n_hbi_rescued = 0
+# n_hbi_only = 0
+# n_hbi_over_hb = 0
+# n_hb_over_hbi = 0
+total_alt = 0          # successes of the alternating bidirectional planner
+n_collision_alt = 0
+n_no_conv_alt = 0
+n_alt_rescued = 0      # regular failed but alternating succeeded
+n_alt_only = 0         # regular succeeded but alternating failed
+alt_rescued_idx = []
 no_conv_min_dis = []   # closest approach to the goal, for NON-CONVERGED regular runs
 n_lin_valid = 0       # cases where the straight-line start->goal path is collision-free
 n_succ_lin_valid = 0  # planner successes among cases where linear interp is valid
@@ -804,6 +1183,34 @@ episodes = []          # per-episode data for the interactive viser viewer
 two_pi = 2 * np.pi
 n_total = len(eval_list)          # solvable cases only (invalid endpoints dropped)
 eval_start = timer()
+n_done = 0                        # cases scored so far, for the progress report
+
+
+# Cadence of the running progress report.  That report is deliberately NOT gated
+# by --verbose: on a full 1000-case run the rollouts take long enough that it is
+# the only sign of life, so it prints either way.
+PROGRESS_EVERY = 50
+
+
+def planner_rows(denom):
+    """(reported name, successes, rate) for every planner at the current tallies.
+
+    ``denom`` is what the rates are taken over -- the number of cases scored so
+    far for a progress report, ``n_total`` for the final one.  The names are the
+    code's label and the reporting name, so both reports read identically.
+    """
+    rows = [
+        ('regular/forward', total),
+        ('flipped/reverse', total_flip),
+        ('either/or', total_either),
+        ('alt/alternate', total_alt),
+        ('locB/Alternative Bellman', total_lb),
+        ('hlB/Alternative Bellman Horizon', total_hb),
+    ]
+    return [(name, n_ok, n_ok / denom if denom else 0.0) for name, n_ok in rows]
+
+
+REPORT_W = max(len(name) for name, _, _ in planner_rows(1))
 
 for chunk_start in range(0, n_total, EPISODE_BATCH):
     chunk = eval_list[chunk_start:chunk_start + EPISODE_BATCH]
@@ -823,6 +1230,29 @@ for chunk_start in range(0, n_total, EPISODE_BATCH):
             womodel, XPb.clone(), dim=DIM)
         points_list_f, iters_f, successes_f, _ = MPPI_batched(
             womodel, XPb_flip.clone(), dim=DIM)
+        # Third planner: the two ends alternate steps toward each other.
+        points_list_a, iters_a, successes_a, _ = MPPI_alternating_batched(
+            womodel, XPb.clone(), dim=DIM)
+        # Fourth / fifth: the two cost repairs, with the ends alternating steps
+        # toward each other (A, and A+B).
+        points_list_lb, iters_lb, successes_lb, _ = MPPI_alternating_batched(
+            womodel, XPb.clone(), dim=DIM, local_step=True, all_horizon=False)
+        points_list_hb, iters_hb, successes_hb, _ = MPPI_alternating_batched(
+            womodel, XPb.clone(), dim=DIM, local_step=True, all_horizon=True)
+        # locB_indep / hlB_indep are DISABLED.  ``cost_to_go_indep`` and the
+        # ``indep`` flag on _candidate_cost / MPPI_alternating_batched are still
+        # live, so re-enabling is just uncommenting this block and the four
+        # blocks below it (scoring, tallies, viewer payload, report).
+        # # Sixth / seventh: the same two, with the cost-to-go split into a
+        # # translation leg (timed by s_dist) and a rotation leg (timed by s_ang).
+        # # Everything else -- sampler, local step term, alternation -- is identical
+        # # to locB / hlB, so the delta is the split cost-to-go alone.
+        # points_list_lbi, iters_lbi, successes_lbi, _ = MPPI_alternating_batched(
+            # womodel, XPb.clone(), dim=DIM, local_step=True, all_horizon=False,
+            # indep=True)
+        # points_list_hbi, iters_hbi, successes_hbi, _ = MPPI_alternating_batched(
+            # womodel, XPb.clone(), dim=DIM, local_step=True, all_horizon=True,
+            # indep=True)
 
 
     for b, (point, iter, success) in enumerate(zip(points_list, iters, successes)):
@@ -867,6 +1297,50 @@ for chunk_start in range(0, n_total, EPISODE_BATCH):
             n_no_conv_flip += 1
         ok_flip = successes_f[b] and not collision_f
 
+        # -- Alternating bidirectional attempt, scored by the same rules --
+        collision_a = check_trajectory_collision(
+            points_list_a[b], env_collision_pts, shape_V, shape_F, shape_radius)
+        did_not_converge_a = not successes_a[b]
+        if collision_a:
+            n_collision_alt += 1
+        if did_not_converge_a:
+            n_no_conv_alt += 1
+        ok_alt = successes_a[b] and not collision_a
+
+        # -- bidirectional variants of the same two cost repairs --
+        collision_lb = check_trajectory_collision(
+            points_list_lb[b], env_collision_pts, shape_V, shape_F, shape_radius)
+        if collision_lb:
+            n_collision_lb += 1
+        if not successes_lb[b]:
+            n_no_conv_lb += 1
+        ok_lb = successes_lb[b] and not collision_lb
+
+        collision_hb = check_trajectory_collision(
+            points_list_hb[b], env_collision_pts, shape_V, shape_F, shape_radius)
+        if collision_hb:
+            n_collision_hb += 1
+        if not successes_hb[b]:
+            n_no_conv_hb += 1
+        ok_hb = successes_hb[b] and not collision_hb
+
+        # # -- split (indep) cost-to-go variants of the same two planners --
+        # collision_lbi = check_trajectory_collision(
+            # points_list_lbi[b], env_collision_pts, shape_V, shape_F, shape_radius)
+        # if collision_lbi:
+            # n_collision_lbi += 1
+        # if not successes_lbi[b]:
+            # n_no_conv_lbi += 1
+        # ok_lbi = successes_lbi[b] and not collision_lbi
+
+        # collision_hbi = check_trajectory_collision(
+            # points_list_hbi[b], env_collision_pts, shape_V, shape_F, shape_radius)
+        # if collision_hbi:
+            # n_collision_hbi += 1
+        # if not successes_hbi[b]:
+            # n_no_conv_hbi += 1
+        # ok_hbi = successes_hbi[b] and not collision_hbi
+
 
         # Linear-interpolation baseline: is the straight line from start to goal a
         # collision-free path on its own?  (Independent of what the planner found.)
@@ -880,6 +1354,47 @@ for chunk_start in range(0, n_total, EPISODE_BATCH):
 
         ok = success and not collision
         ok_either = ok or ok_flip
+        if ok_alt:
+            total_alt += 1
+        if ok_alt and not ok:
+            n_alt_rescued += 1
+            alt_rescued_idx.append(cnt2)
+        if ok and not ok_alt:
+            n_alt_only += 1
+        if ok_lb:
+            total_lb += 1
+        if ok_lb and not ok:
+            n_lb_rescued += 1
+        if ok and not ok_lb:
+            n_lb_only += 1
+        if ok_hb:
+            total_hb += 1
+        if ok_hb and not ok:
+            n_hb_rescued += 1
+        if ok and not ok_hb:
+            n_hb_only += 1
+        # if ok_lbi:
+            # total_lbi += 1
+        # if ok_lbi and not ok:
+            # n_lbi_rescued += 1
+        # if ok and not ok_lbi:
+            # n_lbi_only += 1
+        # # Head-to-head against the same planner on the plain cost-to-go: this is
+        # # the only pairing that isolates what the split cost bought.
+        # if ok_lbi and not ok_lb:
+            # n_lbi_over_lb += 1
+        # if ok_lb and not ok_lbi:
+            # n_lb_over_lbi += 1
+        # if ok_hbi:
+            # total_hbi += 1
+        # if ok_hbi and not ok:
+            # n_hbi_rescued += 1
+        # if ok and not ok_hbi:
+            # n_hbi_only += 1
+        # if ok_hbi and not ok_hb:
+            # n_hbi_over_hb += 1
+        # if ok_hb and not ok_hbi:
+            # n_hb_over_hbi += 1
         if ok_flip:
             total_flip += 1
         if ok_either:
@@ -915,6 +1430,16 @@ for chunk_start in range(0, n_total, EPISODE_BATCH):
             'status_regular': status,
             'status_flipped': 'success' if ok_flip else 'fail',
             'status_both': 'success' if ok_either else 'fail',
+            'status_alternating': 'success' if ok_alt else 'fail',
+            'status_local_bidir': 'success' if ok_lb else 'fail',
+            'status_horizon_local_bidir': 'success' if ok_hb else 'fail',
+            # 'status_local_bidir_indep': 'success' if ok_lbi else 'fail',
+            # 'status_horizon_local_bidir_indep': 'success' if ok_hbi else 'fail',
+            'waypoints_local_bidir': _to_waypoints(points_list_lb[b]),
+            'waypoints_horizon_local_bidir': _to_waypoints(points_list_hb[b]),
+            # 'waypoints_local_bidir_indep': _to_waypoints(points_list_lbi[b]),
+            # 'waypoints_horizon_local_bidir_indep': _to_waypoints(points_list_hbi[b]),
+            'waypoints_alternating': _to_waypoints(points_list_a[b]),
             'both_source': both_src,
             'waypoints_regular': waypoints,
             'waypoints_flipped': flip_wp,
@@ -924,10 +1449,15 @@ for chunk_start in range(0, n_total, EPISODE_BATCH):
         })
 
 
-        print(
+        vprint(
             f"[{cnt2:03d}] {'PASS' if ok else 'FAIL'}  "
             f"flipped={'PASS' if ok_flip else 'FAIL'}  "
             f"either={'PASS' if ok_either else 'FAIL'}  "
+            f"alt={'PASS' if ok_alt else 'FAIL'}  "
+            f"locB={'PASS' if ok_lb else 'FAIL'}  "
+            f"hlB={'PASS' if ok_hb else 'FAIL'}  "
+            # f"locB_i={'PASS' if ok_lbi else 'FAIL'}  "
+            # f"hlB_i={'PASS' if ok_hbi else 'FAIL'}  "
             f"did_not_converge={did_not_converge}  "
             f"collision={collision}  "
             f"linear_interp_valid={lin_valid}")
@@ -946,7 +1476,21 @@ for chunk_start in range(0, n_total, EPISODE_BATCH):
             test_list_speed_failed.append(test_list_speed[cnt2])
 
 
-print(f"\nEvaluation (rollouts) took {timer() - eval_start:.1f}s "
+        # -- Running progress report, every PROGRESS_EVERY cases (always printed) --
+        # Rates are over the cases scored SO FAR, so they are the running estimate
+        # of the final numbers, not a fraction of n_total.
+        n_done += 1
+        if n_done % PROGRESS_EVERY == 0:
+            elapsed = timer() - eval_start
+            eta = elapsed / n_done * (n_total - n_done)
+            print(f"\n[progress] {n_done}/{n_total} cases  "
+                  f"({elapsed:.0f}s elapsed, ~{eta:.0f}s remaining)")
+            for name, n_ok, rate in planner_rows(n_done):
+                print(f"  {name:<{REPORT_W}} : {rate:.4f}  ({rate:.1%})  "
+                      f"[{n_ok}/{n_done}]")
+
+
+vprint(f"\nEvaluation (rollouts) took {timer() - eval_start:.1f}s "
       f"for {n_total} episodes in chunks of {EPISODE_BATCH}.")
 
 
@@ -958,6 +1502,11 @@ lin_valid_success_rate = n_succ_lin_valid / n_lin_valid if n_lin_valid else 0.0
 lin_invalid_success_rate = n_succ_lin_invalid / n_lin_invalid if n_lin_invalid else 0.0
 flip_rate = total_flip / n_total if n_total else 0.0
 either_rate = total_either / n_total if n_total else 0.0
+alt_rate = total_alt / n_total if n_total else 0.0
+lb_rate = total_lb / n_total if n_total else 0.0
+hb_rate = total_hb / n_total if n_total else 0.0
+# lbi_rate = total_lbi / n_total if n_total else 0.0
+# hbi_rate = total_hbi / n_total if n_total else 0.0
 
 
 def _phi(p_a, p_b, p_both):
@@ -986,45 +1535,104 @@ phi_flip = _phi(f_reg, f_flip, both_flip_rate)
 # and has nothing to do with the integrator.
 _md = np.asarray(no_conv_min_dis, dtype=float)
 _md_bins = [(0.01, 0.02), (0.02, 0.04), (0.04, 0.10), (0.10, np.inf)]
-print(f"\n--- sampler: momentum={MOMENTUM}  step={STEP}  taper={TAPER}"
+vprint(f"\n--- sampler: momentum={MOMENTUM}  step={STEP}  taper={TAPER}"
       f"  (convergence ball 0.01) ---")
-print(f"discarded (start/goal in collision): {n_invalid_endpoints} / {n_cases}")
-print(f"total: {total} / {n_total}  ({success_rate:.1%})")
-print(f"\n--- closest approach of the {len(_md)} NON-CONVERGED regular runs ---")
+vprint(f"discarded (start/goal in collision): {n_invalid_endpoints} / {n_cases}")
+vprint(f"total: {total} / {n_total}  ({success_rate:.1%})")
+vprint(f"\n--- closest approach of the {len(_md)} NON-CONVERGED regular runs ---")
 if _md.size:
-    print(f"  median {np.median(_md):.4f}   mean {np.mean(_md):.4f}   "
+    vprint(f"  median {np.median(_md):.4f}   mean {np.mean(_md):.4f}   "
           f"min {np.min(_md):.4f}")
     for lo, hi in _md_bins:
         k = int(((_md >= lo) & (_md < hi)).sum())
-        print(f"  min_dis in [{lo:.2f}, {hi if hi != np.inf else 999:>5.2f}): "
+        vprint(f"  min_dis in [{lo:.2f}, {hi if hi != np.inf else 999:>5.2f}): "
               f"{k:4d}  ({k / _md.size:.1%})"
               + ('   <- overshoot: reached the goal, could not stick it'
                  if hi <= 0.04 else ''))
 else:
-    print("  (every regular run converged)")
-print(f"\n--- two-path planner (regular + flipped) ---")
-print(f"  step 1  regular (start->goal): {total} / {n_total}  ({success_rate:.1%})")
-print(f"          flipped (goal->start): {total_flip} / {n_total}  ({flip_rate:.1%})")
-print(f"  step 2  EITHER succeeded     : {total_either} / {n_total}  ({either_rate:.1%})")
-print(f"          rescued by the flip  : {n_rescued}  "
+    vprint("  (every regular run converged)")
+vprint(f"\n--- two-path planner (regular + flipped) ---")
+vprint(f"  step 1  regular (start->goal): {total} / {n_total}  ({success_rate:.1%})")
+vprint(f"          flipped (goal->start): {total_flip} / {n_total}  ({flip_rate:.1%})")
+vprint(f"  step 2  EITHER succeeded     : {total_either} / {n_total}  ({either_rate:.1%})")
+vprint(f"          rescued by the flip  : {n_rescued}  "
       f"(+{either_rate - success_rate:.1%} over regular alone)")
-print(f"          lost by the flip     : {n_flip_only}  "
+vprint(f"          lost by the flip     : {n_flip_only}  "
       f"[regular passed, flipped failed -- the mirror of a rescue]")
-print(f"          failed BOTH ways     : {len(failed_both_idx)} / {n_total}  "
+vprint(f"          failed BOTH ways     : {len(failed_both_idx)} / {n_total}  "
       f"({(1 - either_rate):.1%})")
-print(f"\n--- do the two directions fail independently? ---")
-print(f"  P(both fail)  flip           : {both_flip_rate:.4f}   "
+vprint(f"\n--- do the two directions fail independently? ---")
+vprint(f"  P(both fail)  flip           : {both_flip_rate:.4f}   "
       f"(independent would be {indep_flip:.4f})   phi={phi_flip:+.3f}")
-print(f"  [phi ~ 0 => the two attempts fail independently, so the gain from")
-print(f"   pairing them is variance reduction, not a directional effect.]")
-print(f"success | linear interp valid  : {n_succ_lin_valid} / {n_lin_valid}  "
+vprint(f"  [phi ~ 0 => the two attempts fail independently, so the gain from")
+vprint(f"   pairing them is variance reduction, not a directional effect.]")
+vprint(f"\n--- alternating bidirectional planner (ends step toward each other) ---")
+vprint(f"  alternating                  : {total_alt} / {n_total}  ({alt_rate:.1%})")
+vprint(f"  regular (start->goal)        : {total} / {n_total}  ({success_rate:.1%})")
+vprint(f"  delta vs regular             : {alt_rate - success_rate:+.1%}")
+vprint(f"  rescued by alternating       : {n_alt_rescued}  "
+      f"[regular failed, alternating passed]")
+vprint(f"  lost by alternating          : {n_alt_only}  "
+      f"[regular passed, alternating failed]")
+vprint(f"  collision                    : {n_collision_alt} / {n_total}")
+vprint(f"  did not converge             : {n_no_conv_alt} / {n_total}")
+vprint(f"\n--- cost repairs, BIDIRECTIONAL (ends alternate steps) ---")
+vprint(f"  local step weight            : {LOCAL_W}")
+vprint(f"  regular (start->goal)        : {total} / {n_total}  ({success_rate:.1%})")
+vprint(f"  alternating (plain cost)     : {total_alt} / {n_total}  ({alt_rate:.1%})")
+vprint(f"  local step        (A)   bidir: {total_lb} / {n_total}  ({lb_rate:.1%})"
+      f"   [{lb_rate - alt_rate:+.1%} vs plain alternating,"
+      f" {lb_rate - success_rate:+.1%} vs regular]")
+vprint(f"  horizon + local   (A+B) bidir: {total_hb} / {n_total}  ({hb_rate:.1%})"
+      f"   [{hb_rate - alt_rate:+.1%} vs plain alternating,"
+      f" {hb_rate - success_rate:+.1%} vs regular]")
+vprint(f"  local bidir  : rescued {n_lb_rescued}  lost {n_lb_only}  "
+      f"collision {n_collision_lb}  no_conv {n_no_conv_lb}   [vs regular]")
+vprint(f"  hor+loc bidir: rescued {n_hb_rescued}  lost {n_hb_only}  "
+      f"collision {n_collision_hb}  no_conv {n_no_conv_hb}   [vs regular]")
+# print(f"\n--- split (indep) cost-to-go: translation and rotation timed separately ---")
+# print(f"  [cost_to_go_indep replaces tau(cand->target) by tau over a pure-translation")
+# print(f"   leg + a pure-rotation leg, so each block is timed by its own speed; the")
+# print(f"   sampler and the local step term are untouched.]")
+# print(f"  local step        (A)   bidir: {total_lb} / {n_total}  ({lb_rate:.1%})"
+      # f"   -> indep: {total_lbi} / {n_total}  ({lbi_rate:.1%})"
+      # f"   [{lbi_rate - lb_rate:+.1%}]")
+# print(f"  horizon + local   (A+B) bidir: {total_hb} / {n_total}  ({hb_rate:.1%})"
+      # f"   -> indep: {total_hbi} / {n_total}  ({hbi_rate:.1%})"
+      # f"   [{hbi_rate - hb_rate:+.1%}]")
+# print(f"  locB_indep   : won {n_lbi_over_lb}  lost {n_lb_over_lbi}   [head-to-head vs locB]"
+      # f"   collision {n_collision_lbi}  no_conv {n_no_conv_lbi}")
+# print(f"  hlB_indep    : won {n_hbi_over_hb}  lost {n_hb_over_hbi}   [head-to-head vs hlB]"
+      # f"   collision {n_collision_hbi}  no_conv {n_no_conv_hbi}")
+# print(f"  [won ~ lost with the rate unchanged => the split only re-rolled MPPI's")
+# print(f"   dice; a real gain shows up as won >> lost.]")
+vprint(f"success | linear interp valid  : {n_succ_lin_valid} / {n_lin_valid}  "
       f"({lin_valid_success_rate:.1%})")
-print(f"success | linear interp invalid: {n_succ_lin_invalid} / {n_lin_invalid}  "
+vprint(f"success | linear interp invalid: {n_succ_lin_invalid} / {n_lin_invalid}  "
       f"({lin_invalid_success_rate:.1%})")
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Success-rate report (always printed, --verbose or not)
+# ──────────────────────────────────────────────────────────────────────────────
+# One line per planner: the code's label, a slash, and the reporting name.  This
+# is the whole of the non-verbose output -- everything else the script prints is
+# diagnostic and lives behind --verbose.
+PLANNER_REPORT = planner_rows(n_total)
+_w = REPORT_W
+print(f"\n=== success rate over {n_total} episodes ===")
+for name, n_ok, rate in PLANNER_REPORT:
+    print(f"{name:<{_w}} : {rate:.4f}  ({rate:.1%})  [{n_ok}/{n_total}]")
 
 
 # Success-rate summary written into the output directory.
 summary_lines = [
+    "=== success rate by planner ===",
+] + [
+    f"{name:<{_w}} : {rate:.4f}  ({rate:.1%})  [{n_ok}/{n_total}]"
+    for name, n_ok, rate in PLANNER_REPORT
+] + [
+    "",
     f"data_path                    : {dataPath}",
     f"model_path                   : {modelPath}",
     f"checkpoint                   : {pt}",
@@ -1053,6 +1661,43 @@ summary_lines = [
     f"success_rate_flipped         : {flip_rate:.4f}  ({flip_rate:.1%})",
     f"successes_either             : {total_either}   [regular OR flipped]",
     f"success_rate_either          : {either_rate:.4f}  ({either_rate:.1%})",
+    f"success_rate_alternating     : {alt_rate:.4f}  ({alt_rate:.1%})"
+    f"  [{total_alt}/{n_total}]",
+    f"alternating_rescued          : {n_alt_rescued}"
+    f"   [regular failed, alternating passed]",
+    f"alternating_lost             : {n_alt_only}"
+    f"   [regular passed, alternating failed]",
+    f"alternating_collision        : {n_collision_alt} / {n_total}",
+    f"alternating_no_convergence   : {n_no_conv_alt} / {n_total}",
+    f"local_step_weight            : {LOCAL_W}",
+    f"success_rate_local_bidir     : {lb_rate:.4f}  ({lb_rate:.1%})"
+    f"  [{total_lb}/{n_total}]",
+    f"local_bidir_rescued          : {n_lb_rescued}   [regular failed, local-bidir passed]",
+    f"local_bidir_lost             : {n_lb_only}   [regular passed, local-bidir failed]",
+    f"local_bidir_collision        : {n_collision_lb} / {n_total}",
+    f"local_bidir_no_convergence   : {n_no_conv_lb} / {n_total}",
+    f"success_rate_hor_local_bidir : {hb_rate:.4f}  ({hb_rate:.1%})"
+    f"  [{total_hb}/{n_total}]",
+    f"hor_local_bidir_rescued      : {n_hb_rescued}   [regular failed, hor+local-bidir passed]",
+    f"hor_local_bidir_lost         : {n_hb_only}   [regular passed, hor+local-bidir failed]",
+    f"hor_local_bidir_collision    : {n_collision_hb} / {n_total}",
+    f"hor_local_bidir_no_convergence: {n_no_conv_hb} / {n_total}",
+    # f"success_rate_local_bidir_indep: {lbi_rate:.4f}  ({lbi_rate:.1%})"
+    # f"  [{total_lbi}/{n_total}]   [{lbi_rate - lb_rate:+.1%} vs local_bidir]",
+    # f"local_bidir_indep_vs_local_bidir: won {n_lbi_over_lb}, lost {n_lb_over_lbi}"
+    # f"   [head-to-head; the split cost-to-go is the only difference]",
+    # f"local_bidir_indep_rescued    : {n_lbi_rescued}   [regular failed, locB_indep passed]",
+    # f"local_bidir_indep_lost       : {n_lbi_only}   [regular passed, locB_indep failed]",
+    # f"local_bidir_indep_collision  : {n_collision_lbi} / {n_total}",
+    # f"local_bidir_indep_no_convergence: {n_no_conv_lbi} / {n_total}",
+    # f"success_rate_hor_local_bidir_indep: {hbi_rate:.4f}  ({hbi_rate:.1%})"
+    # f"  [{total_hbi}/{n_total}]   [{hbi_rate - hb_rate:+.1%} vs hor_local_bidir]",
+    # f"hor_local_bidir_indep_vs_hor_local_bidir: won {n_hbi_over_hb}, lost {n_hb_over_hbi}"
+    # f"   [head-to-head; the split cost-to-go is the only difference]",
+    # f"hor_local_bidir_indep_rescued: {n_hbi_rescued}   [regular failed, hlB_indep passed]",
+    # f"hor_local_bidir_indep_lost   : {n_hbi_only}   [regular passed, hlB_indep failed]",
+    # f"hor_local_bidir_indep_collision: {n_collision_hbi} / {n_total}",
+    # f"hor_local_bidir_indep_no_convergence: {n_no_conv_hbi} / {n_total}",
     f"rescued_by_flip              : {n_rescued}",
     f"lost_by_flip                 : {n_flip_only}"
     f"   [regular passed but flipped failed; symmetric with rescued_by_flip"
@@ -1070,7 +1715,7 @@ summary_lines = [
 ]
 with open(os.path.join(OUTPUT_DIR, 'success_rate.txt'), 'w') as f:
     f.write('\n'.join(summary_lines) + '\n')
-print('Wrote ' + os.path.join(OUTPUT_DIR, 'success_rate.txt'))
+vprint('Wrote ' + os.path.join(OUTPUT_DIR, 'success_rate.txt'))
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -1125,10 +1770,10 @@ def print_speed_freq_table(title, rows, sd_col, sa_col, html_name=None):
     plotly heatmap (rows = angular-speed bin, cols = translational-speed bin).
     """
     if arr_speed_dists is None or arr_speed_angles is None:
-        print(f'\n{title}: skipped (speed_dists.npy / speed_angles.npy not in {dataPath})')
+        vprint(f'\n{title}: skipped (speed_dists.npy / speed_angles.npy not in {dataPath})')
         return
     if not rows:
-        print(f'\n{title}: none')
+        vprint(f'\n{title}: none')
         return
     idx = np.asarray(rows)
     sd = np.asarray(arr_speed_dists)[idx, sd_col].astype(np.float64)
@@ -1140,24 +1785,24 @@ def print_speed_freq_table(title, rows, sd_col, sa_col, html_name=None):
     grid = np.zeros((nb_a, nb_d), dtype=np.int64)
     np.add.at(grid, (ai, di), 1)
 
-    print('\n' + '=' * (13 + 8 * nb_d + 9))
-    print(f'{title}   N = {len(idx)}')
-    print('rows = speed_angle bin, cols = speed_dist bin  (0 = tight -> 1 = open)')
-    print('=' * (13 + 8 * nb_d + 9))
+    vprint('\n' + '=' * (13 + 8 * nb_d + 9))
+    vprint(f'{title}   N = {len(idx)}')
+    vprint('rows = speed_angle bin, cols = speed_dist bin  (0 = tight -> 1 = open)')
+    vprint('=' * (13 + 8 * nb_d + 9))
     hdr = ' angle\\dist '
     for d in range(nb_d):
         hdr += '%8s' % ('%.2f' % ((d + 0.5) / nb_d))
-    print(hdr + '  |   total')
+    vprint(hdr + '  |   total')
     for a in range(nb_a - 1, -1, -1):                 # high angle on top
         row = '%11s ' % ('%.2f' % ((a + 0.5) / nb_a))
         for d in range(nb_d):
             row += '%8d' % grid[a, d]
-        print(row + '  |%8d' % grid[a].sum())
-    print(' ' * 12 + '-' * (8 * nb_d + 11))
+        vprint(row + '  |%8d' % grid[a].sum())
+    vprint(' ' * 12 + '-' * (8 * nb_d + 11))
     row = '%11s ' % 'total'
     for d in range(nb_d):
         row += '%8d' % grid[:, d].sum()
-    print(row + '  |%8d' % grid.sum())
+    vprint(row + '  |%8d' % grid.sum())
 
     if html_name is not None:
         d_centers = [(d + 0.5) / nb_d for d in range(nb_d)]
@@ -1173,7 +1818,7 @@ def print_speed_freq_table(title, rows, sd_col, sa_col, html_name=None):
                           yaxis_title='speed_angle bin (0 = tight -> 1 = open)')
         path = os.path.join(OUTPUT_DIR, html_name)
         fig.write_html(path, include_plotlyjs='cdn')
-        print('Wrote ' + path)
+        vprint('Wrote ' + path)
 
 
 print_speed_freq_table('FREQUENCY: FAILED episodes, binned by START clearance',
@@ -1244,8 +1889,8 @@ print_speed_freq_table(
 # ──────────────────────────────────────────────────────────────────────────────
 # Interactive viser viewer — browse to http://<server-ip>:8080 from your host PC
 # ──────────────────────────────────────────────────────────────────────────────
-print(f"\nSummary plots saved to {OUTPUT_DIR}/")
+vprint(f"\nSummary plots saved to {OUTPUT_DIR}/")
 if args.no_viser:
-    print('--no-viser set; skipping the interactive viewer.')
+    vprint('--no-viser set; skipping the interactive viewer.')
 else:
     launch_viser(episodes, shape_V, shape_F, V_env_n, obst_F, wall_F)

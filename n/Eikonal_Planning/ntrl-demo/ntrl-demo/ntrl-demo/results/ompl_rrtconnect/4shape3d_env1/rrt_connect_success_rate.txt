@@ -1,0 +1,29 @@
+shape                     : datasets/3dshape/4shape3d.obj
+environment               : datasets/3dshape/env1.obj
+data_path                 : testing_data/3dshape/4shape3d_env1
+planner                   : RRTConnect (OMPL, SE(3))
+time_limit_per_case       : 30.000 s  (a case over this = fail)
+path_simplification       : off
+
+test_cases_total          : 1000
+invalid_start_or_goal     : 0  (excluded, unplannable)
+test_cases_scored         : 1000  [valid start+goal only]
+successes                 : 1000
+failures                  : 0
+  no_solution_in_time     : 0
+  over_time_limit         : 0
+  path_in_collision       : 0
+success_rate              : 1.0000  (100.0%)  [1000/1000]
+
+time_mean                 : 1.9813 s   [all 1000 scored cases]
+time_std                  : 1.7134 s
+time_mean_successful      : 1.9813 s   [1000 successful cases]
+time_std_successful       : 1.7134 s
+time_median               : 1.5427 s
+
+path_length_mean          : 3.0575   [1000 successful cases]
+path_length_std           : 1.3303
+path_length_total         : 3057.4724
+
+total_time                : 1981.28 s
+collision_checks          : 845893
