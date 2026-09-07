@@ -1,0 +1,54 @@
+shape_radius=0.1844  env pts=50000  wall frac=0.935
+valid cases: 1000 / 1000
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+  rollout 250/1000  (219s)
+  rollout 500/1000  (412s)
+  rollout 750/1000  (549s)
+  rollout 1000/1000  (765s)
+  clearance 100/1000  (28s)
+  clearance 200/1000  (60s)
+  clearance 300/1000  (85s)
+  clearance 400/1000  (112s)
+  clearance 500/1000  (136s)
+  clearance 600/1000  (162s)
+  clearance 700/1000  (189s)
+  clearance 800/1000  (215s)
+  clearance 900/1000  (241s)
+  clearance 1000/1000  (267s)
+
+=== hlB variant: step=0.015 local_w=0.03 samples=200 speed_gate=0.0 steps=200 ===
+cases        : 1000
+success      : 809  (80.9%)
+collision    : 191
+no_converge  : 5
+
+--- collision failures: penetration depth (normalized units; margin=0.05, stride=0.015, test offset=0.02)
+  depth p10 = 0.0011
+  depth p25 = 0.0026
+  depth p50 = 0.0070
+  depth p75 = 0.0113
+  depth p90 = 0.0163
+  frac max_depth < 0.002 : 0.194
+  frac max_depth < 0.005 : 0.372
+  frac max_depth < 0.010 : 0.681
+  frac max_depth < 0.015 : 0.832
+  frac max_depth < 0.020 : 0.990
+  frac max_depth < 0.050 : 1.000
+--- number of colliding waypoints per failed path
+  n_coll_wp p10 = 1
+  n_coll_wp p25 = 2
+  n_coll_wp p50 = 5
+  n_coll_wp p75 = 9
+  n_coll_wp p90 = 16
+  frac n_coll_wp <=  1 : 0.157
+  frac n_coll_wp <=  2 : 0.283
+  frac n_coll_wp <=  3 : 0.361
+  frac n_coll_wp <=  5 : 0.565
+  frac n_coll_wp <= 10 : 0.806
+--- max env points inside shape at a waypoint: median 5, p90 18
+--- wall-only collisions: 0.026   any-wall: 0.031
+--- collision within 2 waypoints of the meeting point: 0.257
+--- deepest waypoint position along path: p25 0.31 p50 0.53 p75 0.68
+--- collided AND not converged: 0.026
+saved to results/diag_hlB/variants_Ashape3d_env2/s200

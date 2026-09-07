@@ -1,0 +1,815 @@
+Loading checkpoint: ./Experiments/3dshape_bdiff/Vshape3d_env2_metric_09_05_21_18/latest.pt
+[load_obj] '/workspace/ntrl-demo/datasets/3dshape/Vshape3d.obj': 1 objects/groups
+  [0] 'Body2'  (20 triangles)
+[load_obj] '/workspace/ntrl-demo/datasets/3dshape/env2.obj': 9 objects/groups
+  [0] 'Body1'  (12 triangles)
+  [1] 'Body2'  (12 triangles)
+  [2] 'wall (1)'  (88 triangles)
+  [3] 'Body4'  (12 triangles)
+  [4] 'Body5'  (12 triangles)
+  [5] 'Body6'  (12 triangles)
+  [6] 'Body7'  (12 triangles)
+  [7] 'Body8'  (12 triangles)
+  [8] 'Body9'  (12 triangles)
+[cases] evaluating 500 of 1000 start/goal pairs
+[143] SKIP  start_collision=False  goal_collision=True
+
+Endpoint check took 4.1s: 1 / 500 cases discarded (start in collision: 0, goal in collision: 1); 499 remain.
+
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+[000] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[001] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[002] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[003] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[004] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[005] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[006] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[007] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[008] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[009] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[010] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[011] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[012] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[013] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[014] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[015] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[016] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[017] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=True
+[018] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[019] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[020] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[021] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[022] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[023] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[024] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[025] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[026] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[027] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[028] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[029] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[030] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[031] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[032] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[033] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[034] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[035] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[036] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[037] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=True
+[038] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[039] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[040] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[041] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[042] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[043] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[044] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[045] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[046] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[047] PASS  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[048] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[049] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+
+[progress] 50/499 cases  (201s elapsed, ~1803s remaining)
+  regular/forward                 : 0.7400  (74.0%)  [37/50]
+  flipped/reverse                 : 0.6600  (66.0%)  [33/50]
+  either/or                       : 0.8600  (86.0%)  [43/50]
+  alt/alternate                   : 0.7200  (72.0%)  [36/50]
+  locB/Alternative Bellman        : 0.7600  (76.0%)  [38/50]
+  hlB/Alternative Bellman Horizon : 0.7000  (70.0%)  [35/50]
+[050] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[051] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[052] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[053] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[054] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[055] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[056] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[057] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[058] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[059] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[060] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[061] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[062] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[063] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[064] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[065] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[066] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[067] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[068] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[069] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[070] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[071] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[072] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[073] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[074] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[075] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[076] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[077] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[078] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[079] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[080] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[081] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[082] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[083] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[084] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[085] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[086] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[087] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[088] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[089] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[090] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[091] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=True
+[092] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[093] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[094] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[095] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[096] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[097] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[098] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[099] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+
+[progress] 100/499 cases  (254s elapsed, ~1012s remaining)
+  regular/forward                 : 0.6400  (64.0%)  [64/100]
+  flipped/reverse                 : 0.6600  (66.0%)  [66/100]
+  either/or                       : 0.8100  (81.0%)  [81/100]
+  alt/alternate                   : 0.6400  (64.0%)  [64/100]
+  locB/Alternative Bellman        : 0.7400  (74.0%)  [74/100]
+  hlB/Alternative Bellman Horizon : 0.7500  (75.0%)  [75/100]
+[100] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[101] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[102] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[103] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[104] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[105] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[106] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[107] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[108] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[109] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[110] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[111] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[112] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[113] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[114] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[115] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[116] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[117] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[118] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[119] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[120] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=True  collision=False  linear_interp_valid=False
+[121] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[122] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[123] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[124] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[125] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[126] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[127] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[128] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=True
+[129] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[130] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[131] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[132] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[133] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[134] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[135] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[136] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[137] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[138] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[139] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[140] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[141] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[142] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[144] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[145] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[146] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[147] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[148] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[149] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[150] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+
+[progress] 150/499 cases  (301s elapsed, ~701s remaining)
+  regular/forward                 : 0.6467  (64.7%)  [97/150]
+  flipped/reverse                 : 0.6333  (63.3%)  [95/150]
+  either/or                       : 0.8000  (80.0%)  [120/150]
+  alt/alternate                   : 0.6533  (65.3%)  [98/150]
+  locB/Alternative Bellman        : 0.7467  (74.7%)  [112/150]
+  hlB/Alternative Bellman Horizon : 0.7667  (76.7%)  [115/150]
+[151] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[152] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[153] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=True
+[154] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[155] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[156] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[157] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[158] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[159] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[160] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[161] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[162] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[163] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[164] PASS  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[165] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[166] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[167] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[168] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[169] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[170] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=True  collision=False  linear_interp_valid=False
+[171] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[172] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[173] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[174] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[175] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[176] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[177] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[178] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[179] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[180] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[181] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[182] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[183] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[184] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[185] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[186] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[187] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[188] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[189] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[190] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[191] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[192] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[193] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[194] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[195] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[196] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[197] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[198] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[199] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[200] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+
+[progress] 200/499 cases  (346s elapsed, ~518s remaining)
+  regular/forward                 : 0.6250  (62.5%)  [125/200]
+  flipped/reverse                 : 0.6650  (66.5%)  [133/200]
+  either/or                       : 0.8150  (81.5%)  [163/200]
+  alt/alternate                   : 0.6250  (62.5%)  [125/200]
+  locB/Alternative Bellman        : 0.7050  (70.5%)  [141/200]
+  hlB/Alternative Bellman Horizon : 0.7450  (74.5%)  [149/200]
+[201] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[202] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[203] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[204] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[205] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[206] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[207] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[208] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[209] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[210] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[211] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[212] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[213] PASS  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[214] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[215] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[216] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[217] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[218] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[219] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[220] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[221] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[222] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[223] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[224] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[225] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[226] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[227] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[228] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[229] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[230] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[231] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[232] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[233] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[234] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[235] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[236] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[237] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[238] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[239] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[240] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[241] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[242] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[243] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[244] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[245] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[246] PASS  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[247] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[248] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[249] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[250] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+
+[progress] 250/499 cases  (384s elapsed, ~383s remaining)
+  regular/forward                 : 0.6080  (60.8%)  [152/250]
+  flipped/reverse                 : 0.6640  (66.4%)  [166/250]
+  either/or                       : 0.8120  (81.2%)  [203/250]
+  alt/alternate                   : 0.6200  (62.0%)  [155/250]
+  locB/Alternative Bellman        : 0.6800  (68.0%)  [170/250]
+  hlB/Alternative Bellman Horizon : 0.7280  (72.8%)  [182/250]
+[251] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[252] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[253] PASS  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[254] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[255] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[256] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[257] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[258] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[259] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[260] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[261] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[262] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[263] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[264] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[265] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[266] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[267] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[268] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[269] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[270] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[271] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[272] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[273] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[274] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[275] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[276] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[277] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[278] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[279] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[280] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[281] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[282] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[283] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[284] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[285] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[286] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[287] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[288] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[289] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[290] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[291] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[292] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[293] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[294] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[295] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[296] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[297] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[298] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[299] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[300] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+
+[progress] 300/499 cases  (570s elapsed, ~378s remaining)
+  regular/forward                 : 0.6333  (63.3%)  [190/300]
+  flipped/reverse                 : 0.6800  (68.0%)  [204/300]
+  either/or                       : 0.8300  (83.0%)  [249/300]
+  alt/alternate                   : 0.6400  (64.0%)  [192/300]
+  locB/Alternative Bellman        : 0.6967  (69.7%)  [209/300]
+  hlB/Alternative Bellman Horizon : 0.7400  (74.0%)  [222/300]
+[301] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[302] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[303] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[304] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[305] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[306] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[307] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[308] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[309] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[310] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[311] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[312] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[313] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[314] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[315] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[316] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[317] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[318] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[319] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[320] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[321] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[322] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[323] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[324] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[325] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[326] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[327] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[328] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[329] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[330] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[331] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[332] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[333] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[334] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[335] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[336] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[337] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[338] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[339] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[340] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[341] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[342] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[343] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[344] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[345] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[346] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[347] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[348] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[349] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[350] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+
+[progress] 350/499 cases  (625s elapsed, ~266s remaining)
+  regular/forward                 : 0.6229  (62.3%)  [218/350]
+  flipped/reverse                 : 0.6714  (67.1%)  [235/350]
+  either/or                       : 0.8200  (82.0%)  [287/350]
+  alt/alternate                   : 0.6543  (65.4%)  [229/350]
+  locB/Alternative Bellman        : 0.6943  (69.4%)  [243/350]
+  hlB/Alternative Bellman Horizon : 0.7286  (72.9%)  [255/350]
+[351] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[352] PASS  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[353] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[354] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[355] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[356] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[357] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[358] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[359] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[360] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[361] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[362] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[363] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[364] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[365] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[366] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[367] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[368] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[369] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[370] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[371] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[372] PASS  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[373] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[374] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[375] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[376] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[377] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[378] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[379] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[380] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[381] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[382] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[383] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[384] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[385] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[386] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[387] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[388] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[389] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[390] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=True
+[391] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[392] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[393] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[394] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[395] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[396] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[397] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[398] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[399] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[400] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+
+[progress] 400/499 cases  (672s elapsed, ~166s remaining)
+  regular/forward                 : 0.6200  (62.0%)  [248/400]
+  flipped/reverse                 : 0.6700  (67.0%)  [268/400]
+  either/or                       : 0.8150  (81.5%)  [326/400]
+  alt/alternate                   : 0.6475  (64.8%)  [259/400]
+  locB/Alternative Bellman        : 0.6875  (68.8%)  [275/400]
+  hlB/Alternative Bellman Horizon : 0.7275  (72.8%)  [291/400]
+[401] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[402] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[403] PASS  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[404] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[405] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[406] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[407] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[408] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[409] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[410] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[411] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[412] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[413] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[414] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[415] PASS  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[416] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[417] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[418] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[419] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[420] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[421] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[422] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[423] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[424] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[425] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[426] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[427] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[428] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[429] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[430] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[431] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[432] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[433] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[434] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[435] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[436] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[437] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[438] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[439] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[440] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[441] PASS  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[442] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[443] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[444] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[445] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[446] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[447] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[448] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[449] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[450] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+
+[progress] 450/499 cases  (722s elapsed, ~79s remaining)
+  regular/forward                 : 0.6222  (62.2%)  [280/450]
+  flipped/reverse                 : 0.6733  (67.3%)  [303/450]
+  either/or                       : 0.8178  (81.8%)  [368/450]
+  alt/alternate                   : 0.6489  (64.9%)  [292/450]
+  locB/Alternative Bellman        : 0.6800  (68.0%)  [306/450]
+  hlB/Alternative Bellman Horizon : 0.7222  (72.2%)  [325/450]
+[451] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[452] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[453] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=True
+[454] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[455] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[456] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[457] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[458] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[459] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[460] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[461] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[462] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[463] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[464] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[465] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[466] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[467] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[468] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[469] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[470] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[471] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[472] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[473] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[474] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=FAIL  did_not_converge=False  collision=False  linear_interp_valid=False
+[475] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[476] FAIL  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[477] PASS  flipped=FAIL  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[478] PASS  flipped=PASS  either=PASS  alt=FAIL  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[479] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[480] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[481] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=True  collision=True  linear_interp_valid=False
+[482] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[483] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[484] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[485] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[486] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[487] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[488] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[489] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[490] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=True
+[491] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[492] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=True
+[493] FAIL  flipped=FAIL  either=FAIL  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[494] PASS  flipped=FAIL  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[495] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=FAIL  did_not_converge=False  collision=True  linear_interp_valid=False
+[496] PASS  flipped=PASS  either=PASS  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=False  linear_interp_valid=False
+[497] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[498] FAIL  flipped=FAIL  either=FAIL  alt=PASS  locB=PASS  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+[499] FAIL  flipped=PASS  either=PASS  alt=FAIL  locB=FAIL  hlB=PASS  did_not_converge=False  collision=True  linear_interp_valid=False
+
+Evaluation (rollouts) took 771.3s for 499 episodes in chunks of 250.
+
+--- sampler: momentum=2.0  step=0.015  taper=0.0  (convergence ball 0.01) ---
+discarded (start/goal in collision): 1 / 500
+total: 307 / 499  (61.5%)
+
+--- closest approach of the 6 NON-CONVERGED regular runs ---
+  median 0.6322   mean 0.5678   min 0.1859
+  min_dis in [0.01,  0.02):    0  (0.0%)   <- overshoot: reached the goal, could not stick it
+  min_dis in [0.02,  0.04):    0  (0.0%)   <- overshoot: reached the goal, could not stick it
+  min_dis in [0.04,  0.10):    0  (0.0%)
+  min_dis in [0.10, 999.00):    6  (100.0%)
+
+--- two-path planner (regular + flipped) ---
+  step 1  regular (start->goal): 307 / 499  (61.5%)
+          flipped (goal->start): 337 / 499  (67.5%)
+  step 2  EITHER succeeded     : 406 / 499  (81.4%)
+          rescued by the flip  : 99  (+19.8% over regular alone)
+          lost by the flip     : 69  [regular passed, flipped failed -- the mirror of a rescue]
+          failed BOTH ways     : 93 / 499  (18.6%)
+
+--- do the two directions fail independently? ---
+  P(both fail)  flip           : 0.1864   (independent would be 0.1249)   phi=+0.270
+  [phi ~ 0 => the two attempts fail independently, so the gain from
+   pairing them is variance reduction, not a directional effect.]
+
+--- alternating bidirectional planner (ends step toward each other) ---
+  alternating                  : 326 / 499  (65.3%)
+  regular (start->goal)        : 307 / 499  (61.5%)
+  delta vs regular             : +3.8%
+  rescued by alternating       : 75  [regular failed, alternating passed]
+  lost by alternating          : 56  [regular passed, alternating failed]
+  collision                    : 173 / 499
+  did not converge             : 5 / 499
+
+--- cost repairs, BIDIRECTIONAL (ends alternate steps) ---
+  local step weight            : 0.03
+  regular (start->goal)        : 307 / 499  (61.5%)
+  alternating (plain cost)     : 326 / 499  (65.3%)
+  local step        (A)   bidir: 342 / 499  (68.5%)   [+3.2% vs plain alternating, +7.0% vs regular]
+  horizon + local   (A+B) bidir: 360 / 499  (72.1%)   [+6.8% vs plain alternating, +10.6% vs regular]
+  local bidir  : rescued 83  lost 48  collision 154  no_conv 4   [vs regular]
+  hor+loc bidir: rescued 94  lost 41  collision 139  no_conv 2   [vs regular]
+success | linear interp valid  : 99 / 105  (94.3%)
+success | linear interp invalid: 208 / 394  (52.8%)
+
+=== success rate over 499 episodes ===
+regular/forward                 : 0.6152  (61.5%)  [307/499]
+flipped/reverse                 : 0.6754  (67.5%)  [337/499]
+either/or                       : 0.8136  (81.4%)  [406/499]
+alt/alternate                   : 0.6533  (65.3%)  [326/499]
+locB/Alternative Bellman        : 0.6854  (68.5%)  [342/499]
+hlB/Alternative Bellman Horizon : 0.7214  (72.1%)  [360/499]
+Wrote ./results/output_3d/bdiff_eval/Vshape3d_env2_metric_09_05_21_18/success_rate.txt
+
+======================================================================================
+FREQUENCY: FAILED episodes, binned by START clearance   N = 192
+rows = speed_angle bin, cols = speed_dist bin  (0 = tight -> 1 = open)
+======================================================================================
+ angle\dist     0.06    0.19    0.31    0.44    0.56    0.69    0.81    0.94  |   total
+       0.94        0       0       0       0       0       0       0       1  |       1
+       0.81        0       0       0       0       0       0       0       0  |       0
+       0.69        0       0       0       0       0       0       0       0  |       0
+       0.56        0       0       0       0       0       0       0       0  |       0
+       0.44        0       0       0       1       0       0       1       0  |       2
+       0.31        0       0       0       0       2       1       0       8  |      11
+       0.19        0       0       0       3      11      10      10      34  |      68
+       0.06        0       0       0      38      32      12      13      15  |     110
+            ---------------------------------------------------------------------------
+      total        0       0       0      42      45      23      24      58  |     192
+
+======================================================================================
+FREQUENCY: FAILED episodes, binned by END POINT clearance   N = 192
+rows = speed_angle bin, cols = speed_dist bin  (0 = tight -> 1 = open)
+======================================================================================
+ angle\dist     0.06    0.19    0.31    0.44    0.56    0.69    0.81    0.94  |   total
+       0.94        0       0       0       0       0       0       0       2  |       2
+       0.81        0       0       0       0       0       0       0       0  |       0
+       0.69        0       0       0       0       0       0       0       0  |       0
+       0.56        0       0       0       0       0       0       0       0  |       0
+       0.44        0       0       0       1       1       1       0       0  |       3
+       0.31        0       0       0       1       1       1       0       4  |       7
+       0.19        0       0       0       3       9       7      10      34  |      63
+       0.06        0       0       0      46      39      13      10       9  |     117
+            ---------------------------------------------------------------------------
+      total        0       0       0      51      50      22      20      49  |     192
+
+======================================================================================
+FREQUENCY: FAILED BOTH WAYS (regular AND flipped), binned by START clearance   N = 93
+rows = speed_angle bin, cols = speed_dist bin  (0 = tight -> 1 = open)
+======================================================================================
+ angle\dist     0.06    0.19    0.31    0.44    0.56    0.69    0.81    0.94  |   total
+       0.94        0       0       0       0       0       0       0       0  |       0
+       0.81        0       0       0       0       0       0       0       0  |       0
+       0.69        0       0       0       0       0       0       0       0  |       0
+       0.56        0       0       0       0       0       0       0       0  |       0
+       0.44        0       0       0       0       0       0       0       0  |       0
+       0.31        0       0       0       0       2       0       0       3  |       5
+       0.19        0       0       0       0       8       4       3      17  |      32
+       0.06        0       0       0      21      16       7       4       8  |      56
+            ---------------------------------------------------------------------------
+      total        0       0       0      21      26      11       7      28  |      93
+Wrote ./results/output_3d/bdiff_eval/Vshape3d_env2_metric_09_05_21_18/summary_failed_both_start.html
+
+======================================================================================
+FREQUENCY: FAILED BOTH WAYS (regular AND flipped), binned by END POINT clearance   N = 93
+rows = speed_angle bin, cols = speed_dist bin  (0 = tight -> 1 = open)
+======================================================================================
+ angle\dist     0.06    0.19    0.31    0.44    0.56    0.69    0.81    0.94  |   total
+       0.94        0       0       0       0       0       0       0       1  |       1
+       0.81        0       0       0       0       0       0       0       0  |       0
+       0.69        0       0       0       0       0       0       0       0  |       0
+       0.56        0       0       0       0       0       0       0       0  |       0
+       0.44        0       0       0       0       1       0       0       0  |       1
+       0.31        0       0       0       0       1       0       0       2  |       3
+       0.19        0       0       0       2       4       4       5      15  |      30
+       0.06        0       0       0      28      20       3       3       4  |      58
+            ---------------------------------------------------------------------------
+      total        0       0       0      30      26       7       8      22  |      93
+Wrote ./results/output_3d/bdiff_eval/Vshape3d_env2_metric_09_05_21_18/summary_failed_both_end.html
+
+======================================================================================
+BASELINE: ALL evaluated episodes, binned by START clearance   N = 499
+rows = speed_angle bin, cols = speed_dist bin  (0 = tight -> 1 = open)
+======================================================================================
+ angle\dist     0.06    0.19    0.31    0.44    0.56    0.69    0.81    0.94  |   total
+       0.94        0       0       0       0       0       0       0       1  |       1
+       0.81        0       0       0       0       0       0       0       0  |       0
+       0.69        0       0       0       0       0       1       0       0  |       1
+       0.56        0       0       0       0       0       0       0       0  |       0
+       0.44        0       0       0       1       0       1       3       4  |       9
+       0.31        0       0       0       0       3       4       4      21  |      32
+       0.19        0       0       0       9      20      21      18      89  |     157
+       0.06        0       0       0      89      81      51      38      40  |     299
+            ---------------------------------------------------------------------------
+      total        0       0       0      99     104      78      63     155  |     499
+
+======================================================================================
+BASELINE: ALL evaluated episodes, binned by END POINT clearance   N = 499
+rows = speed_angle bin, cols = speed_dist bin  (0 = tight -> 1 = open)
+======================================================================================
+ angle\dist     0.06    0.19    0.31    0.44    0.56    0.69    0.81    0.94  |   total
+       0.94        0       0       0       0       0       0       0       4  |       4
+       0.81        0       0       0       0       0       0       0       0  |       0
+       0.69        0       0       0       0       0       0       0       0  |       0
+       0.56        0       0       0       0       0       0       0       2  |       2
+       0.44        0       0       0       1       2       2       2       3  |      10
+       0.31        0       0       0       2       3       2       1      15  |      23
+       0.19        0       0       0       8      19      26      22      90  |     165
+       0.06        0       0       0     110      79      42      31      33  |     295
+            ---------------------------------------------------------------------------
+      total        0       0       0     121     103      72      56     147  |     499
+
+======================================================================================
+FREQUENCY: RESCUED BY FLIP (regular fail, flipped pass), binned by START clearance   N = 99
+rows = speed_angle bin, cols = speed_dist bin  (0 = tight -> 1 = open)
+======================================================================================
+ angle\dist     0.06    0.19    0.31    0.44    0.56    0.69    0.81    0.94  |   total
+       0.94        0       0       0       0       0       0       0       1  |       1
+       0.81        0       0       0       0       0       0       0       0  |       0
+       0.69        0       0       0       0       0       0       0       0  |       0
+       0.56        0       0       0       0       0       0       0       0  |       0
+       0.44        0       0       0       1       0       0       1       0  |       2
+       0.31        0       0       0       0       0       1       0       5  |       6
+       0.19        0       0       0       3       3       6       7      17  |      36
+       0.06        0       0       0      17      16       5       9       7  |      54
+            ---------------------------------------------------------------------------
+      total        0       0       0      21      19      12      17      30  |      99
+Wrote ./results/output_3d/bdiff_eval/Vshape3d_env2_metric_09_05_21_18/summary_rescued_start.html
+
+======================================================================================
+FREQUENCY: RESCUED BY FLIP (regular fail, flipped pass), binned by END POINT clearance   N = 99
+rows = speed_angle bin, cols = speed_dist bin  (0 = tight -> 1 = open)
+======================================================================================
+ angle\dist     0.06    0.19    0.31    0.44    0.56    0.69    0.81    0.94  |   total
+       0.94        0       0       0       0       0       0       0       1  |       1
+       0.81        0       0       0       0       0       0       0       0  |       0
+       0.69        0       0       0       0       0       0       0       0  |       0
+       0.56        0       0       0       0       0       0       0       0  |       0
+       0.44        0       0       0       1       0       1       0       0  |       2
+       0.31        0       0       0       1       0       1       0       2  |       4
+       0.19        0       0       0       1       5       3       5      19  |      33
+       0.06        0       0       0      18      19      10       7       5  |      59
+            ---------------------------------------------------------------------------
+      total        0       0       0      21      24      15      12      27  |      99
+Wrote ./results/output_3d/bdiff_eval/Vshape3d_env2_metric_09_05_21_18/summary_rescued_end.html
+
+======================================================================================
+FREQUENCY: LOST BY FLIP (regular pass, flipped fail), binned by START clearance   N = 69
+rows = speed_angle bin, cols = speed_dist bin  (0 = tight -> 1 = open)
+======================================================================================
+ angle\dist     0.06    0.19    0.31    0.44    0.56    0.69    0.81    0.94  |   total
+       0.94        0       0       0       0       0       0       0       0  |       0
+       0.81        0       0       0       0       0       0       0       0  |       0
+       0.69        0       0       0       0       0       0       0       0  |       0
+       0.56        0       0       0       0       0       0       0       0  |       0
+       0.44        0       0       0       0       0       1       0       0  |       1
+       0.31        0       0       0       0       0       1       1       2  |       4
+       0.19        0       0       0       1       1       2       3       9  |      16
+       0.06        0       0       0      14      10       8      11       5  |      48
+            ---------------------------------------------------------------------------
+      total        0       0       0      15      11      12      15      16  |      69
+Wrote ./results/output_3d/bdiff_eval/Vshape3d_env2_metric_09_05_21_18/summary_flip_only_start.html
+
+======================================================================================
+FREQUENCY: LOST BY FLIP (regular pass, flipped fail), binned by END POINT clearance   N = 69
+rows = speed_angle bin, cols = speed_dist bin  (0 = tight -> 1 = open)
+======================================================================================
+ angle\dist     0.06    0.19    0.31    0.44    0.56    0.69    0.81    0.94  |   total
+       0.94        0       0       0       0       0       0       0       0  |       0
+       0.81        0       0       0       0       0       0       0       0  |       0
+       0.69        0       0       0       0       0       0       0       0  |       0
+       0.56        0       0       0       0       0       0       0       0  |       0
+       0.44        0       0       0       0       0       1       0       1  |       2
+       0.31        0       0       0       1       1       0       0       3  |       5
+       0.19        0       0       0       2       2       2       5       8  |      19
+       0.06        0       0       0      20       9       5       4       5  |      43
+            ---------------------------------------------------------------------------
+      total        0       0       0      23      12       8       9      17  |      69
+Wrote ./results/output_3d/bdiff_eval/Vshape3d_env2_metric_09_05_21_18/summary_flip_only_end.html
+
+Summary plots saved to ./results/output_3d/bdiff_eval/Vshape3d_env2_metric_09_05_21_18/
+--no-viser set; skipping the interactive viewer.

@@ -19,7 +19,7 @@ with that config's true clearance (from ``evaluate_placements``):
     2. p90 - p10                             vs clearance
     3. p70 - p30                             vs mean slowness  (and vs clearance)
 
-Usage (defaults are the rectangle_env1 row of experiments.md):
+Usage (defaults are the rectangle_env1 row of ../../experiments_ours.md):
 
     python slowness_spread_vs_clearance.py \
         --env   datasets/3dshape/env1.obj \
@@ -67,7 +67,7 @@ parser.add_argument('--env', default='datasets/3dshape/env1.obj',
 parser.add_argument('--shape', default='datasets/3dshape/rectangle.obj',
                     help='Robot shape .obj.')
 parser.add_argument('--model', default='./Experiments/3dshape/3dshape_08_06_17_06/latest.pt',
-                    help='Checkpoint to query (the Model column of experiments.md).')
+                    help='Checkpoint to query (the Model column of ../../experiments_ours.md).')
 parser.add_argument('--out', default='./results/slowness_spread',
                     help='Directory for the scatter plots and the stats dump.')
 parser.add_argument('--num_configs', type=int, default=2000,

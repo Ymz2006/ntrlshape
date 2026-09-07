@@ -19,6 +19,7 @@ RUN pip install --no-cache-dir \
     descartes \
     plotly \
     pymunk \
+    ur_rtde \
     wandb
 
 WORKDIR /workspace

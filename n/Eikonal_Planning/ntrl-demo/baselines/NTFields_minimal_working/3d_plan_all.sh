@@ -2,7 +2,7 @@
 #
 # Infer paths with every trained NTFields 3-D shape model, over the full 1000-case
 # test set of the matching environment, and write the per-env timing / path-length
-# summaries that make_experiments_md.py turns into experiments.md columns.
+# summaries that make_experiments_md.py turns into ../../experiments_ntfields.md columns.
 #
 # Jobs are spread round-robin over the GPU slots in $SLOTS and run concurrently.
 # An environment that already has a plan_summary.txt is skipped, so the script is
@@ -22,7 +22,7 @@ CASES=${CASES:-0}                       # 0 = all 1000 pairs
 SLOTS=${SLOTS:-"cuda:0 cuda:1 cuda:2"}
 FORCE=${FORCE:-0}
 
-# The env list of ntrl-demo/experiments.md, followed by the envs that exist as
+# The env list of ../../experiments_ours.md, followed by the envs that exist as
 # datasets but are not tabulated there.
 DATASETS=${DATASETS:-"\
 rectangle_env1 Lshape3d_env1 Fshape3d_env1 Ashape3d_env1 Vshape3d_env1 4shape3d_env1 \

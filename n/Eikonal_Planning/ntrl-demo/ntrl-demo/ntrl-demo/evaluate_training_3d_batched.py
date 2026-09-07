@@ -39,6 +39,7 @@ sys.path.append('.')
 import os
 import io
 import json
+import importlib
 import math
 import time
 import argparse
@@ -55,7 +56,9 @@ import plotly.graph_objects as go
 # (``--no-viser``) work on machines where viser is not installed.
 
 
-from models.metric import model_train_metric as md
+# The model package is selected by --models after argument parsing (see below);
+# ``md`` is bound there so a checkpoint from a different package -- e.g. the
+# single-route models/metric_june03 -- can be evaluated by this same script.
 from dataprocessing.preprocess_obj import (
     load_obj, _rotvec_to_matrix_np, sample_surface_points)
 
@@ -128,6 +131,11 @@ parser.add_argument('--cases', type=int, default=1000,
 parser.add_argument('--local-weight', dest='local_weight', type=float, default=0.03,
                     help='Weight on the tau(current -> candidate) step cost used '
                          'by the local-step and horizon+local planners.')
+parser.add_argument('--models', default='metric',
+                    help='Model package under models/ holding the network the '
+                         'checkpoint was trained with, e.g. metric (default) or '
+                         'metric_june03. The June-3 packages are a different '
+                         'architecture, so their checkpoints only load there.')
 parser.add_argument('--modelPath', default='./Experiments/3dshape',
                     help='Experiment root searched for latest.pt (or the newest '
                          '*/Model_Epoch_*.pt) when --checkpoint is not given.')
@@ -148,6 +156,8 @@ parser.add_argument('--verbose', '-v', action='store_true',
                          'artifact (success_rate.txt, the summary HTML plots) is '
                          'written either way.')
 args = parser.parse_args()
+
+md = importlib.import_module('models.{}.model_train_metric'.format(args.models))
 
 
 VERBOSE = args.verbose

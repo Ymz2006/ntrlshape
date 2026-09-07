@@ -13,6 +13,7 @@ matrix has std 0.86, matching this trainer's truncated-normal init.
 import sys
 sys.path.append('.')
 
+import os
 import time
 import argparse
 
@@ -21,12 +22,17 @@ from models.metric_june03 import model_train_metric as md
 parser = argparse.ArgumentParser(description='Train the June-3 3-D shape pipeline.')
 parser.add_argument('--dataPath', default='./datasets/3dshape/rectangle_env1_june03')
 parser.add_argument('--modelPath', default='./Experiments/3dshape_june03')
+parser.add_argument('--name', default=None,
+                    help='Explicit run-folder name under --modelPath (see '
+                         'train/train_3dshape.py --name).')
 parser.add_argument('--device', default='cuda:0')
 parser.add_argument('--epochs', type=int, default=5000)
 args = parser.parse_args()
 
 model = md.Model(args.modelPath, args.dataPath, 6, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
                  device=args.device)
+if args.name:
+    model.folder = os.path.join(args.modelPath, args.name)
 model.Params['Training']['Number of Epochs'] = args.epochs
 
 print('data   : {}'.format(args.dataPath))

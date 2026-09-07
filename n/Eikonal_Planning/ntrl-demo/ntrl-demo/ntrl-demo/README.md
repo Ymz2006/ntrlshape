@@ -937,18 +937,307 @@ restricted to the `(x, y, rz)` slice by passing `--2d` to the preprocessor and t
 evaluator (the data is still stored in the 6-D SE(3) layout with `z`, `rx`, `ry` pinned
 to 0, so `train/train_3dshape.py` is used unchanged).  Both meshes must be z-up.
 
-### Tshape_env4
+Two environments, seven shapes each.  `2denv4_zup.obj` is the 8-body maze; the
+denser 12-body `2denv1_zup.obj` is the same 350 x 350 footprint with more
+obstacles.  Datasets are named `<shape>_<env>` with the env tags `2denv4` and
+`2denv1`, which keeps them clear of the 3-D `<shape>_env4` / `<shape>_env1`
+datasets built from `env4.obj` / `env1.obj`.
 
-1. **Preprocess** 
+### Mesh preparation (z-up)
+
+Every mesh in `datasets/3dshape` is extruded along its own **+Y**: the shapes are 10
+units thick in y, `2denv4.obj` and `2denv1.obj` are 350 x 30 x 350.  `--2d`, however,
+defines the planar slice as **z = 0** -- it flattens the environment onto `z=0` and
+squashes the shape's z extent.  Pointing `--2d` at a Y-up mesh therefore collapses one
+of the two *in-plane* axes, no placement is ever collision-free, and the rejection loop
+in `generate_valid_pairs` spins forever.  Rotate every input once:
+
+```
+python dataprocessing/obj_yup_to_zup.py \
+    datasets/3dshape/2denv1.obj \
+    datasets/3dshape/2denv4.obj \
+    datasets/3dshape/rectangle.obj \
+    datasets/3dshape/Lshape3d.obj \
+    datasets/3dshape/Fshape3d.obj \
+    datasets/3dshape/Ashape3d.obj \
+    datasets/3dshape/Vshape3d.obj \
+    datasets/3dshape/4shape3d.obj \
+    datasets/3dshape/Tshape3d.obj
+```
+
+which writes `<name>_zup.obj` beside each input.
+
+### A note on `--batch_size`
+
+Use a much smaller batch here than in 3-D.  Flattening the environment onto `z=0`
+defeats the broad-phase env cull in `evaluate_placements` (every env point ends up
+within `min_center_dist + 2*R_shape` of the placement), so the `(B, kept env points, F)`
+clearance tensor stays dense and peak memory scales with the shape's boundary-triangle
+count.  The 3-D `--batch_size 2000` needs over 23 GiB on a planar env and OOMs a 24 GiB
+card on its own for the larger shapes; `--batch_size 500` peaks near 9.5 GiB and is what
+the commands below use.  Batch size only changes how the rejection sampler is chunked,
+never the sampled distribution.
+
+### 2denv4 (`2denv4_zup.obj`)
+
+#### rectangle_2denv4
+
+1. **Preprocess**
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv4_zup.obj \
+        --shape datasets/3dshape/rectangle_zup.obj \
+        --out   datasets/3dshape/rectangle_2denv4 \
+        --num_samples 800000 \
+        --2d \
+        --visualize \
+        --batch_size 500 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv4_zup.obj \
+        --shape datasets/3dshape/rectangle_zup.obj \
+        --out   testing_data/3dshape/rectangle_2denv4 \
+        --num_samples 1000 \
+        --testing_data \
+        --offset 0.02 \
+        --2d \
+        --batch_size 500 \
+        --visualize
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/rectangle_2denv4 \
+      --modelPath ./Experiments/3dshape_2d --name rectangle_2denv4
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/rectangle_2denv4 \
+      --out ./results/output_3d/rectangle_2denv4 \
+      --checkpoint ./Experiments/3dshape_2d/rectangle_2denv4/latest.pt \
+      --2d
+   ```
+
+#### Lshape3d_2denv4
+
+1. **Preprocess**
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv4_zup.obj \
+        --shape datasets/3dshape/Lshape3d_zup.obj \
+        --out   datasets/3dshape/Lshape3d_2denv4 \
+        --num_samples 800000 \
+        --2d \
+        --visualize \
+        --batch_size 500 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv4_zup.obj \
+        --shape datasets/3dshape/Lshape3d_zup.obj \
+        --out   testing_data/3dshape/Lshape3d_2denv4 \
+        --num_samples 1000 \
+        --testing_data \
+        --offset 0.02 \
+        --2d \
+        --batch_size 500 \
+        --visualize
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/Lshape3d_2denv4 \
+      --modelPath ./Experiments/3dshape_2d --name Lshape3d_2denv4
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/Lshape3d_2denv4 \
+      --out ./results/output_3d/Lshape3d_2denv4 \
+      --checkpoint ./Experiments/3dshape_2d/Lshape3d_2denv4/latest.pt \
+      --2d
+   ```
+
+#### Fshape3d_2denv4
+
+1. **Preprocess**
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv4_zup.obj \
+        --shape datasets/3dshape/Fshape3d_zup.obj \
+        --out   datasets/3dshape/Fshape3d_2denv4 \
+        --num_samples 800000 \
+        --2d \
+        --visualize \
+        --batch_size 500 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv4_zup.obj \
+        --shape datasets/3dshape/Fshape3d_zup.obj \
+        --out   testing_data/3dshape/Fshape3d_2denv4 \
+        --num_samples 1000 \
+        --testing_data \
+        --offset 0.02 \
+        --2d \
+        --batch_size 500 \
+        --visualize
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/Fshape3d_2denv4 \
+      --modelPath ./Experiments/3dshape_2d --name Fshape3d_2denv4
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/Fshape3d_2denv4 \
+      --out ./results/output_3d/Fshape3d_2denv4 \
+      --checkpoint ./Experiments/3dshape_2d/Fshape3d_2denv4/latest.pt \
+      --2d
+   ```
+
+#### Ashape3d_2denv4
+
+1. **Preprocess**
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv4_zup.obj \
+        --shape datasets/3dshape/Ashape3d_zup.obj \
+        --out   datasets/3dshape/Ashape3d_2denv4 \
+        --num_samples 800000 \
+        --2d \
+        --visualize \
+        --batch_size 500 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv4_zup.obj \
+        --shape datasets/3dshape/Ashape3d_zup.obj \
+        --out   testing_data/3dshape/Ashape3d_2denv4 \
+        --num_samples 1000 \
+        --testing_data \
+        --offset 0.02 \
+        --2d \
+        --batch_size 500 \
+        --visualize
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/Ashape3d_2denv4 \
+      --modelPath ./Experiments/3dshape_2d --name Ashape3d_2denv4
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/Ashape3d_2denv4 \
+      --out ./results/output_3d/Ashape3d_2denv4 \
+      --checkpoint ./Experiments/3dshape_2d/Ashape3d_2denv4/latest.pt \
+      --2d
+   ```
+
+#### Vshape3d_2denv4
+
+1. **Preprocess**
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv4_zup.obj \
+        --shape datasets/3dshape/Vshape3d_zup.obj \
+        --out   datasets/3dshape/Vshape3d_2denv4 \
+        --num_samples 800000 \
+        --2d \
+        --visualize \
+        --batch_size 500 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv4_zup.obj \
+        --shape datasets/3dshape/Vshape3d_zup.obj \
+        --out   testing_data/3dshape/Vshape3d_2denv4 \
+        --num_samples 1000 \
+        --testing_data \
+        --offset 0.02 \
+        --2d \
+        --batch_size 500 \
+        --visualize
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/Vshape3d_2denv4 \
+      --modelPath ./Experiments/3dshape_2d --name Vshape3d_2denv4
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/Vshape3d_2denv4 \
+      --out ./results/output_3d/Vshape3d_2denv4 \
+      --checkpoint ./Experiments/3dshape_2d/Vshape3d_2denv4/latest.pt \
+      --2d
+   ```
+
+#### 4shape3d_2denv4
+
+1. **Preprocess**
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv4_zup.obj \
+        --shape datasets/3dshape/4shape3d_zup.obj \
+        --out   datasets/3dshape/4shape3d_2denv4 \
+        --num_samples 800000 \
+        --2d \
+        --visualize \
+        --batch_size 500 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv4_zup.obj \
+        --shape datasets/3dshape/4shape3d_zup.obj \
+        --out   testing_data/3dshape/4shape3d_2denv4 \
+        --num_samples 1000 \
+        --testing_data \
+        --offset 0.02 \
+        --2d \
+        --batch_size 500 \
+        --visualize
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/4shape3d_2denv4 \
+      --modelPath ./Experiments/3dshape_2d --name 4shape3d_2denv4
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/4shape3d_2denv4 \
+      --out ./results/output_3d/4shape3d_2denv4 \
+      --checkpoint ./Experiments/3dshape_2d/4shape3d_2denv4/latest.pt \
+      --2d
+   ```
+
+#### Tshape3d_2denv4
+
+1. **Preprocess**
    ```
     python dataprocessing/preprocess_obj.py \
         --env   datasets/3dshape/2denv4_zup.obj \
         --shape datasets/3dshape/Tshape3d_zup.obj \
-        --out   datasets/3dshape/Tshape3d_env4 \
+        --out   datasets/3dshape/Tshape3d_2denv4 \
         --num_samples 800000 \
         --2d \
         --visualize \
-        --batch_size 2000 \
+        --batch_size 500 \
         --device cuda:2
    ```
 
@@ -956,22 +1245,398 @@ to 0, so `train/train_3dshape.py` is used unchanged).  Both meshes must be z-up.
     python dataprocessing/preprocess_obj.py \
         --env   datasets/3dshape/2denv4_zup.obj \
         --shape datasets/3dshape/Tshape3d_zup.obj \
-        --out   testing_data/3dshape/Tshape3d_env4 \
+        --out   testing_data/3dshape/Tshape3d_2denv4 \
         --num_samples 1000 \
         --testing_data \
         --offset 0.02 \
         --2d \
-        --batch_size 1000 \
+        --batch_size 500 \
         --visualize
    ```
 2. **Train**:
    ```
-   python train/train_3dshape.py --dataPath datasets/3dshape/Tshape3d_env4
+   python train/train_3dshape.py --dataPath datasets/3dshape/Tshape3d_2denv4 \
+      --modelPath ./Experiments/3dshape_2d --name Tshape3d_2denv4
    ```
 
 3. **Eval**:
    ```
-   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/Tshape3d_env4 \
-      --out ./results/output_3d/Tshape3d_env4 \
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/Tshape3d_2denv4 \
+      --out ./results/output_3d/Tshape3d_2denv4 \
+      --checkpoint ./Experiments/3dshape_2d/Tshape3d_2denv4/latest.pt \
       --2d
    ```
+
+
+### 2denv1 (`2denv1_zup.obj`)
+
+#### rectangle_2denv1
+
+1. **Preprocess**
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/rectangle_zup.obj \
+        --out   datasets/3dshape/rectangle_2denv1 \
+        --num_samples 800000 \
+        --2d \
+        --visualize \
+        --batch_size 500 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/rectangle_zup.obj \
+        --out   testing_data/3dshape/rectangle_2denv1 \
+        --num_samples 1000 \
+        --testing_data \
+        --offset 0.02 \
+        --2d \
+        --batch_size 500 \
+        --visualize
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/rectangle_2denv1 \
+      --modelPath ./Experiments/3dshape_2d --name rectangle_2denv1
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/rectangle_2denv1 \
+      --out ./results/output_3d/rectangle_2denv1 \
+      --checkpoint ./Experiments/3dshape_2d/rectangle_2denv1/latest.pt \
+      --2d
+   ```
+
+#### Lshape3d_2denv1
+
+1. **Preprocess**
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/Lshape3d_zup.obj \
+        --out   datasets/3dshape/Lshape3d_2denv1 \
+        --num_samples 800000 \
+        --2d \
+        --visualize \
+        --batch_size 500 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/Lshape3d_zup.obj \
+        --out   testing_data/3dshape/Lshape3d_2denv1 \
+        --num_samples 1000 \
+        --testing_data \
+        --offset 0.02 \
+        --2d \
+        --batch_size 500 \
+        --visualize
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/Lshape3d_2denv1 \
+      --modelPath ./Experiments/3dshape_2d --name Lshape3d_2denv1
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/Lshape3d_2denv1 \
+      --out ./results/output_3d/Lshape3d_2denv1 \
+      --checkpoint ./Experiments/3dshape_2d/Lshape3d_2denv1/latest.pt \
+      --2d
+   ```
+
+#### Fshape3d_2denv1
+
+1. **Preprocess**
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/Fshape3d_zup.obj \
+        --out   datasets/3dshape/Fshape3d_2denv1 \
+        --num_samples 800000 \
+        --2d \
+        --visualize \
+        --batch_size 500 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/Fshape3d_zup.obj \
+        --out   testing_data/3dshape/Fshape3d_2denv1 \
+        --num_samples 1000 \
+        --testing_data \
+        --offset 0.02 \
+        --2d \
+        --batch_size 500 \
+        --visualize
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/Fshape3d_2denv1 \
+      --modelPath ./Experiments/3dshape_2d --name Fshape3d_2denv1
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/Fshape3d_2denv1 \
+      --out ./results/output_3d/Fshape3d_2denv1 \
+      --checkpoint ./Experiments/3dshape_2d/Fshape3d_2denv1/latest.pt \
+      --2d
+   ```
+
+#### Ashape3d_2denv1
+
+1. **Preprocess**
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/Ashape3d_zup.obj \
+        --out   datasets/3dshape/Ashape3d_2denv1 \
+        --num_samples 800000 \
+        --2d \
+        --visualize \
+        --batch_size 500 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/Ashape3d_zup.obj \
+        --out   testing_data/3dshape/Ashape3d_2denv1 \
+        --num_samples 1000 \
+        --testing_data \
+        --offset 0.02 \
+        --2d \
+        --batch_size 500 \
+        --visualize
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/Ashape3d_2denv1 \
+      --modelPath ./Experiments/3dshape_2d --name Ashape3d_2denv1
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/Ashape3d_2denv1 \
+      --out ./results/output_3d/Ashape3d_2denv1 \
+      --checkpoint ./Experiments/3dshape_2d/Ashape3d_2denv1/latest.pt \
+      --2d
+   ```
+
+#### Vshape3d_2denv1
+
+1. **Preprocess**
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/Vshape3d_zup.obj \
+        --out   datasets/3dshape/Vshape3d_2denv1 \
+        --num_samples 800000 \
+        --2d \
+        --visualize \
+        --batch_size 500 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/Vshape3d_zup.obj \
+        --out   testing_data/3dshape/Vshape3d_2denv1 \
+        --num_samples 1000 \
+        --testing_data \
+        --offset 0.02 \
+        --2d \
+        --batch_size 500 \
+        --visualize
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/Vshape3d_2denv1 \
+      --modelPath ./Experiments/3dshape_2d --name Vshape3d_2denv1
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/Vshape3d_2denv1 \
+      --out ./results/output_3d/Vshape3d_2denv1 \
+      --checkpoint ./Experiments/3dshape_2d/Vshape3d_2denv1/latest.pt \
+      --2d
+   ```
+
+#### 4shape3d_2denv1
+
+1. **Preprocess**
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/4shape3d_zup.obj \
+        --out   datasets/3dshape/4shape3d_2denv1 \
+        --num_samples 800000 \
+        --2d \
+        --visualize \
+        --batch_size 500 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/4shape3d_zup.obj \
+        --out   testing_data/3dshape/4shape3d_2denv1 \
+        --num_samples 1000 \
+        --testing_data \
+        --offset 0.02 \
+        --2d \
+        --batch_size 500 \
+        --visualize
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/4shape3d_2denv1 \
+      --modelPath ./Experiments/3dshape_2d --name 4shape3d_2denv1
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/4shape3d_2denv1 \
+      --out ./results/output_3d/4shape3d_2denv1 \
+      --checkpoint ./Experiments/3dshape_2d/4shape3d_2denv1/latest.pt \
+      --2d
+   ```
+
+#### Tshape3d_2denv1
+
+1. **Preprocess**
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/Tshape3d_zup.obj \
+        --out   datasets/3dshape/Tshape3d_2denv1 \
+        --num_samples 800000 \
+        --2d \
+        --visualize \
+        --batch_size 500 \
+        --device cuda:2
+   ```
+
+   ```
+    python dataprocessing/preprocess_obj.py \
+        --env   datasets/3dshape/2denv1_zup.obj \
+        --shape datasets/3dshape/Tshape3d_zup.obj \
+        --out   testing_data/3dshape/Tshape3d_2denv1 \
+        --num_samples 1000 \
+        --testing_data \
+        --offset 0.02 \
+        --2d \
+        --batch_size 500 \
+        --visualize
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape.py --dataPath datasets/3dshape/Tshape3d_2denv1 \
+      --modelPath ./Experiments/3dshape_2d --name Tshape3d_2denv1
+   ```
+
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py --dataPath testing_data/3dshape/Tshape3d_2denv1 \
+      --out ./results/output_3d/Tshape3d_2denv1 \
+      --checkpoint ./Experiments/3dshape_2d/Tshape3d_2denv1/latest.pt \
+      --2d
+   ```
+
+
+
+### Recovered (June-3) pipeline
+
+The same environments run through the frozen June-3 generator and network, so the
+current pipeline can be measured against the one that produced
+`pretrained/baseline_rectangle_env1.pt`.  `dataprocessing/preprocess_obj_june03.py`
+carries the era's defaults (`--margin 0.1`, `--offset 0.01`, 400k samples, 8000 env
+points) and `models/metric_june03` is a different architecture -- a single embedding
+route rather than the current split translational/rotational one -- so its checkpoints
+only load under `--models metric_june03`.
+
+Only the *training* set is regenerated: evaluation reuses the test set built above, so
+both pipelines are scored on exactly the same start/goal queries.
+
+1. **Preprocess** (`<shape>` in `rectangle`, `Lshape3d`, `Fshape3d`, `Ashape3d`, `Vshape3d`, `4shape3d`, `Tshape3d`, `<env obj>` = `2denv4_zup.obj` or
+   `2denv1_zup.obj`, `<env>` = `2denv4` or `2denv1`)
+   ```
+    python dataprocessing/preprocess_obj_june03.py \
+        --env   datasets/3dshape/<env obj> \
+        --shape datasets/3dshape/<shape>_zup.obj \
+        --out   datasets/3dshape/<shape>_<env>_june03 \
+        --num_samples 400000 \
+        --margin 0.1 \
+        --offset 0.01 \
+        --2d \
+        --visualize \
+        --batch_size 256 \
+        --device cuda:2
+   ```
+2. **Train**:
+   ```
+   python train/train_3dshape_june03.py \
+      --dataPath ./datasets/3dshape/<shape>_<env>_june03 \
+      --modelPath ./Experiments/3dshape_2d_june03 --name <shape>_<env>
+   ```
+3. **Eval**:
+   ```
+   python evaluate_training_3d_batched.py \
+      --dataPath testing_data/3dshape/<shape>_<env> \
+      --out ./results/output_3d/<shape>_<env>_june03 \
+      --models metric_june03 \
+      --checkpoint ./Experiments/3dshape_2d_june03/<shape>_<env>/latest.pt \
+      --2d
+   ```
+
+Worked example for `rectangle_2denv4`:
+
+```
+python dataprocessing/preprocess_obj_june03.py \
+    --env   datasets/3dshape/2denv4_zup.obj \
+    --shape datasets/3dshape/rectangle_zup.obj \
+    --out   datasets/3dshape/rectangle_2denv4_june03 \
+    --num_samples 400000 --margin 0.1 --offset 0.01 --2d --visualize \
+    --batch_size 256 --device cuda:2
+python train/train_3dshape_june03.py \
+    --dataPath ./datasets/3dshape/rectangle_2denv4_june03 \
+    --modelPath ./Experiments/3dshape_2d_june03 --name rectangle_2denv4
+python evaluate_training_3d_batched.py \
+    --dataPath testing_data/3dshape/rectangle_2denv4 \
+    --out ./results/output_3d/rectangle_2denv4_june03 \
+    --models metric_june03 \
+    --checkpoint ./Experiments/3dshape_2d_june03/rectangle_2denv4/latest.pt --2d
+```
+
+### Running the whole sweep
+
+`_run_2d_preprocess.sh`, `_run_2d_train.sh` and `_run_2d_eval.sh` drive all 14
+(shape, env) pairs through both pipelines across the three GPUs; the results they
+produce are tabulated in `../../experiments_ours.md`.
+
+```
+bash _run_2d_preprocess.sh   # both generators + the shared test sets
+bash _run_2d_train.sh        # 28 runs, 5000 epochs each
+bash _run_2d_eval.sh         # 28 evaluations on the shared test sets
+```
+
+### Legacy dataset
+
+`datasets/3dshape/Tshape3d_env4` is the original 2-D dataset for the
+(`Tshape3d`, `2denv4`) pair, generated with these same settings before the env-tag
+naming above existed.  `Tshape3d_2denv4` supersedes it; the old row is kept in
+`../../experiments_ours.md` for continuity.

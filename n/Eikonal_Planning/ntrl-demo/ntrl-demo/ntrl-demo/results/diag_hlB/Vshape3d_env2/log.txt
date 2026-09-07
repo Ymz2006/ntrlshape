@@ -1,0 +1,80 @@
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+shape_radius=0.1850  env pts=50000  wall frac=0.935
+valid cases: 999 / 1000
+  rollout 250/999  (52s)
+  rollout 500/999  (97s)
+  rollout 750/999  (132s)
+  rollout 999/999  (183s)
+  clearance 100/999  (77s)
+  clearance 200/999  (148s)
+  clearance 300/999  (231s)
+  clearance 400/999  (319s)
+  clearance 500/999  (404s)
+  clearance 600/999  (487s)
+  clearance 700/999  (570s)
+  clearance 800/999  (659s)
+  clearance 900/999  (747s)
+
+=== hlB variant: step=0.015 local_w=0.03 samples=50 speed_gate=0.0 steps=200 ===
+cases        : 999
+success      : 696  (69.7%)
+collision    : 303
+no_converge  : 5
+collision only between waypoints (passed the waypoint check): 16
+
+--- collision failures: penetration depth (normalized units; margin=0.05, stride=0.015, test offset=0.02)
+  depth p10 = 0.0014
+  depth p25 = 0.0031
+  depth p50 = 0.0071
+  depth p75 = 0.0129
+  depth p90 = 0.0166
+  frac max_depth < 0.002 : 0.155
+  frac max_depth < 0.005 : 0.403
+  frac max_depth < 0.010 : 0.644
+  frac max_depth < 0.015 : 0.799
+  frac max_depth < 0.020 : 0.987
+  frac max_depth < 0.050 : 1.000
+--- number of colliding waypoints per failed path
+  n_coll_wp p10 = 1
+  n_coll_wp p25 = 2
+  n_coll_wp p50 = 5
+  n_coll_wp p75 = 10
+  n_coll_wp p90 = 17
+  frac n_coll_wp <=  1 : 0.191
+  frac n_coll_wp <=  2 : 0.300
+  frac n_coll_wp <=  3 : 0.370
+  frac n_coll_wp <=  5 : 0.518
+  frac n_coll_wp <= 10 : 0.772
+--- max env points inside shape at a waypoint: median 5, p90 20
+--- wall-only collisions: 0.020   any-wall: 0.026
+--- collision within 2 waypoints of the meeting point: 0.228
+--- deepest waypoint position along path: p25 0.32 p50 0.45 p75 0.66
+--- collided AND not converged: 0.017
+
+--- field calibration over ALL waypoints of ALL rollouts (clearance bins, normalized units)
+  bin                 n     gt_speed   pred_full(med)  pred_trans(med)  pred_full(p10-p90)
+  [-1.000,-0.020)        6   0.020      0.092           0.176          0.069-0.203
+  [-0.020,-0.010)      756   0.020      0.158           0.209          0.071-0.258
+  [-0.010,-0.005)      609   0.020      0.191           0.274          0.104-0.299
+  [-0.005,-0.002)      630   0.020      0.208           0.303          0.126-0.311
+  [-0.002,+0.000)      507   0.020      0.215           0.307          0.133-0.315
+  [+0.000,+0.002)      591   0.025      0.209           0.299          0.134-0.308
+  [+0.002,+0.005)      973   0.070      0.210           0.309          0.135-0.330
+  [+0.005,+0.010)     2170   0.153      0.217           0.309          0.142-0.326
+  [+0.010,+0.020)     7763   0.313      0.235           0.337          0.156-0.368
+  [+0.020,+0.030)    13683   0.504      0.259           0.397          0.175-0.406
+  [+0.030,+0.050)    26032   0.785      0.286           0.460          0.205-0.432
+  [+0.050,+1.000)    12519   1.000      0.315           0.544          0.237-0.459
+
+--- failed paths: median pred speed at colliding wps 0.191 (n=2508) vs free wps (clearance>0.02) 0.299 (n=14802)
+    frac colliding wps with pred speed < median-free (0.299): 0.898
+    frac colliding wps with pred speed < 0.5*median-free: 0.274
+
+--- last free waypoint before first collision (n=303):
+    true clearance  p25 0.0014  p50 0.0033  p75 0.0057
+    pred speed there p25 0.176  p50 0.224  p75 0.270
+    pred speed at first colliding wp p50 0.219
+saved to results/diag_hlB/Vshape3d_env2

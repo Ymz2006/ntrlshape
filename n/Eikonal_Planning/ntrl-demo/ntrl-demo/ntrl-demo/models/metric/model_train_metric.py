@@ -120,7 +120,7 @@ class Model():
         self.Params['Training']['Number of sample points'] = 2e5
         self.Params['Training']['Batch Size'] = 2000
         self.Params['Training']['Validation Percentage'] = 10
-        self.Params['Training']['Number of Epochs'] = 10000
+        self.Params['Training']['Number of Epochs'] = 5000
         self.Params['Training']['Resampling Bounds'] = [0.1, 0.9]
         self.Params['Training']['Print Every * Epoch'] = 1
         self.Params['Training']['Save Every * Epoch'] = 500
@@ -159,6 +159,8 @@ class Model():
         #self._init_network()
         self.B = torch.normal(0,1,size=(128,self.dim))
         torch.nn.init.trunc_normal_(self.B, mean=0.0, std=2, a=-2.0, b=2.0)
+
+        
         #self.B = 0.5*self.B
         #torch.save(B, self.Params['ModelPath']+'/B.pt')
         freq_bands = 0.5**(torch.linspace(0, 8, 128)) 

@@ -23,7 +23,7 @@ BATCH_SIZE=${BATCH_SIZE:-2000}
 MAX_BATCHES=${MAX_BATCHES:-5}
 SLOTS=${SLOTS:-"cuda:0 cuda:0 cuda:1 cuda:1 cuda:2 cuda:2"}
 
-# The env list of ntrl-demo/experiments.md, followed by the envs that exist as
+# The env list of ../../experiments_ours.md, followed by the envs that exist as
 # datasets but are not tabulated there.
 DATASETS=${DATASETS:-"\
 rectangle_env1 Lshape3d_env1 Fshape3d_env1 Ashape3d_env1 Vshape3d_env1 4shape3d_env1 \

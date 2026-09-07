@@ -1,14 +1,14 @@
-"""Collect the NTFields 3-D shape runs into ``experiments.md``.
+"""Collect the NTFields 3-D shape runs into ``../../experiments_ntfields.md``.
 
 Scans the output root written by ``train_3dshape_all.sh`` and emits one row per
 environment -- checkpoint path, epochs and final training loss -- in the same
-env order as the main repo's ``ntrl-demo/experiments.md``.  Re-run it at any
+env order as the main repo's ``../../experiments_ours.md``.  Re-run it at any
 time; environments that have not finished training yet are listed as pending.
 
 Where ``3d_plan.py`` has also inferred paths for an environment (its
 ``plan_summary.txt`` under ``--planPath``), the row gains that model's success
 rate, per-case planning time and path length -- mean +/- sd -- in the same form
-and the same metrics as ``ntrl-demo/RRT_experiments.md``, so the two tables can
+and the same metrics as ``../../experiments_rrt_connect.md``, so the two tables can
 be read side by side.  Environments with no planning run yet show ``--``.
 
     python make_experiments_md.py
@@ -25,7 +25,7 @@ ENVS = [
     'rectangle_env3', 'Lshape3d_env3', 'Fshape3d_env3', 'Ashape3d_env3', 'Vshape3d_env3', '4shape3d_env3',
     'rectangle_env4', 'Lshape3d_env4', 'Fshape3d_env4', 'Ashape3d_env4', 'Vshape3d_env4', '4shape3d_env4',
     'Tshape3d_env4',
-    # Present as datasets but absent from the main repo's experiments.md.
+    # Present as datasets but absent from the main repo's ../../experiments_ours.md.
     'Tshape3d_env1', 'Lcouch_Corozal',
 ]
 
@@ -35,7 +35,7 @@ parser.add_argument('--planPath', default='./outputs/3dplan',
                     help='Root of the 3d_plan.py runs; <planPath>/<env>/'
                          'plan_summary.txt supplies the path-inference columns.')
 parser.add_argument('--epochs', type=int, default=4000)
-parser.add_argument('--out', default='./experiments.md')
+parser.add_argument('--out', default='../../experiments_ntfields.md')
 args = parser.parse_args()
 
 CKPT = 'Model_Epoch_{:05d}_ValLoss_*.pt'.format(args.epochs)
@@ -114,7 +114,7 @@ lines = [
     '',
     'Trained with `train_3dshape_all.sh` ({} epochs x 5 batches of 2000 per '
     'environment -- the same 20,000 optimizer steps the ntrl-demo baselines get) '
-    'on the same datasets as the main repo\'s `ntrl-demo/experiments.md`.'.format(args.epochs),
+    'on the same datasets as the main repo\'s `experiments_ours.md`.'.format(args.epochs),
     '',
     'The last three columns come from `3d_plan.py`, which plans the 1000 start/goal',
     'pairs of `testing_data/3dshape/<env>` with the MPPI controller of',
@@ -124,7 +124,7 @@ lines = [
     '50k-point sampling of the whole environment mesh, walls included). Time is the',
     'per-case wall clock of the rollout over all scored cases; path length is OMPL\'s',
     'SE(3) metric (`sum ||dt|| + acos(|q.q\'|)`) over the successful ones -- the same',
-    'two quantities `RRT_experiments.md` reports, measured the same way.',
+    'two quantities `experiments_rrt_connect.md` reports, measured the same way.',
     '',
     'NTFields replays an epoch whose mean loss exceeds `--repeat-ratio` times the',
     'previous one, measured against a `prev_diff` that starts at 1.0. The 6-D shape',

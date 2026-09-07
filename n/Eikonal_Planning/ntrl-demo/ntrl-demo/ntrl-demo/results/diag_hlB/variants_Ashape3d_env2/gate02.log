@@ -1,0 +1,54 @@
+shape_radius=0.1844  env pts=50000  wall frac=0.935
+valid cases: 1000 / 1000
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+  rollout 250/1000  (58s)
+  rollout 500/1000  (106s)
+  rollout 750/1000  (141s)
+  rollout 1000/1000  (198s)
+  clearance 100/1000  (31s)
+  clearance 200/1000  (65s)
+  clearance 300/1000  (95s)
+  clearance 400/1000  (124s)
+  clearance 500/1000  (152s)
+  clearance 600/1000  (181s)
+  clearance 700/1000  (211s)
+  clearance 800/1000  (240s)
+  clearance 900/1000  (270s)
+  clearance 1000/1000  (298s)
+
+=== hlB variant: step=0.015 local_w=0.03 samples=50 speed_gate=0.2 steps=200 ===
+cases        : 1000
+success      : 793  (79.3%)
+collision    : 207
+no_converge  : 2
+
+--- collision failures: penetration depth (normalized units; margin=0.05, stride=0.015, test offset=0.02)
+  depth p10 = 0.0010
+  depth p25 = 0.0028
+  depth p50 = 0.0064
+  depth p75 = 0.0126
+  depth p90 = 0.0165
+  frac max_depth < 0.002 : 0.169
+  frac max_depth < 0.005 : 0.430
+  frac max_depth < 0.010 : 0.667
+  frac max_depth < 0.015 : 0.821
+  frac max_depth < 0.020 : 0.995
+  frac max_depth < 0.050 : 1.000
+--- number of colliding waypoints per failed path
+  n_coll_wp p10 = 1
+  n_coll_wp p25 = 2
+  n_coll_wp p50 = 5
+  n_coll_wp p75 = 9
+  n_coll_wp p90 = 14
+  frac n_coll_wp <=  1 : 0.184
+  frac n_coll_wp <=  2 : 0.300
+  frac n_coll_wp <=  3 : 0.367
+  frac n_coll_wp <=  5 : 0.541
+  frac n_coll_wp <= 10 : 0.821
+--- max env points inside shape at a waypoint: median 5, p90 17
+--- wall-only collisions: 0.014   any-wall: 0.024
+--- collision within 2 waypoints of the meeting point: 0.179
+--- deepest waypoint position along path: p25 0.35 p50 0.54 p75 0.70
+--- collided AND not converged: 0.010
+saved to results/diag_hlB/variants_Ashape3d_env2/gate02

@@ -4,7 +4,7 @@
 Takes a checkpoint trained by ``train_3dshape.py`` and plans the 1000 start/goal
 pairs of the matching test set, reporting per-case wall-clock planning time and
 path length so the numbers line up with the main repo's
-``ntrl-demo/RRT_experiments.md`` case for case.
+``../../experiments_rrt_connect.md`` case for case.
 
 The controller is the MPPI rollout from ``ntrl-demo/evaluate_training_3d.py``,
 adapted to NTFields:

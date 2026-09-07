@@ -1,0 +1,54 @@
+shape_radius=0.1844  env pts=50000  wall frac=0.935
+valid cases: 1000 / 1000
+/opt/conda/lib/python3.10/site-packages/torch/nn/modules/instancenorm.py:80: UserWarning: input's size at dim=0 does not match num_features. You can silence this warning by not passing in num_features, which is not used because affine=False
+  warnings.warn(f"input's size at dim={feature_dim} does not match num_features. "
+  rollout 250/1000  (55s)
+  rollout 500/1000  (109s)
+  rollout 750/1000  (142s)
+  rollout 1000/1000  (196s)
+  clearance 100/1000  (31s)
+  clearance 200/1000  (65s)
+  clearance 300/1000  (94s)
+  clearance 400/1000  (124s)
+  clearance 500/1000  (152s)
+  clearance 600/1000  (181s)
+  clearance 700/1000  (211s)
+  clearance 800/1000  (241s)
+  clearance 900/1000  (270s)
+  clearance 1000/1000  (299s)
+
+=== hlB variant: step=0.015 local_w=0.03 samples=50 speed_gate=0.0 steps=200 ===
+cases        : 1000
+success      : 795  (79.5%)
+collision    : 204
+no_converge  : 4
+
+--- collision failures: penetration depth (normalized units; margin=0.05, stride=0.015, test offset=0.02)
+  depth p10 = 0.0012
+  depth p25 = 0.0029
+  depth p50 = 0.0066
+  depth p75 = 0.0135
+  depth p90 = 0.0167
+  frac max_depth < 0.002 : 0.152
+  frac max_depth < 0.005 : 0.407
+  frac max_depth < 0.010 : 0.662
+  frac max_depth < 0.015 : 0.819
+  frac max_depth < 0.020 : 0.990
+  frac max_depth < 0.050 : 1.000
+--- number of colliding waypoints per failed path
+  n_coll_wp p10 = 1
+  n_coll_wp p25 = 2
+  n_coll_wp p50 = 5
+  n_coll_wp p75 = 10
+  n_coll_wp p90 = 15
+  frac n_coll_wp <=  1 : 0.181
+  frac n_coll_wp <=  2 : 0.294
+  frac n_coll_wp <=  3 : 0.368
+  frac n_coll_wp <=  5 : 0.510
+  frac n_coll_wp <= 10 : 0.794
+--- max env points inside shape at a waypoint: median 4, p90 19
+--- wall-only collisions: 0.020   any-wall: 0.020
+--- collision within 2 waypoints of the meeting point: 0.186
+--- deepest waypoint position along path: p25 0.35 p50 0.56 p75 0.70
+--- collided AND not converged: 0.015
+saved to results/diag_hlB/variants_Ashape3d_env2/seed1

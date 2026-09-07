@@ -14,7 +14,7 @@ Run every command from this directory.
   planning time and path length.
 - `3d_plan_all.sh`: that inference over every trained environment.
 - `make_experiments_md.py`: collects the 3-D shape training *and* path-inference
-  runs into `experiments.md`.
+  runs into `../../experiments_ntfields.md`.
 - `test.py`: trajectory generation with the bundled pretrained model.
 - `fmm.py`: CPU FMM trajectory generation on a mesh-derived speed grid.
 - `models/`: NTFields network and data loader from the working repository, with
@@ -103,7 +103,7 @@ that both `baselines/` and the datasets under `ntrl-demo/` are visible.
 ```bash
 python train_3dshape.py --env rectangle_env1 --device cuda:0        # one env
 bash train_3dshape_all.sh                                           # all 27 envs
-python make_experiments_md.py                                       # write experiments.md
+python make_experiments_md.py                                       # write ../../experiments_ntfields.md
 ```
 
 Runs land in `outputs/3dshape/<env>/` (final checkpoint copied to `latest.pt`),
@@ -154,13 +154,13 @@ of the matching test set under
 `../../ntrl-demo/ntrl-demo/testing_data/3dshape/<env>/sampled_points.npy`
 (an `(N, 12)` array, columns 0-5 the start config and 6-11 the goal). It reports
 per-case wall-clock planning time and path length, mean ± sd, and writes them
-into `experiments.md` via `make_experiments_md.py`.
+into `../../experiments_ntfields.md` via `make_experiments_md.py`.
 
 ```bash
 python 3d_plan.py --env rectangle_env1 --device cuda:0     # one env, all 1000 cases
 python 3d_plan.py --env rectangle_env1 --cases 20          # smoke test
 bash 3d_plan_all.sh                                        # all trained envs
-python make_experiments_md.py                              # fold into experiments.md
+python make_experiments_md.py                              # fold into ../../experiments_ntfields.md
 ```
 
 Each run writes `outputs/3dplan/<env>/plan_summary.txt` (the aggregate) and
@@ -207,7 +207,7 @@ stride cap already keeps dense.
 
 `Path Time` is the mean ± sd over **all** scored cases; `Path Length` is the
 mean ± sd over the **successful** ones. That is what
-`ntrl-demo/RRT_experiments.md` reports, and the length uses the same metric:
+`../../experiments_rrt_connect.md` reports, and the length uses the same metric:
 OMPL's SE(3) distance summed along the polyline,
 `sum ||dt|| + acos(|q_i . q_i+1|)`, in the normalized frame. Comparing the two
 tables, note that MPPI emits one waypoint per iteration -- tens to hundreds of
@@ -224,7 +224,7 @@ true cost -- so the run does a short warm-up rollout before timing anything.
 ### Results
 
 All 27 checkpoints have been run over the full 1000 pairs of their test set;
-`experiments.md` holds the per-environment table. Across the 27,000 cases:
+`../../experiments_ntfields.md` holds the per-environment table. Across the 27,000 cases:
 
 - **86.8% success** (23,424 / 27,000), per-environment 60.0% -- 97.2%.
 - **0.112 s** mean per-case planning time (per-env means 0.094 -- 0.166 s).
@@ -250,7 +250,7 @@ it is not (`env2`, and the scanned `Corozal` scene), the rollout is steered
 through geometry. Within an environment, difficulty tracks shape concavity
 almost monotonically: rectangle > F ~ 4 > L > A ~ V.
 
-For scale, `ntrl-demo/RRT_experiments.md` covers 24 of these test sets (all but
+For scale, `../../experiments_rrt_connect.md` covers 24 of these test sets (all but
 `Tshape3d_env4`, `Tshape3d_env1` and `Lcouch_Corozal`). Restricted to those 24,
 so the comparison is like for like:
 

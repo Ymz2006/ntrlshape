@@ -1167,6 +1167,9 @@ def build_args():
     ap.add_argument('--fps', type=float, default=60.0)
     ap.add_argument('--substeps', type=int, default=4)
     ap.add_argument('--port', type=int, default=8080)
+    ap.add_argument('--top-down', action='store_true',
+                    help='start the viewer looking straight down at the floor, framed so the '
+                         'scene reads as 2D. Switchable at runtime from the View folder.')
     # T geometry and the limit surface
     ap.add_argument('--c-length', type=float, default=None,
                     help='limit-surface length scale. Default spin_friction/friction, '
@@ -1834,6 +1837,10 @@ def run_viser(args, sim, ctrl, ref, env_mesh, env_polys, tee_mesh, tee_poly, tee
         show_grid = server.gui.add_checkbox('grid', True)
         show_circle = server.gui.add_checkbox('stand-off circle', args.teleport_interp)
         show_samples = server.gui.add_checkbox('contact samples', True)
+        cam_view = server.gui.add_dropdown('camera', ('3D (free orbit)', 'top-down (2D)'),
+                                           initial_value='top-down (2D)' if args.top_down
+                                           else '3D (free orbit)')
+        cam_reset = server.gui.add_button('recentre camera')
         server.gui.add_markdown(
             'Every transit is three legs -- off the surface, across, back down -- and '
             'the middle one has two forms. Between two points standing off the SAME face '
@@ -1928,6 +1935,44 @@ def run_viser(args, sim, ctrl, ref, env_mesh, env_polys, tee_mesh, tee_poly, tee
         @do_replan.on_update
         def _(_):
             runner.replan_on = do_replan.value
+
+    # Viser has no orthographic camera, so the 2D view is a very narrow perspective from
+    # far above: the frustum is close enough to parallel that the walls show no sides and
+    # the floor fills the viewport.  The 3D view is a plain oblique orbit about the floor.
+    TOP_FOV = math.radians(4.0)
+    TOP_DIST = fw / (2.0 * math.tan(TOP_FOV / 2.0))
+
+    def apply_view(client):
+        cam = client.camera
+        top = cam_view.value.startswith('top')
+        cam.far = max(1000.0, TOP_DIST * 4.0)
+        cam.max_orbit_distance = max(1e4, TOP_DIST * 4.0)
+        if top:
+            cam.fov = TOP_FOV
+            cam.up_direction = (0.0, 1.0, 0.0)          # screen-up = world +y
+            cam.position = (fc[0], fc[1], TOP_DIST)
+            cam.look_at = (fc[0], fc[1], 0.0)
+        else:
+            cam.fov = math.radians(50.0)
+            cam.up_direction = (0.0, 0.0, 1.0)
+            cam.position = (fc[0], fc[1] - 1.1 * fw, 0.9 * fw)
+            cam.look_at = (fc[0], fc[1], 0.0)
+
+    def apply_view_all():
+        for client in server.get_clients().values():
+            apply_view(client)
+
+    @cam_view.on_update
+    def _(_):
+        apply_view_all()
+
+    @cam_reset.on_click
+    def _(_):
+        apply_view_all()
+
+    @server.on_client_connect
+    def _(client):
+        apply_view(client)
 
     print(f'[push-demo] serving on http://localhost:{args.port}')
     print(f'[push-demo] reference {len(ref)} waypoints; green line = planned T path, '
