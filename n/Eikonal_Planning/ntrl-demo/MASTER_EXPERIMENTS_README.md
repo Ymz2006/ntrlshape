@@ -78,7 +78,7 @@ over the same cells and times each phase separately.
 
 | Method | 2d e1<br>rect | 2d e1<br>L | 2d e1<br>F | 2d e1<br>A | 2d e1<br>V | 2d e1<br>4 | 2d e1<br>T | 2d e2<br>rect | 2d e2<br>L | 2d e2<br>F | 2d e2<br>A | 2d e2<br>V | 2d e2<br>4 | 2d e2<br>T | 2d e3<br>rect | 2d e3<br>L | 2d e3<br>F | 2d e3<br>A | 2d e3<br>V | 2d e3<br>4 | 2d e3<br>T | 2d e4<br>rect | 2d e4<br>L | 2d e4<br>F | 2d e4<br>A | 2d e4<br>V | 2d e4<br>4 | 2d e4<br>T |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| **Our method** | 🟡 | 🟡 | 🟡 | 🟡 | 🟡 | 🟡 | 🟡 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅* |
+| **Our method** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅* |
 | **Metric NTFields** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | **NTFields** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | **MPNet** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
@@ -93,7 +93,7 @@ predates the timed sweep so it contributes no generation time.
 
 | Method | Generator | Training data | Test sets | Log | Total generation time |
 | --- | --- | --- | --- | --- | --- |
-| **Our method** | `preprocess_obj.py --2d`, 800k pairs, `--batch_size 500` (phase A settings, driven per-env by `_run_2denv4_preprocess.sh` / `_run_2denv1_preprocess.sh`) | `datasets/3dshape/<shape>_<env>/` | `testing_data/3dshape/<shape>_<env>/` (1000 pairs, `--offset 0.02`) | `.preplogs_2denv4/<shape>_2denv4.log`, `.preplogs_2denv1/<shape>_2denv1.log` | `2denv4`: **12571 s** wall (28447 s summed over 6 jobs, 3 GPUs), 2026-09-07; `2denv1`: running. Per-cell times in `2d_gen_times.md` |
+| **Our method** | `preprocess_obj.py --2d`, 800k pairs, `--batch_size 500` (phase A settings, driven per-env by `_run_2denv4_preprocess.sh` / `_run_2denv1_preprocess.sh`) | `datasets/3dshape/<shape>_<env>/` | `testing_data/3dshape/<shape>_<env>/` (1000 pairs, `--offset 0.02`) | `.preplogs_2denv4/<shape>_2denv4.log`, `.preplogs_2denv1/<shape>_2denv1.log` | `2denv4`: **12571 s** wall (28447 s summed over 6 jobs, 3 GPUs), 2026-09-07; `2denv1`: **60977 s** summed over 7 jobs, 2026-09-07/08; `2denv2`: **64659 s** summed over 7 jobs, 2026-09-08; `2denv3`: **20507 s** summed over 7 jobs at `--batch_size 1000`, 2026-09-08. Per-cell times in `2d_gen_times.md` |
 | **Metric NTFields** | `preprocess_obj_june03.py --2d`, 400k pairs, `--margin 0.1 --offset 0.01 --batch_size 256` (phase B) | `datasets/3dshape/<shape>_<env>_june03/` | shares Our method's test sets | `.preplogs_2d/<shape>_<env>_june03.log` | **pending** &mdash; phase B has not started (it runs only after phase A completes) |
 | **NTFields** | none &mdash; same pipeline, same files | Our method's | Our method's | &mdash; | &mdash; (no separate generation) |
 | **MPNet** | not in the tree | &mdash; | &mdash; | &mdash; | &mdash; |
@@ -130,10 +130,22 @@ existed before the 2026-09-07 run. `_run_2denv4_preprocess.sh` and
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | **Our method** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | **Metric NTFields** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| **NTFields** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
+| **NTFields** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅† |
 | **MPNet** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | **RRT-Connect** | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — |
 | **Lazy PRM** | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — |
+
+† `2d e4 T` is the legacy `Tshape3d_env4` cell, trained earlier and tabulated in
+the 3-D block of `experiments_ntfields.md`.
+
+**NTFields 2-D training is done**: 27 cells, 4000 epochs x 5 batches of 2000 each
+(the same 20,000-step budget as every other learned row), 2026-09-08, **5518 s**
+wall over six concurrent jobs on three GPUs; per-cell 1038-1187 s, mean 1105 s.
+Per-cell losses and times are in `experiments_ntfields.md`, which now carries a row
+for every benchmark cell whether or not it has been trained. One cell to watch:
+`rectangle_2denv3` converged to 1.7641e+00 against 0.51-0.81 everywhere else -- it
+never descended from its epoch-1 loss, so treat that checkpoint as suspect until
+its planning numbers come in.
 
 ## Evaluation
 
@@ -170,15 +182,26 @@ NTFields are marked ✅ because they consume those trees, not because they
 generate their own. RRT-Connect and Lazy PRM plan directly against the meshes
 and have no preprocessing stage; they read the shared test sets only.
 
-**2-D preprocessing is the live front.** `_run_2denv4_preprocess.sh` finished all
-six non-`T` `2denv4` cells on 2026-09-07 (3 h 29 m 31 s wall, three GPUs); `T` was
-skipped because `Tshape3d_env4` already held it. `_run_2denv1_preprocess.sh` is now
-running all seven `2denv1` cells with the same settings. The recovered June-3
-pipeline (`<shape>_<env>_june03`, the Metric NTFields row) has not been run on any
-2-D cell. **No `2denv2` or `2denv3` mesh exists yet** -- `datasets/3dshape/` holds
-only `2denv1_zup.obj` and `2denv4_zup.obj` -- so those two columns cannot start
-until the meshes are authored. 2-D training and evaluation remain blocked on the
-`2denv1` half finishing.
+**2-D preprocessing is the live front.** `2denv4` (six non-`T` cells; `T` was
+skipped because `Tshape3d_env4` already held it) finished 2026-09-07 in 3 h 29 m 31 s
+wall over three GPUs. `2denv1` (all seven cells) finished 2026-09-08: five cells on
+2026-09-07, then a host reboot at 20:34 UTC killed the container mid-`Tshape3d`, and
+`Tshape3d` + `rectangle` were re-run to completion the next morning. All fourteen
+cells are verified `(800000, 12)` train / `(1000, 12)` test, no NaNs, `z`/`rx`/`ry`
+pinned to 0. `2denv2` (13-body mesh, authored 2026-09-07) finished 2026-09-08, run serially on
+cuda:2 while the `2denv1` re-run held the other cards and then fanned out to all
+three; all seven cells verified. `2denv3` (6-body mesh, authored 2026-09-08) finished
+2026-09-08 21:43 UTC on cuda:1/cuda:2 and was the one sweep at `--batch_size 1000`
+-- measured peak 16.1 GiB on `Ashape3d`, well inside a 24 GiB card, no OOMs.
+
+**2-D preprocessing is complete**: all 28 Our-method cells exist and are verified
+`(800000, 12)` train / `(1000, 12)` test, no NaNs, `z`/`rx`/`ry` pinned to 0, in
+both test-set variants -- standard (`--offset 0.02`) and `_tight` (`--offset 0.005`,
+the harder queries the `Valid (tight)` columns are scored on). `Tshape3d_2denv4`
+now has a standard test set under the env-tag name as well, alongside the legacy
+`Tshape3d_env4`. Every 2-D training and evaluation cell is now unblocked. The recovered June-3 pipeline
+(`<shape>_<env>_june03`, the Metric NTFields row) has still not been run on any 2-D
+cell, so that row remains the outstanding half of the head-to-head.
 
 **Training.** 4000 epochs per cell for all three learned rows, same datasets and
 same optimizer-step budget. Our-method checkpoints are
@@ -223,9 +246,15 @@ three files once all named `experiments.md` no longer collide.
 | --- | --- |
 | `_run_2d_preprocess.sh` | both 2-D pipelines (current + June-3) over all 7 shapes x `2denv4`, `2denv1` |
 | `_run_2denv4_preprocess.sh` | the six non-`T` `2denv4` cells, current pipeline only &mdash; **done** 2026-09-07 |
-| `_run_2denv1_preprocess.sh` | all seven `2denv1` cells, current pipeline only &mdash; **running** |
+| `_run_2denv1_preprocess.sh` | all seven `2denv1` cells, current pipeline only &mdash; **done** 2026-09-08 |
+| `_run_2denv2_preprocess.sh` | all seven `2denv2` cells, current pipeline only &mdash; **done** 2026-09-08 |
+| `_run_2denv3_preprocess.sh` | all seven `2denv3` cells at `--batch_size 1000` (`BATCH`) &mdash; **done** 2026-09-08 |
 | `_run_2d_train.sh` | 2-D training sweep, 5000 epochs per cell |
 | `_run_2d_eval.sh` | 2-D evaluation sweep, 1000 pairs per cell |
 | `_run_bdiff.sh`, `_run_bdiff_eval.sh` | Fourier-`B`-scale ablation (`models/metric_bdiff`) |
+
+The three per-env preprocessing drivers take an optional `SHAPES` environment
+variable to run a subset (used to resume after the reboot); `_run_2denv2_preprocess.sh`
+additionally takes `GPU_LIST` and `NWORKERS` to pin a sweep to a subset of the cards.
 
 All GPU work runs inside the `pytorchserver` container against `/workspace/ntrl-demo`.

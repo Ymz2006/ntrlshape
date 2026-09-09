@@ -1,0 +1,82 @@
+[load_obj] 'datasets/3dshape/2denv3_zup.obj': 6 objects/groups
+  [0] 'Body8'  (32 triangles)
+  [1] 'Body14'  (12 triangles)
+  [2] 'Body15'  (12 triangles)
+  [3] 'Body17'  (12 triangles)
+  [4] 'Body20'  (12 triangles)
+  [5] 'Body21'  (12 triangles)
+[--2d] environment flattened onto z=0
+[load_obj] 'datasets/3dshape/Ashape3d_zup.obj': 1 objects/groups
+  [0] 'Body2'  (40 triangles)
+[--2d] shape z extent 0.0286 -> 0.0100 (env-normalized units)
+Delaunizing vertices...
+Delaunay seconds:  0.000558
+Creating surface mesh ...
+Surface mesh seconds:  6e-05
+Recovering boundaries...
+Boundary recovery seconds:  0.006276
+Removing exterior tetrahedra ...
+Exterior tets removal seconds:  3e-05
+Suppressing Steiner points ...
+Steiner suppression seconds:  4e-06
+Recovering Delaunayness...
+Delaunay recovery seconds:  0.003251
+Refining mesh...
+  27 insertions, added 0 points, 3 tetrahedra in queue.
+  8 insertions, added 0 points, 0 tetrahedra in queue.
+  11 insertions, added 0 points, 0 tetrahedra in queue.
+Refinement seconds:  0.000157
+Improving mesh...
+Mesh improvement seconds:  2.5e-05
+Jettisoning redundant points.
+
+Writing nodes.
+Writing elements.
+Writing faces.
+Writing edges.
+
+Output seconds:  3.1e-05
+Total running seconds:  0.010456
+
+Statistics:
+
+  Input points: 20
+  Input facets: 40
+  Input segments: 60
+  Input holes: 0
+  Input regions: 0
+
+  Mesh points: 20
+  Mesh tetrahedra: 30
+  Mesh faces: 80
+  Mesh faces on exterior boundary: 40
+  Mesh faces on input facets: 40
+  Mesh edges on input segments: 60
+
+Tetrahedralized shape: 30 tets, 40 boundary triangles, 20 verts
+Sampling 1000 (x0, x1) pairs [TESTING (independent collision-free pairs) | PLANAR 2-D (z=0, rotation about z only)]   margin=0.05  offset=0.005  ...
+generated: 106 / 1000
+generated: 211 / 1000
+generated: 323 / 1000
+generated: 430 / 1000
+generated: 555 / 1000
+generated: 658 / 1000
+generated: 771 / 1000
+generated: 880 / 1000
+generated: 988 / 1000
+generated: 1000 / 1000
+Sampling done in 3.6s
+Saved sample visualization: testing_data/3dshape/Ashape3d_2denv3_tight/sampled_placements.html
+Saved speed distribution: testing_data/3dshape/Ashape3d_2denv3_tight/speed_distribution.html
+Saved speed_angles distribution: testing_data/3dshape/Ashape3d_2denv3_tight/speed_angles_distribution.html
+Saved speed_dists distribution: testing_data/3dshape/Ashape3d_2denv3_tight/speed_dists_distribution.html
+x0 pos    : x=[-0.424,0.434]  y=[-0.435,0.422]  z=[0.000,0.000]
+speed x0  : [0.054, 1.000]   (band [0.100, 1.0])
+speed x1  : [0.052, 1.000]
+Wrote 1000 training pairs to testing_data/3dshape/Ashape3d_2denv3_tight
+  sampled_points.npy (1000, 12)
+  speed.npy          (1000, 2)
+  normal.npy         (1000, 12)
+  trans_n.npy        (1000, 12)
+  rot_n.npy          (1000, 12)
+  env.npy            (10000, 3)

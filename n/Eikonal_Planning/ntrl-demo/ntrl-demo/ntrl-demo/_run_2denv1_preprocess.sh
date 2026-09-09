@@ -7,7 +7,7 @@ cd /workspace/ntrl-demo
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 # Ordered by boundary-triangle count (descending) -- longest job first.
-SHAPES="Ashape3d 4shape3d Fshape3d Tshape3d Vshape3d Lshape3d rectangle"
+SHAPES="${SHAPES:-Ashape3d 4shape3d Fshape3d Tshape3d Vshape3d Lshape3d rectangle}"
 MESH=datasets/3dshape/2denv1_zup.obj
 LOGS=./.preplogs_2denv1
 mkdir -p $LOGS

@@ -26,6 +26,10 @@ PLANNERS = [
     ('hlB/Alternative Bellman Horizon', 'SR Alternate Bellman Horizon'),
 ]
 
+# Filled in separately by _make_spread_sd.py (it reads results/spread_sd/), so this
+# script only leaves the column in place.
+SD = 'SR Alternate Bellman Horizon SD'
+
 parser = argparse.ArgumentParser(description='Write the 2-D half of ../../experiments_ours.md.')
 parser.add_argument('--resultPath', default='./results/output_3d')
 parser.add_argument('--expCur', default='./Experiments/3dshape_2d')
@@ -59,15 +63,15 @@ def pct(v):
 
 
 def table(rows, ckpt_root):
-    lines = ['| Env | Model | ' + ' | '.join(h for _, h in PLANNERS) + ' | test_cases |',
-             '| --- | --- | ' + ' | '.join('---' for _ in PLANNERS) + ' | --- |']
+    lines = ['| Env | Model | ' + ' | '.join(h for _, h in PLANNERS) + ' | ' + SD + ' | test_cases |',
+             '| --- | --- | ' + ' | '.join('---' for _ in PLANNERS) + ' | --- | --- |']
     for ds, res in rows:
         if res is None:
             lines.append('| {} | `{}` | {} |'.format(
                 ds, os.path.join(ckpt_root, ds, 'latest.pt'),
-                ' | '.join(['--'] * (len(PLANNERS) + 1))))
+                ' | '.join(['--'] * (len(PLANNERS) + 2))))
             continue
-        lines.append('| {} | `{}` | {} | {} |'.format(
+        lines.append('| {} | `{}` | {} | -- | {} |'.format(
             ds,
             res['checkpoint'] or os.path.join(ckpt_root, ds, 'latest.pt'),
             ' | '.join(pct(res.get(h)) for _, h in PLANNERS),

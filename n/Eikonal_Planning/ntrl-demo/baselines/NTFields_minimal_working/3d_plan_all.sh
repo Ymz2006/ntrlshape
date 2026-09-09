@@ -8,8 +8,15 @@
 # An environment that already has a plan_summary.txt is skipped, so the script is
 # re-runnable after an interruption (pass FORCE=1 to re-plan anyway).
 #
+# $SUFFIX picks a variant of each environment's test set: the checkpoint still
+# comes from <MODEL_ROOT>/<env>, but the pairs are read from
+# <TEST_ROOT>/<env><SUFFIX> and the summary lands in <OUT_ROOT>/<env><SUFFIX>.
+# That is how the tight (--offset 0.005) test sets are scored with the models
+# trained on the ordinary ones.
+#
 #   bash 3d_plan_all.sh
 #   DATASETS="rectangle_env1" SLOTS="cuda:1" bash 3d_plan_all.sh
+#   SUFFIX=_tight OUT_ROOT=./outputs/3dplan_tight bash 3d_plan_all.sh
 #
 set -u
 
@@ -19,6 +26,7 @@ MODEL_ROOT=${MODEL_ROOT:-./outputs/3dshape}
 TEST_ROOT=${TEST_ROOT:-../../ntrl-demo/ntrl-demo/testing_data/3dshape}
 OUT_ROOT=${OUT_ROOT:-./outputs/3dplan}
 CASES=${CASES:-0}                       # 0 = all 1000 pairs
+SUFFIX=${SUFFIX:-}                      # e.g. _tight; empty = the ordinary test sets
 SLOTS=${SLOTS:-"cuda:0 cuda:1 cuda:2"}
 FORCE=${FORCE:-0}
 
@@ -37,8 +45,9 @@ mkdir -p "$LOG_DIR"
 
 plan_one() {
     local dataset=$1 device=$2
-    local log=$LOG_DIR/$dataset.log
-    local summary=$OUT_ROOT/$dataset/plan_summary.txt
+    local testset=$dataset$SUFFIX
+    local log=$LOG_DIR/$testset.log
+    local summary=$OUT_ROOT/$testset/plan_summary.txt
 
     if [ "$FORCE" != "1" ] && [ -f "$summary" ]; then
         echo "[skip] $dataset -- $summary already exists"
@@ -48,26 +57,26 @@ plan_one() {
         echo "[miss] $dataset -- no latest.pt under $MODEL_ROOT/$dataset"
         return 1
     fi
-    if [ ! -f "$TEST_ROOT/$dataset/sampled_points.npy" ]; then
-        echo "[miss] $dataset -- no test set under $TEST_ROOT/$dataset"
+    if [ ! -f "$TEST_ROOT/$testset/sampled_points.npy" ]; then
+        echo "[miss] $testset -- no test set under $TEST_ROOT/$testset"
         return 1
     fi
 
-    echo "[run ] $dataset on $device -> $log"
+    echo "[run ] $testset on $device -> $log"
     python -u 3d_plan.py \
         --env "$dataset" \
         --model-root "$MODEL_ROOT" \
-        --test-root "$TEST_ROOT" \
-        --out "$OUT_ROOT/$dataset" \
+        --data "$TEST_ROOT/$testset" \
+        --out "$OUT_ROOT/$testset" \
         --cases "$CASES" \
         --device "$device" > "$log" 2>&1
     local status=$?
 
     if [ $status -ne 0 ] || [ ! -f "$summary" ]; then
-        echo "[FAIL] $dataset (exit $status) -- see $log"
+        echo "[FAIL] $testset (exit $status) -- see $log"
         return 1
     fi
-    echo "[done] $dataset -- $(grep -m1 success_rate "$summary")"
+    echo "[done] $testset -- $(grep -m1 success_rate "$summary")"
 }
 
 slots=($SLOTS)
@@ -80,7 +89,7 @@ for dataset in $DATASETS; do
 done > "$joblist"
 
 export -f plan_one
-export MODEL_ROOT TEST_ROOT OUT_ROOT CASES LOG_DIR FORCE
+export MODEL_ROOT TEST_ROOT OUT_ROOT CASES SUFFIX LOG_DIR FORCE
 
 start=$(date +%s)
 xargs -a "$joblist" -P "$n_slots" -n 2 bash -c 'plan_one "$0" "$1"'
