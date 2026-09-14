@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # 2denv4 only, current ("my method") pipeline: training set + shared test set.
-# Tshape3d is skipped -- it was already generated (datasets/3dshape/Tshape3d_env4).
+# Tshape3d is skipped -- it was already generated (datasets/3dshape/Tshape3d_2denv4,
+# built 2026-08-18 under the pre-env-tag name Tshape3d_env4 and renamed 2026-09-10).
 # Same settings as _run_2d_preprocess.sh phase A.
 set -u
 cd /workspace/ntrl-demo

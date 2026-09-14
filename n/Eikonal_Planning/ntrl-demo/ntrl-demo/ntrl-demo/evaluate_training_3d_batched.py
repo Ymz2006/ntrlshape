@@ -112,6 +112,12 @@ parser.add_argument('--step', type=float, default=0.015,
                     help='Per-sample displacement cap in the normalized 6-D config '
                          'space (rotvec / 2*pi).  Note the convergence ball is 0.01, '
                          'so the default stride is LARGER than the target.')
+parser.add_argument('--temp', type=float, default=50.0,
+                    help='MPPI softmax temperature: sample weights are softmax(-temp * cost). '
+                         'The default 50 is calibrated to fields with |grad tau| ~ 5; a field '
+                         'that learned |grad tau| ~ 1 (lots of speed-1 data, e.g. the '
+                         'drone_small_Aloha cell) needs a proportionally larger value or the '
+                         'weights flatten and the rollout stalls.')
 parser.add_argument('--taper', type=float, default=0.0,
                     help='If > 0, shrink the sampling radius and executed step to '
                          'taper*dist_to_goal on final approach (floor 0.1*step), so '
@@ -403,7 +409,7 @@ def MPPI_batched(womodel, XP, dim, steps=200,
         cost = 10 * cost[:, :, 0] + cost[:, :, 1]           # (B, sample_num)
 
 
-        weight = torch.softmax(-50 * cost, dim=1)           # (B, sample_num)
+        weight = torch.softmax(-args.temp * cost, dim=1)           # (B, sample_num)
         # Weighted mean of the first-step displacement over samples -> (B, dim).
         step_prior = torch.bmm(weight.unsqueeze(1), dP[:, :, 0, :]).squeeze(1)
         dP_prior = step_prior
@@ -671,7 +677,7 @@ def MPPI_alternating_batched(womodel, XP, dim, steps=200, local_step=False,
         cost = _candidate_cost(womodel, XP_tmp, XP[:, 0:dim], dim,
                                local_step, all_horizon, local_w, indep)
 
-        weight = torch.softmax(-50 * cost, dim=1)
+        weight = torch.softmax(-args.temp * cost, dim=1)
         step_prior = torch.bmm(weight.unsqueeze(1), dP[:, :, 0, :]).squeeze(1)
         dP_prior = step_prior
 
@@ -1650,6 +1656,7 @@ summary_lines = [
     f"mppi_momentum                : {MOMENTUM}",
     f"mppi_step                    : {STEP}   [convergence ball is 0.01]",
     f"mppi_taper                   : {TAPER}",
+    f"mppi_temp                    : {args.temp}   [softmax(-temp * cost); default 50]",
     f"mppi_planar (--2d)           : {PLANAR}"
     + (f"   [free dims {PLANAR_FREE_DIMS} = x, y, rz]" if PLANAR else ""),
     f"no_conv_min_dis_median       : "

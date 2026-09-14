@@ -17,6 +17,7 @@
 #   bash 3d_plan_all.sh
 #   DATASETS="rectangle_env1" SLOTS="cuda:1" bash 3d_plan_all.sh
 #   SUFFIX=_tight OUT_ROOT=./outputs/3dplan_tight bash 3d_plan_all.sh
+#   DATASETS="$DATASETS_2D" EXTRA="--2d" bash 3d_plan_all.sh
 #
 set -u
 
@@ -29,6 +30,9 @@ CASES=${CASES:-0}                       # 0 = all 1000 pairs
 SUFFIX=${SUFFIX:-}                      # e.g. _tight; empty = the ordinary test sets
 SLOTS=${SLOTS:-"cuda:0 cuda:1 cuda:2"}
 FORCE=${FORCE:-0}
+# Extra flags appended verbatim to every 3d_plan.py call, e.g. EXTRA="--2d" to
+# force planar rollouts on test sets whose meta.json does not carry "two_d".
+EXTRA=${EXTRA:-}
 
 # The env list of ../../experiments_ours.md, followed by the envs that exist as
 # datasets but are not tabulated there.
@@ -37,8 +41,8 @@ rectangle_env1 Lshape3d_env1 Fshape3d_env1 Ashape3d_env1 Vshape3d_env1 4shape3d_
 rectangle_env2 Lshape3d_env2 Fshape3d_env2 Ashape3d_env2 Vshape3d_env2 4shape3d_env2 \
 rectangle_env3 Lshape3d_env3 Fshape3d_env3 Ashape3d_env3 Vshape3d_env3 4shape3d_env3 \
 rectangle_env4 Lshape3d_env4 Fshape3d_env4 Ashape3d_env4 Vshape3d_env4 4shape3d_env4 \
-Tshape3d_env4 \
-Tshape3d_env1 Lcouch_Corozal"}
+Tshape3d_env1 Tshape3d_env2 Tshape3d_env3 Tshape3d_env4 \
+Lcouch_Corozal"}
 
 LOG_DIR=${LOG_DIR:-$OUT_ROOT/logs}
 mkdir -p "$LOG_DIR"
@@ -69,7 +73,7 @@ plan_one() {
         --data "$TEST_ROOT/$testset" \
         --out "$OUT_ROOT/$testset" \
         --cases "$CASES" \
-        --device "$device" > "$log" 2>&1
+        --device "$device" $EXTRA > "$log" 2>&1
     local status=$?
 
     if [ $status -ne 0 ] || [ ! -f "$summary" ]; then
@@ -89,7 +93,7 @@ for dataset in $DATASETS; do
 done > "$joblist"
 
 export -f plan_one
-export MODEL_ROOT TEST_ROOT OUT_ROOT CASES SUFFIX LOG_DIR FORCE
+export MODEL_ROOT TEST_ROOT OUT_ROOT CASES SUFFIX LOG_DIR FORCE EXTRA
 
 start=$(date +%s)
 xargs -a "$joblist" -P "$n_slots" -n 2 bash -c 'plan_one "$0" "$1"'

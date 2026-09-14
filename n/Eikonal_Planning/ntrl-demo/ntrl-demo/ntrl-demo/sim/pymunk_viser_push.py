@@ -173,6 +173,11 @@ class Sim:
                     seg.friction, seg.elasticity = SURF_WALL
                     walls.append(seg)
         self.space.add(*walls)
+        self.walls = walls
+        # A caller can turn the environment into pure scenery (push_t_demo does by
+        # default): the planner's path is what keeps the T clear of it, and a real
+        # wall only adds the pinch that ejects a T squeezed against it.
+        self.set_env_solid(getattr(args, 'solid_env', True))
 
         # --- the T (dynamic) ---------------------------------------------------------
         parts = convex_parts(tee_poly)
@@ -219,6 +224,19 @@ class Sim:
                 self.space, body, self.args.friction * mass, self.args.spin_friction * mass))
         )
         return (body, (c.x, c.y), poly)
+
+    def set_env_solid(self, solid):
+        """Make the walls and blocks collide with everything (True) or nothing (False).
+
+        pymunk pairs two shapes only if each one's categories hit the other's mask, so
+        an environment shape with neither passes straight through the T and the pusher.
+        """
+        flt = pymunk.ShapeFilter() if solid else pymunk.ShapeFilter(categories=0, mask=0)
+        for seg in self.walls:
+            seg.filter = flt
+        for body, _, _ in self.blocks:
+            for shape in body.shapes:
+                shape.filter = flt
 
     def set_friction(self, force, torque):
         for body, pivot, gear in self.frictions:

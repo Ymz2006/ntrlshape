@@ -32,11 +32,17 @@ that labels the training data (``preprocess_obj.points_inside_tets``) over a
 dense surface sampling of the whole environment mesh, walls included, with a
 KD-tree broad phase -- the checker of ``baseline_ompl/rrt_connect_eval.py``.
 
-Two path lengths are recorded per case:
+Four path lengths are recorded per case:
 
 * ``path_length`` -- OMPL's SE(3) metric, ``sum ||dt|| + acos(|q_i . q_i+1|)``
   over consecutive waypoints in the normalized frame.  This is exactly what
   ``rrt_connect_eval.py`` reports, so the two tables are comparable.
+* ``trans_length`` / ``rot_length`` -- its two halves, split the way
+  ``rrt_connect_eval.py`` splits them: translation travelled (``sum ||dt||``)
+  and rotation travelled as the geodesic angle in radians
+  (``sum 2*acos|q_i . q_i+1|``), so ``path_length == trans + rot / 2``.  On a
+  planar rollout the rotvec is ``(0, 0, rz)`` and the angle reduces to
+  ``|wrap(dyaw)|``, the SE(2) definition.
 * ``cfg_length``  -- the plain Euclidean length in the normalized 6-D config
   space the network actually plans in.  Recorded in the CSV only.
 
@@ -143,23 +149,34 @@ class ShapeCollisionChecker:
 # ──────────────────────────────────────────────────────────────────────────────
 # Path metrics
 # ──────────────────────────────────────────────────────────────────────────────
+def se3_path_components(waypoints):
+    """(translation length, rotation length in radians) of a (T, 6)
+    normalized-config polyline -- ``rrt_connect_eval.path_components`` for a
+    rollout.  Translation is ``sum ||dt||``; rotation is the geodesic angle
+    between consecutive orientations, ``sum 2*acos|q_i . q_i+1|``.
+    """
+    if len(waypoints) < 2:
+        return 0.0, 0.0
+    trans = np.diff(waypoints[:, 0:3], axis=0)
+    d_trans = float(np.linalg.norm(trans, axis=1).sum())
+    quats = Rotation.from_rotvec(waypoints[:, 3:6] * TWO_PI).as_quat()
+    dots = np.abs(np.einsum('ij,ij->i', quats[:-1], quats[1:]))
+    d_rot = 2.0 * float(np.arccos(np.clip(dots, 0.0, 1.0)).sum())
+    return d_trans, d_rot
+
+
 def se3_path_length(waypoints):
     """OMPL's SE(3) path length of a (T, 6) normalized-config polyline.
 
     ``ompl::base::SE3StateSpace`` is a compound space whose R^3 and SO(3)
     subspaces both carry weight 1, and ``SO3StateSpace::distance`` returns
-    ``acos(|q1 . q2|)``.  Summing that over consecutive waypoints is exactly what
+    ``acos(|q1 . q2|)`` -- half the geodesic angle.  Summing that over
+    consecutive waypoints is exactly what
     ``ompl::geometric::PathGeometric::length()`` -- and therefore
     ``rrt_connect_eval.py``'s ``path_length`` -- measures.
     """
-    if len(waypoints) < 2:
-        return 0.0
-    trans = np.diff(waypoints[:, 0:3], axis=0)
-    d_trans = float(np.linalg.norm(trans, axis=1).sum())
-    quats = Rotation.from_rotvec(waypoints[:, 3:6] * TWO_PI).as_quat()
-    dots = np.abs(np.einsum('ij,ij->i', quats[:-1], quats[1:]))
-    d_rot = float(np.arccos(np.clip(dots, 0.0, 1.0)).sum())
-    return d_trans + d_rot
+    d_trans, d_rot = se3_path_components(waypoints)
+    return d_trans + d_rot / 2.0
 
 
 def cfg_path_length(waypoints):
@@ -499,8 +516,10 @@ def main():
                 n_collision += 1
             if not converged[k]:
                 n_no_conv += 1
-            rows.append((idx, ok, per_case, se3_path_length(wp), cfg_path_length(wp),
-                         len(wp), bool(converged[k]), collision, float(min_dis[k])))
+            d_trans, d_rot = se3_path_components(wp)
+            rows.append((idx, ok, per_case, d_trans + d_rot / 2.0, cfg_path_length(wp),
+                         len(wp), bool(converged[k]), collision, float(min_dis[k]),
+                         d_trans, d_rot))
             print('[{:04d}] {}  t={:7.3f}s  len={:7.3f}  waypoints={:4d}  '
                   'converged={}  collision={}'.format(
                       idx, 'PASS' if ok else 'FAIL', per_case, rows[-1][3],
@@ -511,6 +530,8 @@ def main():
     succ_times = np.array([r[2] for r in rows if r[1]], dtype=np.float64)
     lengths = np.array([r[3] for r in rows if r[1]], dtype=np.float64)
     cfg_lengths = np.array([r[4] for r in rows if r[1]], dtype=np.float64)
+    trans_lens = np.array([r[9] for r in rows if r[1]], dtype=np.float64)
+    rot_lens = np.array([r[10] for r in rows if r[1]], dtype=np.float64)
     n_succ = int(sum(1 for r in rows if r[1]))
     rate = n_succ / len(rows) if rows else 0.0
 
@@ -518,6 +539,8 @@ def main():
     ts_mean, ts_std = mean_std(succ_times)
     l_mean, l_std = mean_std(lengths)
     c_mean, c_std = mean_std(cfg_lengths)
+    tr_mean, tr_std = mean_std(trans_lens)
+    ro_mean, ro_std = mean_std(rot_lens)
 
     lines = [
         'env                       : {}'.format(args.env),
@@ -555,6 +578,12 @@ def main():
         'metric]'.format(l_mean, lengths.size),
         'path_length_std           : {:.4f}'.format(l_std),
         'path_length_total         : {:.4f}'.format(float(lengths.sum())),
+        'trans_length_mean         : {:.4f}   [same cases, sum ||dt||; '
+        'path_length = trans + rot/2]'.format(tr_mean),
+        'trans_length_std          : {:.4f}'.format(tr_std),
+        'rot_length_mean           : {:.4f} rad   [same cases, geodesic angle '
+        'sum 2*acos|q.q\']'.format(ro_mean),
+        'rot_length_std            : {:.4f} rad'.format(ro_std),
         'cfg_length_mean           : {:.4f}   [same cases, Euclidean in the '
         'normalized 6-D config space]'.format(c_mean),
         'cfg_length_std            : {:.4f}'.format(c_std),
@@ -572,10 +601,10 @@ def main():
     csv = os.path.join(out_dir, 'plan_cases.csv')
     with open(csv, 'w') as fh:
         fh.write('idx,success,time_s,path_length,cfg_length,waypoints,'
-                 'converged,collision,min_dis\n')
-        for idx, ok, t, ln, cl, npts, conv, col, md in rows:
-            fh.write('{},{},{:.6f},{:.6f},{:.6f},{},{},{},{:.6f}\n'.format(
-                idx, int(ok), t, ln, cl, npts, int(conv), int(col), md))
+                 'converged,collision,min_dis,trans_length,rot_length_rad\n')
+        for idx, ok, t, ln, cl, npts, conv, col, md, tr, ro in rows:
+            fh.write('{},{},{:.6f},{:.6f},{:.6f},{},{},{},{:.6f},{:.6f},{:.6f}\n'.format(
+                idx, int(ok), t, ln, cl, npts, int(conv), int(col), md, tr, ro))
     print('\nWrote {}\nWrote {}'.format(summary, csv))
 
 

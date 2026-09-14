@@ -52,8 +52,9 @@ searched, the tightest circle clearing the shape and the environment winning, so
 hugs the T where it can and swings out to the enclosing circle only where it must.
 
 Usage (from the ntrl-demo root):
-    python sim/push_t_demo.py                        # http://localhost:8080
-    python sim/push_t_demo.py --case 7 --port 8081
+    python sim/push_t_demo.py                        # Tshape3d in 2denv4, case 0, :8080
+    python sim/push_t_demo.py --shape Lshape3d --env 2denv2 --case 7 --port 8081
+    python sim/push_t_demo.py --solid-env            # let the walls actually collide
     python sim/push_t_demo.py --save-path plan.npy   # dump the planned T path and exit
     python sim/push_t_demo.py --traj plan.npy        # replay a saved path (no torch needed)
 """
@@ -266,7 +267,7 @@ class PushIK:
         ring = np.asarray(orient(poly, 1.0).exterior.coords)[:-1]     # CCW
         edge = np.roll(ring, -1, axis=0) - ring
         length = np.linalg.norm(edge, axis=1)
-        per = np.maximum((n_boundary * length / length.sum()).astype(int), 2)
+        per = np.maximum(np.rint(n_boundary * length / length.sum()).astype(int), 2)
 
         pts, nrm = [], []
         for i in range(len(ring)):
@@ -391,8 +392,10 @@ class PushPrimitives:
         assert len(ik.P) >= n_points, (
             f'only {len(ik.P)} boundary samples; ask for fewer --n-contacts or raise '
             f'--n-boundary')
-        step = max(len(ik.P) // n_points, 1)
-        idx = np.arange(0, len(ik.P), step)[:n_points]
+        # Spread the indices over the whole ring.  A floor-divided stride sliced to
+        # n_points leaves the tail of the perimeter (len(P) mod n_points samples, up to
+        # ~17% of the T with the defaults) without a single contact.
+        idx = np.linspace(0, len(ik.P), n_points, endpoint=False).astype(int)
         P, Nrm = ik.P[idx], ik.N[idx]
 
         ang = np.radians(np.linspace(-spread_deg, spread_deg, n_dirs))
@@ -672,6 +675,25 @@ class PushController:
         # Exact point-to-polygon distance, rather than buffering the point into a 65-gon
         # and intersecting: same answer, less work, and this runs up to 60x per frame.
         return all(o.distance(w) > self.a.pusher_radius for o in self.obstacles)
+
+    def _free_many(self, local_pts, pos, ang):
+        """``_free`` over an (N, 2) array of local points at once -> (N,) bool.
+
+        Same two tests, but through shapely's vectorised C entry points: the per-action
+        primitive screen asks this 10000 times, and one Python call per point made it
+        the whole cost of choosing an action.
+        """
+        import shapely
+        local_pts = np.asarray(local_pts, dtype=float)
+        inside = shapely.contains(self.tee_shape, shapely.points(local_pts))
+        c, s = math.cos(ang), math.sin(ang)
+        world = np.column_stack([c * local_pts[:, 0] - s * local_pts[:, 1] + pos[0],
+                                 s * local_pts[:, 0] + c * local_pts[:, 1] + pos[1]])
+        pts = shapely.points(world)
+        clear = np.ones(len(pts), dtype=bool)
+        for o in self.obstacles:
+            clear &= shapely.distance(o, pts) > self.a.pusher_radius
+        return clear & ~inside
 
     # -- transit planning (--teleport-interp) ----------------------------------------
     def _path_cost(self, lead, sweep, pos, ang):
@@ -1028,7 +1050,7 @@ class PushController:
         # and, when it has to fly there, only if it can reach that point without dragging
         # itself along the object to get in.
         starts = prims.P - prims.U * (self.a.pusher_radius + self.a.clearance)
-        ok = np.array([self._free(sp, pos, tee_ang) for sp in starts])
+        ok = self._free_many(starts, pos, tee_ang)
         if self.a.teleport_interp:
             ok = ok & self.flyable(starts, prims.U)
         i, L, pred = (None, None, None)
@@ -1129,19 +1151,92 @@ class PushSim(base.Sim):
 # ======================================================================================
 # 5. app
 # ======================================================================================
+def mesh_name(spec, mesh_dir):
+    """'2denv4' | 'datasets/3dshape/2denv4.obj' -> ('2denv4', 'datasets/3dshape/2denv4.obj')."""
+    if spec.endswith('.obj') or os.sep in spec:
+        return os.path.splitext(os.path.basename(spec))[0], spec
+    return spec, os.path.join(mesh_dir, spec + '.obj')
+
+
+def find_checkpoint(shape, env, model_path):
+    """The trained model for the (shape, env) cell -> path to latest.pt, or None.
+
+    Planar cells live under Experiments/3dshape_2d/<shape>_<env>/ by name.  The SE(3)
+    cells were mostly trained before the env-tag naming into timestamped folders; the
+    3-D table generator keeps that mapping, so it is asked before giving up.
+    """
+    cell = f'{shape}_{env}'
+    cands = [os.path.join(os.path.dirname(model_path.rstrip('/')) or '.',
+                          '3dshape_2d', cell, 'latest.pt'),
+             os.path.join(model_path, cell, 'latest.pt')]
+    try:
+        import _make_experiments_3d as tbl
+        cands.append(tbl.CHECKPOINT_OVERRIDE.get(cell) or tbl.CHECKPOINTS.get(cell))
+    except ImportError:
+        pass
+    for c in cands:
+        if c and os.path.exists(c):
+            return c
+    return None
+
+
+def resolve_paths(args):
+    """Turn --env / --shape names into meshes, a test set and a checkpoint (in place)."""
+    env, args.env = mesh_name(args.env, args.mesh_dir)
+    shape, args.shape = mesh_name(args.shape, args.mesh_dir)
+    args.env_name, args.shape_name = env, shape
+    if args.shape_zup is None:
+        args.shape_zup = os.path.join(os.path.dirname(args.shape), shape + '_zup.obj')
+    for path in (args.env, args.shape, args.shape_zup):
+        if not os.path.exists(path):
+            raise SystemExit(f'mesh not found: {path}')
+    if args.traj:
+        return
+    if args.dataPath is None:
+        args.dataPath = os.path.join(args.testing_root, f'{shape}_{env}')
+    if not os.path.exists(os.path.join(args.dataPath, 'sampled_points.npy')):
+        raise SystemExit(f'no test set for {shape} in {env}: {args.dataPath}')
+    if args.ckpt is None:
+        args.ckpt = find_checkpoint(shape, env, args.modelPath)
+        if args.ckpt is None:
+            raise SystemExit(f'no trained model found for {shape}_{env} under '
+                             f'{args.modelPath} or Experiments/3dshape_2d; pass --ckpt')
+    print(f'[setup] shape {shape} in {env}: test set {args.dataPath}, '
+          f'checkpoint {args.ckpt}')
+
+
 def build_args():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    # geometry / planner
-    ap.add_argument('--env', default='datasets/3dshape/2denv4.obj')
-    ap.add_argument('--shape', default='datasets/3dshape/Tshape3d.obj')
-    ap.add_argument('--shape-zup', default='datasets/3dshape/Tshape3d_zup.obj',
+    # geometry / planner.  --env and --shape are NAMES (2denv4, Tshape3d); the meshes,
+    # the test set and the checkpoint are all derived from the pair, see resolve_paths.
+    ap.add_argument('--env', default='2denv4',
+                    help='environment name under datasets/3dshape (2denv1..4), or a path '
+                         'to its y-up .obj')
+    ap.add_argument('--shape', default='Tshape3d',
+                    help='shape name under datasets/3dshape (rectangle, Lshape3d, '
+                         'Fshape3d, Ashape3d, Vshape3d, 4shape3d, Tshape3d), or a path to '
+                         'its y-up .obj')
+    ap.add_argument('--mesh-dir', default='datasets/3dshape',
+                    help='where <name>.obj / <name>_zup.obj live for --env and --shape')
+    ap.add_argument('--shape-zup', default=None,
                     help='z-up twin of --shape; only its bounding box is read, to recover '
-                         'the origin the planner poses the shape about.')
-    ap.add_argument('--dataPath', default='./testing_data/3dshape/Tshape3d_env4')
+                         'the origin the planner poses the shape about.  Default: '
+                         '<mesh-dir>/<shape>_zup.obj')
+    ap.add_argument('--testing-root', default='./testing_data_1k_complete/3dshape',
+                    help='test sets live at <testing-root>/<shape>_<env>')
+    ap.add_argument('--dataPath', default=None,
+                    help='override the test set (default: <testing-root>/<shape>_<env>)')
     ap.add_argument('--modelPath', default='./Experiments/3dshape')
-    ap.add_argument('--ckpt', default='./Experiments/3dshape/3dshape_08_19_12_31/latest.pt')
-    ap.add_argument('--case', type=int, default=0, help='test-set index to plan for')
+    ap.add_argument('--ckpt', default=None,
+                    help='override the checkpoint (default: the <shape>_<env> model, '
+                         'see find_checkpoint)')
+    ap.add_argument('--case', type=int, default=0,
+                    help='index into the test set: which start/goal pair to plan for')
+    ap.add_argument('--solid-env', action='store_true',
+                    help='let the walls and blocks collide with the T and the pusher '
+                         '(default: the environment is scenery; the planned path is what '
+                         'keeps the T clear of it)')
     ap.add_argument('--mppi-steps', type=int, default=200)
     ap.add_argument('--plan-device', default='cuda')
     ap.add_argument('--traj', default=None,
@@ -1184,10 +1279,10 @@ def build_args():
     # Success threshold.  Quartered from the original 9.0 units / 12 deg.  Kept separate
     # from --reach, which used to serve as both: tightening a shared knob would have
     # slowed carrot advance along the whole path rather than only tightening success.
-    ap.add_argument('--goal-dist', type=float, default=2.25,
+    ap.add_argument('--goal-dist', type=float, default=6,
                     help='position tolerance for declaring the goal reached, in world '
                          'units (the T is 60 units across its crossbar)')
-    ap.add_argument('--goal-deg', type=float, default=3.0,
+    ap.add_argument('--goal-deg', type=float, default=6.0,
                     help='heading tolerance for declaring the goal reached, in degrees')
     ap.add_argument('--clearance', type=float, default=1.0)
     ap.add_argument('--standoff', type=float, default=8.0,
@@ -1282,16 +1377,16 @@ def build_args():
                     help='shortest push in the length ladder, world units. The action '
                          'length is selected per action, so pushes shrink towards this as '
                          'the T closes on the goal.')
-    ap.add_argument('--push-len-steps', type=int, default=4,
+    ap.add_argument('--push-len-steps', type=int, default=1,
                     help='how many push lengths to measure, geometrically spaced between '
                          '--push-len-min and --push-len. 1 disables the taper.')
     ap.add_argument('--len-bias', type=float, default=0.02,
                     help='preference for long pushes, in world units of cost per unit of '
                          'unused length. Keeps the controller from creeping in tiny '
                          'actions far from the goal; too large and it will not taper.')
-    ap.add_argument('--n-contacts', type=int, default=24,
+    ap.add_argument('--n-contacts', type=int, default=100,
                     help='surface points sampled evenly around the perimeter')
-    ap.add_argument('--n-dirs', type=int, default=5,
+    ap.add_argument('--n-dirs', type=int, default=100,
                     help='push directions per contact, fanned about the inward normal')
     ap.add_argument('--dir-spread', type=float, default=45.0,
                     help='half-angle of that fan, degrees')
@@ -1310,6 +1405,7 @@ def main():
     # whether or not it was passed; --teleport-interp swaps the teleport for a flown
     # transit.  The flag is still accepted so an explicit invocation reads unambiguously.
     args.teleport = True
+    resolve_paths(args)
 
     # ---- geometry ------------------------------------------------------------------
     env_mesh = base.load_mesh(args.env)
@@ -1342,6 +1438,16 @@ def main():
     else:
         with open(os.path.join(args.dataPath, 'meta.json')) as f:
             meta = json.load(f)
+        # The test set was built for a specific (shape, env); a mismatch means the
+        # planner's frame and the sim's geometry disagree, so say so up front.
+        for key, want in (('env_obj', args.env_name), ('shape_obj', args.shape_name)):
+            got = os.path.splitext(os.path.basename(meta.get(key, '')))[0]
+            if got.replace('_zup', '') != want:
+                print(f'[plan] WARNING: test set {key} is {got}, but --{key[:-4]} is '
+                      f'{want}')
+        if not meta.get('two_d', False):
+            print('[plan] WARNING: test set is not planar (two_d=false); the start/goal '
+                  'pairs are full SE(3) and the planar rollout will not reach them')
         womodel, start_norm, goal_norm = load_planner(
             args.dataPath, args.modelPath, args.ckpt, args.case, args.plan_device)
         path_norm, dist = plan_from(womodel, start_norm, goal_norm,
@@ -1389,6 +1495,10 @@ def main():
         ik.radius + args.pusher_radius + args.standoff)
     sim = PushSim(args, env_polys, tee_poly, tee_start, float(ref[0, 2]),
                   tuple(pusher_start))
+    print('[sim] environment is ' + ('SOLID: walls and blocks collide with the T'
+                                     if args.solid_env else
+                                     'scenery: nothing collides with the walls or blocks '
+                                     '(--solid-env to change)'))
     obstacles = list(env_polys)          # wall ring + interior blocks, all solid
     ctrl = PushController(ik, ref, args, obstacles)
     if args.teleport_interp:
@@ -1771,7 +1881,7 @@ def run_viser(args, sim, ctrl, ref, env_mesh, env_polys, tee_mesh, tee_poly, tee
     # space made visible: one dot per contact the primitives can use, with a stub along
     # each one's outward normal.
     prims = runner.prims
-    samp_z = tee_height + 1.0
+    samp_z = tee_height + 0.05          # just clear of the top face, so the dots read as on it
     contacts = prims.P[::prims.n_dirs]                     # one row per contact, not per dir
     normals = prims.N[::prims.n_dirs]
     stub = 0.8 * args.pusher_radius

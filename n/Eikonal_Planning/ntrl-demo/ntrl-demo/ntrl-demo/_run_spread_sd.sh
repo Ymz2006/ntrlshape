@@ -43,5 +43,10 @@ run Fshape3d_env4  ./Experiments/3dshape/3dshape_09_04_09_30/latest.pt
 run Ashape3d_env4  ./Experiments/3dshape/3dshape_09_01_20_49/latest.pt
 run Vshape3d_env4  ./Experiments/3dshape/3dshape_09_01_20_52/latest.pt
 run 4shape3d_env4  ./Experiments/3dshape/3dshape_09_01_20_55/latest.pt
-run Tshape3d_env4  ./Experiments/3dshape/3dshape_08_19_12_31/latest.pt
+run Tshape3d_env1  ./Experiments/3dshape/Tshape3d_env1/latest.pt
+run Tshape3d_env2  ./Experiments/3dshape/Tshape3d_env2/latest.pt
+run Tshape3d_env3  ./Experiments/3dshape/Tshape3d_env3/latest.pt   # = epoch 5500, see _make_experiments_3d.py
+run Tshape3d_env4  ./Experiments/3dshape/Tshape3d_env4/latest.pt
+# legacy planar (Tshape3d, 2denv4) cell -- kept for continuity of the old table row
+run Tshape3d_2denv4_legacy ./Experiments/3dshape/3dshape_08_19_12_31/latest.pt
 echo "ALL DONE $(date)"

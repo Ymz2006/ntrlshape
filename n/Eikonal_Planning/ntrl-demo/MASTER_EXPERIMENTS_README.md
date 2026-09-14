@@ -23,13 +23,33 @@ column per environment/shape pair.
 | **Metric NTFields** | `models/metric` at the June-3 hyperparameters (0.2 output scale, unscaled Fourier `B`, normal loss on) | `baselines/ntrl-demo` |
 | **NTFields** | stock isotropic NTFields, no normal loss | `baselines/NTFields_minimal_working` |
 | **MPNet** | sampling-based neural planner baseline | not yet in the tree |
-| **RRT-Connect** | OMPL RRT-Connect in SE(3) | `baselines/baseline_ompl/rrt_connect_eval.py` |
+| **RRT-Connect** | OMPL RRT-Connect in SE(3), or SE(2) with `--2d` | `baselines/baseline_ompl/rrt_connect_eval.py` |
 | **Lazy PRM** | OMPL LazyPRM in SE(3) | `baselines/baseline_ompl/lazy_prm_eval.py` |
 
-Shapes are `rect`(angle), `L`, `F`, `A`, `V`, `4` and -- planar only -- `T`;
+Shapes are `rect`(angle), `L`, `F`, `A`, `V`, `4` and `T`;
 on disk they are `rectangle`, `Lshape3d`, `Fshape3d`, `Ashape3d`, `Vshape3d`,
 `4shape3d`, `Tshape3d`. A cell is the dataset/checkpoint/result triple keyed
 `<shape>_<env>`.
+
+**2026-09-11 -- `T` is a 3-D shape now, for Our method.** `Tshape3d_env1..env4`
+(SE(3), `Tshape3d.obj`, 800k / 10000 epochs like the other 3-D rows) are generated,
+trained and evaluated by `ntrl-demo/ntrl-demo/_run_3d_tshape.sh`; rows live in the
+3-D table of `experiments_ours.md`. To free the `Tshape3d_env4` name the legacy planar
+dataset that used it was renamed `datasets/3dshape/Tshape3d_2denv4` and its test set /
+results `*/Tshape3d_2denv4_legacy` (details: README.md "Legacy dataset"). The 3-D
+grids below still show six shapes; among the baselines only RRT-Connect has 3-D `T`
+cells (2026-09-12, on `testing_data_1k_complete/`, see below), and any baseline
+script that lists `Tshape3d_env4` / `Tshape3d_env1` as a cell now resolves to the
+SE(3) data.
+
+**2026-09-12 -- RRT-Connect re-run on the 1k-valid sets, with the path length
+split.** All 56 cells (the 28 SE(3) ones *including* `Tshape3d_env1..env4`, plus
+the 28 planar ones) were re-planned on `testing_data_1k_complete/` by
+`baselines/rrt_logs_1k/run_sweep_1k.sh`; results in
+`results/ompl_rrtconnect_1k/<cell>/`, tables in the "1k-valid sets" section of
+`experiments_rrt_connect.md`. The single "Path Length" column of the older RRT
+tables is OMPL's compound metric `trans + rot / 2`; `rrt_connect_eval.py` now also
+reports the translation length and the rotation length (radians) separately.
 
 **Path convention.** Unqualified paths in every table below &mdash; `datasets/3dshape/...`,
 `testing_data/3dshape/...`, `Experiments/...`, `.preplogs*/`,
@@ -85,7 +105,7 @@ over the same cells and times each phase separately.
 | **RRT-Connect** | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — |
 | **Lazy PRM** | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — |
 
-\* `2d e4 T` is `datasets/3dshape/Tshape3d_env4`, built 2026-08-18 under the
+\* `2d e4 T` is `datasets/3dshape/Tshape3d_2denv4` (named `Tshape3d_env4` until 2026-09-10), built 2026-08-18 under the
 pre-env-tag name with the same `--2d` 800k settings; it is on disk and usable, but
 predates the timed sweep so it contributes no generation time.
 
@@ -135,7 +155,7 @@ existed before the 2026-09-07 run. `_run_2denv4_preprocess.sh` and
 | **RRT-Connect** | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — |
 | **Lazy PRM** | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — |
 
-† `2d e4 T` is the legacy `Tshape3d_env4` cell, trained earlier and tabulated in
+† `2d e4 T` is the legacy `Tshape3d_env4` cell (dirs renamed `Tshape3d_2denv4` / `*_2denv4_legacy` on 2026-09-10), trained earlier and tabulated in
 the 3-D block of `experiments_ntfields.md`.
 
 **NTFields 2-D training is done**: 27 cells, 4000 epochs x 5 batches of 2000 each
@@ -168,8 +188,8 @@ its planning numbers come in.
 | **Metric NTFields** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | **NTFields** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | **MPNet** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| **RRT-Connect** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| **Lazy PRM** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
+| **RRT-Connect** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Lazy PRM** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 ## Notes on the cells
 
@@ -215,7 +235,9 @@ alternate-Bellman-horizon) from `evaluate_training_3d_batched.py`; the two
 neural baselines report a single success rate plus plan time and SE(3) path
 length; the OMPL rows report success rate, path time and path length. Lazy PRM
 env1 has a second, higher-budget re-run in `experiments_lazyprm_env1_rerun.md` that
-supersedes the env1 rows of the original sweep.
+supersedes the env1 rows of the original sweep; its 1k-valid sweep
+(`experiments_lazyprm_1k.md`, 2026-09-12) is the first Lazy PRM run on the planar
+cells and adds the `Tshape3d_env*` SE(3) cells.
 
 **MPNet** has no code, datasets or results anywhere in the tree yet -- every
 MPNet cell in all three charts is ⬜.
@@ -232,8 +254,8 @@ generator that rewrites it.
 | Our method | training + evaluation | `experiments_ours.md` |
 | Metric NTFields | training + evaluation | `experiments_metric_ntfields.md` |
 | NTFields | training + evaluation | `experiments_ntfields.md` |
-| RRT-Connect | evaluation | `experiments_rrt_connect.md` |
-| Lazy PRM | evaluation | `experiments_lazyprm.md`, `experiments_lazyprm_env1_rerun.md` (env1 re-run) |
+| RRT-Connect | evaluation | `experiments_rrt_connect.md` (`testing_data/` sweeps + the 1k-valid sweep with the translation / rotation split) |
+| Lazy PRM | evaluation | `experiments_lazyprm.md`, `experiments_lazyprm_env1_rerun.md` (env1 re-run), `experiments_lazyprm_1k.md` (1k-valid sweep, 3-D + planar, with the translation / rotation split) |
 | Our method / Metric NTFields | 2-D dataset generation time | `2d_gen_times.md` |
 
 `experiments_metric_arm.md` came along in the move: it is `baselines/ntrl-demo`'s

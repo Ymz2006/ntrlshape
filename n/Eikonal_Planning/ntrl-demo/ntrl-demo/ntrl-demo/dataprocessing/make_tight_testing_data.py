@@ -6,8 +6,9 @@ and reruns each one with a smaller ``--offset``, writing to ``<name>_tight``.
 A tighter offset lets start and goal poses sit closer to obstacles, which makes
 the queries harder without changing the environments.
 
-Two test sets that exist on disk but are not in README.md (``Tshape3d_env1`` and
-``rectangle_env1_yrot``) are appended from EXTRA below.
+One test set that exists on disk but is not in README.md (``rectangle_env1_yrot``)
+is appended from EXTRA below.  (``Tshape3d_env1`` used to be listed here; it has
+been a README cell since 2026-09-10.)
 
     python dataprocessing/make_tight_testing_data.py                # all, offset 0.005
     python dataprocessing/make_tight_testing_data.py --dry-run
@@ -25,7 +26,6 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Test sets present on disk but absent from README.md: (name, env, shape, flags)
 EXTRA = [
-    ('Tshape3d_env1', 'datasets/3dshape/Tshape3d.obj', 'datasets/3dshape/env1.obj', []),
     ('rectangle_env1_yrot', 'datasets/3dshape/rectangle.obj', 'datasets/3dshape/env1.obj', ['--yrot']),
 ]
 

@@ -10,7 +10,7 @@ training set and the 1000-pair test set (`--offset 0.02`), the latter being only
 (`docker logs -t`). `⬜` = not generated, `—` = no separate generation stage.
 
 **All 28 cells of the Our-method row are generated** as of 2026-09-08 21:43 UTC;
-only `2d e4 T` carries no time, for the reason footnoted below.
+`2d e4 T` was not part of the timed sweeps; its figure was supplied by the author (footnote).
 
 Test sets exist for every 2-D cell in **both** variants: the standard 1000-pair set
 at `--offset 0.02` (generated alongside each training set) and the `_tight` set at
@@ -22,13 +22,13 @@ of their own -- at 1000 pairs each they are seconds to minutes, not hours.
 
 | Method | 2d e1<br>rect | 2d e1<br>L | 2d e1<br>F | 2d e1<br>A | 2d e1<br>V | 2d e1<br>4 | 2d e1<br>T | 2d e2<br>rect | 2d e2<br>L | 2d e2<br>F | 2d e2<br>A | 2d e2<br>V | 2d e2<br>4 | 2d e2<br>T | 2d e3<br>rect | 2d e3<br>L | 2d e3<br>F | 2d e3<br>A | 2d e3<br>V | 2d e3<br>4 | 2d e3<br>T | 2d e4<br>rect | 2d e4<br>L | 2d e4<br>F | 2d e4<br>A | 2d e4<br>V | 2d e4<br>4 | 2d e4<br>T |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| **Our method** | 3278 s | 5094 s | 8263 s | 11900 s | 7574 s | 8382 s | 16486 s | 3082 s | 4138 s | 7504 s | 18298 s | 8500 s | 7866 s | 15271 s | 1287 s | 2142 s | 3012 s | 3910 s | 2669 s | 3087 s | 4400 s | 2149 s | 3355 s | 5191 s | 7694 s | 4877 s | 5181 s | ⬜* |
+| **Our method** | 3278 s | 5094 s | 8263 s | 11900 s | 7574 s | 8382 s | 16486 s | 3082 s | 4138 s | 7504 s | 18298 s | 8500 s | 7866 s | 15271 s | 1287 s | 2142 s | 3012 s | 3910 s | 2669 s | 3087 s | 4400 s | 2149 s | 3355 s | 5191 s | 7694 s | 4877 s | 5181 s | 6732 s* |
 | **Metric NTFields** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 
-\* `2d e4 T` exists on disk as `datasets/3dshape/Tshape3d_env4` (built 2026-08-18
+\* `2d e4 T` exists on disk as `datasets/3dshape/Tshape3d_2denv4` (built 2026-08-18 as `Tshape3d_env4`, renamed 2026-09-10;
 under the pre-env-tag name, same `--2d`, 800k, `--margin 0.05 --offset 0.001`
-settings), but it predates the timed sweep, so its generation time was never
-recorded.
+settings); it predates the timed sweeps, so its **6732 s** is the author-supplied
+wall clock of that 2026-08-18 run (added 2026-09-13), not a `[start]`/`[ok]` log pair.
 
 ## How these were measured
 
@@ -81,4 +81,4 @@ acceptance rate, i.e. how much collision-free room the shape has, not the cost o
 single clearance query.
 
 Totals per environment, summed over the seven cells: `2denv3` **20507 s**,
-`2denv4` **28447 s** (six cells), `2denv1` **60977 s**, `2denv2` **64659 s**.
+`2denv4` **35179 s** (28447 s over the six timed cells + the author-supplied 6732 s for `T`), `2denv1` **60977 s**, `2denv2` **64659 s**.

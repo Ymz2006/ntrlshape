@@ -30,8 +30,8 @@ rectangle_env1 Lshape3d_env1 Fshape3d_env1 Ashape3d_env1 Vshape3d_env1 4shape3d_
 rectangle_env2 Lshape3d_env2 Fshape3d_env2 Ashape3d_env2 Vshape3d_env2 4shape3d_env2 \
 rectangle_env3 Lshape3d_env3 Fshape3d_env3 Ashape3d_env3 Vshape3d_env3 4shape3d_env3 \
 rectangle_env4 Lshape3d_env4 Fshape3d_env4 Ashape3d_env4 Vshape3d_env4 4shape3d_env4 \
-Tshape3d_env4 \
-Tshape3d_env1 Lcouch_Corozal"}
+Tshape3d_env1 Tshape3d_env2 Tshape3d_env3 Tshape3d_env4 \
+Lcouch_Corozal"}
 
 LOG_DIR=${LOG_DIR:-$OUT_ROOT/logs}
 mkdir -p "$LOG_DIR"

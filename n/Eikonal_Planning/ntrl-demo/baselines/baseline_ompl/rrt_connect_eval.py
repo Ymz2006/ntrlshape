@@ -2,8 +2,18 @@
 
 Plans the same start/goal pairs that ``evaluate_training_3d.py`` feeds to the
 learned planner, but with OMPL's ``RRTConnect`` in SE(3), so the two are
-directly comparable.  Reports the success rate and the average wall-clock
-planning time per test case.
+directly comparable.  Reports the success rate, the average wall-clock
+planning time per test case and three path lengths per solved case:
+
+* ``trans_length`` -- translation travelled, sum of ``||t_{i+1} - t_i||`` over
+  the raw waypoints, in the normalized frame;
+* ``rot_length``   -- rotation travelled, sum of the geodesic angle between
+  consecutive orientations, in radians (``2*arccos|q_i . q_{i+1}|`` in SE(3),
+  ``|wrap(yaw_{i+1} - yaw_i)|`` in SE(2));
+* ``path_length``  -- OMPL's own compound metric, ``trans_length +
+  rot_length / 2``: SE(3)'s SO(3) sub-space measures ``arccos|q_i . q_{i+1}|``
+  (half the angle) at weight 1 and SE(2)'s SO(2) sub-space measures the yaw
+  difference at weight 0.5, so the two spaces charge a rotation identically.
 
 Everything lives in the *normalized* frame written by
 ``dataprocessing/preprocess_obj.py``:
@@ -21,6 +31,16 @@ collision iff any env point falls inside the placed shape's tetrahedral
 decomposition.  A KD-tree over the cloud plus the shape's bounding radius gives
 the broad phase.
 
+Planar mode (``--2d``) plans the same sub-space ``preprocess_obj.py --2d``
+sampled in and ``evaluate_training_3d_batched.py --2d`` rolls out in: x, y and
+rotation about z, with z / rx / ry pinned at 0.  The planner then runs on
+OMPL's ``SE2StateSpace`` instead of ``SE3StateSpace``; the collision model is
+unchanged -- the (x, y, yaw) state is lifted back to the full 3-D pose
+``t = (x, y, 0)``, ``R = Rz(yaw)`` before it is checked, against exactly the
+meshes the learned planner is scored against.  Path lengths stay comparable:
+OMPL weights SE(2)'s SO(2) sub-space by 0.5, so a pure z-rotation of theta costs
+theta/2 there, which is what the SO(3) quaternion metric charges it in SE(3).
+
 Needs the OMPL python bindings (``pip install ompl``; the source tree under
 ``baselines/baseline_ompl/ompl-1.7.0`` builds the C++ library only).
 
@@ -30,6 +50,13 @@ Run from the main package (``ntrl-demo/ntrl-demo``), e.g.
         --obj datasets/3dshape/Lshape3d.obj \
         --env datasets/3dshape/env1.obj \
         --dataPath testing_data/3dshape/Lshape3d_env1
+
+and for a planar cell
+
+    python ../../baselines/baseline_ompl/rrt_connect_eval.py --2d \
+        --obj datasets/3dshape/Lshape3d_zup.obj \
+        --env datasets/3dshape/2denv1_zup.obj \
+        --dataPath testing_data/3dshape/Lshape3d_2denv1
 """
 
 import os
@@ -121,6 +148,21 @@ def state_to_pose(state):
     return t, R
 
 
+def state_to_pose_2d(state):
+    """OMPL SE(2) state -> the full (translation (3,), rotation matrix (3,3)).
+
+    The planar sub-space is lifted back into 3-D exactly the way the ``--2d``
+    test sets were sampled: z = 0 and a rotation about z alone, so the pose can
+    go straight into the same collision checker the SE(3) run uses.
+    """
+    t = np.array([state.getX(), state.getY(), 0.0], dtype=np.float64)
+    c, s = np.cos(state.getYaw()), np.sin(state.getYaw())
+    R = np.array([[c, -s, 0.0],
+                  [s, c, 0.0],
+                  [0.0, 0.0, 1.0]], dtype=np.float64)
+    return t, R
+
+
 def cfg_to_state(space, cfg):
     """Dataset config (x,y,z, rotvec/2pi) -> a newly allocated SE(3) state.
 
@@ -140,6 +182,22 @@ def cfg_to_state(space, cfg):
     return st
 
 
+def cfg_to_state_2d(space, cfg):
+    """Dataset config -> a newly allocated SE(2) state (see ``cfg_to_state``).
+
+    ``--2d`` data stores z = rx = ry = 0 and the z rotation in cfg[5], again
+    divided by 2*pi, so cfg[5] in [-0.5, 0.5] is a yaw in [-pi, pi].
+    ``enforceBounds`` wraps the one endpoint (yaw = +pi) that SO(2)'s half-open
+    interval does not hold.
+    """
+    st = space.allocState()
+    st.setX(float(cfg[0]))
+    st.setY(float(cfg[1]))
+    st.setYaw(float(cfg[5]) * TWO_PI)
+    space.enforceBounds(st)
+    return st
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Setup
 # ──────────────────────────────────────────────────────────────────────────────
@@ -151,6 +209,16 @@ def build_scene(args):
     env_scale = float(meta['env_scale'])
     env_center = np.asarray(meta['env_center'], dtype=np.float64)
     shape_scale = float(meta.get('shape_scale', 1.0))
+
+    # The test set records how it was sampled; --2d has to agree with it or the
+    # planner searches a different sub-space than the one the pairs live in.
+    meta_two_d = bool(meta.get('two_d', False))
+    if meta_two_d and not args.two_d:
+        print('WARNING: meta.json says this test set is planar (--2d) but --2d '
+              'was NOT passed; the planner will search all 6 DOF.')
+    elif args.two_d and not meta_two_d:
+        print('WARNING: --2d was passed but meta.json says this test set is '
+              'full 6-DOF; goals that differ in z / rx / ry can never be reached.')
 
     # Shape: centre on its bbox and normalize, as preprocess_obj / evaluate do.
     V_sh, F_sh, _ = load_obj(resolve(args.obj))
@@ -186,25 +254,29 @@ def build_scene(args):
           f'({len(shape_V)} verts, {len(TT)} tets, radius {shape_radius:.4f})')
     print(f'environment : {resolve(args.env)}  '
           f'({len(F_env)} tris, {len(env_pts)} collision points)')
+    if args.two_d:
+        lo, hi = lo[:2], hi[:2]
     print(f'bounds      : low {np.round(lo, 4).tolist()}  high {np.round(hi, 4).tolist()}')
     print(f'test cases  : {n} from {os.path.join(data_path, "sampled_points.npy")}')
     return checker, (lo, hi), pairs
 
 
 def make_setup(checker, bounds, args):
-    """SimpleSetup on SE(3) with an RRTConnect planner and our validity checker."""
-    space = ob.SE3StateSpace()
+    """SimpleSetup on SE(3) -- or SE(2) under --2d -- with RRTConnect."""
     lo, hi = bounds
-    rb = ob.RealVectorBounds(3)
-    for i in range(3):
+    ndim = 2 if args.two_d else 3
+    space = ob.SE2StateSpace() if args.two_d else ob.SE3StateSpace()
+    rb = ob.RealVectorBounds(ndim)
+    for i in range(ndim):
         rb.setLow(i, float(lo[i]))
         rb.setHigh(i, float(hi[i]))
     space.setBounds(rb)
 
     ss = og.SimpleSetup(space)
+    to_pose = state_to_pose_2d if args.two_d else state_to_pose
 
     def is_valid(state):
-        t, R = state_to_pose(state)
+        t, R = to_pose(state)
         return not checker.in_collision(t, R)
 
     ss.setStateValidityChecker(is_valid)
@@ -217,11 +289,48 @@ def make_setup(checker, bounds, args):
     return space, ss
 
 
-def path_in_collision(path, checker):
+def path_components(path, two_d):
+    """(translation length, rotation length in radians) of a raw solution path.
+
+    Summed segment by segment over the planner's waypoints, before
+    ``interpolate`` -- interpolation is linear in translation and a slerp in
+    rotation, so it would not change either sum.  ``path.length()`` equals
+    ``trans + rot / 2`` for both state spaces (see the module docstring).
+    """
+    n = path.getStateCount()
+    trans = 0.0
+    rot = 0.0
+    if two_d:
+        prev = path.getState(0)
+        for i in range(1, n):
+            cur = path.getState(i)
+            trans += float(np.hypot(cur.getX() - prev.getX(),
+                                    cur.getY() - prev.getY()))
+            d = cur.getYaw() - prev.getYaw()
+            rot += abs(float((d + np.pi) % TWO_PI - np.pi))
+            prev = cur
+        return trans, rot
+    prev_t, prev_q = _se3_tq(path.getState(0))
+    for i in range(1, n):
+        t, q = _se3_tq(path.getState(i))
+        trans += float(np.linalg.norm(t - prev_t))
+        rot += 2.0 * float(np.arccos(min(1.0, abs(float(np.dot(q, prev_q))))))
+        prev_t, prev_q = t, q
+    return trans, rot
+
+
+def _se3_tq(state):
+    """OMPL SE(3) state -> (translation (3,), unit quaternion (4,) xyzw)."""
+    q = state.rotation()
+    return (np.array([state.getX(), state.getY(), state.getZ()], dtype=np.float64),
+            np.array([q.x, q.y, q.z, q.w], dtype=np.float64))
+
+
+def path_in_collision(path, checker, to_pose):
     """Interpolate the solution and re-check every waypoint (like the NN eval)."""
     path.interpolate()
     for i in range(path.getStateCount()):
-        t, R = state_to_pose(path.getState(i))
+        t, R = to_pose(path.getState(i))
         if checker.in_collision(t, R):
             return True
     return False
@@ -257,6 +366,11 @@ def main():
                         help='Environment OBJ, e.g. datasets/3dshape/env1.obj')
     parser.add_argument('--dataPath', required=True,
                         help='Test-data dir holding sampled_points.npy + meta.json')
+    parser.add_argument('--2d', dest='two_d', action='store_true',
+                        help='Planar mode: plan in SE(2) -- x, y and rotation '
+                             'about z, with z / rx / ry pinned at 0 -- matching '
+                             'how the --2d test sets were sampled. Must agree '
+                             'with meta.json.')
     parser.add_argument('--n', type=int, default=100,
                         help='Number of start/goal pairs to plan (0 = all)')
     parser.add_argument('--time', type=float, default=30.0,
@@ -282,8 +396,12 @@ def main():
 
     checker, bounds, pairs = build_scene(args)
     space, ss = make_setup(checker, bounds, args)
+    to_state = cfg_to_state_2d if args.two_d else cfg_to_state
+    to_pose = state_to_pose_2d if args.two_d else state_to_pose
+    space_name = 'SE(2)' if args.two_d else 'SE(3)'
 
-    print(f'planner     : RRTConnect  (time limit {args.time}s per case, '
+    print(f'planner     : RRTConnect in {space_name}  '
+          f'(time limit {args.time}s per case, '
           f'resolution {args.resolution})')
     print()
 
@@ -294,13 +412,13 @@ def main():
     n_over_limit = 0
     n_collision = 0
     for i, (start_cfg, goal_cfg) in enumerate(pairs):
-        start = cfg_to_state(space, start_cfg)
-        goal = cfg_to_state(space, goal_cfg)
+        start = to_state(space, start_cfg)
+        goal = to_state(space, goal_cfg)
 
         # A pair whose endpoints are already in collision is unplannable; count
         # it as a failure but flag it separately.
         endpoints_ok = all(
-            not checker.in_collision(*state_to_pose(s)) for s in (start, goal))
+            not checker.in_collision(*to_pose(s)) for s in (start, goal))
 
         ss.clear()
         ss.setStartAndGoalStates(start, goal)
@@ -311,13 +429,14 @@ def main():
 
         exact = bool(ss.haveExactSolutionPath())
         collision = False
-        length = float('nan')
+        length = trans_len = rot_len = float('nan')
         if exact:
             if args.simplify:
                 ss.simplifySolution()
             path = ss.getSolutionPath()
             length = path.length()
-            collision = path_in_collision(path, checker)
+            trans_len, rot_len = path_components(path, args.two_d)
+            collision = path_in_collision(path, checker, to_pose)
 
         # Anything that ran past the budget is a failure even if the planner
         # did hand back an exact path on its way out.
@@ -336,11 +455,11 @@ def main():
             n_collision += 1
 
         rows.append((i, ok, elapsed, length, endpoints_ok, exact, collision,
-                     over_limit))
+                     over_limit, trans_len, rot_len))
         print(f'[{i:03d}] {"PASS" if ok else "FAIL"}  '
               f'time={elapsed:7.3f}s  '
               f'status={solved.asString():<18} '
-              f'len={length:7.3f}  '
+              f'len={length:7.3f}  trans={trans_len:6.3f}  rot={rot_len:6.3f}rad  '
               f'endpoints_valid={endpoints_ok}  collision={collision}  '
               f'over_limit={over_limit}',
               flush=True)
@@ -356,13 +475,15 @@ def main():
     times = np.array([r[2] for r in valid], dtype=np.float64)
     succ_times = np.array([r[2] for r in valid if r[1]], dtype=np.float64)
     lengths = np.array([r[3] for r in valid if r[1]], dtype=np.float64)
+    trans_lens = np.array([r[8] for r in valid if r[1]], dtype=np.float64)
+    rot_lens = np.array([r[9] for r in valid if r[1]], dtype=np.float64)
     success_rate = n_success / n_valid if n_valid else 0.0
 
     lines = [
         f'shape                     : {resolve(args.obj)}',
         f'environment               : {resolve(args.env)}',
         f'data_path                 : {resolve(args.dataPath)}',
-        f'planner                   : RRTConnect (OMPL, SE(3))',
+        f'planner                   : RRTConnect (OMPL, {space_name})',
         f'time_limit_per_case       : {args.time:.3f} s  (a case over this = fail)',
         f'path_simplification       : {"on" if args.simplify else "off"}',
         '',
@@ -385,16 +506,24 @@ def main():
         f'time_median               : {median(times):.4f} s',
         '',
         f'path_length_mean          : {mean(lengths):.4f}   '
-        f'[{lengths.size} successful cases]',
+        f'[{lengths.size} successful cases; OMPL metric = trans + rot/2]',
         f'path_length_std           : {std(lengths):.4f}',
         f'path_length_total         : {lengths.sum():.4f}',
+        f'trans_length_mean         : {mean(trans_lens):.4f}   '
+        f'[translation travelled, normalized frame]',
+        f'trans_length_std          : {std(trans_lens):.4f}',
+        f'trans_length_total        : {trans_lens.sum():.4f}',
+        f'rot_length_mean           : {mean(rot_lens):.4f} rad   '
+        f'[rotation travelled, sum of geodesic angles; / 2pi for config units]',
+        f'rot_length_std            : {std(rot_lens):.4f} rad',
+        f'rot_length_total          : {rot_lens.sum():.4f} rad',
         '',
         f'total_time                : {times.sum():.2f} s',
         f'collision_checks          : {checker.n_checks}',
     ]
-    # Path length is OMPL's SE(3) metric (weighted translation + rotation) in
-    # the normalized frame, measured on the raw planner output unless
-    # --simplify is given.
+    # All three lengths are in the normalized frame, measured on the raw
+    # planner output unless --simplify is given; path_length is OMPL's compound
+    # metric, trans_length / rot_length its two halves (see module docstring).
     print()
     print('\n'.join(lines))
 
@@ -406,10 +535,10 @@ def main():
         csv = os.path.join(args.out, 'rrt_connect_cases.csv')
         with open(csv, 'w') as f:
             f.write('idx,success,time_s,path_length,endpoints_valid,exact,'
-                    'collision,over_limit\n')
-            for i, ok, el, ln, ep, ex, col, ovr in rows:
+                    'collision,over_limit,trans_length,rot_length_rad\n')
+            for i, ok, el, ln, ep, ex, col, ovr, tr, ro in rows:
                 f.write(f'{i},{int(ok)},{el:.6f},{ln:.6f},{int(ep)},{int(ex)},'
-                        f'{int(col)},{int(ovr)}\n')
+                        f'{int(col)},{int(ovr)},{tr:.6f},{ro:.6f}\n')
         print(f'\nWrote {summary}\nWrote {csv}')
 
 

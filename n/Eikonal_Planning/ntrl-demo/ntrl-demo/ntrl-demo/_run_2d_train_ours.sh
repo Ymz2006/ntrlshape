@@ -8,9 +8,9 @@
 # --name pins the run-folder name; without it the folder is <dataset parent>_<timestamp>
 # and runs launched in the same minute collide.
 #
-# The (Tshape3d, 2denv4) cell's dataset is datasets/3dshape/Tshape3d_env4 -- built
-# before the env-tag naming -- but its run is still named Tshape3d_2denv4 so the
-# checkpoint matches the cell name used in 2d_gen_times.md and the master README.
+# The (Tshape3d, 2denv4) dataset was built before the env-tag naming as
+# datasets/3dshape/Tshape3d_env4 and renamed to Tshape3d_2denv4 on 2026-09-10, when
+# the 3-D Tshape3d_env4 cell took that name.  dataset_of is kept as the alias hook.
 set -u
 cd /workspace/ntrl-demo
 
@@ -22,7 +22,6 @@ mkdir -p $EXP/logs
 
 dataset_of () {  # cell -> dataset dir name
     case $1 in
-        Tshape3d_2denv4) echo Tshape3d_env4 ;;
         *)               echo $1 ;;
     esac
 }
