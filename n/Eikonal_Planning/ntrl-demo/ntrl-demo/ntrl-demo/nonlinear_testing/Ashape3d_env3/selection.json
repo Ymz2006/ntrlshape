@@ -1,0 +1,60 @@
+{
+  "dataset_id": "original_1k/Ashape3d_env3",
+  "source_query_file_sha256": "335cb33c29dd8c731f406b0cd8f3c5dccb0d80f85d88ff17e155dd3a759cf28d",
+  "rows": [
+    {
+      "query_id": "original_1k/Ashape3d_env3/0178",
+      "source_row": 178,
+      "witness": {
+        "interpolation_fraction": 0.08579881656804733,
+        "pose_xyz_xyzw": [
+          -0.06298664631597566,
+          0.15360914571927145,
+          0.22432705980433515,
+          0.6176880438310272,
+          -0.729245055517581,
+          0.2849589795366067,
+          -0.07390202631061644
+        ],
+        "reason": "mesh_collision"
+      },
+      "direct_samples": 339
+    },
+    {
+      "query_id": "original_1k/Ashape3d_env3/0326",
+      "source_row": 326,
+      "witness": {
+        "interpolation_fraction": 0.30194805194805197,
+        "pose_xyz_xyzw": [
+          -0.24822932781724186,
+          -0.0823568549829644,
+          0.030154784101170368,
+          -0.17856118357878853,
+          -0.2759363319372684,
+          0.11411195079402121,
+          0.937525203459582
+        ],
+        "reason": "mesh_collision"
+      },
+      "direct_samples": 309
+    },
+    {
+      "query_id": "original_1k/Ashape3d_env3/0649",
+      "source_row": 649,
+      "witness": {
+        "interpolation_fraction": 0.42677824267782427,
+        "pose_xyz_xyzw": [
+          -0.2826601746940214,
+          -0.03791980487469848,
+          -0.052806207575059834,
+          -0.12525979840594748,
+          -0.22330785811842782,
+          0.6099999367595073,
+          0.7498957664630856
+        ],
+        "reason": "mesh_collision"
+      },
+      "direct_samples": 240
+    }
+  ]
+}

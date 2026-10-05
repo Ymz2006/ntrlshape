@@ -1,0 +1,466 @@
+{
+  "version": "selected56_nonlinear200_v1",
+  "source_preset": "env34_all_shapes",
+  "source_manifest_sha256": "ed73f6111fdc7ad785715093a2ec23c2cd81961fda0691be618fc8f0b11ad600",
+  "queries": 200,
+  "tasks": [
+    {
+      "task": "4shape3d_2denv1",
+      "dataset_id": "original_1k/4shape3d_2denv1",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/4shape3d_2denv1",
+      "geometry": "geometry/4shape3d_2denv1"
+    },
+    {
+      "task": "4shape3d_2denv2",
+      "dataset_id": "original_1k/4shape3d_2denv2",
+      "planar": true,
+      "queries": 3,
+      "path": "tasks/4shape3d_2denv2",
+      "geometry": "geometry/4shape3d_2denv2"
+    },
+    {
+      "task": "4shape3d_2denv3",
+      "dataset_id": "tight001_500/4shape3d_2denv3",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/4shape3d_2denv3",
+      "geometry": "geometry/4shape3d_2denv3"
+    },
+    {
+      "task": "4shape3d_2denv4",
+      "dataset_id": "tight001_500/4shape3d_2denv4",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/4shape3d_2denv4",
+      "geometry": "geometry/4shape3d_2denv4"
+    },
+    {
+      "task": "4shape3d_env1",
+      "dataset_id": "original_1k/4shape3d_env1",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/4shape3d_env1",
+      "geometry": "geometry/4shape3d_env1"
+    },
+    {
+      "task": "4shape3d_env2",
+      "dataset_id": "original_1k/4shape3d_env2",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/4shape3d_env2",
+      "geometry": "geometry/4shape3d_env2"
+    },
+    {
+      "task": "4shape3d_env3",
+      "dataset_id": "original_1k/4shape3d_env3",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/4shape3d_env3",
+      "geometry": "geometry/4shape3d_env3"
+    },
+    {
+      "task": "4shape3d_env4",
+      "dataset_id": "original_1k/4shape3d_env4",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/4shape3d_env4",
+      "geometry": "geometry/4shape3d_env4"
+    },
+    {
+      "task": "Ashape3d_2denv1",
+      "dataset_id": "original_1k/Ashape3d_2denv1",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/Ashape3d_2denv1",
+      "geometry": "geometry/Ashape3d_2denv1"
+    },
+    {
+      "task": "Ashape3d_2denv2",
+      "dataset_id": "original_1k/Ashape3d_2denv2",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/Ashape3d_2denv2",
+      "geometry": "geometry/Ashape3d_2denv2"
+    },
+    {
+      "task": "Ashape3d_2denv3",
+      "dataset_id": "tight001_500/Ashape3d_2denv3",
+      "planar": true,
+      "queries": 3,
+      "path": "tasks/Ashape3d_2denv3",
+      "geometry": "geometry/Ashape3d_2denv3"
+    },
+    {
+      "task": "Ashape3d_2denv4",
+      "dataset_id": "tight001_500/Ashape3d_2denv4",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/Ashape3d_2denv4",
+      "geometry": "geometry/Ashape3d_2denv4"
+    },
+    {
+      "task": "Ashape3d_env1",
+      "dataset_id": "original_1k/Ashape3d_env1",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/Ashape3d_env1",
+      "geometry": "geometry/Ashape3d_env1"
+    },
+    {
+      "task": "Ashape3d_env2",
+      "dataset_id": "original_1k/Ashape3d_env2",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/Ashape3d_env2",
+      "geometry": "geometry/Ashape3d_env2"
+    },
+    {
+      "task": "Ashape3d_env3",
+      "dataset_id": "original_1k/Ashape3d_env3",
+      "planar": false,
+      "queries": 3,
+      "path": "tasks/Ashape3d_env3",
+      "geometry": "geometry/Ashape3d_env3"
+    },
+    {
+      "task": "Ashape3d_env4",
+      "dataset_id": "original_1k/Ashape3d_env4",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/Ashape3d_env4",
+      "geometry": "geometry/Ashape3d_env4"
+    },
+    {
+      "task": "Fshape3d_2denv1",
+      "dataset_id": "original_1k/Fshape3d_2denv1",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/Fshape3d_2denv1",
+      "geometry": "geometry/Fshape3d_2denv1"
+    },
+    {
+      "task": "Fshape3d_2denv2",
+      "dataset_id": "original_1k/Fshape3d_2denv2",
+      "planar": true,
+      "queries": 3,
+      "path": "tasks/Fshape3d_2denv2",
+      "geometry": "geometry/Fshape3d_2denv2"
+    },
+    {
+      "task": "Fshape3d_2denv3",
+      "dataset_id": "tight001_500/Fshape3d_2denv3",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/Fshape3d_2denv3",
+      "geometry": "geometry/Fshape3d_2denv3"
+    },
+    {
+      "task": "Fshape3d_2denv4",
+      "dataset_id": "tight001_500/Fshape3d_2denv4",
+      "planar": true,
+      "queries": 3,
+      "path": "tasks/Fshape3d_2denv4",
+      "geometry": "geometry/Fshape3d_2denv4"
+    },
+    {
+      "task": "Fshape3d_env1",
+      "dataset_id": "original_1k/Fshape3d_env1",
+      "planar": false,
+      "queries": 3,
+      "path": "tasks/Fshape3d_env1",
+      "geometry": "geometry/Fshape3d_env1"
+    },
+    {
+      "task": "Fshape3d_env2",
+      "dataset_id": "original_1k/Fshape3d_env2",
+      "planar": false,
+      "queries": 3,
+      "path": "tasks/Fshape3d_env2",
+      "geometry": "geometry/Fshape3d_env2"
+    },
+    {
+      "task": "Fshape3d_env3",
+      "dataset_id": "original_1k/Fshape3d_env3",
+      "planar": false,
+      "queries": 3,
+      "path": "tasks/Fshape3d_env3",
+      "geometry": "geometry/Fshape3d_env3"
+    },
+    {
+      "task": "Fshape3d_env4",
+      "dataset_id": "original_1k/Fshape3d_env4",
+      "planar": false,
+      "queries": 3,
+      "path": "tasks/Fshape3d_env4",
+      "geometry": "geometry/Fshape3d_env4"
+    },
+    {
+      "task": "Lshape3d_2denv1",
+      "dataset_id": "original_1k/Lshape3d_2denv1",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/Lshape3d_2denv1",
+      "geometry": "geometry/Lshape3d_2denv1"
+    },
+    {
+      "task": "Lshape3d_2denv2",
+      "dataset_id": "original_1k/Lshape3d_2denv2",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/Lshape3d_2denv2",
+      "geometry": "geometry/Lshape3d_2denv2"
+    },
+    {
+      "task": "Lshape3d_2denv3",
+      "dataset_id": "tight001_500/Lshape3d_2denv3",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/Lshape3d_2denv3",
+      "geometry": "geometry/Lshape3d_2denv3"
+    },
+    {
+      "task": "Lshape3d_2denv4",
+      "dataset_id": "tight001_500/Lshape3d_2denv4",
+      "planar": true,
+      "queries": 3,
+      "path": "tasks/Lshape3d_2denv4",
+      "geometry": "geometry/Lshape3d_2denv4"
+    },
+    {
+      "task": "Lshape3d_env1",
+      "dataset_id": "original_1k/Lshape3d_env1",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/Lshape3d_env1",
+      "geometry": "geometry/Lshape3d_env1"
+    },
+    {
+      "task": "Lshape3d_env2",
+      "dataset_id": "original_1k/Lshape3d_env2",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/Lshape3d_env2",
+      "geometry": "geometry/Lshape3d_env2"
+    },
+    {
+      "task": "Lshape3d_env3",
+      "dataset_id": "original_1k/Lshape3d_env3",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/Lshape3d_env3",
+      "geometry": "geometry/Lshape3d_env3"
+    },
+    {
+      "task": "Lshape3d_env4",
+      "dataset_id": "original_1k/Lshape3d_env4",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/Lshape3d_env4",
+      "geometry": "geometry/Lshape3d_env4"
+    },
+    {
+      "task": "Tshape3d_2denv1",
+      "dataset_id": "original_1k/Tshape3d_2denv1",
+      "planar": true,
+      "queries": 3,
+      "path": "tasks/Tshape3d_2denv1",
+      "geometry": "geometry/Tshape3d_2denv1"
+    },
+    {
+      "task": "Tshape3d_2denv2",
+      "dataset_id": "original_1k/Tshape3d_2denv2",
+      "planar": true,
+      "queries": 3,
+      "path": "tasks/Tshape3d_2denv2",
+      "geometry": "geometry/Tshape3d_2denv2"
+    },
+    {
+      "task": "Tshape3d_2denv3",
+      "dataset_id": "tight001_500/Tshape3d_2denv3",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/Tshape3d_2denv3",
+      "geometry": "geometry/Tshape3d_2denv3"
+    },
+    {
+      "task": "Tshape3d_2denv4",
+      "dataset_id": "tight001_500/Tshape3d_2denv4",
+      "planar": true,
+      "queries": 3,
+      "path": "tasks/Tshape3d_2denv4",
+      "geometry": "geometry/Tshape3d_2denv4"
+    },
+    {
+      "task": "Tshape3d_env1",
+      "dataset_id": "original_1k/Tshape3d_env1",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/Tshape3d_env1",
+      "geometry": "geometry/Tshape3d_env1"
+    },
+    {
+      "task": "Tshape3d_env2",
+      "dataset_id": "original_1k/Tshape3d_env2",
+      "planar": false,
+      "queries": 3,
+      "path": "tasks/Tshape3d_env2",
+      "geometry": "geometry/Tshape3d_env2"
+    },
+    {
+      "task": "Tshape3d_env3",
+      "dataset_id": "original_1k/Tshape3d_env3",
+      "planar": false,
+      "queries": 3,
+      "path": "tasks/Tshape3d_env3",
+      "geometry": "geometry/Tshape3d_env3"
+    },
+    {
+      "task": "Tshape3d_env4",
+      "dataset_id": "original_1k/Tshape3d_env4",
+      "planar": false,
+      "queries": 3,
+      "path": "tasks/Tshape3d_env4",
+      "geometry": "geometry/Tshape3d_env4"
+    },
+    {
+      "task": "Vshape3d_2denv1",
+      "dataset_id": "original_1k/Vshape3d_2denv1",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/Vshape3d_2denv1",
+      "geometry": "geometry/Vshape3d_2denv1"
+    },
+    {
+      "task": "Vshape3d_2denv2",
+      "dataset_id": "original_1k/Vshape3d_2denv2",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/Vshape3d_2denv2",
+      "geometry": "geometry/Vshape3d_2denv2"
+    },
+    {
+      "task": "Vshape3d_2denv3",
+      "dataset_id": "tight001_500/Vshape3d_2denv3",
+      "planar": true,
+      "queries": 3,
+      "path": "tasks/Vshape3d_2denv3",
+      "geometry": "geometry/Vshape3d_2denv3"
+    },
+    {
+      "task": "Vshape3d_2denv4",
+      "dataset_id": "tight001_500/Vshape3d_2denv4",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/Vshape3d_2denv4",
+      "geometry": "geometry/Vshape3d_2denv4"
+    },
+    {
+      "task": "Vshape3d_env1",
+      "dataset_id": "original_1k/Vshape3d_env1",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/Vshape3d_env1",
+      "geometry": "geometry/Vshape3d_env1"
+    },
+    {
+      "task": "Vshape3d_env2",
+      "dataset_id": "original_1k/Vshape3d_env2",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/Vshape3d_env2",
+      "geometry": "geometry/Vshape3d_env2"
+    },
+    {
+      "task": "Vshape3d_env3",
+      "dataset_id": "original_1k/Vshape3d_env3",
+      "planar": false,
+      "queries": 3,
+      "path": "tasks/Vshape3d_env3",
+      "geometry": "geometry/Vshape3d_env3"
+    },
+    {
+      "task": "Vshape3d_env4",
+      "dataset_id": "original_1k/Vshape3d_env4",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/Vshape3d_env4",
+      "geometry": "geometry/Vshape3d_env4"
+    },
+    {
+      "task": "rectangle_2denv1",
+      "dataset_id": "original_1k/rectangle_2denv1",
+      "planar": true,
+      "queries": 3,
+      "path": "tasks/rectangle_2denv1",
+      "geometry": "geometry/rectangle_2denv1"
+    },
+    {
+      "task": "rectangle_2denv2",
+      "dataset_id": "original_1k/rectangle_2denv2",
+      "planar": true,
+      "queries": 4,
+      "path": "tasks/rectangle_2denv2",
+      "geometry": "geometry/rectangle_2denv2"
+    },
+    {
+      "task": "rectangle_2denv3",
+      "dataset_id": "tight001_500/rectangle_2denv3",
+      "planar": true,
+      "queries": 3,
+      "path": "tasks/rectangle_2denv3",
+      "geometry": "geometry/rectangle_2denv3"
+    },
+    {
+      "task": "rectangle_2denv4",
+      "dataset_id": "tight001_500/rectangle_2denv4",
+      "planar": true,
+      "queries": 3,
+      "path": "tasks/rectangle_2denv4",
+      "geometry": "geometry/rectangle_2denv4"
+    },
+    {
+      "task": "rectangle_env1",
+      "dataset_id": "original_1k/rectangle_env1",
+      "planar": false,
+      "queries": 3,
+      "path": "tasks/rectangle_env1",
+      "geometry": "geometry/rectangle_env1"
+    },
+    {
+      "task": "rectangle_env2",
+      "dataset_id": "original_1k/rectangle_env2",
+      "planar": false,
+      "queries": 3,
+      "path": "tasks/rectangle_env2",
+      "geometry": "geometry/rectangle_env2"
+    },
+    {
+      "task": "rectangle_env3",
+      "dataset_id": "original_1k/rectangle_env3",
+      "planar": false,
+      "queries": 4,
+      "path": "tasks/rectangle_env3",
+      "geometry": "geometry/rectangle_env3"
+    },
+    {
+      "task": "rectangle_env4",
+      "dataset_id": "original_1k/rectangle_env4",
+      "planar": false,
+      "queries": 3,
+      "path": "tasks/rectangle_env4",
+      "geometry": "geometry/rectangle_env4"
+    }
+  ],
+  "planar_queries": 100,
+  "spatial_queries": 100,
+  "selection_seed": 20260913,
+  "definition": "valid endpoints; at least one invalid interior pose on linear translation + shortest quaternion SLERP",
+  "collision_resolution": {
+    "translation_step": 0.002,
+    "rotation_step_rad": 0.01
+  },
+  "selection_uses_method_success": false,
+  "solvability_verified": false
+}

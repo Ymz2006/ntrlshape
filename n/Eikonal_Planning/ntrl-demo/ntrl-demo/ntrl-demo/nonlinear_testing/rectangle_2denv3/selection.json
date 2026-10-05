@@ -1,0 +1,60 @@
+{
+  "dataset_id": "tight001_500/rectangle_2denv3",
+  "source_query_file_sha256": "dd58c069d207a2ed2f6b1f0c34e4e49c25321df2002759f9f319af39b451086a",
+  "rows": [
+    {
+      "query_id": "tight001_500/rectangle_2denv3/0106",
+      "source_row": 106,
+      "witness": {
+        "interpolation_fraction": 0.30666666666666664,
+        "pose_xyz_xyzw": [
+          0.11760720888773601,
+          -0.02329835514227549,
+          0.0,
+          0.0,
+          0.0,
+          -0.7246723656665347,
+          0.6890935803207489
+        ],
+        "reason": "mesh_collision"
+      },
+      "direct_samples": 376
+    },
+    {
+      "query_id": "tight001_500/rectangle_2denv3/0324",
+      "source_row": 324,
+      "witness": {
+        "interpolation_fraction": 0.059602649006622516,
+        "pose_xyz_xyzw": [
+          0.42421915673262234,
+          0.025750897430031505,
+          0.0,
+          0.0,
+          0.0,
+          0.26007943434547154,
+          0.9655872243513476
+        ],
+        "reason": "mesh_collision"
+      },
+      "direct_samples": 303
+    },
+    {
+      "query_id": "tight001_500/rectangle_2denv3/0035",
+      "source_row": 35,
+      "witness": {
+        "interpolation_fraction": 0.016666666666666666,
+        "pose_xyz_xyzw": [
+          0.07667498315374056,
+          -0.07323623315120736,
+          0.0,
+          0.0,
+          0.0,
+          -0.79250926229465,
+          0.6098598766742976
+        ],
+        "reason": "mesh_collision"
+      },
+      "direct_samples": 121
+    }
+  ]
+}

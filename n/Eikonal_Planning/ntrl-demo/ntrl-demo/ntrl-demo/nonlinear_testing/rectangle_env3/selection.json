@@ -1,0 +1,78 @@
+{
+  "dataset_id": "original_1k/rectangle_env3",
+  "source_query_file_sha256": "dbf8161c56a6ad650d02f685297cdc1d8e421026b8d7136916ae03b654b07db8",
+  "rows": [
+    {
+      "query_id": "original_1k/rectangle_env3/0531",
+      "source_row": 531,
+      "witness": {
+        "interpolation_fraction": 0.4262948207171315,
+        "pose_xyz_xyzw": [
+          -0.07909277277401244,
+          0.14285950230590377,
+          0.08888269854019362,
+          0.3665543054457875,
+          0.5417309400376172,
+          0.11571809391117127,
+          0.7475124430447169
+        ],
+        "reason": "mesh_collision"
+      },
+      "direct_samples": 252
+    },
+    {
+      "query_id": "original_1k/rectangle_env3/0186",
+      "source_row": 186,
+      "witness": {
+        "interpolation_fraction": 0.2620689655172414,
+        "pose_xyz_xyzw": [
+          0.13681596147603003,
+          -0.211068329420583,
+          -0.3733230934060853,
+          0.5663846895680184,
+          -0.2710882559777022,
+          -0.4042842593585575,
+          0.665036674574275
+        ],
+        "reason": "mesh_collision"
+      },
+      "direct_samples": 291
+    },
+    {
+      "query_id": "original_1k/rectangle_env3/0417",
+      "source_row": 417,
+      "witness": {
+        "interpolation_fraction": 0.3492647058823529,
+        "pose_xyz_xyzw": [
+          -0.06270927138736143,
+          0.028884444166632273,
+          -0.07400531379286857,
+          0.014877895763973777,
+          -0.10218175521923394,
+          0.4261573823474527,
+          0.8987365701854576
+        ],
+        "reason": "mesh_collision"
+      },
+      "direct_samples": 273
+    },
+    {
+      "query_id": "original_1k/rectangle_env3/0852",
+      "source_row": 852,
+      "witness": {
+        "interpolation_fraction": 0.4491525423728814,
+        "pose_xyz_xyzw": [
+          0.15799987183536512,
+          0.1422309257974059,
+          0.2304720820511802,
+          0.3096411685571121,
+          -0.6058026883840208,
+          -0.018568697813000294,
+          0.7326531600578875
+        ],
+        "reason": "mesh_collision"
+      },
+      "direct_samples": 237
+    }
+  ]
+}

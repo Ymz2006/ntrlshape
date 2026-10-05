@@ -1,0 +1,9 @@
+data_path     : ./testing_data/2dshape/Fmaze2_norm
+model_path    : ./Experiments/2dshape
+checkpoint    : ./Experiments/2dshape/latest.pt
+episodes      : 100
+successes     : 83
+failures      : 17
+  collision   : 0
+  no_converge : 17
+success_rate  : 0.8300  (83.0%)
